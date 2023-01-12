@@ -5,9 +5,9 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": "https://github.com/CrowdStrike/ember-headless-form.git",
   "license": "MIT",
-  "author": "",
+  "author": "CrowdStrike UX Team",
   "files": [
     "addon-main.js",
     "dist"
@@ -83,7 +83,7 @@
     "main": "addon-main.js"
   },
   "exports": {
-    ".": "./dist/index.js", 
+    ".": "./dist/index.js",
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"

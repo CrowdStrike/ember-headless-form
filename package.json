@@ -2,9 +2,9 @@
   "name": "ember-headless-form",
   "version": "0.0.0",
   "private": true,
-  "repository": "",
+  "repository": "https://github.com/CrowdStrike/ember-headless-form.git",
   "license": "MIT",
-  "author": "",
+  "author": "CrowdStrike UX Team",
   "scripts": {
     "prepare": "pnpm build",
     "build": "pnpm --filter ember-headless-form build",
