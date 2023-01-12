@@ -2,7 +2,7 @@
   "name": "test-app",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for test-app goes here",
+  "description": "Test app for ember-headless-form addon",
   "repository": "",
   "license": "MIT",
   "author": "",
@@ -20,9 +20,8 @@
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
     "start": "ember serve",
-    "test": "npm-run-all lint \"test:!(watch)\"",
-    "test:ember": "ember test",
-    "test:watch": "ember test --server"
+    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
+    "test:ember": "ember test"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
