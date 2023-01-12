@@ -1,0 +1,26 @@
+{
+  "name": "ember-headless-form",
+  "version": "0.0.0",
+  "private": true,
+  "repository": "",
+  "license": "MIT",
+  "author": "",
+  "scripts": {
+    "prepare": "pnpm build",
+    "build": "pnpm --filter ember-headless-form build",
+    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start:tests": "pnpm --filter test-app start",
+    "start:addon": "pnpm --filter ember-headless-form start --no-watch.clearScreen",
+    "test": "pnpm --filter test-app test",
+    "lint": "pnpm --filter '*' lint",
+    "lint:fix": "pnpm --filter '*' lint:fix"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "prettier": "^2.5.1"
+  },
+  "workspaces": [
+    "ember-headless-form",
+    "test-app"
+  ]
+}
