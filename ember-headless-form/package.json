@@ -28,6 +28,9 @@
   "dependencies": {
     "@embroider/addon-shim": "^1.0.0"
   },
+  "peerDependencies": {
+    "@glimmer/component": "^1.1.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.0",
     "@babel/preset-typescript": "^7.18.6",
@@ -35,6 +38,7 @@
     "@babel/plugin-proposal-decorators": "^7.17.0",
     "@babel/plugin-syntax-decorators": "^7.17.0",
     "@embroider/addon-dev": "^3.0.0",
+    "@glimmer/component": "^1.1.2",
     "@glint/core": "^0.9.7",
     "@glint/environment-ember-loose": "^0.9.7",
     "@tsconfig/ember": "^1.0.0",
@@ -80,7 +84,9 @@
     "version": 2,
     "type": "addon",
     "main": "addon-main.js",
-    "app-js": {}
+    "app-js": {
+      "./components/headless-form.js": "./dist/_app_/components/headless-form.js"
+    }
   },
   "exports": {
     ".": "./dist/index.js",
