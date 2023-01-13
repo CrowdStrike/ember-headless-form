@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import { render } from '@ember/test-helpers';
+import { render, RenderingTestContext } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import type { TestContext } from '@ember/test-helpers';
+import { InputType } from 'ember-headless-form/components/-private/control/input';
 
-module('Integration | Component | headless-form', function (hooks) {
+module('Integration Component headless-form', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders form markup', async function (assert) {
@@ -80,6 +81,102 @@ module('Integration | Component | headless-form', function (hooks) {
           '',
           'it accepts arbitrary HTML attributes'
         );
+    });
+
+    test('label and input are connected', async function (this: RenderingTestContext & {
+      data: { firstName?: string };
+    }, assert) {
+      this.data = { firstName: 'Simon' };
+
+      await render<typeof this>(hbs`
+        <HeadlessForm @data={{this.data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input/>
+          </form.field>
+        </HeadlessForm>
+      `);
+
+      assert.dom('input').hasAttribute(
+        'id',
+        // copied from https://ihateregex.io/expr/uuid/
+        /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/,
+        'input has id with dynamically generated uuid'
+      );
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const id = this.element.querySelector('input')!.id;
+
+      assert
+        .dom('label')
+        .hasAttribute(
+          'for',
+          id,
+          'label is attached to input by `for` attribute'
+        );
+    });
+  });
+
+  module('field.input', function () {
+    test('field yields input component', async function (this: TestContext & {
+      data: { firstName?: string };
+    }, assert) {
+      this.data = { firstName: 'Simon' };
+
+      await render<typeof this>(hbs`
+        <HeadlessForm @data={{this.data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.input class="my-input" data-test-input/>
+          </form.field>
+        </HeadlessForm>
+      `);
+
+      assert
+        .dom('input')
+        .exists('render an input')
+        .hasClass('my-input', 'it accepts custom HTML classes')
+        .hasAttribute(
+          'data-test-input',
+          '',
+          'it accepts arbitrary HTML attributes'
+        );
+    });
+
+    test('input accepts all supported types', async function (this: TestContext & {
+      data: { firstName?: string };
+      type: InputType;
+    }, assert) {
+      this.data = { firstName: 'Simon' };
+
+      await render<typeof this>(hbs`
+        <HeadlessForm @data={{this.data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.input @type={{this.type}} />
+          </form.field>
+        </HeadlessForm>
+      `);
+
+      for (const type of [
+        'color',
+        'date',
+        'datetime-local',
+        'email',
+        'hidden',
+        'month',
+        'number',
+        'password',
+        'range',
+        'search',
+        'tel',
+        'text',
+        'time',
+        'url',
+        'week',
+      ]) {
+        this.set('type', type);
+
+        assert.dom('input').hasAttribute('type', type, `supports type=${type}`);
+      }
     });
   });
 });

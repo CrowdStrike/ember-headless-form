@@ -1,1 +1,8 @@
-{{yield (hash label=(component this.LabelComponent fieldId='foo'))}}
+{{#let (this.uniqueId) as |uuid|}}
+  {{yield
+    (hash
+      label=(component this.LabelComponent fieldId=uuid)
+      input=(component this.InputComponent fieldId=uuid value='TODO')
+    )
+  }}
+{{/let}}
