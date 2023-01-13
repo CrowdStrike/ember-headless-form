@@ -1,4 +1,7 @@
-<HeadlessForm @data={{this.data}} @onSubmit={{this.doSomething}}>
+<HeadlessForm @data={{this.data}} @onSubmit={{this.doSomething}} as |form|>
+  <form.field @name="name">
+    field
+  </form.field>
   {{! <form.field @name="name" as |field|>
     <field.label>Name</field.label>
     <field.input @type="text" />

@@ -26,6 +26,7 @@ importers:
       '@glimmer/component': ^1.1.2
       '@glint/core': ^0.9.7
       '@glint/environment-ember-loose': ^0.9.7
+      '@glint/template': ^0.9.7
       '@tsconfig/ember': ^1.0.0
       '@types/ember': ^4.0.0
       '@types/ember__application': ^4.0.0
@@ -71,6 +72,7 @@ importers:
       '@glimmer/component': 1.1.2_@babel+core@7.20.12
       '@glint/core': 0.9.7_typescript@4.9.4
       '@glint/environment-ember-loose': 0.9.7_@glimmer+component@1.1.2
+      '@glint/template': 0.9.7_@glimmer+component@1.1.2
       '@tsconfig/ember': 1.1.0
       '@types/ember': 4.0.3_@babel+core@7.20.12
       '@types/ember__application': 4.0.5_@babel+core@7.20.12
