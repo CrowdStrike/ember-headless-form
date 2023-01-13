@@ -6,7 +6,7 @@ export type HeadlessFormData = object;
 export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
   Element: HTMLFormElement;
   Args: {
-    data: DATA;
+    data?: DATA;
     onSubmit?: (data: DATA) => void;
   };
   Blocks: {
