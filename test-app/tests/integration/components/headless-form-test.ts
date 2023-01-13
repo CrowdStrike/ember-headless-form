@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'test-app/tests/helpers';
 import { render, RenderingTestContext } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import type { TestContext } from '@ember/test-helpers';
-import { InputType } from 'ember-headless-form/components/-private/control/input';
 
 module('Integration Component headless-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -144,7 +143,22 @@ module('Integration Component headless-form', function (hooks) {
 
     test('input accepts all supported types', async function (this: TestContext & {
       data: { firstName?: string };
-      type: InputType;
+      type:
+        | 'color'
+        | 'date'
+        | 'datetime-local'
+        | 'email'
+        | 'hidden'
+        | 'month'
+        | 'number'
+        | 'password'
+        | 'range'
+        | 'search'
+        | 'tel'
+        | 'text'
+        | 'time'
+        | 'url'
+        | 'week';
     }, assert) {
       this.data = { firstName: 'Simon' };
 
