@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import FieldComponent from './-private/field';
-import { WithBoundArgs } from '@glint/template';
+import FieldComponent, {
+  HeadlessFormFieldComponentSignature,
+} from './-private/field';
+import { WithBoundArgs, ComponentLike } from '@glint/template';
 
 export type HeadlessFormData = object;
 
@@ -23,7 +25,8 @@ export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
 export default class HeadlessFormComponent<
   DATA extends HeadlessFormData
 > extends Component<HeadlessFormComponentSignature<DATA>> {
-  FieldComponent = FieldComponent;
+  FieldComponent: ComponentLike<HeadlessFormFieldComponentSignature<DATA>> =
+    FieldComponent;
 
   // @todo make a local copy
   internalData: Partial<DATA> = this.args.data ?? {};

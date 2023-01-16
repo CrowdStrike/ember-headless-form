@@ -1,8 +1,12 @@
 import Component from '@glimmer/component';
 import { HeadlessFormData } from '../headless-form';
-import LabelComponent from './field/label';
-import InputComponent from './control/input';
-import { WithBoundArgs } from '@glint/template';
+import LabelComponent, {
+  HeadlessFormFieldLabelComponentSignature,
+} from './field/label';
+import InputComponent, {
+  HeadlessFormControlInputComponentSignature,
+} from './control/input';
+import { WithBoundArgs, ComponentLike } from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
   DATA extends HeadlessFormData
@@ -24,8 +28,10 @@ export interface HeadlessFormFieldComponentSignature<
 export default class HeadlessFormFieldComponent<
   DATA extends HeadlessFormData
 > extends Component<HeadlessFormFieldComponentSignature<DATA>> {
-  LabelComponent = LabelComponent;
-  InputComponent = InputComponent;
+  LabelComponent: ComponentLike<HeadlessFormFieldLabelComponentSignature> =
+    LabelComponent;
+  InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =
+    InputComponent;
 
   get value(): DATA[keyof DATA] | undefined {
     return this.args.data[this.args.name];
