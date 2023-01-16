@@ -185,6 +185,7 @@ importers:
       eslint-plugin-qunit: ^7.3.4
       loader.js: ^4.7.0
       prettier: ^2.8.3
+      prettier-plugin-ember-template-tag: ^0.3.0
       qunit: ^2.19.3
       qunit-dom: ^2.0.0
       typescript: ^4.9.4
@@ -265,6 +266,7 @@ importers:
       eslint-plugin-qunit: 7.3.4_eslint@7.32.0
       loader.js: 4.7.0
       prettier: 2.8.3
+      prettier-plugin-ember-template-tag: 0.3.0
       qunit: 2.19.3
       qunit-dom: 2.0.0
       typescript: 4.9.4
@@ -2161,7 +2163,7 @@ packages:
     peerDependencies:
       '@glimmer/component': ^1.1.2
     dependencies:
-      '@glimmer/component': 1.1.2
+      '@glimmer/component': 1.1.2_@babel+core@7.20.12
     dev: true
 
   /@glint/transform/0.9.7:
