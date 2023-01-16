@@ -2,7 +2,15 @@
 // These will *not* be published as part of your addon, so be careful that your published code does not rely on them!
 
 import '@glint/environment-ember-loose';
-import HeadlessFormRegistry from '../src/template-registry';
+import type HeadlessFormRegistry from '../src/template-registry';
+import { ComponentLike } from '@glint/template';
+
+// Taken from https://github.com/embroider-build/embroider/blob/main/packages/util/index.d.ts, which is still unreleased.
+// @todo Remove once this is publicly available
+declare function ensureSafeComponent<C extends string | ComponentLike<S>, S>(
+  component: C,
+  thingWithOwner: unknown
+): C extends string ? ComponentLike<unknown> : C;
 
 declare module '@glint/environment-ember-loose/registry' {
   // Remove this once entries have been added! 👇
@@ -10,5 +18,7 @@ declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry extends HeadlessFormRegistry {
     // Add any registry entries from other addons here that your addon itself uses (in non-strict mode templates)
     // See https://typed-ember.gitbook.io/glint/using-glint/ember/using-addons
+
+    'ensure-safe-component': typeof ensureSafeComponent;
   }
 }
