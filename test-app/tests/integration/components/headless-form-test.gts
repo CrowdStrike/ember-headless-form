@@ -1,5 +1,6 @@
-import { fillIn, render, triggerEvent } from '@ember/test-helpers';
+import { fillIn, render, rerender, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
+import { tracked } from '@glimmer/tracking';
 
 import HeadlessForm from 'ember-headless-form/components/headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
@@ -170,6 +171,7 @@ module('Integration Component headless-form', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
+          <button>sdf</button>
           <form.field @name="firstName" as |field|>
             <field.label>First Name</field.label>
             <field.input data-test-first-name />
@@ -183,6 +185,40 @@ module('Integration Component headless-form', function (hooks) {
 
       assert.dom('input[data-test-first-name]').hasValue('Tony');
       assert.dom('input[data-test-last-name]').hasValue('Ward');
+    });
+
+    test('form controls are reactive to data updates', async function (assert) {
+      const data = new (class {
+        @tracked
+        firstName = 'Tony';
+
+        @tracked
+        lastName = 'Ward';
+      })();
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[data-test-first-name]').hasValue('Tony');
+      assert.dom('input[data-test-last-name]').hasValue('Ward');
+
+      data.firstName = 'Preston';
+      data.lastName = 'Sego';
+
+      await rerender();
+
+      assert.dom('input[data-test-first-name]').hasValue('Preston');
+      assert.dom('input[data-test-last-name]').hasValue('Sego');
     });
 
     test('data is not mutated', async function (assert) {
