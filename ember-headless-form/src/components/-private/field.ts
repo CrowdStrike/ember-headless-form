@@ -36,4 +36,9 @@ export default class HeadlessFormFieldComponent<
   get value(): DATA[keyof DATA] | undefined {
     return this.args.data[this.args.name];
   }
+
+  // @todo rethink this?
+  get valueAsString(): string | undefined {
+    return this.value !== undefined ? String(this.value) : undefined;
+  }
 }
