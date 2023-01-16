@@ -1,6 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import { render, RenderingTestContext } from '@ember/test-helpers';
+import {
+  fillIn,
+  render,
+  RenderingTestContext,
+  triggerEvent,
+} from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import type { TestContext } from '@ember/test-helpers';
 
@@ -191,6 +196,65 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input').hasAttribute('type', type, `supports type=${type}`);
       }
+    });
+  });
+
+  module('data', function () {
+    test('data is passed to form controls', async function (this: RenderingTestContext & {
+      data: { firstName?: string; lastName?: string };
+    }, assert) {
+      this.data = { firstName: 'Tony', lastName: 'Ward' };
+
+      await render<typeof this>(hbs`
+        <HeadlessForm @data={{this.data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name/>
+          </form.field>
+          <form.field @name="lastName" as |field|>
+          <field.label>Last Name</field.label>
+          <field.input data-test-last-name/>
+        </form.field>
+        </HeadlessForm>
+      `);
+
+      assert.dom('input[data-test-first-name]').hasValue('Tony');
+      assert.dom('input[data-test-last-name]').hasValue('Ward');
+    });
+
+    test('data is not mutated', async function (this: RenderingTestContext & {
+      data: { firstName?: string; lastName?: string };
+    }, assert) {
+      this.data = { firstName: 'Tony', lastName: 'Ward' };
+
+      await render<typeof this>(hbs`
+        <HeadlessForm @data={{this.data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name/>
+          </form.field>
+          <form.field @name="lastName" as |field|>
+          <field.label>Last Name</field.label>
+          <field.input data-test-last-name/>
+        </form.field>
+        </HeadlessForm>
+      `);
+
+      await fillIn('input[data-test-first-name]', 'Preston');
+      assert.dom('input[data-test-first-name]').hasValue('Preston');
+      assert.strictEqual(
+        this.data.firstName,
+        'Tony',
+        'data object is not mutated after entering data'
+      );
+
+      await triggerEvent('form', 'submit');
+      assert.dom('input[data-test-first-name]').hasValue('Preston');
+      assert.strictEqual(
+        this.data.firstName,
+        'Tony',
+        'data object is not mutated after submitting'
+      );
     });
   });
 });

@@ -3,7 +3,9 @@
     (hash
       label=(component (ensure-safe-component this.LabelComponent) fieldId=uuid)
       input=(component
-        (ensure-safe-component this.InputComponent) fieldId=uuid value='TODO'
+        (ensure-safe-component this.InputComponent)
+        fieldId=uuid
+        value=this.value
       )
     )
   }}
