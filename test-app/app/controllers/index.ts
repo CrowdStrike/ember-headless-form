@@ -10,6 +10,7 @@ export default class IndexController extends Controller {
   };
 
   doSomething(data: MyFormData) {
+    // eslint-disable-next-line no-console
     console.log('Form submitted 🚀', data);
   }
 }

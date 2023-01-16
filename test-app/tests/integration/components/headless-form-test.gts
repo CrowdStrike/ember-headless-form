@@ -1,19 +1,19 @@
+import { fillIn, render, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
+
+import HeadlessForm from 'ember-headless-form/components/headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import {
-  fillIn,
-  render,
-  RenderingTestContext,
-  triggerEvent,
-} from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import type { TestContext } from '@ember/test-helpers';
+
 
 module('Integration Component headless-form', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders form markup', async function (assert) {
-    await render(hbs`<HeadlessForm class="foo" novalidate />`);
+    await render(
+      <template>
+        <HeadlessForm class="foo" novalidate />
+      </template>
+    );
 
     assert.dom('form').exists('it renders as <form>');
     assert
@@ -23,18 +23,18 @@ module('Integration Component headless-form', function (hooks) {
   });
 
   module('form.field', function () {
-    test('from yields field component', async function (this: TestContext & {
-      data: { firstName?: string };
-    }, assert) {
-      this.data = { firstName: 'Simon' };
+    test('form yields field component', async function (assert) {
+      const data = { firstName: 'Simon' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           <form.field @name="firstName">
             <div data-test-user-content>foo</div>
           </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
 
       assert
         .dom('[data-test-user-content]')
@@ -45,36 +45,36 @@ module('Integration Component headless-form', function (hooks) {
         .exists('does not render anything on its own');
     });
 
-    test('Glint: @name argument only expects keys of @data', async function (this: TestContext & {
-      data: { firstName?: string };
-    }, assert) {
+    test('Glint: @name argument only expects keys of @data', async function (assert) {
       assert.expect(0);
-      this.data = { firstName: 'Simon' };
+      const data = { firstName: 'Simon' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           {{! @glint-expect-error this is expected to error when running glint checks! }}
           <form.field @name="lastName">
             <div data-test-user-content>foo</div>
           </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
     });
   });
 
   module('field.label', function () {
-    test('field yields label component', async function (this: TestContext & {
-      data: { firstName?: string };
-    }, assert) {
-      this.data = { firstName: 'Simon' };
+    test('field yields label component', async function (assert) {
+      const data = { firstName: 'Simon' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           <form.field @name="firstName" as |field|>
             <field.label class="my-label" data-test-label>First Name</field.label>
           </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
 
       assert
         .dom('label')
@@ -87,19 +87,19 @@ module('Integration Component headless-form', function (hooks) {
         );
     });
 
-    test('label and input are connected', async function (this: RenderingTestContext & {
-      data: { firstName?: string };
-    }, assert) {
-      this.data = { firstName: 'Simon' };
+    test('label and input are connected', async function (assert) {
+      const data = { firstName: 'Simon' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           <form.field @name="firstName" as |field|>
             <field.label>First Name</field.label>
             <field.input/>
           </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
 
       assert.dom('input').hasAttribute(
         'id',
@@ -122,18 +122,18 @@ module('Integration Component headless-form', function (hooks) {
   });
 
   module('field.input', function () {
-    test('field yields input component', async function (this: TestContext & {
-      data: { firstName?: string };
-    }, assert) {
-      this.data = { firstName: 'Simon' };
+    test('field yields input component', async function (assert) {
+      const data = { firstName: 'Simon' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           <form.field @name="firstName" as |field|>
             <field.input class="my-input" data-test-input/>
           </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
 
       assert
         .dom('input')
@@ -146,34 +146,8 @@ module('Integration Component headless-form', function (hooks) {
         );
     });
 
-    test('input accepts all supported types', async function (this: TestContext & {
-      data: { firstName?: string };
-      type:
-        | 'color'
-        | 'date'
-        | 'datetime-local'
-        | 'email'
-        | 'hidden'
-        | 'month'
-        | 'number'
-        | 'password'
-        | 'range'
-        | 'search'
-        | 'tel'
-        | 'text'
-        | 'time'
-        | 'url'
-        | 'week';
-    }, assert) {
-      this.data = { firstName: 'Simon' };
-
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.input @type={{this.type}} />
-          </form.field>
-        </HeadlessForm>
-      `);
+    test('input accepts all supported types', async function (assert) {
+      const data = { firstName: 'Simon' };
 
       for (const type of [
         'color',
@@ -192,7 +166,15 @@ module('Integration Component headless-form', function (hooks) {
         'url',
         'week',
       ]) {
-        this.set('type', type);
+              await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.input @type={{type}} />
+          </form.field>
+        </HeadlessForm>
+        </template>
+      );
 
         assert.dom('input').hasAttribute('type', type, `supports type=${type}`);
       }
@@ -200,13 +182,12 @@ module('Integration Component headless-form', function (hooks) {
   });
 
   module('data', function () {
-    test('data is passed to form controls', async function (this: RenderingTestContext & {
-      data: { firstName?: string; lastName?: string };
-    }, assert) {
-      this.data = { firstName: 'Tony', lastName: 'Ward' };
+    test('data is passed to form controls', async function (assert) {
+      const data = { firstName: 'Tony', lastName: 'Ward' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           <form.field @name="firstName" as |field|>
             <field.label>First Name</field.label>
             <field.input data-test-first-name/>
@@ -216,19 +197,19 @@ module('Integration Component headless-form', function (hooks) {
           <field.input data-test-last-name/>
         </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
 
       assert.dom('input[data-test-first-name]').hasValue('Tony');
       assert.dom('input[data-test-last-name]').hasValue('Ward');
     });
 
-    test('data is not mutated', async function (this: RenderingTestContext & {
-      data: { firstName?: string; lastName?: string };
-    }, assert) {
-      this.data = { firstName: 'Tony', lastName: 'Ward' };
+    test('data is not mutated', async function (assert) {
+      const data = { firstName: 'Tony', lastName: 'Ward' };
 
-      await render<typeof this>(hbs`
-        <HeadlessForm @data={{this.data}} as |form|>
+      await render(
+        <template>
+        <HeadlessForm @data={{data}} as |form|>
           <form.field @name="firstName" as |field|>
             <field.label>First Name</field.label>
             <field.input data-test-first-name/>
@@ -238,12 +219,13 @@ module('Integration Component headless-form', function (hooks) {
           <field.input data-test-last-name/>
         </form.field>
         </HeadlessForm>
-      `);
+        </template>
+      );
 
       await fillIn('input[data-test-first-name]', 'Preston');
       assert.dom('input[data-test-first-name]').hasValue('Preston');
       assert.strictEqual(
-        this.data.firstName,
+        data.firstName,
         'Tony',
         'data object is not mutated after entering data'
       );
@@ -251,10 +233,11 @@ module('Integration Component headless-form', function (hooks) {
       await triggerEvent('form', 'submit');
       assert.dom('input[data-test-first-name]').hasValue('Preston');
       assert.strictEqual(
-        this.data.firstName,
+        data.firstName,
         'Tony',
         'data object is not mutated after submitting'
       );
     });
   });
+
 });

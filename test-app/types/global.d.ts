@@ -1,6 +1,7 @@
 import '@glint/environment-ember-loose';
-import { ComponentLike, HelperLike } from '@glint/template';
+import '@glint/environment-ember-template-imports';
 
+import type { HelperLike } from '@glint/template';
 import type HeadlessFormRegistry from 'ember-headless-form/template-registry';
 
 // Types for compiled templates
