@@ -1,4 +1,10 @@
 <form ...attributes>
   {{! @glint-expect-error https://github.com/typed-ember/glint/issues/517 }}
-  {{yield (hash field=(component this.FieldComponent data=this.internalData))}}
+  {{yield
+    (hash
+      field=(component
+        (ensure-safe-component this.FieldComponent) data=this.internalData
+      )
+    )
+  }}
 </form>
