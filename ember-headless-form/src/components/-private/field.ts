@@ -9,25 +9,31 @@ import InputComponent, {
 import { WithBoundArgs, ComponentLike } from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
-  DATA extends HeadlessFormData
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
 > {
   Args: {
     data: Partial<DATA>;
-    name: keyof DATA;
+    name: KEY;
+    set: (key: KEY, value: DATA[KEY]) => void;
   };
   Blocks: {
     default: [
       {
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
-        input: WithBoundArgs<typeof InputComponent, 'fieldId' | 'value'>;
+        input: WithBoundArgs<
+          typeof InputComponent,
+          'fieldId' | 'value' | 'setValue'
+        >;
       }
     ];
   };
 }
 
 export default class HeadlessFormFieldComponent<
-  DATA extends HeadlessFormData
-> extends Component<HeadlessFormFieldComponentSignature<DATA>> {
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
+> extends Component<HeadlessFormFieldComponentSignature<DATA, KEY>> {
   LabelComponent: ComponentLike<HeadlessFormFieldLabelComponentSignature> =
     LabelComponent;
   InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =

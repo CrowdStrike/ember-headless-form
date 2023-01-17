@@ -16,7 +16,7 @@ export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
   Blocks: {
     default: [
       {
-        field: WithBoundArgs<typeof FieldComponent<DATA>, 'data'>;
+        field: WithBoundArgs<typeof FieldComponent<DATA>, 'data' | 'set'>;
       }
     ];
   };
@@ -29,13 +29,18 @@ export default class HeadlessFormComponent<
     FieldComponent;
 
   // @todo make a local copy
-  internalData: Partial<DATA> = this.args.data ?? {};
+  internalData: Partial<DATA> = { ...this.args.data } ?? {};
 
   @action
-  onSubmit() {
-    // @todo
-    if (this.args.data) {
-      this.args.onSubmit?.(this.args.data);
-    }
+  onSubmit(e: Event): void {
+    e.preventDefault();
+
+    // @todo what's the proper type!?
+    this.args.onSubmit?.(this.internalData as DATA);
+  }
+
+  @action
+  set<KEY extends keyof DATA>(key: KEY, value: DATA[KEY]): void {
+    this.internalData[key] = value;
   }
 }

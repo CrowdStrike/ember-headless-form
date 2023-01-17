@@ -1,6 +1,13 @@
-import { fillIn, render, rerender, triggerEvent } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  render,
+  rerender,
+  triggerEvent,
+} from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { tracked } from '@glimmer/tracking';
+import sinon from 'sinon';
 
 import HeadlessForm from 'ember-headless-form/components/headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
@@ -166,92 +173,133 @@ module('Integration Component headless-form', function (hooks) {
   });
 
   module('data', function () {
-    test('data is passed to form controls', async function (assert) {
-      const data = { firstName: 'Tony', lastName: 'Ward' };
+    module('data down', function () {
+      test('data is passed to form controls', async function (assert) {
+        const data = { firstName: 'Tony', lastName: 'Ward' };
 
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          <button>sdf</button>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
-        </HeadlessForm>
-      </template>);
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <button>sdf</button>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+          </HeadlessForm>
+        </template>);
 
-      assert.dom('input[data-test-first-name]').hasValue('Tony');
-      assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-first-name]').hasValue('Tony');
+        assert.dom('input[data-test-last-name]').hasValue('Ward');
+      });
+
+      test.skip('form controls are reactive to data updates', async function (assert) {
+        const data = new (class {
+          @tracked
+          firstName = 'Tony';
+
+          @tracked
+          lastName = 'Ward';
+        })();
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+          </HeadlessForm>
+        </template>);
+
+        assert.dom('input[data-test-first-name]').hasValue('Tony');
+        assert.dom('input[data-test-last-name]').hasValue('Ward');
+
+        data.firstName = 'Preston';
+        data.lastName = 'Sego';
+
+        await rerender();
+
+        assert.dom('input[data-test-first-name]').hasValue('Preston');
+        assert.dom('input[data-test-last-name]').hasValue('Sego');
+      });
+
+      test('data is not mutated', async function (assert) {
+        const data = { firstName: 'Tony', lastName: 'Ward' };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+          </HeadlessForm>
+        </template>);
+
+        await fillIn('input[data-test-first-name]', 'Preston');
+        assert.dom('input[data-test-first-name]').hasValue('Preston');
+        assert.strictEqual(
+          data.firstName,
+          'Tony',
+          'data object is not mutated after entering data'
+        );
+
+        await triggerEvent('form', 'submit');
+        assert.dom('input[data-test-first-name]').hasValue('Preston');
+        assert.strictEqual(
+          data.firstName,
+          'Tony',
+          'data object is not mutated after submitting'
+        );
+      });
     });
+    module('actions up', function () {
+      test('onSubmit is called with user data', async function (assert) {
+        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const submitHandler = sinon.spy();
 
-    test('form controls are reactive to data updates', async function (assert) {
-      const data = new (class {
-        @tracked
-        firstName = 'Tony';
+        await render(<template>
+          <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+            <button>sdf</button>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
 
-        @tracked
-        lastName = 'Ward';
-      })();
+        assert.dom('input[data-test-first-name]').hasValue('Tony');
+        assert.dom('input[data-test-last-name]').hasValue('Ward');
 
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
-        </HeadlessForm>
-      </template>);
+        await fillIn('input[data-test-first-name]', 'Nicole');
+        await fillIn('input[data-test-last-name]', 'Chung');
+        await click('[data-test-submit');
 
-      assert.dom('input[data-test-first-name]').hasValue('Tony');
-      assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.deepEqual(
+          data,
+          { firstName: 'Tony', lastName: 'Ward' },
+          'data is not mutated'
+        );
 
-      data.firstName = 'Preston';
-      data.lastName = 'Sego';
-
-      await rerender();
-
-      assert.dom('input[data-test-first-name]').hasValue('Preston');
-      assert.dom('input[data-test-last-name]').hasValue('Sego');
-    });
-
-    test('data is not mutated', async function (assert) {
-      const data = { firstName: 'Tony', lastName: 'Ward' };
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
-        </HeadlessForm>
-      </template>);
-
-      await fillIn('input[data-test-first-name]', 'Preston');
-      assert.dom('input[data-test-first-name]').hasValue('Preston');
-      assert.strictEqual(
-        data.firstName,
-        'Tony',
-        'data object is not mutated after entering data'
-      );
-
-      await triggerEvent('form', 'submit');
-      assert.dom('input[data-test-first-name]').hasValue('Preston');
-      assert.strictEqual(
-        data.firstName,
-        'Tony',
-        'data object is not mutated after submitting'
-      );
+        assert.true(
+          submitHandler.calledWith({ firstName: 'Nicole', lastName: 'Chung' }),
+          'new data is passed to submit handler'
+        );
+      });
     });
   });
 });

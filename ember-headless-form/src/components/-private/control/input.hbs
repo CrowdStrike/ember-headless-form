@@ -1,1 +1,7 @@
-<input type={{@type}} value={{@value}} id={{@fieldId}} ...attributes />
+<input
+  type={{@type}}
+  value={{@value}}
+  id={{@fieldId}}
+  ...attributes
+  {{on 'input' this.handleInput}}
+/>

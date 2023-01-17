@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
 // Possible values for the input type, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
@@ -32,11 +33,17 @@ export interface HeadlessFormControlInputComponentSignature {
     value: string | undefined;
     type?: InputType;
     fieldId: string;
+    setValue: (value: string) => void;
   };
 }
 
 export default class HeadlessFormControlInputComponent extends Component<HeadlessFormControlInputComponentSignature> {
   get type(): InputType {
     return this.args.type ?? 'text';
+  }
+
+  @action
+  handleInput(e: Event | InputEvent): void {
+    this.args.setValue((e.target as HTMLInputElement).value);
   }
 }

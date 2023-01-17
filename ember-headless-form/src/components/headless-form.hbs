@@ -1,8 +1,10 @@
-<form ...attributes>
+<form ...attributes {{on 'submit' this.onSubmit}}>
   {{yield
     (hash
       field=(component
-        (ensure-safe-component this.FieldComponent) data=this.internalData
+        (ensure-safe-component this.FieldComponent)
+        data=this.internalData
+        set=this.set
       )
     )
   }}
