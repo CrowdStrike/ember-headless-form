@@ -179,7 +179,6 @@ module('Integration Component headless-form', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
-            <button>sdf</button>
             <form.field @name="firstName" as |field|>
               <field.label>First Name</field.label>
               <field.input data-test-first-name />
@@ -193,6 +192,24 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+      });
+
+      test('value is yielded from field component', async function (assert) {
+        const data = { firstName: 'Tony', lastName: 'Ward' };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <div data-test-first-name>{{field.value}}</div>
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <div data-test-last-name>{{field.value}}</div>
+            </form.field>
+          </HeadlessForm>
+        </template>);
+
+        assert.dom('[data-test-first-name]').hasText('Tony');
+        assert.dom('[data-test-last-name]').hasText('Ward');
       });
 
       test.skip('form controls are reactive to data updates', async function (assert) {
@@ -269,7 +286,6 @@ module('Integration Component headless-form', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-            <button>sdf</button>
             <form.field @name="firstName" as |field|>
               <field.label>First Name</field.label>
               <field.input data-test-first-name />
