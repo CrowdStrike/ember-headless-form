@@ -59,6 +59,24 @@ module('Integration Component headless-form', function (hooks) {
         </HeadlessForm>
       </template>);
     });
+
+    test('id is yielded from field component', async function (assert) {
+      const data = { firstName: 'Simon' };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <div data-test-id>{{field.id}}</div>
+            <field.input />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      const inputId = this.element.querySelector('input')?.id;
+      const id = this.element.querySelector('[data-test-id]')?.innerText;
+
+      assert.strictEqual(id, inputId, "yielded ID matches input's id");
+    });
   });
 
   module('field.label', function () {
@@ -103,8 +121,7 @@ module('Integration Component headless-form', function (hooks) {
         'input has id with dynamically generated uuid'
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const id = this.element.querySelector('input')!.id;
+      const id = this.element.querySelector('input')?.id;
 
       assert
         .dom('label')
