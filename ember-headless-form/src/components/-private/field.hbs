@@ -1,4 +1,4 @@
-{{#let (unique-id) as |uuid|}}
+{{#let (unique-id) (fn @set @name) as |uuid setValue|}}
   {{yield
     (hash
       label=(component (ensure-safe-component this.LabelComponent) fieldId=uuid)
@@ -6,10 +6,11 @@
         (ensure-safe-component this.InputComponent)
         fieldId=uuid
         value=this.valueAsString
-        setValue=(fn @set @name)
+        setValue=setValue
       )
       value=this.value
       id=uuid
+      setValue=setValue
     )
   }}
 {{/let}}

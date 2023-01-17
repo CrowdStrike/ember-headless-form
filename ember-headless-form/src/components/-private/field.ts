@@ -25,6 +25,9 @@ export interface HeadlessFormFieldComponentSignature<
           typeof InputComponent,
           'fieldId' | 'value' | 'setValue'
         >;
+        value: DATA[KEY];
+        id: string;
+        setValue: (value: DATA[KEY]) => void;
       }
     ];
   };

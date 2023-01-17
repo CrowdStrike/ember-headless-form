@@ -4,6 +4,7 @@ import FieldComponent, {
   HeadlessFormFieldComponentSignature,
 } from './-private/field';
 import { WithBoundArgs, ComponentLike } from '@glint/template';
+import { TrackedObject } from 'tracked-built-ins';
 
 export type HeadlessFormData = object;
 
@@ -28,8 +29,7 @@ export default class HeadlessFormComponent<
   FieldComponent: ComponentLike<HeadlessFormFieldComponentSignature<DATA>> =
     FieldComponent;
 
-  // @todo make a local copy
-  internalData: Partial<DATA> = { ...this.args.data } ?? {};
+  internalData: Partial<DATA> = new TrackedObject(this.args.data ?? {});
 
   @action
   onSubmit(e: Event): void {

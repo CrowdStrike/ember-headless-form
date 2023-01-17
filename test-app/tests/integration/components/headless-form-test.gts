@@ -1,3 +1,5 @@
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import {
   click,
   fillIn,
@@ -320,7 +322,7 @@ module('Integration Component headless-form', function (hooks) {
 
         await fillIn('input[data-test-first-name]', 'Nicole');
         await fillIn('input[data-test-last-name]', 'Chung');
-        await click('[data-test-submit');
+        await click('[data-test-submit]');
 
         assert.deepEqual(
           data,
@@ -332,6 +334,33 @@ module('Integration Component headless-form', function (hooks) {
           submitHandler.calledWith({ firstName: 'Nicole', lastName: 'Chung' }),
           'new data is passed to submit handler'
         );
+      });
+
+      test('setValue yielded from field sets internal value', async function (assert) {
+        const data = { firstName: 'Tony' };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <input type="text" value={{field.value}} data-test-first-name />
+              <button
+                type="button"
+                {{on "click" (fn field.setValue "Nicole")}}
+                data-test-custom-control
+              >
+                Update
+              </button>
+            </form.field>
+          </HeadlessForm>
+        </template>);
+
+        assert.dom('input[data-test-first-name]').hasValue('Tony');
+
+        await click('[data-test-custom-control]');
+
+        assert.deepEqual(data, { firstName: 'Tony' }, 'data is not mutated');
+
+        assert.dom('input[data-test-first-name]').hasValue('Nicole');
       });
     });
   });
