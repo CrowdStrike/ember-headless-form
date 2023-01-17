@@ -7,12 +7,15 @@ import {
   rerender,
   triggerEvent,
 } from '@ember/test-helpers';
-import { module, test } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { tracked } from '@glimmer/tracking';
 import sinon from 'sinon';
 
+import { InputType } from 'ember-headless-form';
 import HeadlessForm from 'ember-headless-form/components/headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
+
+import type { RenderingTestContext } from '@ember/test-helpers';
 
 module('Integration Component headless-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -62,7 +65,7 @@ module('Integration Component headless-form', function (hooks) {
       </template>);
     });
 
-    test('id is yielded from field component', async function (assert) {
+    test('id is yielded from field component', async function (this: RenderingTestContext, assert) {
       const data = { firstName: 'Simon' };
 
       await render(<template>
@@ -75,7 +78,8 @@ module('Integration Component headless-form', function (hooks) {
       </template>);
 
       const inputId = this.element.querySelector('input')?.id;
-      const id = this.element.querySelector('[data-test-id]')?.innerText;
+      const id = (this.element.querySelector('[data-test-id]') as HTMLElement)
+        .innerText;
 
       assert.strictEqual(id, inputId, "yielded ID matches input's id");
     });
@@ -104,7 +108,7 @@ module('Integration Component headless-form', function (hooks) {
         );
     });
 
-    test('label and input are connected', async function (assert) {
+    test('label and input are connected', async function (this: RenderingTestContext, assert) {
       const data = { firstName: 'Simon' };
 
       await render(<template>
@@ -123,7 +127,7 @@ module('Integration Component headless-form', function (hooks) {
         'input has id with dynamically generated uuid'
       );
 
-      const id = this.element.querySelector('input')?.id;
+      const id = this.element.querySelector('input')?.id ?? '';
 
       assert
         .dom('label')
@@ -160,8 +164,7 @@ module('Integration Component headless-form', function (hooks) {
 
     test('input accepts all supported types', async function (assert) {
       const data = { firstName: 'Simon' };
-
-      for (const type of [
+      const inputTypes: InputType[] = [
         'color',
         'date',
         'datetime-local',
@@ -177,7 +180,9 @@ module('Integration Component headless-form', function (hooks) {
         'time',
         'url',
         'week',
-      ]) {
+      ];
+
+      for (const type of inputTypes) {
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
             <form.field @name="firstName" as |field|>
@@ -231,14 +236,15 @@ module('Integration Component headless-form', function (hooks) {
         assert.dom('[data-test-last-name]').hasText('Ward');
       });
 
-      test.skip('form controls are reactive to data updates', async function (assert) {
-        const data = new (class {
+      skip('form controls are reactive to data updates', async function (assert) {
+        class DummyData {
           @tracked
           firstName = 'Tony';
 
           @tracked
           lastName = 'Ward';
-        })();
+        }
+        const data = new DummyData();
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>

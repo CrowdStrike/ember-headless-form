@@ -15,7 +15,7 @@ export interface HeadlessFormFieldComponentSignature<
   Args: {
     data: Partial<DATA>;
     name: KEY;
-    set: (key: KEY, value: DATA[KEY]) => void;
+    set: (key: KEY, value: unknown) => void;
   };
   Blocks: {
     default: [
@@ -25,9 +25,9 @@ export interface HeadlessFormFieldComponentSignature<
           typeof InputComponent,
           'fieldId' | 'value' | 'setValue'
         >;
-        value: DATA[KEY];
+        value: DATA[KEY] | undefined;
         id: string;
-        setValue: (value: DATA[KEY]) => void;
+        setValue: (value: unknown) => void;
       }
     ];
   };
@@ -42,7 +42,7 @@ export default class HeadlessFormFieldComponent<
   InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =
     InputComponent;
 
-  get value(): DATA[keyof DATA] | undefined {
+  get value(): DATA[KEY] | undefined {
     return this.args.data[this.args.name];
   }
 

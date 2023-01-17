@@ -39,8 +39,13 @@ export default class HeadlessFormComponent<
     this.args.onSubmit?.(this.internalData as DATA);
   }
 
+  // @action
+  // set<KEY extends keyof DATA>(key: KEY, value: DATA[KEY]): void {
+  //   this.internalData[key] = value;
+  // }
+
   @action
-  set<KEY extends keyof DATA>(key: KEY, value: DATA[KEY]): void {
-    this.internalData[key] = value;
+  set(key: keyof DATA, value: unknown): void {
+    this.internalData[key] = value as DATA[typeof key];
   }
 }
