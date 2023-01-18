@@ -1,3 +1,7 @@
+/* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
+/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
+
+import { tracked } from '@glimmer/tracking';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import {
@@ -7,15 +11,14 @@ import {
   rerender,
   triggerEvent,
 } from '@ember/test-helpers';
-import { module, test, skip } from 'qunit';
-import { tracked } from '@glimmer/tracking';
-import sinon from 'sinon';
+import { module, skip, test } from 'qunit';
 
-import { InputType } from 'ember-headless-form';
 import HeadlessForm from 'ember-headless-form/components/headless-form';
+import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
 import type { RenderingTestContext } from '@ember/test-helpers';
+import type { InputType } from 'ember-headless-form';
 
 module('Integration Component headless-form', function (hooks) {
   setupRenderingTest(hooks);
