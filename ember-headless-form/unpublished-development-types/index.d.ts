@@ -2,8 +2,10 @@
 // These will *not* be published as part of your addon, so be careful that your published code does not rely on them!
 
 import '@glint/environment-ember-loose';
-import type HeadlessFormRegistry from '../src/template-registry';
+
 import { ComponentLike } from '@glint/template';
+
+import type HeadlessFormRegistry from '../src/template-registry';
 
 // Taken from https://github.com/embroider-build/embroider/blob/main/packages/util/index.d.ts, which is still unreleased.
 // @todo Remove once this is publicly available

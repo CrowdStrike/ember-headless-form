@@ -1,6 +1,6 @@
+import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 
 // Possible values for the input type, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
 // for the sake ok completeness, we list all here, with some commented out that are better handled elsewhere, or not at all...
@@ -51,6 +51,7 @@ export default class HeadlessFormControlInputComponent<VALUE> extends Component<
         .value}`,
       typeof this.args.value === 'string'
     );
+
     return this.args.value;
   }
 

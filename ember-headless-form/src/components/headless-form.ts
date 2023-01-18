@@ -1,10 +1,14 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import FieldComponent, {
+
+import { TrackedObject } from 'tracked-built-ins';
+
+import FieldComponent from './-private/field';
+
+import type {
   HeadlessFormFieldComponentSignature,
 } from './-private/field';
-import { WithBoundArgs, ComponentLike } from '@glint/template';
-import { TrackedObject } from 'tracked-built-ins';
+import type { ComponentLike,WithBoundArgs } from '@glint/template';
 
 export type HeadlessFormData = object;
 
