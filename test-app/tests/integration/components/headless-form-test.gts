@@ -51,7 +51,7 @@ module('Integration Component headless-form', function (hooks) {
 
       assert
         .dom('form > [data-test-user-content]')
-        .exists('does not render anything on its own');
+        .exists('field component contains no markup itself');
     });
 
     test('id is yielded from field component', async function (this: RenderingTestContext, assert) {
