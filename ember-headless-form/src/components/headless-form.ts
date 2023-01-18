@@ -29,23 +29,22 @@ export default class HeadlessFormComponent<
   FieldComponent: ComponentLike<HeadlessFormFieldComponentSignature<DATA>> =
     FieldComponent;
 
-  internalData: Partial<DATA> = new TrackedObject(this.args.data ?? {});
+  internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
 
   @action
   onSubmit(e: Event): void {
     e.preventDefault();
 
-    // @todo what's the proper type!?
-    this.args.onSubmit?.(this.internalData as DATA);
+    this.args.onSubmit?.(this.internalData);
+  }
+
+  @action
+  set<KEY extends keyof DATA>(key: KEY, value: DATA[KEY]): void {
+    this.internalData[key] = value;
   }
 
   // @action
-  // set<KEY extends keyof DATA>(key: KEY, value: DATA[KEY]): void {
-  //   this.internalData[key] = value;
+  // set(key: keyof DATA, value: unknown): void {
+  //   this.internalData[key] = value as DATA[typeof key];
   // }
-
-  @action
-  set(key: keyof DATA, value: unknown): void {
-    this.internalData[key] = value as DATA[typeof key];
-  }
 }

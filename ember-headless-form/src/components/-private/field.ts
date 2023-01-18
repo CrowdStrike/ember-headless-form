@@ -13,21 +13,21 @@ export interface HeadlessFormFieldComponentSignature<
   KEY extends keyof DATA = keyof DATA
 > {
   Args: {
-    data: Partial<DATA>;
+    data: DATA;
     name: KEY;
-    set: (key: KEY, value: unknown) => void;
+    set: (key: KEY, value: DATA[KEY]) => void;
   };
   Blocks: {
     default: [
       {
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
-          typeof InputComponent,
+          typeof InputComponent<DATA[KEY]>,
           'fieldId' | 'value' | 'setValue'
         >;
-        value: DATA[KEY] | undefined;
+        value: DATA[KEY];
         id: string;
-        setValue: (value: unknown) => void;
+        setValue: (value: DATA[KEY]) => void;
       }
     ];
   };
@@ -39,15 +39,11 @@ export default class HeadlessFormFieldComponent<
 > extends Component<HeadlessFormFieldComponentSignature<DATA, KEY>> {
   LabelComponent: ComponentLike<HeadlessFormFieldLabelComponentSignature> =
     LabelComponent;
-  InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =
-    InputComponent;
+  InputComponent: ComponentLike<
+    HeadlessFormControlInputComponentSignature<DATA[KEY]>
+  > = InputComponent;
 
-  get value(): DATA[KEY] | undefined {
+  get value(): DATA[KEY] {
     return this.args.data[this.args.name];
-  }
-
-  // @todo rethink this?
-  get valueAsString(): string | undefined {
-    return this.value !== undefined ? String(this.value) : undefined;
   }
 }

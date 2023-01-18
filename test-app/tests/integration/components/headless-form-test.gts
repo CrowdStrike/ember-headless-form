@@ -54,20 +54,6 @@ module('Integration Component headless-form', function (hooks) {
         .exists('does not render anything on its own');
     });
 
-    test('Glint: @name argument only expects keys of @data', async function (assert) {
-      assert.expect(0);
-      const data = { firstName: 'Simon' };
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          {{! @glint-expect-error this is expected to error when running glint checks! }}
-          <form.field @name="lastName">
-            <div data-test-user-content>foo</div>
-          </form.field>
-        </HeadlessForm>
-      </template>);
-    });
-
     test('id is yielded from field component', async function (this: RenderingTestContext, assert) {
       const data = { firstName: 'Simon' };
 
@@ -85,6 +71,53 @@ module('Integration Component headless-form', function (hooks) {
         .innerText;
 
       assert.strictEqual(id, inputId, "yielded ID matches input's id");
+    });
+
+    module('Glint', function () {
+      // These tests are not testing any new run-time behaviour that isn't tested elsewhere already.
+      // Rather they are here to make sure they pass glint checks, testing for their types constraints to work as expected
+      // Note: @glint-expect-error behaves just as @ts-expect-error in that in surpresses an error when we *expect* it to error,
+      // but it *also* fails when no expected error is actually present!
+
+      test('@name argument only expects keys of @data', async function (assert) {
+        assert.expect(0);
+        const data = { firstName: 'Simon' };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            {{! this is valid }}
+            <form.field @name="firstName" />
+            {{! @glint-expect-error this is expected to be a glint error! }}
+            <form.field @name="lastName" />
+          </HeadlessForm>
+        </template>);
+      });
+
+      test('@name argument only expects keys of @data w/ partial data', async function (assert) {
+        assert.expect(0);
+        const data: { firstName?: string } = {};
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            {{! this is valid }}
+            <form.field @name="firstName" />
+            {{! @glint-expect-error this is expected to be a glint error! }}
+            <form.field @name="lastName" />
+          </HeadlessForm>
+        </template>);
+      });
+
+      test('@name argument w/ an untyped @data errors', async function (assert) {
+        assert.expect(0);
+        const data = {};
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            {{! @glint-expect-error this is expected to be a glint error! }}
+            <form.field @name="firstName" />
+          </HeadlessForm>
+        </template>);
+      });
     });
   });
 

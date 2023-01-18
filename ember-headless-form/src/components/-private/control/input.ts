@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
@@ -27,23 +28,34 @@ export type InputType =
   | 'url'
   | 'week';
 
-export interface HeadlessFormControlInputComponentSignature {
+export interface HeadlessFormControlInputComponentSignature<VALUE> {
   Element: HTMLInputElement;
   Args: {
-    value: string | undefined;
+    value: VALUE;
     type?: InputType;
     fieldId: string;
-    setValue: (value: string) => void;
+    setValue: (value: VALUE) => void;
   };
 }
 
-export default class HeadlessFormControlInputComponent extends Component<HeadlessFormControlInputComponentSignature> {
+export default class HeadlessFormControlInputComponent<VALUE> extends Component<
+  HeadlessFormControlInputComponentSignature<VALUE>
+> {
   get type(): InputType {
     return this.args.type ?? 'text';
   }
 
+  get valueAsString(): string {
+    assert(
+      `input can only handle string values, but you passed ${typeof this.args
+        .value}`,
+      typeof this.args.value === 'string'
+    );
+    return this.args.value;
+  }
+
   @action
   handleInput(e: Event | InputEvent): void {
-    this.args.setValue((e.target as HTMLInputElement).value);
+    this.args.setValue((e.target as HTMLInputElement).value as VALUE);
   }
 }
