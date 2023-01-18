@@ -351,7 +351,13 @@ module('Integration Component headless-form', function (hooks) {
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
             <form.field @name="firstName" as |field|>
-              <input type="text" value={{field.value}} data-test-first-name />
+              <label for="first-name">First name:</label>
+              <input
+                type="text"
+                value={{field.value}}
+                id="first-name"
+                data-test-first-name
+              />
               <button
                 type="button"
                 {{on "click" (fn field.setValue "Nicole")}}
