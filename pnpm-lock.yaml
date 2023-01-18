@@ -177,7 +177,7 @@ importers:
       ember-page-title: ^7.0.0
       ember-qunit: ^6.0.0
       ember-resolver: ^8.0.3
-      ember-sinon-qunit: ^6.0.0
+      ember-sinon-qunit: ^7.0.0
       ember-source: ~4.10.0-beta.2
       ember-source-channel-url: ^3.0.0
       ember-template-imports: ^3.4.0
@@ -263,7 +263,7 @@ importers:
       ember-page-title: 7.0.0
       ember-qunit: 6.1.1_anjeg2762ibc6ojuv7dwmrcxhy
       ember-resolver: 8.1.0
-      ember-sinon-qunit: 6.0.0
+      ember-sinon-qunit: 7.0.0_qyi3yjhyh6got6fpzt6tvjet7i
       ember-source: 4.10.0-beta.5_klhxxmjkcvtuhwro2kkspsfzna
       ember-source-channel-url: 3.0.0
       ember-template-imports: 3.4.0_ember-cli-htmlbars@6.1.1
@@ -2375,12 +2375,6 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /@sinonjs/commons/1.8.6:
-    resolution: {integrity: sha512-Ky+XkAkqPZSm3NLBeUng77EBQl3cmeJhITaGHdYH8kjVB+aun3S4XBRti2zt17mtt0mIUDiNxYeoJm6drVvBJQ==}
-    dependencies:
-      type-detect: 4.0.8
-    dev: true
-
   /@sinonjs/commons/2.0.0:
     resolution: {integrity: sha512-uLa0j859mMrg2slwQYdO/AkrOfmH+X6LTVmNTS9CqexuE2IvVORIkSpJLqePAbEnKJ77aMmCwr1NUZ57120Xcg==}
     dependencies:
@@ -2391,20 +2385,6 @@ packages:
     resolution: {integrity: sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==}
     dependencies:
       '@sinonjs/commons': 2.0.0
-    dev: true
-
-  /@sinonjs/fake-timers/6.0.1:
-    resolution: {integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-    dev: true
-
-  /@sinonjs/samsam/5.3.1:
-    resolution: {integrity: sha512-1Hc0b1TtyfBu8ixF/tpfSHTVWKwCBLY4QJbkgnE7HcwyvT2xArDxb4K7dMgqRm3szI+LJbzmW/s4xxEhv6hwDg==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-      lodash.get: 4.4.2
-      type-detect: 4.0.8
     dev: true
 
   /@sinonjs/samsam/7.0.1:
@@ -5622,11 +5602,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /diff/4.0.2:
-    resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
-    engines: {node: '>=0.3.1'}
-    dev: true
-
   /diff/5.1.0:
     resolution: {integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==}
     engines: {node: '>=0.3.1'}
@@ -6429,27 +6404,21 @@ packages:
       - supports-color
     dev: true
 
-  /ember-sinon-qunit/6.0.0:
-    resolution: {integrity: sha512-rV1KsHhALdevlZNYvDGAp/MyECrvqMv01dcaY1D4LDvKAL+9dLjDLKyI3vJDgI5G5o7whiRwDJhcDZvroq1mJg==}
-    engines: {node: '>= 12'}
+  /ember-sinon-qunit/7.0.0_qyi3yjhyh6got6fpzt6tvjet7i:
+    resolution: {integrity: sha512-w4PnPxpp7WzddAswtACUlHdKxQKBvRDC8+Vzw91P3It4QaKthceIsv7QiNQCkC3BqtTrCV8QNsuPik1zOXa+fw==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: ^3.28.0 || ^4.0.0
+      sinon: ^15.0.1
     dependencies:
       broccoli-funnel: 3.0.8
+      ember-auto-import: 2.5.0_webpack@5.75.0
       ember-cli-babel: 7.26.11
-      ember-sinon: 5.0.0
+      ember-source: 4.10.0-beta.5_klhxxmjkcvtuhwro2kkspsfzna
+      sinon: 15.0.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /ember-sinon/5.0.0:
-    resolution: {integrity: sha512-dTP2vhao1xWm3OlfpOALooso/OLM71SFg7PIBmZ6JdwKCC+CzcPb4BYRAXuoAFYzmhH8z28p8HdemjZBb0B3Bw==}
-    engines: {node: 10.* || >= 12}
-    dependencies:
-      broccoli-funnel: 2.0.2
-      broccoli-merge-trees: 3.0.2
-      ember-cli-babel: 7.26.11
-      sinon: 9.2.4
-    transitivePeerDependencies:
-      - supports-color
+      - webpack
     dev: true
 
   /ember-source-channel-url/3.0.0:
@@ -9888,16 +9857,6 @@ packages:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: true
 
-  /nise/4.1.0:
-    resolution: {integrity: sha512-eQMEmGN/8arp0xsvGoQ+B1qvSkR73B1nWSCh7nOt5neMCtwcQVYQGdzQMhcNscktTsWB54xnlSQFzOAPJD8nXA==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-      '@sinonjs/fake-timers': 6.0.1
-      '@sinonjs/text-encoding': 0.7.2
-      just-extend: 4.2.1
-      path-to-regexp: 1.8.0
-    dev: true
-
   /nise/5.1.4:
     resolution: {integrity: sha512-8+Ib8rRJ4L0o3kfmyVCL7gzrohyDe0cMFTBa2d364yIrEGMEoetznKJx899YxjybU6bL9SQkYPSBBs1gyYs8Xg==}
     dependencies:
@@ -11418,17 +11377,6 @@ packages:
       '@sinonjs/samsam': 7.0.1
       diff: 5.1.0
       nise: 5.1.4
-      supports-color: 7.2.0
-    dev: true
-
-  /sinon/9.2.4:
-    resolution: {integrity: sha512-zljcULZQsJxVra28qIAL6ow1Z9tpattkCTEJR4RBP3TGc00FcttsP5pK284Nas5WjMZU5Yzy3kAIp3B3KRf5Yg==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-      '@sinonjs/fake-timers': 6.0.1
-      '@sinonjs/samsam': 5.3.1
-      diff: 4.0.2
-      nise: 4.1.0
       supports-color: 7.2.0
     dev: true
 

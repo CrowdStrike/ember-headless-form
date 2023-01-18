@@ -42,9 +42,4 @@ export default class HeadlessFormComponent<
   set<KEY extends keyof DATA>(key: KEY, value: DATA[KEY]): void {
     this.internalData[key] = value;
   }
-
-  // @action
-  // set(key: keyof DATA, value: unknown): void {
-  //   this.internalData[key] = value as DATA[typeof key];
-  // }
 }
