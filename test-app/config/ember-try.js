@@ -50,18 +50,18 @@ module.exports = async function () {
       embroiderSafe({
         npm: {
           devDependencies: {
-            '@embroider/core': '^2.0.0',
-            '@embroider/webpack': '^2.0.0',
-            '@embroider/compat': '^2.0.0',
+            '@embroider/core': '^1.9.0',
+            '@embroider/webpack': '^1.9.0',
+            '@embroider/compat': '^1.9.0',
           },
         },
       }),
       embroiderOptimized({
         npm: {
           devDependencies: {
-            '@embroider/core': '^2.0.0',
-            '@embroider/webpack': '^2.0.0',
-            '@embroider/compat': '^2.0.0',
+            '@embroider/core': '^1.9.0',
+            '@embroider/webpack': '^1.9.0',
+            '@embroider/compat': '^1.9.0',
           },
         },
       }),
