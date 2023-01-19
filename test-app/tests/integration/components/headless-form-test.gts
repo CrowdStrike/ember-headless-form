@@ -230,6 +230,24 @@ module('Integration Component headless-form', function (hooks) {
         assert.dom('input').hasAttribute('type', type, `supports type=${type}`);
       }
     });
+
+    // Unfortunately this test does not work due to `render` throwing in a deferred way (not covered by its returned promise)
+    // See https://github.com/emberjs/ember-test-helpers/issues/310
+    // keeping this still here to capture the intended behaviour (which works!), and for Glint type checking
+    skip('input throws for type handled by dedicated component', async function (assert) {
+      const data = { checked: false };
+
+      assert.rejects(
+        render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field @name="checked" as |field|>
+              {{! @glint-expect-error }}
+              <field.input @type="checkbox" />
+            </form.field>
+          </HeadlessForm>
+        </template>)
+      );
+    });
   });
 
   module('field.checkbox', function () {
