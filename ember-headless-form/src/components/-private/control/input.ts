@@ -28,22 +28,20 @@ export type InputType =
   | 'url'
   | 'week';
 
-export interface HeadlessFormControlInputComponentSignature<VALUE> {
+export interface HeadlessFormControlInputComponentSignature {
   Element: HTMLInputElement;
   Args: {
-    value: VALUE;
+    value: string;
     type?: InputType;
     fieldId: string;
-    setValue: (value: VALUE) => void;
+    setValue: (value: string) => void;
   };
 }
 
-export default class HeadlessFormControlInputComponent<VALUE> extends Component<
-  HeadlessFormControlInputComponentSignature<VALUE>
-> {
+export default class HeadlessFormControlInputComponent extends Component<HeadlessFormControlInputComponentSignature> {
   constructor(
     owner: unknown,
-    args: HeadlessFormControlInputComponentSignature<VALUE>['Args']
+    args: HeadlessFormControlInputComponentSignature['Args']
   ) {
     assert(
       `input component does not support @type="${args.type}" as there is a dedicated component for this. Please use the \`field.${args.type}\` instead!`,
@@ -59,18 +57,8 @@ export default class HeadlessFormControlInputComponent<VALUE> extends Component<
     return this.args.type ?? 'text';
   }
 
-  get valueAsString(): string {
-    assert(
-      `input can only handle string values, but you passed ${typeof this.args
-        .value}`,
-      typeof this.args.value === 'string'
-    );
-
-    return this.args.value;
-  }
-
   @action
   handleInput(e: Event | InputEvent): void {
-    this.args.setValue((e.target as HTMLInputElement).value as VALUE);
+    this.args.setValue((e.target as HTMLInputElement).value);
   }
 }
