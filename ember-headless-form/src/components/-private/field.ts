@@ -56,23 +56,23 @@ export default class HeadlessFormFieldComponent<
     return this.args.data[this.args.name];
   }
 
-  get valueAsString(): string {
+  get valueAsString(): string | undefined {
     assert(
       `Only string values are expected for ${String(
         this.args.name
       )}, but you passed ${typeof this.value}`,
-      typeof this.value === 'string'
+      typeof this.value === 'undefined' || typeof this.value === 'string'
     );
 
     return this.value;
   }
 
-  get valueAsBoolean(): boolean {
+  get valueAsBoolean(): boolean | undefined {
     assert(
       `Only boolean values are expected for ${String(
         this.args.name
       )}, but you passed ${typeof this.value}`,
-      typeof this.value === 'boolean'
+      typeof this.value === 'undefined' || typeof this.value === 'boolean'
     );
 
     return this.value;
