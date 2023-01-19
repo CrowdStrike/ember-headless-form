@@ -232,10 +232,49 @@ module('Integration Component headless-form', function (hooks) {
     });
   });
 
+  module('field.checkbox', function () {
+    test('field yields checkbox component', async function (assert) {
+      const data = { checked: false };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            <field.checkbox class="my-input" data-test-checkbox />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('input')
+        .exists('render an input')
+        .hasAttribute('type', 'checkbox')
+        .hasClass('my-input', 'it accepts custom HTML classes')
+        .hasAttribute(
+          'data-test-checkbox',
+          '',
+          'it accepts arbitrary HTML attributes'
+        );
+    });
+
+    test('checked property is mapped correctly to @data', async function (assert) {
+      const data = { checked: true };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            <field.checkbox />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[type="checkbox"]').isChecked();
+    });
+  });
+
   module('data', function () {
     module('data down', function () {
       test('data is passed to form controls', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const data = { firstName: 'Tony', lastName: 'Ward', acceptTerms: true };
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
@@ -247,11 +286,16 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="acceptTerms" as |field|>
+              <field.label>Terms accepted</field.label>
+              <field.checkbox data-test-terms />
+            </form.field>
           </HeadlessForm>
         </template>);
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-terms]').isChecked();
       });
 
       test('value is yielded from field component', async function (assert) {
@@ -342,7 +386,11 @@ module('Integration Component headless-form', function (hooks) {
     });
     module('actions up', function () {
       test('onSubmit is called with user data', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const data = {
+          firstName: 'Tony',
+          lastName: 'Ward',
+          acceptTerms: false,
+        };
         const submitHandler = sinon.spy();
 
         await render(<template>
@@ -355,25 +403,35 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="acceptTerms" as |field|>
+              <field.label>Terms accepted</field.label>
+              <field.checkbox data-test-terms />
+            </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-terms]').isNotChecked();
 
         await fillIn('input[data-test-first-name]', 'Nicole');
         await fillIn('input[data-test-last-name]', 'Chung');
+        await click('input[data-test-terms]');
         await click('[data-test-submit]');
 
         assert.deepEqual(
           data,
-          { firstName: 'Tony', lastName: 'Ward' },
+          { firstName: 'Tony', lastName: 'Ward', acceptTerms: false },
           'data is not mutated'
         );
 
         assert.true(
-          submitHandler.calledWith({ firstName: 'Nicole', lastName: 'Chung' }),
+          submitHandler.calledWith({
+            firstName: 'Nicole',
+            lastName: 'Chung',
+            acceptTerms: true,
+          }),
           'new data is passed to submit handler'
         );
       });
