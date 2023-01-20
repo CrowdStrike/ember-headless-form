@@ -1,6 +1,6 @@
 import templateOnlyComponent from '@ember/component/template-only';
 
-export interface HeadlessFormFieldLabelComponentSignature {
+export interface HeadlessFormLabelComponentSignature {
   Element: HTMLLabelElement;
   Args: {
     fieldId: string;
@@ -10,4 +10,4 @@ export interface HeadlessFormFieldLabelComponentSignature {
   };
 }
 
-export default templateOnlyComponent<HeadlessFormFieldLabelComponentSignature>();
+export default templateOnlyComponent<HeadlessFormLabelComponentSignature>();

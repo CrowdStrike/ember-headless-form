@@ -247,6 +247,132 @@ module('Integration Component headless-form', function (hooks) {
     });
   });
 
+  module('field.radio', function () {
+    test('field yields radio component', async function (assert) {
+      const data: { choice?: string } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="choice" as |field|>
+            <field.radio @value="foo">
+              Some content
+            </field.radio>
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('form').hasText('Some content', 'radio renders block content');
+
+      assert
+        .dom('form > *')
+        .doesNotExist('radio component contains no markup itself');
+    });
+
+    test('radio yields label component', async function (assert) {
+      const data: { choice?: string } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="choice" as |field|>
+            <field.radio @value="foo" as |radio|>
+              <radio.label class="my-label" data-test-label>Foo</radio.label>
+            </field.radio>
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('label')
+        .hasText('Foo', 'it renders block content')
+        .hasClass('my-label', 'it accepts custom HTML classes')
+        .hasAttribute(
+          'data-test-label',
+          '',
+          'it accepts arbitrary HTML attributes'
+        );
+    });
+
+    test('radio yields input component', async function (assert) {
+      const data: { choice?: string } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="choice" as |field|>
+            <field.radio @value="foo" as |radio|>
+              <radio.input class="my-input" data-test-radio />
+            </field.radio>
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('input')
+        .exists('render an input')
+        .hasAttribute('type', 'radio')
+        .hasValue('foo')
+        .hasClass('my-input', 'it accepts custom HTML classes')
+        .hasAttribute(
+          'data-test-radio',
+          '',
+          'it accepts arbitrary HTML attributes'
+        );
+    });
+
+    test('label and input are connected', async function (this: RenderingTestContext, assert) {
+      const data: { choice?: string } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="choice" as |field|>
+            <field.radio @value="foo" as |radio|>
+              <radio.input />
+              <radio.label>Foo</radio.label>
+            </field.radio>
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input').hasAttribute(
+        'id',
+        // copied from https://ihateregex.io/expr/uuid/
+        /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/,
+        'input has id with dynamically generated uuid'
+      );
+
+      const id = this.element.querySelector('input')?.id ?? '';
+
+      assert
+        .dom('label')
+        .hasAttribute(
+          'for',
+          id,
+          'label is attached to input by `for` attribute'
+        );
+    });
+
+    test('checked property is mapped correctly to @data', async function (assert) {
+      const data: { choice?: string } = { choice: 'bar' };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="choice" as |field|>
+            <field.radio @value="foo" as |radio|>
+              <radio.input data-test-radio1 />
+              <radio.label>Foo</radio.label>
+            </field.radio>
+            <field.radio @value="bar" as |radio|>
+              <radio.input data-test-radio2 />
+              <radio.label>Bar</radio.label>
+            </field.radio>
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[data-test-radio1]').isNotChecked();
+      assert.dom('input[data-test-radio2]').isChecked();
+    });
+  });
+
   module('field.textarea', function () {
     test('field yields textarea component', async function (assert) {
       const data: { checked?: boolean } = {};
@@ -277,6 +403,7 @@ module('Integration Component headless-form', function (hooks) {
         const data = {
           firstName: 'Tony',
           lastName: 'Ward',
+          gender: 'male',
           comments: 'lorem ipsum',
           acceptTerms: true,
         };
@@ -291,6 +418,20 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="gender" as |field|>
+              <field.radio @value="male" as |radio|>
+                <radio.input data-test-gender-male />
+                <radio.label>Male</radio.label>
+              </field.radio>
+              <field.radio @value="female" as |radio|>
+                <radio.input data-test-gender-female />
+                <radio.label>Female</radio.label>
+              </field.radio>
+              <field.radio @value="other" as |radio|>
+                <radio.input data-test-gender-other />
+                <radio.label>Other</radio.label>
+              </field.radio>
+            </form.field>
             <form.field @name="comments" as |field|>
               <field.label>Comments</field.label>
               <field.textarea data-test-comments />
@@ -304,6 +445,9 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-gender-male]').isChecked();
+        assert.dom('input[data-test-gender-female]').isNotChecked();
+        assert.dom('input[data-test-gender-other]').isNotChecked();
         assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
         assert.dom('input[data-test-terms]').isChecked();
       });
@@ -399,6 +543,7 @@ module('Integration Component headless-form', function (hooks) {
         const data = {
           firstName: 'Tony',
           lastName: 'Ward',
+          gender: 'male',
           comments: 'lorem ipsum',
           acceptTerms: false,
         };
@@ -413,6 +558,20 @@ module('Integration Component headless-form', function (hooks) {
             <form.field @name="lastName" as |field|>
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
+            </form.field>
+            <form.field @name="gender" as |field|>
+              <field.radio @value="male" as |radio|>
+                <radio.input data-test-gender-male />
+                <radio.label>Male</radio.label>
+              </field.radio>
+              <field.radio @value="female" as |radio|>
+                <radio.input data-test-gender-female />
+                <radio.label>Female</radio.label>
+              </field.radio>
+              <field.radio @value="other" as |radio|>
+                <radio.input data-test-gender-other />
+                <radio.label>Other</radio.label>
+              </field.radio>
             </form.field>
             <form.field @name="comments" as |field|>
               <field.label>Comments</field.label>
@@ -433,6 +592,7 @@ module('Integration Component headless-form', function (hooks) {
 
         await fillIn('input[data-test-first-name]', 'Nicole');
         await fillIn('input[data-test-last-name]', 'Chung');
+        await click('input[data-test-gender-female]');
         await fillIn('textarea[data-test-comments]', 'foo bar');
         await click('input[data-test-terms]');
         await click('[data-test-submit]');
@@ -442,6 +602,7 @@ module('Integration Component headless-form', function (hooks) {
           {
             firstName: 'Tony',
             lastName: 'Ward',
+            gender: 'male',
             comments: 'lorem ipsum',
             acceptTerms: false,
           },
@@ -452,6 +613,7 @@ module('Integration Component headless-form', function (hooks) {
           submitHandler.calledWith({
             firstName: 'Nicole',
             lastName: 'Chung',
+            gender: 'female',
             comments: 'foo bar',
             acceptTerms: true,
           }),
