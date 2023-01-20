@@ -8,18 +8,18 @@ module.exports = async function () {
     usePnpm: true,
     scenarios: [
       {
-        name: 'ember-lts-3.28',
-        npm: {
-          devDependencies: {
-            'ember-source': '~3.28.0',
-          },
-        },
-      },
-      {
         name: 'ember-lts-4.4',
         npm: {
           devDependencies: {
             'ember-source': '~4.4.0',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-4.8',
+        npm: {
+          devDependencies: {
+            'ember-source': '~4.8.0',
           },
         },
       },
@@ -47,26 +47,24 @@ module.exports = async function () {
           },
         },
       },
-      {
-        name: 'ember-classic',
-        env: {
-          EMBER_OPTIONAL_FEATURES: JSON.stringify({
-            'application-template-wrapper': true,
-            'default-async-observers': false,
-            'template-only-glimmer-components': false,
-          }),
-        },
+      embroiderSafe({
         npm: {
           devDependencies: {
-            'ember-source': '~3.28.0',
-          },
-          ember: {
-            edition: 'classic',
+            '@embroider/core': '^1.9.0',
+            '@embroider/webpack': '^1.9.0',
+            '@embroider/compat': '^1.9.0',
           },
         },
-      },
-      embroiderSafe(),
-      embroiderOptimized(),
+      }),
+      embroiderOptimized({
+        npm: {
+          devDependencies: {
+            '@embroider/core': '^1.9.0',
+            '@embroider/webpack': '^1.9.0',
+            '@embroider/compat': '^1.9.0',
+          },
+        },
+      }),
     ],
   };
 };

@@ -1,0 +1,9 @@
+<HeadlessForm @data={{this.data}} @onSubmit={{this.doSomething}} as |form|>
+  <form.field @name='name' as |field|>
+    <field.label>Name</field.label>
+    <field.input />
+  </form.field>
+
+  <button type='submit'>Submit</button>
+  {{! <form.submitButton>Submit</form.submitButton> }}
+</HeadlessForm>
