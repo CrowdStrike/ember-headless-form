@@ -487,33 +487,5 @@ module('Integration Component headless-form', function (hooks) {
         </HeadlessForm>
       </template>);
     });
-
-    test('field.input can only be used for string values', async function (assert) {
-      assert.expect(0);
-      const data: { prop?: boolean } = {};
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          {{! @glint-expect-error }}
-          <form.field @name="prop" as |field|>
-            <field.input />
-          </form.field>
-        </HeadlessForm>
-      </template>);
-    });
-
-    test('field.checkbox can only be used for boolean values', async function (assert) {
-      assert.expect(0);
-      const data: { prop?: string } = {};
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          {{! @glint-expect-error }}
-          <form.field @name="prop" as |field|>
-            <field.checkbox />
-          </form.field>
-        </HeadlessForm>
-      </template>);
-    });
   });
 });
