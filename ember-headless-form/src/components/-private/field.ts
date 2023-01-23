@@ -1,16 +1,16 @@
 import Component from '@glimmer/component';
+import { assert } from '@ember/debug';
+import { action } from '@ember/object';
 
+import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import LabelComponent from './field/label';
 
 import type { HeadlessFormData } from '../headless-form';
-import type {
-  HeadlessFormControlInputComponentSignature,
-} from './control/input';
-import type {
-  HeadlessFormFieldLabelComponentSignature,
-} from './field/label';
-import type { ComponentLike,WithBoundArgs } from '@glint/template';
+import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
+import type { HeadlessFormControlInputComponentSignature } from './control/input';
+import type { HeadlessFormFieldLabelComponentSignature } from './field/label';
+import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
   DATA extends HeadlessFormData,
@@ -26,7 +26,11 @@ export interface HeadlessFormFieldComponentSignature<
       {
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
-          typeof InputComponent<DATA[KEY]>,
+          typeof InputComponent,
+          'fieldId' | 'value' | 'setValue'
+        >;
+        checkbox: WithBoundArgs<
+          typeof CheckboxComponent,
           'fieldId' | 'value' | 'setValue'
         >;
         value: DATA[KEY];
@@ -43,11 +47,39 @@ export default class HeadlessFormFieldComponent<
 > extends Component<HeadlessFormFieldComponentSignature<DATA, KEY>> {
   LabelComponent: ComponentLike<HeadlessFormFieldLabelComponentSignature> =
     LabelComponent;
-  InputComponent: ComponentLike<
-    HeadlessFormControlInputComponentSignature<DATA[KEY]>
-  > = InputComponent;
+  InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =
+    InputComponent;
+  CheckboxComponent: ComponentLike<HeadlessFormControlCheckboxComponentSignature> =
+    CheckboxComponent;
 
   get value(): DATA[KEY] {
     return this.args.data[this.args.name];
+  }
+
+  get valueAsString(): string | undefined {
+    assert(
+      `Only string values are expected for ${String(
+        this.args.name
+      )}, but you passed ${typeof this.value}`,
+      typeof this.value === 'undefined' || typeof this.value === 'string'
+    );
+
+    return this.value;
+  }
+
+  get valueAsBoolean(): boolean | undefined {
+    assert(
+      `Only boolean values are expected for ${String(
+        this.args.name
+      )}, but you passed ${typeof this.value}`,
+      typeof this.value === 'undefined' || typeof this.value === 'boolean'
+    );
+
+    return this.value;
+  }
+
+  @action
+  setValue(value: unknown): void {
+    this.args.set(this.args.name, value as DATA[KEY]);
   }
 }

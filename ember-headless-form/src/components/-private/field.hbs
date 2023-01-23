@@ -5,8 +5,14 @@
       input=(component
         (ensure-safe-component this.InputComponent)
         fieldId=uuid
-        value=this.value
-        setValue=setValue
+        value=this.valueAsString
+        setValue=this.setValue
+      )
+      checkbox=(component
+        (ensure-safe-component this.CheckboxComponent)
+        fieldId=uuid
+        value=this.valueAsBoolean
+        setValue=this.setValue
       )
       value=this.value
       id=uuid

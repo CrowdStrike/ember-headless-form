@@ -10,6 +10,7 @@ import {
   render,
   rerender,
   triggerEvent,
+  setupOnerror,
 } from '@ember/test-helpers';
 import { module, skip, test } from 'qunit';
 
@@ -72,53 +73,6 @@ module('Integration Component headless-form', function (hooks) {
 
       assert.strictEqual(id, inputId, "yielded ID matches input's id");
     });
-
-    module('Glint', function () {
-      // These tests are not testing any new run-time behaviour that isn't tested elsewhere already.
-      // Rather they are here to make sure they pass glint checks, testing for their types constraints to work as expected
-      // Note: @glint-expect-error behaves just as @ts-expect-error in that in surpresses an error when we *expect* it to error,
-      // but it *also* fails when no expected error is actually present!
-
-      test('@name argument only expects keys of @data', async function (assert) {
-        assert.expect(0);
-        const data = { firstName: 'Simon' };
-
-        await render(<template>
-          <HeadlessForm @data={{data}} as |form|>
-            {{! this is valid }}
-            <form.field @name="firstName" />
-            {{! @glint-expect-error this is expected to be a glint error! }}
-            <form.field @name="lastName" />
-          </HeadlessForm>
-        </template>);
-      });
-
-      test('@name argument only expects keys of @data w/ partial data', async function (assert) {
-        assert.expect(0);
-        const data: { firstName?: string } = {};
-
-        await render(<template>
-          <HeadlessForm @data={{data}} as |form|>
-            {{! this is valid }}
-            <form.field @name="firstName" />
-            {{! @glint-expect-error this is expected to be a glint error! }}
-            <form.field @name="lastName" />
-          </HeadlessForm>
-        </template>);
-      });
-
-      test('@name argument w/ an untyped @data errors', async function (assert) {
-        assert.expect(0);
-        const data = {};
-
-        await render(<template>
-          <HeadlessForm @data={{data}} as |form|>
-            {{! @glint-expect-error this is expected to be a glint error! }}
-            <form.field @name="firstName" />
-          </HeadlessForm>
-        </template>);
-      });
-    });
   });
 
   module('field.label', function () {
@@ -177,7 +131,7 @@ module('Integration Component headless-form', function (hooks) {
 
   module('field.input', function () {
     test('field yields input component', async function (assert) {
-      const data = { firstName: 'Simon' };
+      const data: { firstName?: string } = {};
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
@@ -230,12 +184,73 @@ module('Integration Component headless-form', function (hooks) {
         assert.dom('input').hasAttribute('type', type, `supports type=${type}`);
       }
     });
+
+    test('input throws for type handled by dedicated component', async function (assert) {
+      assert.expect(1);
+      setupOnerror((e: Error) => {
+        assert.strictEqual(
+          e.message,
+          'Assertion Failed: input component does not support @type="checkbox" as there is a dedicated component for this. Please use the `field.checkbox` instead!',
+          'Expected assertion error message'
+        );
+      });
+
+      const data = { checked: false };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            {{! @glint-expect-error }}
+            <field.input @type="checkbox" />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+    });
+  });
+
+  module('field.checkbox', function () {
+    test('field yields checkbox component', async function (assert) {
+      const data: { checked?: boolean } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            <field.checkbox class="my-input" data-test-checkbox />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('input')
+        .exists('render an input')
+        .hasAttribute('type', 'checkbox')
+        .hasClass('my-input', 'it accepts custom HTML classes')
+        .hasAttribute(
+          'data-test-checkbox',
+          '',
+          'it accepts arbitrary HTML attributes'
+        );
+    });
+
+    test('checked property is mapped correctly to @data', async function (assert) {
+      const data = { checked: true };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            <field.checkbox />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[type="checkbox"]').isChecked();
+    });
   });
 
   module('data', function () {
     module('data down', function () {
       test('data is passed to form controls', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const data = { firstName: 'Tony', lastName: 'Ward', acceptTerms: true };
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
@@ -247,11 +262,16 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="acceptTerms" as |field|>
+              <field.label>Terms accepted</field.label>
+              <field.checkbox data-test-terms />
+            </form.field>
           </HeadlessForm>
         </template>);
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-terms]').isChecked();
       });
 
       test('value is yielded from field component', async function (assert) {
@@ -342,7 +362,11 @@ module('Integration Component headless-form', function (hooks) {
     });
     module('actions up', function () {
       test('onSubmit is called with user data', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const data = {
+          firstName: 'Tony',
+          lastName: 'Ward',
+          acceptTerms: false,
+        };
         const submitHandler = sinon.spy();
 
         await render(<template>
@@ -355,25 +379,35 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="acceptTerms" as |field|>
+              <field.label>Terms accepted</field.label>
+              <field.checkbox data-test-terms />
+            </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-terms]').isNotChecked();
 
         await fillIn('input[data-test-first-name]', 'Nicole');
         await fillIn('input[data-test-last-name]', 'Chung');
+        await click('input[data-test-terms]');
         await click('[data-test-submit]');
 
         assert.deepEqual(
           data,
-          { firstName: 'Tony', lastName: 'Ward' },
-          'data is not mutated'
+          { firstName: 'Tony', lastName: 'Ward', acceptTerms: false },
+          'original data is not mutated'
         );
 
         assert.true(
-          submitHandler.calledWith({ firstName: 'Nicole', lastName: 'Chung' }),
+          submitHandler.calledWith({
+            firstName: 'Nicole',
+            lastName: 'Chung',
+            acceptTerms: true,
+          }),
           'new data is passed to submit handler'
         );
       });
@@ -410,6 +444,54 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input[data-test-first-name]').hasValue('Nicole');
       });
+    });
+  });
+
+  module('Glint', function () {
+    // These tests are not testing any new run-time behaviour that isn't tested elsewhere already.
+    // Rather they are here to make sure they pass glint checks, testing for their types constraints to work as expected
+    // Note: @glint-expect-error behaves just as @ts-expect-error in that in surpresses an error when we *expect* it to error,
+    // but it *also* fails when no expected error is actually present!
+
+    test('@name argument only expects keys of @data', async function (assert) {
+      assert.expect(0);
+      // Note that we have only firstName here in the type that is passed to @data, no lastName!
+      const data = { firstName: 'Simon' };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          {{! this is valid }}
+          <form.field @name="firstName" />
+          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
+          <form.field @name="lastName" />
+        </HeadlessForm>
+      </template>);
+    });
+
+    test('@name argument only expects keys of @data w/ partial data', async function (assert) {
+      assert.expect(0);
+      const data: { firstName?: string } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          {{! this is valid }}
+          <form.field @name="firstName" />
+          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
+          <form.field @name="lastName" />
+        </HeadlessForm>
+      </template>);
+    });
+
+    test('@name argument w/ an untyped @data errors', async function (assert) {
+      assert.expect(0);
+      const data = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
+          <form.field @name="firstName" />
+        </HeadlessForm>
+      </template>);
     });
   });
 });
