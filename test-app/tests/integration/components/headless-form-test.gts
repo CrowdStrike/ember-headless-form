@@ -10,6 +10,7 @@ import {
   render,
   rerender,
   triggerEvent,
+  setupOnerror,
 } from '@ember/test-helpers';
 import { module, skip, test } from 'qunit';
 
@@ -184,22 +185,26 @@ module('Integration Component headless-form', function (hooks) {
       }
     });
 
-    // Unfortunately this test does not work due to `render` throwing in a deferred way (not covered by its returned promise)
-    // See https://github.com/emberjs/ember-test-helpers/issues/310
-    // keeping this still here to capture the intended behaviour (which works!), and for Glint type checking
-    skip('input throws for type handled by dedicated component', async function (assert) {
+    test('input throws for type handled by dedicated component', async function (assert) {
+      assert.expect(1);
+      setupOnerror((e: Error) => {
+        assert.strictEqual(
+          e.message,
+          'Assertion Failed: input component does not support @type="checkbox" as there is a dedicated component for this. Please use the `field.checkbox` instead!',
+          'Expected assertion error message'
+        );
+      });
+
       const data = { checked: false };
 
-      assert.rejects(
-        render(<template>
-          <HeadlessForm @data={{data}} as |form|>
-            <form.field @name="checked" as |field|>
-              {{! @glint-expect-error }}
-              <field.input @type="checkbox" />
-            </form.field>
-          </HeadlessForm>
-        </template>)
-      );
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            {{! @glint-expect-error }}
+            <field.input @type="checkbox" />
+          </form.field>
+        </HeadlessForm>
+      </template>);
     });
   });
 
