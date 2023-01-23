@@ -35,10 +35,4 @@ export default class HeadlessFormControlRadioComponent extends Component<Headles
   get isChecked(): boolean {
     return this.args.selected === this.args.value;
   }
-
-  // @action
-  // handleInput(e: Event | InputEvent): void {
-  //   const element: HTMLInputElement = e.target;
-  //   this.args.setValue((e.target as HTMLInputElement).checked);
-  // }
 }
