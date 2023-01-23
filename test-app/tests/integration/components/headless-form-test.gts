@@ -185,27 +185,29 @@ module('Integration Component headless-form', function (hooks) {
       }
     });
 
-    test('input throws for type handled by dedicated component', async function (assert) {
-      assert.expect(1);
-      setupOnerror((e: Error) => {
-        assert.strictEqual(
-          e.message,
-          'Assertion Failed: input component does not support @type="checkbox" as there is a dedicated component for this. Please use the `field.checkbox` instead!',
-          'Expected assertion error message'
-        );
-      });
+    ['checkbox', 'radio'].forEach((type) =>
+      test(`input throws for ${type} type handled by dedicated component`, async function (assert) {
+        assert.expect(1);
+        setupOnerror((e: Error) => {
+          assert.strictEqual(
+            e.message,
+            `Assertion Failed: input component does not support @type="${type}" as there is a dedicated component for this. Please use the \`field.${type}\` instead!`,
+            'Expected assertion error message'
+          );
+        });
 
-      const data = { checked: false };
+        const data = { checked: false };
 
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="checked" as |field|>
-            {{! @glint-expect-error }}
-            <field.input @type="checkbox" />
-          </form.field>
-        </HeadlessForm>
-      </template>);
-    });
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field @name="checked" as |field|>
+              {{! @glint-expect-error }}
+              <field.input @type={{type}} />
+            </form.field>
+          </HeadlessForm>
+        </template>);
+      })
+    );
   });
 
   module('field.checkbox', function () {

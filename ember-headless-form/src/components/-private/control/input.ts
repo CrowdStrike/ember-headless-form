@@ -47,7 +47,7 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
       `input component does not support @type="${args.type}" as there is a dedicated component for this. Please use the \`field.${args.type}\` instead!`,
       args.type === undefined ||
         // TS would guard us against using an unsupported `InputType`, but for JS consumers we add a dev-only runtime check here
-        (args.type as string) !== 'checkbox'
+        !['checkbox', 'radio'].includes(args.type as string)
     );
 
     super(owner, args);
