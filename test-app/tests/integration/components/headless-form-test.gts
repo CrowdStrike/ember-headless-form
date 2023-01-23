@@ -399,7 +399,7 @@ module('Integration Component headless-form', function (hooks) {
         assert.deepEqual(
           data,
           { firstName: 'Tony', lastName: 'Ward', acceptTerms: false },
-          'data is not mutated'
+          'original data is not mutated'
         );
 
         assert.true(
@@ -455,13 +455,14 @@ module('Integration Component headless-form', function (hooks) {
 
     test('@name argument only expects keys of @data', async function (assert) {
       assert.expect(0);
+      // Note that we have only firstName here in the type that is passed to @data, no lastName!
       const data = { firstName: 'Simon' };
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
           {{! this is valid }}
           <form.field @name="firstName" />
-          {{! @glint-expect-error this is expected to be a glint error! }}
+          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
           <form.field @name="lastName" />
         </HeadlessForm>
       </template>);
@@ -475,7 +476,7 @@ module('Integration Component headless-form', function (hooks) {
         <HeadlessForm @data={{data}} as |form|>
           {{! this is valid }}
           <form.field @name="firstName" />
-          {{! @glint-expect-error this is expected to be a glint error! }}
+          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
           <form.field @name="lastName" />
         </HeadlessForm>
       </template>);
@@ -487,7 +488,7 @@ module('Integration Component headless-form', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          {{! @glint-expect-error this is expected to be a glint error! }}
+          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
           <form.field @name="firstName" />
         </HeadlessForm>
       </template>);

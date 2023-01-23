@@ -59,6 +59,7 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
 
   @action
   handleInput(e: Event | InputEvent): void {
-    this.args.setValue((e.target as HTMLInputElement).value);
+    assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
+    this.args.setValue(e.target.value);
   }
 }
