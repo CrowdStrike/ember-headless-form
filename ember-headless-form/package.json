@@ -76,7 +76,7 @@
     "prettier": "^2.8.3",
     "rollup": "^2.67.0",
     "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-ts": "^3.0.2",
+    "rollup-plugin-ts": "^3.2.0",
     "typescript": "^4.7.4"
   },
   "publishConfig": {
@@ -107,5 +107,8 @@
         "dist/*"
       ]
     }
+  },
+  "volta": {
+    "node": "14.21.2"
   }
 }

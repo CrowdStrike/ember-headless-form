@@ -42,5 +42,8 @@
         "@babel/core": "See https://github.com/embroider-build/addon-blueprint/pull/77"
       }
     }
+  },
+  "volta": {
+    "node": "18.13.0"
   }
 }
