@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 import { TrackedObject } from 'tracked-built-ins';
@@ -17,12 +18,14 @@ export interface ValidationError<T = unknown> {
   message?: string;
 }
 
+export type ErrorRecord<
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
+> = Partial<Record<KEY, ValidationError<DATA[KEY]>[]>>;
+
 export type FormValidateCallback<DATA extends HeadlessFormData> = (
   formData: DATA
-) =>
-  | true
-  | Record<keyof DATA, ValidationError[]>
-  | Promise<true | Record<keyof DATA, ValidationError[]>>;
+) => true | ErrorRecord<DATA> | Promise<true | ErrorRecord<DATA>>;
 
 export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
   Element: HTMLFormElement;
@@ -36,7 +39,10 @@ export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
   Blocks: {
     default: [
       {
-        field: WithBoundArgs<typeof FieldComponent<DATA>, 'data' | 'set'>;
+        field: WithBoundArgs<
+          typeof FieldComponent<DATA>,
+          'data' | 'set' | 'errors'
+        >;
       }
     ];
   };
@@ -50,6 +56,8 @@ export default class HeadlessFormComponent<
 
   internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
 
+  @tracked errors?: ErrorRecord<DATA>;
+
   get validateOn(): ValidateOn {
     return this.args.validateOn ?? 'submit';
   }
@@ -59,8 +67,16 @@ export default class HeadlessFormComponent<
   }
 
   @action
-  onSubmit(e: Event): void {
+  async onSubmit(e: Event): Promise<void> {
     e.preventDefault();
+
+    if (this.args.validate) {
+      const validationResult = await this.args.validate(this.internalData);
+
+      if (validationResult !== true) {
+        this.errors = validationResult;
+      }
+    }
 
     this.args.onSubmit?.(this.internalData);
   }

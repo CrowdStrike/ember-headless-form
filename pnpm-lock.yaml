@@ -25,6 +25,7 @@ importers:
       '@embroider/addon-shim': ^1.0.0
       '@embroider/util': ^1.9.0
       '@glimmer/component': ^1.1.2
+      '@glimmer/tracking': ^1.1.2
       '@glint/core': ^0.9.7
       '@glint/environment-ember-loose': ^0.9.7
       '@glint/template': ^0.9.7
@@ -75,6 +76,7 @@ importers:
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.12
       '@embroider/addon-dev': 3.0.0_rollup@2.79.1
       '@glimmer/component': 1.1.2_@babel+core@7.20.12
+      '@glimmer/tracking': 1.1.2
       '@glint/core': 0.9.7_typescript@4.9.4
       '@glint/environment-ember-loose': 0.9.7_@glimmer+component@1.1.2
       '@glint/template': 0.9.7_@glimmer+component@1.1.2

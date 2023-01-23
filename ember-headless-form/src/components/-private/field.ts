@@ -8,7 +8,11 @@ import RadioComponent from './control/radio';
 import TextareaComponent from './control/textarea';
 import LabelComponent from './label';
 
-import type { HeadlessFormData, ValidationError } from '../headless-form';
+import type {
+  ErrorRecord,
+  HeadlessFormData,
+  ValidationError,
+} from '../headless-form';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
 import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
@@ -37,6 +41,7 @@ export interface HeadlessFormFieldComponentSignature<
     name: KEY;
     set: (key: KEY, value: DATA[KEY]) => void;
     validate?: FieldValidateCallback<DATA, KEY>;
+    errors?: ErrorRecord<DATA, KEY>;
   };
   Blocks: {
     default: [
@@ -58,7 +63,7 @@ export interface HeadlessFormFieldComponentSignature<
         value: DATA[KEY];
         id: string;
         setValue: (value: DATA[KEY]) => void;
-        errors: ValidationError<DATA[KEY]>[];
+        errors?: ValidationError<DATA[KEY]>[];
       }
     ];
   };
@@ -83,8 +88,8 @@ export default class HeadlessFormFieldComponent<
     return this.args.data[this.args.name];
   }
 
-  get errors(): ValidationError<DATA[KEY]>[] {
-    return [];
+  get errors(): ValidationError<DATA[KEY]>[] | undefined {
+    return this.args.errors?.[this.args.name];
   }
 
   get valueAsString(): string | undefined {

@@ -658,6 +658,97 @@ module('Integration Component headless-form', function (hooks) {
     });
   });
 
+  module('validation', function () {
+    module('form @validation callback', function () {
+      test('validation callback is called on submit', async function (assert) {
+        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const validateCallback = sinon.spy();
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledWith(data),
+          '@validate is called with form data'
+        );
+      });
+
+      test('form validation errors are exposed as field.errors on submit', async function (assert) {
+        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const validateCallback = ({ firstName }: { firstName: string }) =>
+          firstName === 'Foo'
+            ? {
+                firstName: [
+                  {
+                    type: 'custom',
+                    value: firstName,
+                    message: 'Foo is an invalid first name!',
+                  },
+                ],
+              }
+            : true;
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+              {{#each field.errors as |e|}}
+                <div data-test-first-name-error>
+                  <div data-test-error-type>
+                    {{e.type}}
+                  </div>
+                  <div data-test-error-value>
+                    {{e.value}}
+                  </div>
+                  <div data-test-error-message>
+                    {{e.message}}
+                  </div>
+                </div>
+              {{/each}}
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+              {{#if field.errors}}
+                <div data-test-last-name-errors />
+              {{/if}}
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name-error]').exists({ count: 1 });
+        assert
+          .dom('[data-test-first-name-error] [data-test-error-type]')
+          .hasText('custom');
+        assert
+          .dom('[data-test-first-name-error] [data-test-error-value]')
+          .hasText('Foo');
+        assert
+          .dom('[data-test-first-name-error] [data-test-error-message]')
+          .hasText('Foo is an invalid first name!');
+
+        assert.dom('[data-test-last-name-errors]').doesNotExist();
+      });
+    });
+  });
+
   module('Glint', function () {
     // These tests are not testing any new run-time behaviour that isn't tested elsewhere already.
     // Rather they are here to make sure they pass glint checks, testing for their types constraints to work as expected
