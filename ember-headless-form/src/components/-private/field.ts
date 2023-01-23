@@ -4,11 +4,13 @@ import { action } from '@ember/object';
 
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
+import TextareaComponent from './control/textarea';
 import LabelComponent from './field/label';
 
 import type { HeadlessFormData } from '../headless-form';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
+import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
 import type { HeadlessFormFieldLabelComponentSignature } from './field/label';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
@@ -33,6 +35,10 @@ export interface HeadlessFormFieldComponentSignature<
           typeof CheckboxComponent,
           'fieldId' | 'value' | 'setValue'
         >;
+        textarea: WithBoundArgs<
+          typeof TextareaComponent,
+          'fieldId' | 'value' | 'setValue'
+        >;
         value: DATA[KEY];
         id: string;
         setValue: (value: DATA[KEY]) => void;
@@ -51,6 +57,8 @@ export default class HeadlessFormFieldComponent<
     InputComponent;
   CheckboxComponent: ComponentLike<HeadlessFormControlCheckboxComponentSignature> =
     CheckboxComponent;
+  TextareaComponent: ComponentLike<HeadlessFormControlTextareaComponentSignature> =
+    TextareaComponent;
 
   get value(): DATA[KEY] {
     return this.args.data[this.args.name];

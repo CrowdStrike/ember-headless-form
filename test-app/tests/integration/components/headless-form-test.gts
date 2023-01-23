@@ -247,10 +247,39 @@ module('Integration Component headless-form', function (hooks) {
     });
   });
 
+  module('field.textarea', function () {
+    test('field yields textarea component', async function (assert) {
+      const data: { checked?: boolean } = {};
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="checked" as |field|>
+            <field.textarea class="my-textarea" data-test-textarea />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('textarea')
+        .exists('render a textarea')
+        .hasClass('my-textarea', 'it accepts custom HTML classes')
+        .hasAttribute(
+          'data-test-textarea',
+          '',
+          'it accepts arbitrary HTML attributes'
+        );
+    });
+  });
+
   module('data', function () {
     module('data down', function () {
       test('data is passed to form controls', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward', acceptTerms: true };
+        const data = {
+          firstName: 'Tony',
+          lastName: 'Ward',
+          comments: 'lorem ipsum',
+          acceptTerms: true,
+        };
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
@@ -262,6 +291,10 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="comments" as |field|>
+              <field.label>Comments</field.label>
+              <field.textarea data-test-comments />
+            </form.field>
             <form.field @name="acceptTerms" as |field|>
               <field.label>Terms accepted</field.label>
               <field.checkbox data-test-terms />
@@ -271,6 +304,7 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
         assert.dom('input[data-test-terms]').isChecked();
       });
 
@@ -365,6 +399,7 @@ module('Integration Component headless-form', function (hooks) {
         const data = {
           firstName: 'Tony',
           lastName: 'Ward',
+          comments: 'lorem ipsum',
           acceptTerms: false,
         };
         const submitHandler = sinon.spy();
@@ -379,6 +414,10 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
+            <form.field @name="comments" as |field|>
+              <field.label>Comments</field.label>
+              <field.textarea data-test-comments />
+            </form.field>
             <form.field @name="acceptTerms" as |field|>
               <field.label>Terms accepted</field.label>
               <field.checkbox data-test-terms />
@@ -389,16 +428,23 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input[data-test-first-name]').hasValue('Tony');
         assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
         assert.dom('input[data-test-terms]').isNotChecked();
 
         await fillIn('input[data-test-first-name]', 'Nicole');
         await fillIn('input[data-test-last-name]', 'Chung');
+        await fillIn('textarea[data-test-comments]', 'foo bar');
         await click('input[data-test-terms]');
         await click('[data-test-submit]');
 
         assert.deepEqual(
           data,
-          { firstName: 'Tony', lastName: 'Ward', acceptTerms: false },
+          {
+            firstName: 'Tony',
+            lastName: 'Ward',
+            comments: 'lorem ipsum',
+            acceptTerms: false,
+          },
           'original data is not mutated'
         );
 
@@ -406,6 +452,7 @@ module('Integration Component headless-form', function (hooks) {
           submitHandler.calledWith({
             firstName: 'Nicole',
             lastName: 'Chung',
+            comments: 'foo bar',
             acceptTerms: true,
           }),
           'new data is passed to submit handler'
