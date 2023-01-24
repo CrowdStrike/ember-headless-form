@@ -1,8 +1,9 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 
-import { TrackedMap, TrackedObject } from 'tracked-built-ins';
+import { TrackedObject } from 'tracked-built-ins';
 
 import FieldComponent from './-private/field';
 
@@ -86,7 +87,7 @@ export default class HeadlessFormComponent<
 
   internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
 
-  fields = new TrackedMap<keyof DATA, FieldData<DATA>>();
+  fields = new Map<keyof DATA, FieldData<DATA>>();
 
   @tracked lastValidationResult?: ErrorRecord<DATA>;
 
@@ -150,6 +151,12 @@ export default class HeadlessFormComponent<
 
   @action
   registerField(name: keyof DATA, field: FieldData<DATA>): void {
+    assert(
+      `You passed @name="${String(
+        name
+      )}" to the form field, but this is already in use. Names of form fields must be unique!`,
+      !this.fields.has(name)
+    );
     this.fields.set(name, field);
   }
 

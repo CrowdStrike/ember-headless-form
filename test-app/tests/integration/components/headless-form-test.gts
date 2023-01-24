@@ -55,6 +55,26 @@ module('Integration Component headless-form', function (hooks) {
         .exists('field component contains no markup itself');
     });
 
+    test('@name must be unique', async function (assert) {
+      assert.expect(1);
+      const data = { firstName: 'Simon' };
+
+      setupOnerror((e: Error) => {
+        assert.strictEqual(
+          e.message,
+          'Assertion Failed: You passed @name="firstName" to the form field, but this is already in use. Names of form fields must be unique!',
+          'Expected assertion error message'
+        );
+      });
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="firstName" />
+          <form.field @name="firstName" />
+        </HeadlessForm>
+      </template>);
+    });
+
     test('id is yielded from field component', async function (this: RenderingTestContext, assert) {
       const data = { firstName: 'Simon' };
 
