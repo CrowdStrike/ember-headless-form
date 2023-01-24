@@ -782,6 +782,116 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('[data-test-last-name-errors]').doesNotExist();
       });
+
+      test('validation errors for dynamically removed fields are not taken into account', async function (assert) {
+        const data: { firstName?: string; lastName?: string } = {};
+        const submitHandler = sinon.spy();
+        // This validation callback intentionally always returns an error, as it should be ignored
+        const validateCallback = (formData: typeof data) => ({
+          firstName: [
+            {
+              type: 'dummy',
+              value: undefined,
+            },
+          ],
+          lastName: [
+            {
+              type: 'dummy',
+              value: undefined,
+            },
+          ],
+        });
+
+        class FormState {
+          @tracked showFirstName = true;
+          @tracked showLastName = true;
+        }
+        const formState = new FormState();
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @validate={{validateCallback}}
+            @onSubmit={{submitHandler}}
+            as |form|
+          >
+            {{#if formState.showFirstName}}
+              <form.field @name="firstName" as |field|>
+                <field.label>First Name</field.label>
+                <field.input data-test-first-name />
+                {{#if field.errors}}
+                  <div data-test-first-name-error />
+                {{/if}}
+              </form.field>
+            {{/if}}
+            {{#if formState.showLastName}}
+              <form.field @name="lastName" as |field|>
+                <field.label>Last Name</field.label>
+                <field.input data-test-last-name />
+                {{#if field.errors}}
+                  <div data-test-last-name-error />
+                {{/if}}
+              </form.field>
+            {{/if}}
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert
+          .dom('[data-test-first-name-error]')
+          .exists(
+            'validation errors are shown for firstName while being visible'
+          );
+        assert
+          .dom('[data-test-last-name-error]')
+          .exists(
+            'validation errors are shown for lastName while being visible'
+          );
+        assert.false(submitHandler.called, '@onSubmit has not been called');
+
+        formState.showFirstName = false;
+
+        await rerender();
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name-error]').doesNotExist();
+        assert
+          .dom('[data-test-last-name-error]')
+          .exists(
+            'validation errors are shown for lastName while being visible'
+          );
+        assert.false(submitHandler.called, '@onSubmit has not been called');
+
+        formState.showLastName = false;
+
+        await rerender();
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name-error]').doesNotExist();
+        assert.dom('[data-test-last-name-error]').doesNotExist();
+        assert.true(
+          submitHandler.called,
+          '@onSubmit has been called when no invalid field is left'
+        );
+
+        formState.showFirstName = true;
+        await rerender();
+
+        assert
+          .dom('[data-test-first-name-error]')
+          .exists(
+            'validation errors are shown for firstName when being visible again'
+          );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          submitHandler.calledOnce,
+          '@onSubmit has not been called again'
+        );
+      });
     });
 
     module('form.field @validation callback', function () {
@@ -909,6 +1019,95 @@ module('Integration Component headless-form', function (hooks) {
           .hasText('Foo is an invalid first name!');
 
         assert.dom('[data-test-last-name-errors]').doesNotExist();
+      });
+
+      test('validation errors for dynamically removed fields are not taken into account', async function (assert) {
+        const data: { firstName?: string; lastName?: string } = {};
+        const submitHandler = sinon.spy();
+        // This validation callback intentionally always returns an error, as it should be ignored
+        const validateCallback = () => [
+          {
+            type: 'dummy',
+            value: undefined,
+          },
+        ];
+
+        class FormState {
+          @tracked showFirstName = true;
+          @tracked showLastName = true;
+        }
+        const formState = new FormState();
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+            {{#if formState.showFirstName}}
+              <form.field
+                @name="firstName"
+                @validate={{validateCallback}}
+                as |field|
+              >
+                <field.label>First Name</field.label>
+                <field.input data-test-first-name />
+                {{#if field.errors}}
+                  <div data-test-first-name-error />
+                {{/if}}
+              </form.field>
+            {{/if}}
+            {{#if formState.showLastName}}
+              <form.field
+                @name="lastName"
+                @validate={{validateCallback}}
+                as |field|
+              >
+                <field.label>Last Name</field.label>
+                <field.input data-test-last-name />
+                {{#if field.errors}}
+                  <div data-test-last-name-error />
+                {{/if}}
+              </form.field>
+            {{/if}}
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert
+          .dom('[data-test-first-name-error]')
+          .exists(
+            'validation errors are shown for firstName while being visible'
+          );
+        assert
+          .dom('[data-test-last-name-error]')
+          .exists(
+            'validation errors are shown for lastName while being visible'
+          );
+        assert.false(submitHandler.called, '@onSubmit has not been called');
+
+        formState.showFirstName = false;
+
+        await rerender();
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name-error]').doesNotExist();
+        assert
+          .dom('[data-test-last-name-error]')
+          .exists(
+            'validation errors are shown for lastName while being visible'
+          );
+        assert.false(submitHandler.called, '@onSubmit has not been called');
+
+        formState.showLastName = false;
+
+        await rerender();
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name-error]').doesNotExist();
+        assert.dom('[data-test-last-name-error]').doesNotExist();
+        assert.true(
+          submitHandler.called,
+          '@onSubmit has been called when no invalid field is left'
+        );
       });
 
       test('field validation errors are merged with form validation errors', async function (assert) {

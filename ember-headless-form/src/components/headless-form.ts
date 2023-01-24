@@ -14,6 +14,7 @@ export type ValidateOn = 'change' | 'blur' | 'submit';
 
 export interface ValidationError<T = unknown> {
   type: string;
+  // @todo does a validator need to add this? we already have the value internally
   value: T;
   message?: string;
 }
@@ -87,7 +88,7 @@ export default class HeadlessFormComponent<
 
   fields = new TrackedMap<keyof DATA, FieldData<DATA>>();
 
-  @tracked errors?: ErrorRecord<DATA>;
+  @tracked lastValidationResult?: ErrorRecord<DATA>;
 
   get validateOn(): ValidateOn {
     return this.args.validateOn ?? 'submit';
@@ -95,6 +96,15 @@ export default class HeadlessFormComponent<
 
   get revalidateOn(): ValidateOn {
     return this.args.revalidateOn ?? 'change';
+  }
+
+  get hasValidationErrors(): boolean {
+    // Only consider validation errors for which we actually have a field rendered
+    return this.lastValidationResult
+      ? Object.keys(this.lastValidationResult).some((name) =>
+          this.fields.has(name as keyof DATA)
+        )
+      : false;
   }
 
   async validate(): Promise<ErrorRecord<DATA> | undefined> {
@@ -131,11 +141,9 @@ export default class HeadlessFormComponent<
   async onSubmit(e: Event): Promise<void> {
     e.preventDefault();
 
-    const validationResult = await this.validate();
+    this.lastValidationResult = await this.validate();
 
-    if (validationResult) {
-      this.errors = validationResult;
-    } else {
+    if (!this.hasValidationErrors) {
       this.args.onSubmit?.(this.internalData);
     }
   }
