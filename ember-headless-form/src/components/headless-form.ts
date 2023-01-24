@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-import { TrackedObject } from 'tracked-built-ins';
+import { TrackedMap, TrackedObject } from 'tracked-built-ins';
 
 import FieldComponent from './-private/field';
 
@@ -25,7 +25,36 @@ export type ErrorRecord<
 
 export type FormValidateCallback<DATA extends HeadlessFormData> = (
   formData: DATA
-) => true | ErrorRecord<DATA> | Promise<true | ErrorRecord<DATA>>;
+) => undefined | ErrorRecord<DATA> | Promise<undefined | ErrorRecord<DATA>>;
+
+export type FieldValidateCallback<
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
+> = (
+  fieldValue: DATA[KEY],
+  fieldName: KEY,
+  formData: DATA
+) =>
+  | undefined
+  | ValidationError<DATA[KEY]>[]
+  | Promise<undefined | ValidationError<DATA[KEY]>[]>;
+
+export interface FieldData<
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
+> {
+  validate?: FieldValidateCallback<DATA, KEY>;
+}
+
+export type RegisterFieldCallback<
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
+> = (name: KEY, field: FieldData<DATA, KEY>) => void;
+
+export type UnregisterFieldCallback<
+  DATA extends HeadlessFormData,
+  KEY extends keyof DATA = keyof DATA
+> = (name: KEY) => void;
 
 export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
   Element: HTMLFormElement;
@@ -41,7 +70,7 @@ export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
       {
         field: WithBoundArgs<
           typeof FieldComponent<DATA>,
-          'data' | 'set' | 'errors'
+          'data' | 'set' | 'errors' | 'registerField' | 'unregisterField'
         >;
       }
     ];
@@ -56,6 +85,8 @@ export default class HeadlessFormComponent<
 
   internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
 
+  fields = new TrackedMap<keyof DATA, FieldData<DATA>>();
+
   @tracked errors?: ErrorRecord<DATA>;
 
   get validateOn(): ValidateOn {
@@ -66,19 +97,54 @@ export default class HeadlessFormComponent<
     return this.args.revalidateOn ?? 'change';
   }
 
+  async validate(): Promise<ErrorRecord<DATA> | undefined> {
+    let errors: ErrorRecord<DATA> | undefined = undefined;
+
+    if (this.args.validate) {
+      errors = await this.args.validate(this.internalData);
+    }
+
+    if (!errors) {
+      errors = {};
+    }
+
+    for (const [name, field] of this.fields) {
+      const fieldValidation = await field.validate?.(
+        this.internalData[name],
+        name,
+        this.internalData
+      );
+
+      if (fieldValidation) {
+        errors[name] = fieldValidation;
+      }
+    }
+
+    return Object.keys(errors).length > 0 ? errors : undefined;
+  }
+
   @action
   async onSubmit(e: Event): Promise<void> {
     e.preventDefault();
 
-    if (this.args.validate) {
-      const validationResult = await this.args.validate(this.internalData);
+    const validationResult = await this.validate();
 
-      if (validationResult !== true) {
-        this.errors = validationResult;
-      }
+    if (validationResult) {
+      this.errors = validationResult;
     }
 
+    // @todo only when valid
     this.args.onSubmit?.(this.internalData);
+  }
+
+  @action
+  registerField(name: keyof DATA, field: FieldData<DATA>): void {
+    this.fields.set(name, field);
+  }
+
+  @action
+  unregisterField(name: keyof DATA): void {
+    this.fields.delete(name);
   }
 
   @action

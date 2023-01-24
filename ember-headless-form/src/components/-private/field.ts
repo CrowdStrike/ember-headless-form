@@ -10,7 +10,10 @@ import LabelComponent from './label';
 
 import type {
   ErrorRecord,
+  FieldValidateCallback,
   HeadlessFormData,
+  RegisterFieldCallback,
+  UnregisterFieldCallback,
   ValidationError,
 } from '../headless-form';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
@@ -19,18 +22,6 @@ import type { HeadlessFormControlRadioComponentSignature } from './control/radio
 import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
 import type { HeadlessFormLabelComponentSignature } from './label';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
-
-export type FieldValidateCallback<
-  DATA extends HeadlessFormData,
-  KEY extends keyof DATA = keyof DATA
-> = (
-  fieldValue: DATA[KEY],
-  fieldName: KEY,
-  formData: DATA
-) =>
-  | true
-  | ValidationError<DATA[KEY]>[]
-  | Promise<true | ValidationError<DATA[KEY]>[]>;
 
 export interface HeadlessFormFieldComponentSignature<
   DATA extends HeadlessFormData,
@@ -42,6 +33,8 @@ export interface HeadlessFormFieldComponentSignature<
     set: (key: KEY, value: DATA[KEY]) => void;
     validate?: FieldValidateCallback<DATA, KEY>;
     errors?: ErrorRecord<DATA, KEY>;
+    registerField: RegisterFieldCallback<DATA, KEY>;
+    unregisterField: UnregisterFieldCallback<DATA, KEY>;
   };
   Blocks: {
     default: [
@@ -83,6 +76,23 @@ export default class HeadlessFormFieldComponent<
     TextareaComponent;
   RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =
     RadioComponent;
+
+  constructor(
+    owner: unknown,
+    args: HeadlessFormFieldComponentSignature<DATA, KEY>['Args']
+  ) {
+    super(owner, args);
+
+    this.args.registerField(this.args.name, {
+      validate: this.args.validate,
+    });
+  }
+
+  willDestroy(): void {
+    this.args.unregisterField(this.args.name);
+
+    super.willDestroy();
+  }
 
   get value(): DATA[KEY] {
     return this.args.data[this.args.name];
