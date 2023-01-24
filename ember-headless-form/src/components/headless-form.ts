@@ -135,10 +135,9 @@ export default class HeadlessFormComponent<
 
     if (validationResult) {
       this.errors = validationResult;
+    } else {
+      this.args.onSubmit?.(this.internalData);
     }
-
-    // @todo only when valid
-    this.args.onSubmit?.(this.internalData);
   }
 
   @action

@@ -686,6 +686,42 @@ module('Integration Component headless-form', function (hooks) {
         );
       });
 
+      test('onSubmit is not called when validation fails', async function (assert) {
+        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const submitHandler = sinon.spy();
+        const validateCallback = ({ firstName }: { firstName: string }) =>
+          firstName.toLowerCase() === 'foo'
+            ? {
+                firstName: [
+                  {
+                    type: 'notFoo',
+                    value: firstName,
+                    message: 'Foo is an invalid first name!',
+                  },
+                ],
+              }
+            : undefined;
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @validate={{validateCallback}}
+            @onSubmit={{submitHandler}}
+            as |form|
+          >
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.false(submitHandler.called, '@onSubmit is not called');
+      });
+
       test('validation errors are exposed as field.errors on submit', async function (assert) {
         const data = { firstName: 'Foo', lastName: 'Smith' };
         const validateCallback = ({ firstName }: { firstName: string }) =>
@@ -777,6 +813,39 @@ module('Integration Component headless-form', function (hooks) {
           validateCallback.calledWith(data.firstName, 'firstName', data),
           '@validate is called with form data'
         );
+      });
+
+      test('onSubmit is not called when validation fails', async function (assert) {
+        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const submitHandler = sinon.spy();
+        const validateCallback = (firstName: string) =>
+          firstName.toLowerCase() === 'foo'
+            ? [
+                {
+                  type: 'notFoo',
+                  value: firstName,
+                  message: 'Foo is an invalid first name!',
+                },
+              ]
+            : undefined;
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+            <form.field
+              @name="firstName"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.false(submitHandler.called, '@onSubmit is not called');
       });
 
       test('validation errors are exposed as field.errors on submit', async function (assert) {
