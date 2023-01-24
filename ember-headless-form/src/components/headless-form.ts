@@ -116,7 +116,11 @@ export default class HeadlessFormComponent<
       );
 
       if (fieldValidation) {
-        errors[name] = fieldValidation;
+        const existingFieldErrors = errors[name];
+
+        errors[name] = existingFieldErrors
+          ? [...existingFieldErrors, ...fieldValidation]
+          : fieldValidation;
       }
     }
 
