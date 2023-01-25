@@ -6,6 +6,7 @@ import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import RadioComponent from './control/radio';
 import TextareaComponent from './control/textarea';
+import ErrorsComponent from './errors';
 import LabelComponent from './label';
 
 import type {
@@ -20,6 +21,7 @@ import type { HeadlessFormControlCheckboxComponentSignature } from './control/ch
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
 import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
 import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
+import type { HeadlessFormErrorsComponentSignature } from './errors';
 import type { HeadlessFormLabelComponentSignature } from './label';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
@@ -56,7 +58,7 @@ export interface HeadlessFormFieldComponentSignature<
         value: DATA[KEY];
         id: string;
         setValue: (value: DATA[KEY]) => void;
-        errors?: ValidationError<DATA[KEY]>[];
+        errors?: WithBoundArgs<typeof ErrorsComponent, 'errors'>;
       }
     ];
   };
@@ -72,6 +74,8 @@ export default class HeadlessFormFieldComponent<
     InputComponent;
   CheckboxComponent: ComponentLike<HeadlessFormControlCheckboxComponentSignature> =
     CheckboxComponent;
+  ErrorsComponent: ComponentLike<HeadlessFormErrorsComponentSignature> =
+    ErrorsComponent;
   TextareaComponent: ComponentLike<HeadlessFormControlTextareaComponentSignature> =
     TextareaComponent;
   RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =

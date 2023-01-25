@@ -842,44 +842,102 @@ module('Integration Component headless-form', function (hooks) {
 
       test('validation errors are exposed as field.errors on submit', async function (assert) {
         const data = { firstName: 'Foo', lastName: 'Smith' };
-        const validateCallback = ({ firstName }: { firstName: string }) =>
-          firstName.toLowerCase() === 'foo'
-            ? {
-                firstName: [
-                  {
-                    type: 'notFoo',
-                    value: firstName,
-                    message: 'Foo is an invalid first name!',
-                  },
-                ],
-              }
+        const validateCallback = ({ firstName }: { firstName: string }) => {
+          const firstNameErrors = [];
+          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
+            firstNameErrors.push({
+              type: 'uppercase',
+              value: firstName,
+              message: 'First name must be upper case!',
+            });
+          }
+
+          if (firstName.toLowerCase() === 'foo') {
+            firstNameErrors.push({
+              type: 'notFoo',
+              value: firstName,
+              message: 'Foo is an invalid first name!',
+            });
+          }
+
+          return firstNameErrors.length > 0
+            ? { firstName: firstNameErrors }
             : undefined;
+        };
 
         await render(<template>
           <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
             <form.field @name="firstName" as |field|>
               <field.label>First Name</field.label>
               <field.input data-test-first-name />
-              {{#each field.errors as |e|}}
-                <div data-test-first-name-error>
-                  <div data-test-error-type>
-                    {{e.type}}
-                  </div>
-                  <div data-test-error-value>
-                    {{e.value}}
-                  </div>
-                  <div data-test-error-message>
-                    {{e.message}}
-                  </div>
-                </div>
-              {{/each}}
+              <field.errors data-test-first-name-errors />
             </form.field>
             <form.field @name="lastName" as |field|>
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
-              {{#if field.errors}}
-                <div data-test-last-name-errors />
-              {{/if}}
+              <field.errors data-test-last-name-errors />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before validation happens'
+          );
+
+        await click('[data-test-submit]');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors appear when validation fails'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered when validation succeeds'
+          );
+      });
+
+      test('field.errors renders all error messages in non-block mode', async function (assert) {
+        const data = { firstName: 'foo' };
+        const validateCallback = ({ firstName }: { firstName: string }) => {
+          const firstNameErrors = [];
+          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
+            firstNameErrors.push({
+              type: 'uppercase',
+              value: firstName,
+              message: 'First name must be upper case!',
+            });
+          }
+
+          if (firstName.toLowerCase() === 'foo') {
+            firstNameErrors.push({
+              type: 'notFoo',
+              value: firstName,
+              message: 'Foo is an invalid first name!',
+            });
+          }
+
+          return firstNameErrors.length > 0
+            ? { firstName: firstNameErrors }
+            : undefined;
+        };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+              <field.errors data-test-first-name-errors />
             </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -887,25 +945,109 @@ module('Integration Component headless-form', function (hooks) {
 
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').exists({ count: 1 });
         assert
-          .dom('[data-test-first-name-error] [data-test-error-type]')
+          .dom('[data-test-first-name-errors]')
+          .exists({ count: 1 })
+          .hasText(
+            'First name must be upper case! Foo is an invalid first name!'
+          );
+      });
+
+      test('field.errors yields errors in block mode', async function (assert) {
+        const data = { firstName: 'foo' };
+        const validateCallback = ({ firstName }: { firstName: string }) => {
+          const firstNameErrors = [];
+          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
+            firstNameErrors.push({
+              type: 'uppercase',
+              value: firstName,
+              message: 'First name must be upper case!',
+            });
+          }
+
+          if (firstName.toLowerCase() === 'foo') {
+            firstNameErrors.push({
+              type: 'notFoo',
+              value: firstName,
+              message: 'Foo is an invalid first name!',
+            });
+          }
+
+          return firstNameErrors.length > 0
+            ? { firstName: firstNameErrors }
+            : undefined;
+        };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+              <field.errors data-test-first-name-errors as |errors|>
+                {{#each errors as |e|}}
+                  <div data-test-error>
+                    <div data-test-error-type>
+                      {{e.type}}
+                    </div>
+                    <div data-test-error-value>
+                      {{e.value}}
+                    </div>
+                    <div data-test-error-message>
+                      {{e.message}}
+                    </div>
+                  </div>
+                {{/each}}
+              </field.errors>
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name-errors]').exists({ count: 1 });
+        assert
+          .dom('[data-test-first-name-errors] [data-test-error]')
+          .exists({ count: 2 });
+
+        assert
+          .dom(
+            '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-type]'
+          )
+          .hasText('uppercase');
+        assert
+          .dom(
+            '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-value]'
+          )
+          .hasText('foo');
+        assert
+          .dom(
+            '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-message]'
+          )
+          .hasText('First name must be upper case!');
+
+        assert
+          .dom(
+            '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-type]'
+          )
           .hasText('notFoo');
         assert
-          .dom('[data-test-first-name-error] [data-test-error-value]')
-          .hasText('Foo');
+          .dom(
+            '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-value]'
+          )
+          .hasText('foo');
         assert
-          .dom('[data-test-first-name-error] [data-test-error-message]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-message]'
+          )
           .hasText('Foo is an invalid first name!');
-
-        assert.dom('[data-test-last-name-errors]').doesNotExist();
       });
 
       test('validation errors for dynamically removed fields are not taken into account', async function (assert) {
         const data: { firstName?: string; lastName?: string } = {};
         const submitHandler = sinon.spy();
         // This validation callback intentionally always returns an error, as it should be ignored
-        const validateCallback = (formData: typeof data) => ({
+        const validateCallback = () => ({
           firstName: [
             {
               type: 'dummy',
@@ -937,18 +1079,14 @@ module('Integration Component headless-form', function (hooks) {
               <form.field @name="firstName" as |field|>
                 <field.label>First Name</field.label>
                 <field.input data-test-first-name />
-                {{#if field.errors}}
-                  <div data-test-first-name-error />
-                {{/if}}
+                <field.errors data-test-first-name-errors />
               </form.field>
             {{/if}}
             {{#if formState.showLastName}}
               <form.field @name="lastName" as |field|>
                 <field.label>Last Name</field.label>
                 <field.input data-test-last-name />
-                {{#if field.errors}}
-                  <div data-test-last-name-error />
-                {{/if}}
+                <field.errors data-test-last-name-errors />
               </form.field>
             {{/if}}
             <button type="submit" data-test-submit>Submit</button>
@@ -958,12 +1096,12 @@ module('Integration Component headless-form', function (hooks) {
         await click('[data-test-submit]');
 
         assert
-          .dom('[data-test-first-name-error]')
+          .dom('[data-test-first-name-errors]')
           .exists(
             'validation errors are shown for firstName while being visible'
           );
         assert
-          .dom('[data-test-last-name-error]')
+          .dom('[data-test-last-name-errors]')
           .exists(
             'validation errors are shown for lastName while being visible'
           );
@@ -974,9 +1112,9 @@ module('Integration Component headless-form', function (hooks) {
         await rerender();
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').doesNotExist();
+        assert.dom('[data-test-first-name-errors]').doesNotExist();
         assert
-          .dom('[data-test-last-name-error]')
+          .dom('[data-test-last-name-errors]')
           .exists(
             'validation errors are shown for lastName while being visible'
           );
@@ -987,8 +1125,8 @@ module('Integration Component headless-form', function (hooks) {
         await rerender();
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').doesNotExist();
-        assert.dom('[data-test-last-name-error]').doesNotExist();
+        assert.dom('[data-test-first-name-errors]').doesNotExist();
+        assert.dom('[data-test-last-name-errors]').doesNotExist();
         assert.true(
           submitHandler.called,
           '@onSubmit has been called when no invalid field is left'
@@ -998,7 +1136,7 @@ module('Integration Component headless-form', function (hooks) {
         await rerender();
 
         assert
-          .dom('[data-test-first-name-error]')
+          .dom('[data-test-first-name-errors]')
           .exists(
             'validation errors are shown for firstName when being visible again'
           );
@@ -1128,26 +1266,12 @@ module('Integration Component headless-form', function (hooks) {
             >
               <field.label>First Name</field.label>
               <field.input data-test-first-name />
-              {{#each field.errors as |e|}}
-                <div data-test-first-name-error>
-                  <div data-test-error-type>
-                    {{e.type}}
-                  </div>
-                  <div data-test-error-value>
-                    {{e.value}}
-                  </div>
-                  <div data-test-error-message>
-                    {{e.message}}
-                  </div>
-                </div>
-              {{/each}}
+              <field.errors data-test-first-name-errors />
             </form.field>
             <form.field @name="lastName" as |field|>
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
-              {{#if field.errors}}
-                <div data-test-last-name-errors />
-              {{/if}}
+              <field.errors data-test-last-name-errors />
             </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1155,17 +1279,7 @@ module('Integration Component headless-form', function (hooks) {
 
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').exists({ count: 1 });
-        assert
-          .dom('[data-test-first-name-error] [data-test-error-type]')
-          .hasText('notFoo');
-        assert
-          .dom('[data-test-first-name-error] [data-test-error-value]')
-          .hasText('Foo');
-        assert
-          .dom('[data-test-first-name-error] [data-test-error-message]')
-          .hasText('Foo is an invalid first name!');
-
+        assert.dom('[data-test-first-name-errors]').exists({ count: 1 });
         assert.dom('[data-test-last-name-errors]').doesNotExist();
       });
 
@@ -1196,9 +1310,7 @@ module('Integration Component headless-form', function (hooks) {
               >
                 <field.label>First Name</field.label>
                 <field.input data-test-first-name />
-                {{#if field.errors}}
-                  <div data-test-first-name-error />
-                {{/if}}
+                <field.errors data-test-first-name-errors />
               </form.field>
             {{/if}}
             {{#if formState.showLastName}}
@@ -1209,9 +1321,7 @@ module('Integration Component headless-form', function (hooks) {
               >
                 <field.label>Last Name</field.label>
                 <field.input data-test-last-name />
-                {{#if field.errors}}
-                  <div data-test-last-name-error />
-                {{/if}}
+                <field.errors data-test-last-name-errors />
               </form.field>
             {{/if}}
             <button type="submit" data-test-submit>Submit</button>
@@ -1221,12 +1331,12 @@ module('Integration Component headless-form', function (hooks) {
         await click('[data-test-submit]');
 
         assert
-          .dom('[data-test-first-name-error]')
+          .dom('[data-test-first-name-errors]')
           .exists(
             'validation errors are shown for firstName while being visible'
           );
         assert
-          .dom('[data-test-last-name-error]')
+          .dom('[data-test-last-name-errors]')
           .exists(
             'validation errors are shown for lastName while being visible'
           );
@@ -1237,9 +1347,9 @@ module('Integration Component headless-form', function (hooks) {
         await rerender();
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').doesNotExist();
+        assert.dom('[data-test-first-name-errors]').doesNotExist();
         assert
-          .dom('[data-test-last-name-error]')
+          .dom('[data-test-last-name-errors]')
           .exists(
             'validation errors are shown for lastName while being visible'
           );
@@ -1250,8 +1360,8 @@ module('Integration Component headless-form', function (hooks) {
         await rerender();
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').doesNotExist();
-        assert.dom('[data-test-last-name-error]').doesNotExist();
+        assert.dom('[data-test-first-name-errors]').doesNotExist();
+        assert.dom('[data-test-last-name-errors]').doesNotExist();
         assert.true(
           submitHandler.called,
           '@onSubmit has been called when no invalid field is left'
@@ -1296,26 +1406,26 @@ module('Integration Component headless-form', function (hooks) {
             >
               <field.label>First Name</field.label>
               <field.input data-test-first-name />
-              {{#each field.errors as |e index|}}
-                <div data-test-first-name-error={{index}}>
-                  <div data-test-error-type>
-                    {{e.type}}
+              <field.errors data-test-first-name-errors as |errors|>
+                {{#each errors as |e index|}}
+                  <div data-test-error={{index}}>
+                    <div data-test-error-type>
+                      {{e.type}}
+                    </div>
+                    <div data-test-error-value>
+                      {{e.value}}
+                    </div>
+                    <div data-test-error-message>
+                      {{e.message}}
+                    </div>
                   </div>
-                  <div data-test-error-value>
-                    {{e.value}}
-                  </div>
-                  <div data-test-error-message>
-                    {{e.message}}
-                  </div>
-                </div>
-              {{/each}}
+                {{/each}}
+              </field.errors>
             </form.field>
             <form.field @name="lastName" as |field|>
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
-              {{#if field.errors}}
-                <div data-test-last-name-errors />
-              {{/if}}
+              <field.errors data-test-last-name-errors />
             </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1323,26 +1433,40 @@ module('Integration Component headless-form', function (hooks) {
 
         await click('[data-test-submit]');
 
-        assert.dom('[data-test-first-name-error]').exists({ count: 2 });
+        assert
+          .dom('[data-test-first-name-errors] [data-test-error]')
+          .exists({ count: 2 });
 
         assert
-          .dom('[data-test-first-name-error="0"] [data-test-error-type]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error="0"] [data-test-error-type]'
+          )
           .hasText('uppercase');
         assert
-          .dom('[data-test-first-name-error="0"] [data-test-error-value]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error="0"] [data-test-error-value]'
+          )
           .hasText('foo');
         assert
-          .dom('[data-test-first-name-error="0"] [data-test-error-message]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error="0"] [data-test-error-message]'
+          )
           .hasText('First name must be upper case!');
 
         assert
-          .dom('[data-test-first-name-error="1"] [data-test-error-type]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error="1"] [data-test-error-type]'
+          )
           .hasText('notFoo');
         assert
-          .dom('[data-test-first-name-error="1"] [data-test-error-value]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error="1"] [data-test-error-value]'
+          )
           .hasText('foo');
         assert
-          .dom('[data-test-first-name-error="1"] [data-test-error-message]')
+          .dom(
+            '[data-test-first-name-errors] [data-test-error="1"] [data-test-error-message]'
+          )
           .hasText('Foo is an invalid first name!');
 
         assert.dom('[data-test-last-name-errors]').doesNotExist();

@@ -30,7 +30,12 @@
       value=this.value
       id=uuid
       setValue=setValue
-      errors=this.errors
+      errors=(if
+        this.hasErrors
+        (component
+          (ensure-safe-component this.ErrorsComponent) errors=this.errors
+        )
+      )
     )
   }}
 {{/let}}
