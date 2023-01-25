@@ -679,9 +679,45 @@ module('Integration Component headless-form', function (hooks) {
   });
 
   module('validation', function () {
+    interface FormData {
+      firstName?: string;
+      lastName?: string;
+    }
+
     module('form @validation callback', function () {
+      const validateCallback = ({ firstName }: FormData) => {
+        const firstNameErrors = [];
+        if (firstName == undefined) {
+          firstNameErrors.push({
+            type: 'required',
+            value: firstName,
+            message: 'firstName is required!',
+          });
+        } else {
+          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
+            firstNameErrors.push({
+              type: 'uppercase',
+              value: firstName,
+              message: 'firstName must be upper case!',
+            });
+          }
+
+          if (firstName.toLowerCase() === 'foo') {
+            firstNameErrors.push({
+              type: 'notFoo',
+              value: firstName,
+              message: 'Foo is an invalid firstName!',
+            });
+          }
+        }
+
+        return firstNameErrors.length > 0
+          ? { firstName: firstNameErrors }
+          : undefined;
+      };
+
       test('validation callback is called on submit', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const data: FormData = { firstName: 'Tony', lastName: 'Ward' };
         const validateCallback = sinon.spy();
 
         await render(<template>
@@ -707,20 +743,8 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('onSubmit is not called when validation fails', async function (assert) {
-        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
         const submitHandler = sinon.spy();
-        const validateCallback = ({ firstName }: { firstName: string }) =>
-          firstName.toLowerCase() === 'foo'
-            ? {
-                firstName: [
-                  {
-                    type: 'notFoo',
-                    value: firstName,
-                    message: 'Foo is an invalid first name!',
-                  },
-                ],
-              }
-            : undefined;
 
         await render(<template>
           <HeadlessForm
@@ -743,20 +767,8 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('onInvalid is called when validation fails', async function (assert) {
-        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
         const invalidHandler = sinon.spy();
-        const validateCallback = ({ firstName }: { firstName: string }) =>
-          firstName.toLowerCase() === 'foo'
-            ? {
-                firstName: [
-                  {
-                    type: 'notFoo',
-                    value: firstName,
-                    message: 'Foo is an invalid first name!',
-                  },
-                ],
-              }
-            : undefined;
 
         await render(<template>
           <HeadlessForm
@@ -781,7 +793,7 @@ module('Integration Component headless-form', function (hooks) {
               {
                 type: 'notFoo',
                 value: 'Foo',
-                message: 'Foo is an invalid first name!',
+                message: 'Foo is an invalid firstName!',
               },
             ],
           }),
@@ -789,16 +801,17 @@ module('Integration Component headless-form', function (hooks) {
         );
       });
 
-      test('onSubmit is called with user data', async function (assert) {
-        const data = {
-          firstName: 'Tony',
-          lastName: 'Ward',
-          acceptTerms: false,
-        };
+      test('onSubmit is called when validation passes', async function (assert) {
+        const data: FormData = {};
         const submitHandler = sinon.spy();
 
         await render(<template>
-          <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+          <HeadlessForm
+            @data={{data}}
+            @validate={{validateCallback}}
+            @onSubmit={{submitHandler}}
+            as |form|
+          >
             <form.field @name="firstName" as |field|>
               <field.label>First Name</field.label>
               <field.input data-test-first-name />
@@ -807,63 +820,19 @@ module('Integration Component headless-form', function (hooks) {
               <field.label>Last Name</field.label>
               <field.input data-test-last-name />
             </form.field>
-            <form.field @name="acceptTerms" as |field|>
-              <field.label>Terms accepted</field.label>
-              <field.checkbox data-test-terms />
-            </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
 
-        assert.dom('input[data-test-first-name]').hasValue('Tony');
-        assert.dom('input[data-test-last-name]').hasValue('Ward');
-        assert.dom('input[data-test-terms]').isNotChecked();
-
         await fillIn('input[data-test-first-name]', 'Nicole');
         await fillIn('input[data-test-last-name]', 'Chung');
-        await click('input[data-test-terms]');
         await click('[data-test-submit]');
 
-        assert.deepEqual(
-          data,
-          { firstName: 'Tony', lastName: 'Ward', acceptTerms: false },
-          'data is not mutated'
-        );
-
-        assert.true(
-          submitHandler.calledWith({
-            firstName: 'Nicole',
-            lastName: 'Chung',
-            acceptTerms: true,
-          }),
-          'new data is passed to submit handler'
-        );
+        assert.true(submitHandler.called, '@onSubmit has been called');
       });
 
       test('validation errors are exposed as field.errors on submit', async function (assert) {
-        const data = { firstName: 'Foo', lastName: 'Smith' };
-        const validateCallback = ({ firstName }: { firstName: string }) => {
-          const firstNameErrors = [];
-          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
-            firstNameErrors.push({
-              type: 'uppercase',
-              value: firstName,
-              message: 'First name must be upper case!',
-            });
-          }
-
-          if (firstName.toLowerCase() === 'foo') {
-            firstNameErrors.push({
-              type: 'notFoo',
-              value: firstName,
-              message: 'Foo is an invalid first name!',
-            });
-          }
-
-          return firstNameErrors.length > 0
-            ? { firstName: firstNameErrors }
-            : undefined;
-        };
+        const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
 
         await render(<template>
           <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
@@ -908,29 +877,7 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('field.errors is associated to input', async function (this: RenderingTestContext, assert) {
-        const data = { firstName: 'Foo' };
-        const validateCallback = ({ firstName }: { firstName: string }) => {
-          const firstNameErrors = [];
-          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
-            firstNameErrors.push({
-              type: 'uppercase',
-              value: firstName,
-              message: 'First name must be upper case!',
-            });
-          }
-
-          if (firstName.toLowerCase() === 'foo') {
-            firstNameErrors.push({
-              type: 'notFoo',
-              value: firstName,
-              message: 'Foo is an invalid first name!',
-            });
-          }
-
-          return firstNameErrors.length > 0
-            ? { firstName: firstNameErrors }
-            : undefined;
-        };
+        const data: FormData = { firstName: 'Foo' };
 
         await render(<template>
           <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
@@ -978,29 +925,7 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('field.errors renders all error messages in non-block mode', async function (assert) {
-        const data = { firstName: 'foo' };
-        const validateCallback = ({ firstName }: { firstName: string }) => {
-          const firstNameErrors = [];
-          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
-            firstNameErrors.push({
-              type: 'uppercase',
-              value: firstName,
-              message: 'First name must be upper case!',
-            });
-          }
-
-          if (firstName.toLowerCase() === 'foo') {
-            firstNameErrors.push({
-              type: 'notFoo',
-              value: firstName,
-              message: 'Foo is an invalid first name!',
-            });
-          }
-
-          return firstNameErrors.length > 0
-            ? { firstName: firstNameErrors }
-            : undefined;
-        };
+        const data: FormData = { firstName: 'foo' };
 
         await render(<template>
           <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
@@ -1019,34 +944,12 @@ module('Integration Component headless-form', function (hooks) {
           .dom('[data-test-first-name-errors]')
           .exists({ count: 1 })
           .hasText(
-            'First name must be upper case! Foo is an invalid first name!'
+            'firstName must be upper case! Foo is an invalid firstName!'
           );
       });
 
       test('field.errors yields errors in block mode', async function (assert) {
-        const data = { firstName: 'foo' };
-        const validateCallback = ({ firstName }: { firstName: string }) => {
-          const firstNameErrors = [];
-          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
-            firstNameErrors.push({
-              type: 'uppercase',
-              value: firstName,
-              message: 'First name must be upper case!',
-            });
-          }
-
-          if (firstName.toLowerCase() === 'foo') {
-            firstNameErrors.push({
-              type: 'notFoo',
-              value: firstName,
-              message: 'Foo is an invalid first name!',
-            });
-          }
-
-          return firstNameErrors.length > 0
-            ? { firstName: firstNameErrors }
-            : undefined;
-        };
+        const data: FormData = { firstName: 'foo' };
 
         await render(<template>
           <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
@@ -1094,7 +997,7 @@ module('Integration Component headless-form', function (hooks) {
           .dom(
             '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-message]'
           )
-          .hasText('First name must be upper case!');
+          .hasText('firstName must be upper case!');
 
         assert
           .dom(
@@ -1110,11 +1013,11 @@ module('Integration Component headless-form', function (hooks) {
           .dom(
             '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-message]'
           )
-          .hasText('Foo is an invalid first name!');
+          .hasText('Foo is an invalid firstName!');
       });
 
       test('validation errors for dynamically removed fields are not taken into account', async function (assert) {
-        const data: { firstName?: string; lastName?: string } = {};
+        const data: FormData = {};
         const submitHandler = sinon.spy();
         // This validation callback intentionally always returns an error, as it should be ignored
         const validateCallback = () => ({
@@ -1220,19 +1123,7 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('validation errors mark the control as invalid', async function (assert) {
-        const data = { firstName: 'Foo' };
-        const validateCallback = ({ firstName }: { firstName: string }) =>
-          firstName.toLowerCase() === 'foo'
-            ? {
-                firstName: [
-                  {
-                    type: 'notFoo',
-                    value: firstName,
-                    message: 'Foo is an invalid first name!',
-                  },
-                ],
-              }
-            : undefined;
+        const data: FormData = { firstName: 'Foo' };
 
         await render(<template>
           <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
@@ -1251,8 +1142,37 @@ module('Integration Component headless-form', function (hooks) {
     });
 
     module('form.field @validation callback', function () {
+      const validateCallback = (value: string | undefined, field: string) => {
+        const errors = [];
+        if (value == undefined) {
+          errors.push({
+            type: 'required',
+            value,
+            message: `${field} is required!`,
+          });
+        } else {
+          if (value.charAt(0).toUpperCase() !== value.charAt(0)) {
+            errors.push({
+              type: 'uppercase',
+              value,
+              message: `${field} must be upper case!`,
+            });
+          }
+
+          if (value.toLowerCase() === 'foo') {
+            errors.push({
+              type: 'notFoo',
+              value,
+              message: `Foo is an invalid ${field}!`,
+            });
+          }
+        }
+
+        return errors.length > 0 ? errors : undefined;
+      };
+
       test('validation callback is called on submit', async function (assert) {
-        const data = { firstName: 'Tony', lastName: 'Ward' };
+        const data: FormData = { firstName: 'Tony', lastName: 'Ward' };
         const validateCallback = sinon.spy();
 
         await render(<template>
@@ -1282,18 +1202,8 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('onSubmit is not called when validation fails', async function (assert) {
-        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
         const submitHandler = sinon.spy();
-        const validateCallback = (firstName: string) =>
-          firstName.toLowerCase() === 'foo'
-            ? [
-                {
-                  type: 'notFoo',
-                  value: firstName,
-                  message: 'Foo is an invalid first name!',
-                },
-              ]
-            : undefined;
 
         await render(<template>
           <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
@@ -1315,17 +1225,7 @@ module('Integration Component headless-form', function (hooks) {
       });
 
       test('validation errors are exposed as field.errors on submit', async function (assert) {
-        const data = { firstName: 'Foo', lastName: 'Smith' };
-        const validateCallback = (firstName: string) =>
-          firstName.toLowerCase() === 'foo'
-            ? [
-                {
-                  type: 'notFoo',
-                  value: firstName,
-                  message: 'Foo is an invalid first name!',
-                },
-              ]
-            : undefined;
+        const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
