@@ -1,15 +1,19 @@
-import templateOnlyComponent from '@ember/component/template-only';
+import Component from '@glimmer/component';
 
 import type { ValidationError } from '../headless-form';
 
-export interface HeadlessFormErrorsComponentSignature {
+export interface HeadlessFormErrorsComponentSignature<VALUE> {
   Element: HTMLDivElement;
   Args: {
-    errors: ValidationError[];
+    errors: ValidationError<VALUE>[];
+    id: string;
   };
   Blocks: {
-    default?: [ValidationError[]];
+    default?: [ValidationError<VALUE>[]];
   };
 }
 
-export default templateOnlyComponent<HeadlessFormErrorsComponentSignature>();
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes -- unfortunately we cannot use templateOnlyComponent() here, as it is not possible to type that as a generic type, like templateOnlyComponent<HeadlessFormErrorsComponentSignature<VALUE>>
+export default class HeadlessFormErrorsComponent<VALUE> extends Component<
+  HeadlessFormErrorsComponentSignature<VALUE>
+> {}

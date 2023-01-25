@@ -44,11 +44,11 @@ export interface HeadlessFormFieldComponentSignature<
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
           typeof InputComponent,
-          'fieldId' | 'value' | 'setValue' | 'invalid'
+          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         checkbox: WithBoundArgs<
           typeof CheckboxComponent,
-          'fieldId' | 'value' | 'setValue' | 'invalid'
+          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         radio: WithBoundArgs<typeof RadioComponent, 'selected' | 'setValue'>;
         textarea: WithBoundArgs<
@@ -58,7 +58,10 @@ export interface HeadlessFormFieldComponentSignature<
         value: DATA[KEY];
         id: string;
         setValue: (value: DATA[KEY]) => void;
-        errors?: WithBoundArgs<typeof ErrorsComponent, 'errors'>;
+        errors?: WithBoundArgs<
+          typeof ErrorsComponent<DATA[KEY]>,
+          'errors' | 'id'
+        >;
       }
     ];
   };
@@ -74,8 +77,9 @@ export default class HeadlessFormFieldComponent<
     InputComponent;
   CheckboxComponent: ComponentLike<HeadlessFormControlCheckboxComponentSignature> =
     CheckboxComponent;
-  ErrorsComponent: ComponentLike<HeadlessFormErrorsComponentSignature> =
-    ErrorsComponent;
+  ErrorsComponent: ComponentLike<
+    HeadlessFormErrorsComponentSignature<DATA[KEY]>
+  > = ErrorsComponent;
   TextareaComponent: ComponentLike<HeadlessFormControlTextareaComponentSignature> =
     TextareaComponent;
   RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =

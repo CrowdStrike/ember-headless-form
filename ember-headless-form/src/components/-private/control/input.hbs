@@ -3,6 +3,7 @@
   value={{@value}}
   id={{@fieldId}}
   aria-invalid={{if @invalid 'true'}}
+  aria-errormessage={{if @invalid @errorId}}
   ...attributes
   {{on 'input' this.handleInput}}
 />

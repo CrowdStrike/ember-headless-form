@@ -907,6 +907,76 @@ module('Integration Component headless-form', function (hooks) {
           );
       });
 
+      test('field.errors is associated to input', async function (this: RenderingTestContext, assert) {
+        const data = { firstName: 'Foo' };
+        const validateCallback = ({ firstName }: { firstName: string }) => {
+          const firstNameErrors = [];
+          if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
+            firstNameErrors.push({
+              type: 'uppercase',
+              value: firstName,
+              message: 'First name must be upper case!',
+            });
+          }
+
+          if (firstName.toLowerCase() === 'foo') {
+            firstNameErrors.push({
+              type: 'notFoo',
+              value: firstName,
+              message: 'Foo is an invalid first name!',
+            });
+          }
+
+          return firstNameErrors.length > 0
+            ? { firstName: firstNameErrors }
+            : undefined;
+        };
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+              <field.errors data-test-first-name-errors />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert
+          .dom('input')
+          .doesNotHaveAria('invalid')
+          .doesNotHaveAria('errormessage');
+
+        assert.dom('[data-test-first-name-errors]').doesNotExist();
+
+        await click('[data-test-submit]');
+
+        // a11y markup recommendations taken from https://www.w3.org/TR/wai-aria-1.2/#aria-errormessage
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .hasAttribute(
+            'id',
+            // copied from https://ihateregex.io/expr/uuid/
+            /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/,
+            'errors element has id with dynamically generated uuid'
+          )
+          .hasAria('live', 'assertive');
+
+        const id =
+          this.element.querySelector('[data-test-first-name-errors]')?.id ?? '';
+
+        assert
+          .dom('input')
+          .hasAria('invalid', 'true')
+          .hasAria(
+            'errormessage',
+            id,
+            'errors are associated to invalid input via aria-errormessage'
+          );
+      });
+
       test('field.errors renders all error messages in non-block mode', async function (assert) {
         const data = { firstName: 'foo' };
         const validateCallback = ({ firstName }: { firstName: string }) => {

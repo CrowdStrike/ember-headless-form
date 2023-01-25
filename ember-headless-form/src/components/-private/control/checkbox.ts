@@ -8,6 +8,7 @@ export interface HeadlessFormControlCheckboxComponentSignature {
     fieldId: string;
     setValue: (value: boolean) => void;
     invalid: boolean;
+    errorId: string;
   };
 }
 

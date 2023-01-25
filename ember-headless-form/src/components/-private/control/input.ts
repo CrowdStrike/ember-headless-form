@@ -36,6 +36,7 @@ export interface HeadlessFormControlInputComponentSignature {
     fieldId: string;
     setValue: (value: string) => void;
     invalid: boolean;
+    errorId: string;
   };
 }
 
