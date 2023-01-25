@@ -2,6 +2,7 @@
   type={{@type}}
   value={{@value}}
   id={{@fieldId}}
+  aria-invalid={{if @invalid 'true'}}
   ...attributes
   {{on 'input' this.handleInput}}
 />

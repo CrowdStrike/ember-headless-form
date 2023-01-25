@@ -7,12 +7,14 @@
         fieldId=uuid
         value=this.valueAsString
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       checkbox=(component
         (ensure-safe-component this.CheckboxComponent)
         fieldId=uuid
         value=this.valueAsBoolean
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       textarea=(component
         (ensure-safe-component this.TextareaComponent)

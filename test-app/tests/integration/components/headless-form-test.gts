@@ -1010,6 +1010,36 @@ module('Integration Component headless-form', function (hooks) {
           '@onSubmit has not been called again'
         );
       });
+
+      test('validation errors mark the control as invalid', async function (assert) {
+        const data = { firstName: 'Foo' };
+        const validateCallback = ({ firstName }: { firstName: string }) =>
+          firstName.toLowerCase() === 'foo'
+            ? {
+                firstName: [
+                  {
+                    type: 'notFoo',
+                    value: firstName,
+                    message: 'Foo is an invalid first name!',
+                  },
+                ],
+              }
+            : undefined;
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @validate={{validateCallback}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-first-name]').hasAria('invalid', 'true');
+      });
     });
 
     module('form.field @validation callback', function () {

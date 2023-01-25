@@ -42,11 +42,11 @@ export interface HeadlessFormFieldComponentSignature<
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
           typeof InputComponent,
-          'fieldId' | 'value' | 'setValue'
+          'fieldId' | 'value' | 'setValue' | 'invalid'
         >;
         checkbox: WithBoundArgs<
           typeof CheckboxComponent,
-          'fieldId' | 'value' | 'setValue'
+          'fieldId' | 'value' | 'setValue' | 'invalid'
         >;
         radio: WithBoundArgs<typeof RadioComponent, 'selected' | 'setValue'>;
         textarea: WithBoundArgs<
@@ -100,6 +100,10 @@ export default class HeadlessFormFieldComponent<
 
   get errors(): ValidationError<DATA[KEY]>[] | undefined {
     return this.args.errors?.[this.args.name];
+  }
+
+  get hasErrors(): boolean {
+    return this.errors !== undefined;
   }
 
   get valueAsString(): string | undefined {
