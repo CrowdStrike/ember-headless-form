@@ -22,9 +22,11 @@
       )
       textarea=(component
         (ensure-safe-component this.TextareaComponent)
-        fieldId=uuid
+        fieldId=fieldId
+        errorId=errorId
         value=this.valueAsString
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       radio=(component
         (ensure-safe-component this.RadioComponent)

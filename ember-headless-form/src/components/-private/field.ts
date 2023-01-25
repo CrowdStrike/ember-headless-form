@@ -53,7 +53,7 @@ export interface HeadlessFormFieldComponentSignature<
         radio: WithBoundArgs<typeof RadioComponent, 'selected' | 'setValue'>;
         textarea: WithBoundArgs<
           typeof TextareaComponent,
-          'fieldId' | 'value' | 'setValue'
+          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         value: DATA[KEY];
         id: string;
