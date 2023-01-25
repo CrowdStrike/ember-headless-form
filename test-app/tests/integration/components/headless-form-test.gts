@@ -742,6 +742,104 @@ module('Integration Component headless-form', function (hooks) {
         assert.false(submitHandler.called, '@onSubmit is not called');
       });
 
+      test('onInvalid is called when validation fails', async function (assert) {
+        const data = { firstName: 'Foo', lastName: 'Smith' };
+        const invalidHandler = sinon.spy();
+        const validateCallback = ({ firstName }: { firstName: string }) =>
+          firstName.toLowerCase() === 'foo'
+            ? {
+                firstName: [
+                  {
+                    type: 'notFoo',
+                    value: firstName,
+                    message: 'Foo is an invalid first name!',
+                  },
+                ],
+              }
+            : undefined;
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @validate={{validateCallback}}
+            @onInvalid={{invalidHandler}}
+            as |form|
+          >
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          invalidHandler.calledWith(data, {
+            firstName: [
+              {
+                type: 'notFoo',
+                value: 'Foo',
+                message: 'Foo is an invalid first name!',
+              },
+            ],
+          }),
+          '@onInvalid was called'
+        );
+      });
+
+      test('onSubmit is called with user data', async function (assert) {
+        const data = {
+          firstName: 'Tony',
+          lastName: 'Ward',
+          acceptTerms: false,
+        };
+        const submitHandler = sinon.spy();
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <form.field @name="acceptTerms" as |field|>
+              <field.label>Terms accepted</field.label>
+              <field.checkbox data-test-terms />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert.dom('input[data-test-first-name]').hasValue('Tony');
+        assert.dom('input[data-test-last-name]').hasValue('Ward');
+        assert.dom('input[data-test-terms]').isNotChecked();
+
+        await fillIn('input[data-test-first-name]', 'Nicole');
+        await fillIn('input[data-test-last-name]', 'Chung');
+        await click('input[data-test-terms]');
+        await click('[data-test-submit]');
+
+        assert.deepEqual(
+          data,
+          { firstName: 'Tony', lastName: 'Ward', acceptTerms: false },
+          'data is not mutated'
+        );
+
+        assert.true(
+          submitHandler.calledWith({
+            firstName: 'Nicole',
+            lastName: 'Chung',
+            acceptTerms: true,
+          }),
+          'new data is passed to submit handler'
+        );
+      });
+
       test('validation errors are exposed as field.errors on submit', async function (assert) {
         const data = { firstName: 'Foo', lastName: 'Smith' };
         const validateCallback = ({ firstName }: { firstName: string }) =>

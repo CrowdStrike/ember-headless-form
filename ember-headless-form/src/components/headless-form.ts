@@ -66,6 +66,7 @@ export interface HeadlessFormComponentSignature<DATA extends HeadlessFormData> {
     revalidateOn?: ValidateOn;
     validate?: FormValidateCallback<DATA>;
     onSubmit?: (data: DATA) => void;
+    onInvalid?: (data: DATA, errors: ErrorRecord<DATA>) => void;
   };
   Blocks: {
     default: [
@@ -146,6 +147,12 @@ export default class HeadlessFormComponent<
 
     if (!this.hasValidationErrors) {
       this.args.onSubmit?.(this.internalData);
+    } else {
+      assert(
+        'Validation errors expected to be present. If you see this, please report it as a bug to ember-headless-form!',
+        this.lastValidationResult
+      );
+      this.args.onInvalid?.(this.internalData, this.lastValidationResult);
     }
   }
 
