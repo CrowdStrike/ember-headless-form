@@ -1,0 +1,14 @@
+{{#let (unique-id) as |uuid|}}
+  {{yield
+    (hash
+      label=(component (ensure-safe-component this.LabelComponent) fieldId=uuid)
+      input=(component
+        (ensure-safe-component this.RadioInputComponent)
+        fieldId=uuid
+        value=@value
+        checked=this.isChecked
+        setValue=@setValue
+      )
+    )
+  }}
+{{/let}}

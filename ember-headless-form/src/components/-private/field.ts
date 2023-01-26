@@ -4,14 +4,16 @@ import { action } from '@ember/object';
 
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
+import RadioComponent from './control/radio';
 import TextareaComponent from './control/textarea';
-import LabelComponent from './field/label';
+import LabelComponent from './label';
 
 import type { HeadlessFormData } from '../headless-form';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
+import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
 import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
-import type { HeadlessFormFieldLabelComponentSignature } from './field/label';
+import type { HeadlessFormLabelComponentSignature } from './label';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
@@ -35,6 +37,7 @@ export interface HeadlessFormFieldComponentSignature<
           typeof CheckboxComponent,
           'fieldId' | 'value' | 'setValue'
         >;
+        radio: WithBoundArgs<typeof RadioComponent, 'selected' | 'setValue'>;
         textarea: WithBoundArgs<
           typeof TextareaComponent,
           'fieldId' | 'value' | 'setValue'
@@ -51,7 +54,7 @@ export default class HeadlessFormFieldComponent<
   DATA extends HeadlessFormData,
   KEY extends keyof DATA = keyof DATA
 > extends Component<HeadlessFormFieldComponentSignature<DATA, KEY>> {
-  LabelComponent: ComponentLike<HeadlessFormFieldLabelComponentSignature> =
+  LabelComponent: ComponentLike<HeadlessFormLabelComponentSignature> =
     LabelComponent;
   InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =
     InputComponent;
@@ -59,6 +62,8 @@ export default class HeadlessFormFieldComponent<
     CheckboxComponent;
   TextareaComponent: ComponentLike<HeadlessFormControlTextareaComponentSignature> =
     TextareaComponent;
+  RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =
+    RadioComponent;
 
   get value(): DATA[KEY] {
     return this.args.data[this.args.name];
