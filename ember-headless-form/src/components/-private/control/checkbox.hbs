@@ -2,6 +2,7 @@
   type='checkbox'
   checked={{@value}}
   id={{@fieldId}}
+  aria-invalid={{if @invalid 'true'}}
   ...attributes
   {{on 'click' this.handleInput}}
 />

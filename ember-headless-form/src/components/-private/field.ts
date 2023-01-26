@@ -6,13 +6,22 @@ import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import RadioComponent from './control/radio';
 import TextareaComponent from './control/textarea';
+import ErrorsComponent from './errors';
 import LabelComponent from './label';
 
-import type { HeadlessFormData } from '../headless-form';
+import type {
+  ErrorRecord,
+  FieldValidateCallback,
+  HeadlessFormData,
+  RegisterFieldCallback,
+  UnregisterFieldCallback,
+  ValidationError,
+} from '../headless-form';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
 import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
 import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
+import type { HeadlessFormErrorsComponentSignature } from './errors';
 import type { HeadlessFormLabelComponentSignature } from './label';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
@@ -24,6 +33,10 @@ export interface HeadlessFormFieldComponentSignature<
     data: DATA;
     name: KEY;
     set: (key: KEY, value: DATA[KEY]) => void;
+    validate?: FieldValidateCallback<DATA, KEY>;
+    errors?: ErrorRecord<DATA, KEY>;
+    registerField: RegisterFieldCallback<DATA, KEY>;
+    unregisterField: UnregisterFieldCallback<DATA, KEY>;
   };
   Blocks: {
     default: [
@@ -31,20 +44,24 @@ export interface HeadlessFormFieldComponentSignature<
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
           typeof InputComponent,
-          'fieldId' | 'value' | 'setValue'
+          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         checkbox: WithBoundArgs<
           typeof CheckboxComponent,
-          'fieldId' | 'value' | 'setValue'
+          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         radio: WithBoundArgs<typeof RadioComponent, 'selected' | 'setValue'>;
         textarea: WithBoundArgs<
           typeof TextareaComponent,
-          'fieldId' | 'value' | 'setValue'
+          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         value: DATA[KEY];
         id: string;
         setValue: (value: DATA[KEY]) => void;
+        errors?: WithBoundArgs<
+          typeof ErrorsComponent<DATA[KEY]>,
+          'errors' | 'id'
+        >;
       }
     ];
   };
@@ -60,13 +77,41 @@ export default class HeadlessFormFieldComponent<
     InputComponent;
   CheckboxComponent: ComponentLike<HeadlessFormControlCheckboxComponentSignature> =
     CheckboxComponent;
+  ErrorsComponent: ComponentLike<
+    HeadlessFormErrorsComponentSignature<DATA[KEY]>
+  > = ErrorsComponent;
   TextareaComponent: ComponentLike<HeadlessFormControlTextareaComponentSignature> =
     TextareaComponent;
   RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =
     RadioComponent;
 
+  constructor(
+    owner: unknown,
+    args: HeadlessFormFieldComponentSignature<DATA, KEY>['Args']
+  ) {
+    super(owner, args);
+
+    this.args.registerField(this.args.name, {
+      validate: this.args.validate,
+    });
+  }
+
+  willDestroy(): void {
+    this.args.unregisterField(this.args.name);
+
+    super.willDestroy();
+  }
+
   get value(): DATA[KEY] {
     return this.args.data[this.args.name];
+  }
+
+  get errors(): ValidationError<DATA[KEY]>[] | undefined {
+    return this.args.errors?.[this.args.name];
+  }
+
+  get hasErrors(): boolean {
+    return this.errors !== undefined;
   }
 
   get valueAsString(): string | undefined {

@@ -1,24 +1,32 @@
-{{#let (unique-id) (fn @set @name) as |uuid setValue|}}
+{{#let (unique-id) (unique-id) (fn @set @name) as |fieldId errorId setValue|}}
   {{yield
     (hash
-      label=(component (ensure-safe-component this.LabelComponent) fieldId=uuid)
+      label=(component
+        (ensure-safe-component this.LabelComponent) fieldId=fieldId
+      )
       input=(component
         (ensure-safe-component this.InputComponent)
-        fieldId=uuid
+        fieldId=fieldId
+        errorId=errorId
         value=this.valueAsString
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       checkbox=(component
         (ensure-safe-component this.CheckboxComponent)
-        fieldId=uuid
+        fieldId=fieldId
+        errorId=errorId
         value=this.valueAsBoolean
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       textarea=(component
         (ensure-safe-component this.TextareaComponent)
-        fieldId=uuid
+        fieldId=fieldId
+        errorId=errorId
         value=this.valueAsString
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       radio=(component
         (ensure-safe-component this.RadioComponent)
@@ -26,8 +34,16 @@
         setValue=this.setValue
       )
       value=this.value
-      id=uuid
+      id=fieldId
       setValue=setValue
+      errors=(if
+        this.errors
+        (component
+          (ensure-safe-component this.ErrorsComponent)
+          errors=this.errors
+          id=errorId
+        )
+      )
     )
   }}
 {{/let}}

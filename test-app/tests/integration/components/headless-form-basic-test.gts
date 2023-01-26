@@ -21,7 +21,7 @@ import { setupRenderingTest } from 'test-app/tests/helpers';
 import type { RenderingTestContext } from '@ember/test-helpers';
 import type { InputType } from 'ember-headless-form';
 
-module('Integration Component headless-form', function (hooks) {
+module('Integration Component HeadlessForm > Basics', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders form markup', async function (assert) {
@@ -53,6 +53,26 @@ module('Integration Component headless-form', function (hooks) {
       assert
         .dom('form > [data-test-user-content]')
         .exists('field component contains no markup itself');
+    });
+
+    test('@name must be unique', async function (assert) {
+      assert.expect(1);
+      const data = { firstName: 'Simon' };
+
+      setupOnerror((e: Error) => {
+        assert.strictEqual(
+          e.message,
+          'Assertion Failed: You passed @name="firstName" to the form field, but this is already in use. Names of form fields must be unique!',
+          'Expected assertion error message'
+        );
+      });
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.field @name="firstName" />
+          <form.field @name="firstName" />
+        </HeadlessForm>
+      </template>);
     });
 
     test('id is yielded from field component', async function (this: RenderingTestContext, assert) {
@@ -655,54 +675,6 @@ module('Integration Component headless-form', function (hooks) {
 
         assert.dom('input[data-test-first-name]').hasValue('Nicole');
       });
-    });
-  });
-
-  module('Glint', function () {
-    // These tests are not testing any new run-time behaviour that isn't tested elsewhere already.
-    // Rather they are here to make sure they pass glint checks, testing for their types constraints to work as expected
-    // Note: @glint-expect-error behaves just as @ts-expect-error in that in surpresses an error when we *expect* it to error,
-    // but it *also* fails when no expected error is actually present!
-
-    test('@name argument only expects keys of @data', async function (assert) {
-      assert.expect(0);
-      // Note that we have only firstName here in the type that is passed to @data, no lastName!
-      const data = { firstName: 'Simon' };
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          {{! this is valid }}
-          <form.field @name="firstName" />
-          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
-          <form.field @name="lastName" />
-        </HeadlessForm>
-      </template>);
-    });
-
-    test('@name argument only expects keys of @data w/ partial data', async function (assert) {
-      assert.expect(0);
-      const data: { firstName?: string } = {};
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          {{! this is valid }}
-          <form.field @name="firstName" />
-          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
-          <form.field @name="lastName" />
-        </HeadlessForm>
-      </template>);
-    });
-
-    test('@name argument w/ an untyped @data errors', async function (assert) {
-      assert.expect(0);
-      const data = {};
-
-      await render(<template>
-        <HeadlessForm @data={{data}} as |form|>
-          {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
-          <form.field @name="firstName" />
-        </HeadlessForm>
-      </template>);
     });
   });
 });

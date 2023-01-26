@@ -7,6 +7,8 @@ export interface HeadlessFormControlTextareaComponentSignature {
     value: string;
     fieldId: string;
     setValue: (value: string) => void;
+    invalid: boolean;
+    errorId: string;
   };
 }
 
