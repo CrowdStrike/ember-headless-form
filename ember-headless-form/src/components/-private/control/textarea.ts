@@ -5,6 +5,7 @@ export interface HeadlessFormControlTextareaComponentSignature {
   Element: HTMLTextAreaElement;
   Args: {
     value: string;
+    name: string;
     fieldId: string;
     setValue: (value: string) => void;
     invalid: boolean;

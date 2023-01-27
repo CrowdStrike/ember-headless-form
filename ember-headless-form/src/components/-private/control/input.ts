@@ -32,6 +32,7 @@ export interface HeadlessFormControlInputComponentSignature {
   Element: HTMLInputElement;
   Args: {
     value: string;
+    name: string;
     type?: InputType;
     fieldId: string;
     setValue: (value: string) => void;

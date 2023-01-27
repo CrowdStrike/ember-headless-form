@@ -165,6 +165,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
         .dom('input')
         .exists('render an input')
         .hasClass('my-input', 'it accepts custom HTML classes')
+        .hasAttribute('name', 'firstName')
         .hasAttribute(
           'data-test-input',
           '',
@@ -246,6 +247,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
         .dom('input')
         .exists('render an input')
         .hasAttribute('type', 'checkbox')
+        .hasAttribute('name', 'checked')
         .hasClass('my-input', 'it accepts custom HTML classes')
         .hasAttribute(
           'data-test-checkbox',
@@ -331,6 +333,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
         .dom('input')
         .exists('render an input')
         .hasAttribute('type', 'radio')
+        .hasAttribute('name', 'choice')
         .hasValue('foo')
         .hasClass('my-input', 'it accepts custom HTML classes')
         .hasAttribute(
@@ -397,11 +400,11 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
 
   module('field.textarea', function () {
     test('field yields textarea component', async function (assert) {
-      const data: { checked?: boolean } = {};
+      const data: { comment?: string } = {};
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="checked" as |field|>
+          <form.field @name="comment" as |field|>
             <field.textarea class="my-textarea" data-test-textarea />
           </form.field>
         </HeadlessForm>
@@ -410,6 +413,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
       assert
         .dom('textarea')
         .exists('render a textarea')
+        .hasAttribute('name', 'comment')
         .hasClass('my-textarea', 'it accepts custom HTML classes')
         .hasAttribute(
           'data-test-textarea',
