@@ -39,6 +39,7 @@ importers:
       '@types/ember__debug': ^4.0.0
       '@types/ember__engine': ^4.0.0
       '@types/ember__error': ^4.0.0
+      '@types/ember__modifier': ^4.0.3
       '@types/ember__object': ^4.0.0
       '@types/ember__polyfills': ^4.0.0
       '@types/ember__routing': ^4.0.0
@@ -90,6 +91,7 @@ importers:
       '@types/ember__debug': 4.0.3_@babel+core@7.20.12
       '@types/ember__engine': 4.0.4_@babel+core@7.20.12
       '@types/ember__error': 4.0.2
+      '@types/ember__modifier': 4.0.3_@babel+core@7.20.12
       '@types/ember__object': 4.0.5_@babel+core@7.20.12
       '@types/ember__polyfills': 4.0.1
       '@types/ember__routing': 4.0.12_@babel+core@7.20.12
@@ -2975,10 +2977,7 @@ packages:
   /@types/ember__controller/4.0.4:
     resolution: {integrity: sha512-+f0knTIJJkRX5xijeSI/n4FvLfhMFFxIxODyFFFFB483EryYuts3QzpTwU5D66WQ5rAbZvpPRXRMPTTCNJoUhg==}
     dependencies:
-      '@types/ember__object': 4.0.5
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
+      '@types/ember__object': 4.0.5_@babel+core@7.20.12
     dev: true
 
   /@types/ember__controller/4.0.4_@babel+core@7.20.12:
@@ -3051,14 +3050,21 @@ packages:
       - supports-color
     dev: true
 
-  /@types/ember__object/4.0.5:
-    resolution: {integrity: sha512-gXrywWBwoW7J9y9yJqoZ0m1qtiyMdrEi29cJdF1xI2qOnMqaZeuSCMYaPQMsyq52/YnVIG2EnGzo6eUD57J4Nw==}
+  /@types/ember__modifier/4.0.3_@babel+core@7.20.12:
+    resolution: {integrity: sha512-2Z4ty8OZNVO/UkypnVMoqdp57OxRd48dko3wYzYMbjhR7Wi2Gtd374dLlhoA6WXcWnEyrz7SUCot8zyBpBZwfg==}
     dependencies:
-      '@types/ember': 4.0.3
-      '@types/rsvp': 4.0.4
+      '@types/ember': 4.0.3_@babel+core@7.20.12
+      '@types/ember__owner': 4.0.3
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
+    dev: true
+
+  /@types/ember__object/4.0.5:
+    resolution: {integrity: sha512-gXrywWBwoW7J9y9yJqoZ0m1qtiyMdrEi29cJdF1xI2qOnMqaZeuSCMYaPQMsyq52/YnVIG2EnGzo6eUD57J4Nw==}
+    dependencies:
+      '@types/ember': 4.0.3_@babel+core@7.20.12
+      '@types/rsvp': 4.0.4
     dev: true
 
   /@types/ember__object/4.0.5_@babel+core@7.20.12:

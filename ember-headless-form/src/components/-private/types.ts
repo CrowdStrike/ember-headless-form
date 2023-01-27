@@ -55,7 +55,7 @@ export type FieldValidateCallback<
  * Internal structure to track used fields
  * @private
  */
-export interface FieldData<
+export interface FieldRegistrationData<
   DATA extends FormData,
   KEY extends FormKey<DATA> = FormKey<DATA>
 > {
@@ -69,7 +69,7 @@ export interface FieldData<
 export type RegisterFieldCallback<
   DATA extends FormData,
   KEY extends FormKey<DATA> = FormKey<DATA>
-> = (name: KEY, field: FieldData<DATA, KEY>) => void;
+> = (name: KEY, field: FieldRegistrationData<DATA, KEY>) => void;
 
 export type UnregisterFieldCallback<
   DATA extends FormData,
@@ -79,6 +79,4 @@ export type UnregisterFieldCallback<
 /**
  * Mapper type to construct subset of objects, whose keys are only strings (and not number or symbol)
  */
-export type OnlyStringKeys<T extends object> = {
-  [P in Extract<keyof T, string>]: T[P];
-};
+export type OnlyStringKeys<T extends object> = Pick<T, keyof T & string>;

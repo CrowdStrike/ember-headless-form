@@ -2,7 +2,7 @@
 /* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { tracked } from '@glimmer/tracking';
-import { click, fillIn, render, rerender } from '@ember/test-helpers';
+import { blur, click, fillIn, render, rerender } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import HeadlessForm from 'ember-headless-form/components/headless-form';
@@ -10,53 +10,69 @@ import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
 import type { RenderingTestContext } from '@ember/test-helpers';
+import type {
+  FormValidateCallback,
+  FieldValidateCallback,
+  ErrorRecord,
+  ValidationError,
+} from 'ember-headless-form/components/-private/types';
 
 module('Integration Component HeadlessForm > Validation', function (hooks) {
   setupRenderingTest(hooks);
 
-  interface FormData {
+  interface TestFormData {
     firstName?: string;
     lastName?: string;
   }
 
-  const validateFormCallbackSync = ({ firstName }: FormData) => {
-    const firstNameErrors = [];
-    if (firstName == undefined) {
-      firstNameErrors.push({
-        type: 'required',
-        value: firstName,
-        message: 'firstName is required!',
-      });
-    } else {
-      if (firstName.charAt(0).toUpperCase() !== firstName.charAt(0)) {
-        firstNameErrors.push({
-          type: 'uppercase',
-          value: firstName,
-          message: 'firstName must be upper case!',
+  const validateFormCallbackSync: FormValidateCallback<TestFormData> = (
+    data
+  ) => {
+    const errorRecord: ErrorRecord<TestFormData> = {};
+
+    for (const [field, value] of Object.entries(data)) {
+      const errors: ValidationError<string>[] = [];
+      if (value == undefined) {
+        errors.push({
+          type: 'required',
+          value,
+          message: `${field} is required!`,
         });
+      } else {
+        if (value.charAt(0).toUpperCase() !== value.charAt(0)) {
+          errors.push({
+            type: 'uppercase',
+            value,
+            message: `${field} must be upper case!`,
+          });
+        }
+
+        if (value.toLowerCase() === 'foo') {
+          errors.push({
+            type: 'notFoo',
+            value,
+            message: `Foo is an invalid ${field}!`,
+          });
+        }
       }
 
-      if (firstName.toLowerCase() === 'foo') {
-        firstNameErrors.push({
-          type: 'notFoo',
-          value: firstName,
-          message: 'Foo is an invalid firstName!',
-        });
+      if (errors.length > 0) {
+        errorRecord[field as keyof TestFormData] = errors;
       }
     }
 
-    return firstNameErrors.length > 0
-      ? { firstName: firstNameErrors }
-      : undefined;
+    return errorRecord;
   };
 
-  const validateFormCallbackAsync = async (data: FormData) => {
+  const validateFormCallbackAsync: FormValidateCallback<TestFormData> = async (
+    data
+  ) => {
     return await validateFormCallbackSync(data);
   };
 
-  const validateFieldCallbackSync = (
-    value: string | undefined,
-    field: string
+  const validateFieldCallbackSync: FieldValidateCallback<TestFormData> = (
+    value,
+    field
   ) => {
     const errors = [];
     if (value == undefined) {
@@ -86,11 +102,10 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
     return errors.length > 0 ? errors : undefined;
   };
 
-  const validateFieldCallbackAsync = async (
-    value: string | undefined,
-    field: string
-  ) => {
-    return await validateFieldCallbackSync(value, field);
+  const validateFieldCallbackAsync: FieldValidateCallback<
+    TestFormData
+  > = async (value, field, data) => {
+    return await validateFieldCallbackSync(value, field, data);
   };
 
   module('form @validation callback', function () {
@@ -100,7 +115,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
     ].forEach(({ testType, validateCallback }) =>
       module(testType, function () {
         test('validation callback is called on submit', async function (assert) {
-          const data: FormData = { firstName: 'Tony', lastName: 'Ward' };
+          const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
           const validateCallback = sinon.spy();
 
           await render(<template>
@@ -130,7 +145,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('onSubmit is not called when validation fails', async function (assert) {
-          const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
+          const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
           const submitHandler = sinon.spy();
 
           await render(<template>
@@ -154,7 +169,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('onInvalid is called when validation fails', async function (assert) {
-          const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
+          const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
           const invalidHandler = sinon.spy();
 
           await render(<template>
@@ -189,7 +204,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('onSubmit is called when validation passes', async function (assert) {
-          const data: FormData = {};
+          const data: TestFormData = {};
           const submitHandler = sinon.spy();
 
           await render(<template>
@@ -219,7 +234,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('validation errors are exposed as field.errors on submit', async function (assert) {
-          const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
+          const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
 
           await render(<template>
             <HeadlessForm
@@ -268,7 +283,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('field.errors is associated to input', async function (this: RenderingTestContext, assert) {
-          const data: FormData = { firstName: 'Foo' };
+          const data: TestFormData = { firstName: 'Foo' };
 
           await render(<template>
             <HeadlessForm
@@ -321,7 +336,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('field.errors renders all error messages in non-block mode', async function (assert) {
-          const data: FormData = { firstName: 'foo' };
+          const data: TestFormData = { firstName: 'foo' };
 
           await render(<template>
             <HeadlessForm
@@ -349,7 +364,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('field.errors yields errors in block mode', async function (assert) {
-          const data: FormData = { firstName: 'foo' };
+          const data: TestFormData = { firstName: 'foo' };
 
           await render(<template>
             <HeadlessForm
@@ -421,7 +436,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('validation errors for dynamically removed fields are not taken into account', async function (assert) {
-          const data: FormData = {};
+          const data: TestFormData = {};
           const submitHandler = sinon.spy();
           // This validation callback intentionally always returns an error, as it should be ignored
           const validateCallback = () => ({
@@ -527,7 +542,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('validation errors mark the control as invalid', async function (assert) {
-          const data: FormData = { firstName: 'Foo' };
+          const data: TestFormData = { firstName: 'Foo' };
 
           await render(<template>
             <HeadlessForm
@@ -558,7 +573,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
     ].forEach(({ testType, validateCallback }) =>
       module(testType, function () {
         test('validation callback is called on submit', async function (assert) {
-          const data: FormData = { firstName: 'Tony', lastName: 'Ward' };
+          const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
           const validateCallback = sinon.spy();
 
           await render(<template>
@@ -588,7 +603,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('onSubmit is not called when validation fails', async function (assert) {
-          const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
+          const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
           const submitHandler = sinon.spy();
 
           await render(<template>
@@ -611,7 +626,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
 
         test('validation errors are exposed as field.errors on submit', async function (assert) {
-          const data: FormData = { firstName: 'Foo', lastName: 'Smith' };
+          const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
 
           await render(<template>
             <HeadlessForm @data={{data}} as |form|>
@@ -829,5 +844,148 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         });
       })
     );
+  });
+
+  module('@validateOn="blur"', function () {
+    test('form validation callback is called on blur', async function (assert) {
+      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+      const validateCallback = sinon.spy();
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validateOn="blur"
+          @validate={{validateCallback}}
+          as |form|
+        >
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+          </form.field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await fillIn('[data-test-first-name]', 'Foo');
+
+      assert.false(
+        validateCallback.called,
+        '@validate is not called while typing'
+      );
+
+      await blur('[data-test-first-name]');
+
+      assert.true(
+        validateCallback.calledWith({ ...data, firstName: 'Foo' }),
+        '@validate is called with form data'
+      );
+    });
+
+    test('field validation callback is called on blur', async function (assert) {
+      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+      const validateCallback = sinon.spy();
+
+      await render(<template>
+        <HeadlessForm @data={{data}} @validateOn="blur" as |form|>
+          <form.field
+            @name="firstName"
+            @validate={{validateCallback}}
+            as |field|
+          >
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+          </form.field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await fillIn('[data-test-first-name]', 'Foo');
+
+      assert.false(
+        validateCallback.called,
+        '@validate is not called while typing'
+      );
+
+      await blur('[data-test-first-name]');
+
+      assert.true(
+        validateCallback.calledWith('Foo', 'firstName', {
+          ...data,
+          firstName: 'Foo',
+        }),
+        '@validate is called with form data'
+      );
+    });
+
+    test('validation errors are exposed as field.errors on blur', async function (assert) {
+      const data: TestFormData = { firstName: 'Foo', lastName: 'Foo' };
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validateOn="blur"
+          @validate={{validateFormCallbackSync}}
+          as |form|
+        >
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name />
+            <field.errors data-test-first-name-errors />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+            <field.errors data-test-last-name-errors />
+          </form.field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('[data-test-first-name-errors]')
+        .doesNotExist(
+          'validation errors are not rendered before validation happens'
+        );
+      assert
+        .dom('[data-test-last-name-errors]')
+        .doesNotExist(
+          'validation errors are not rendered before validation happens'
+        );
+
+      await fillIn('[data-test-first-name]', 'Foo');
+
+      assert
+        .dom('[data-test-first-name-errors]')
+        .doesNotExist(
+          'validation errors are not rendered before validation happens'
+        );
+      assert
+        .dom('[data-test-last-name-errors]')
+        .doesNotExist(
+          'validation errors are not rendered before validation happens'
+        );
+
+      await blur('[data-test-first-name]');
+
+      assert
+        .dom('[data-test-first-name-errors]')
+        .exists(
+          { count: 1 },
+          'validation errors appear on blur when validation fails'
+        );
+      assert
+        .dom('[data-test-last-name-errors]')
+        .doesNotExist(
+          'validation errors are not rendered for untouched fields'
+        );
+    });
   });
 });

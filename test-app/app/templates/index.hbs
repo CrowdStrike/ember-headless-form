@@ -1,4 +1,9 @@
-<HeadlessForm @data={{this.data}} @onSubmit={{this.doSomething}} as |form|>
+<HeadlessForm
+  @data={{this.data}}
+  @validateOn='blur'
+  @onSubmit={{this.doSomething}}
+  as |form|
+>
   <form.field @name='name' as |field|>
     <field.label>Name</field.label>
     <field.input />

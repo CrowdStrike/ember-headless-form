@@ -1,11 +1,18 @@
-<form ...attributes {{on 'submit' this.onSubmit}}>
+{{! ignoring prettier here is need to *not* wrap the modifier usage below into a new line, making @glint-expect-error fail to work 🙈 }}
+{{! prettier-ignore }}
+<form
+  ...attributes
+  {{on 'submit' this.onSubmit}}
+  {{! @glint-expect-error: modifier helper not supported, see https://github.com/typed-ember/glint/issues/410 }}
+  {{(if this.fieldValidationEvent (modifier this.on this.fieldValidationEvent this.handleFieldValidation))}}
+>
   {{yield
     (hash
       field=(component
         (ensure-safe-component this.FieldComponent)
         data=this.internalData
         set=this.set
-        errors=this.lastValidationResult
+        errors=this.visibleErrors
         registerField=this.registerField
         unregisterField=this.unregisterField
       )

@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 
 import { TrackedObject } from 'tracked-built-ins';
@@ -10,11 +11,13 @@ import FieldComponent from './-private/field';
 import type { HeadlessFormFieldComponentSignature } from './-private/field';
 import type {
   ErrorRecord,
-  FieldData,
+  FieldRegistrationData,
+  FieldValidateCallback,
   FormData,
   FormKey,
   FormValidateCallback,
   UserData,
+  ValidationError,
 } from './-private/types';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
@@ -37,12 +40,25 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
     default: [
       {
         field: WithBoundArgs<
-          typeof FieldComponent<FormData<DATA>>,
+          typeof FieldComponent<DATA>,
           'data' | 'set' | 'errors' | 'registerField' | 'unregisterField'
         >;
       }
     ];
   };
+}
+
+class FieldData<
+  DATA extends FormData,
+  KEY extends FormKey<DATA> = FormKey<DATA>
+> {
+  constructor(fieldRegistration: FieldRegistrationData<DATA, KEY>) {
+    this.validate = fieldRegistration.validate;
+  }
+
+  @tracked validationEnabled = false;
+
+  validate?: FieldValidateCallback<DATA, KEY>;
 }
 
 export default class HeadlessFormComponent<
@@ -51,13 +67,15 @@ export default class HeadlessFormComponent<
   FieldComponent: ComponentLike<HeadlessFormFieldComponentSignature<DATA>> =
     FieldComponent;
 
-  internalData: FormData<DATA> = new TrackedObject(
-    this.args.data ?? {}
-  ) as FormData<DATA>;
+  // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
+  on = on;
+
+  internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
 
   fields = new Map<FormKey<FormData<DATA>>, FieldData<FormData<DATA>>>();
 
   @tracked lastValidationResult?: ErrorRecord<FormData<DATA>>;
+  @tracked showAllValidations = false;
 
   get validateOn(): ValidateOn {
     return this.args.validateOn ?? 'submit';
@@ -65,6 +83,16 @@ export default class HeadlessFormComponent<
 
   get revalidateOn(): ValidateOn {
     return this.args.revalidateOn ?? 'change';
+  }
+
+  get fieldValidationEvent(): 'focusout' | 'change' | undefined {
+    const { validateOn } = this;
+
+    return validateOn === 'submit'
+      ? undefined
+      : validateOn === 'blur'
+      ? 'focusout'
+      : validateOn;
   }
 
   get hasValidationErrors(): boolean {
@@ -106,11 +134,38 @@ export default class HeadlessFormComponent<
     return Object.keys(errors).length > 0 ? errors : undefined;
   }
 
+  get visibleErrors(): ErrorRecord<FormData<DATA>> | undefined {
+    if (!this.lastValidationResult) {
+      return undefined;
+    }
+
+    const visibleErrors: ErrorRecord<FormData<DATA>> = {};
+
+    for (const [field, errors] of Object.entries(this.lastValidationResult) as [
+      FormKey<FormData<DATA>>,
+      ValidationError<FormData<DATA>[FormKey<FormData<DATA>>]>[]
+    ][]) {
+      if (this.showErrorsFor(field)) {
+        visibleErrors[field] = errors;
+      }
+    }
+
+    return visibleErrors;
+  }
+
+  showErrorsFor(field: FormKey<FormData<DATA>>): boolean {
+    return (
+      this.showAllValidations ||
+      (this.fields.get(field)?.validationEnabled ?? false)
+    );
+  }
+
   @action
   async onSubmit(e: Event): Promise<void> {
     e.preventDefault();
 
     this.lastValidationResult = await this.validate();
+    this.showAllValidations = true;
 
     if (!this.hasValidationErrors) {
       this.args.onSubmit?.(this.internalData);
@@ -126,7 +181,7 @@ export default class HeadlessFormComponent<
   @action
   registerField(
     name: FormKey<FormData<DATA>>,
-    field: FieldData<FormData<DATA>>
+    field: FieldRegistrationData<FormData<DATA>>
   ): void {
     assert(
       `You passed @name="${String(
@@ -134,7 +189,7 @@ export default class HeadlessFormComponent<
       )}" to the form field, but this is already in use. Names of form fields must be unique!`,
       !this.fields.has(name)
     );
-    this.fields.set(name, field);
+    this.fields.set(name, new FieldData(field));
   }
 
   @action
@@ -145,5 +200,22 @@ export default class HeadlessFormComponent<
   @action
   set<KEY extends FormKey<FormData<DATA>>>(key: KEY, value: DATA[KEY]): void {
     this.internalData[key] = value;
+  }
+
+  @action
+  async handleFieldValidation(e: Event): Promise<void> {
+    const { target } = e;
+    const { name } = target as HTMLInputElement;
+
+    if (name) {
+      const field = this.fields.get(name as FormKey<FormData<DATA>>);
+
+      if (field) {
+        this.lastValidationResult = await this.validate();
+        field.validationEnabled = true;
+      }
+    } else {
+      // @todo how to handle custom controls that don't emit focusout/change events from native form controls?
+    }
   }
 }
