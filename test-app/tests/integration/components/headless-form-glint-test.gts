@@ -55,4 +55,17 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
       </HeadlessForm>
     </template>);
   });
+
+  test('@name argument can only be used for string-types keys', async function (assert) {
+    assert.expect(0);
+    const data: { foo?: string; 0?: number } = {};
+
+    await render(<template>
+      <HeadlessForm @data={{data}} as |form|>
+        <form.field @name="foo" />
+        {{! @glint-expect-error this is expected to be a glint error, as 0 is a valid key of data, but we also require it to be a string! }}
+        <form.field @name={{0}} />
+      </HeadlessForm>
+    </template>);
+  });
 });

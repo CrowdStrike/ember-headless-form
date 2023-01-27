@@ -5,6 +5,7 @@ export interface HeadlessFormControlCheckboxComponentSignature {
   Element: HTMLInputElement;
   Args: {
     value: boolean;
+    name: string;
     fieldId: string;
     setValue: (value: boolean) => void;
     invalid: boolean;

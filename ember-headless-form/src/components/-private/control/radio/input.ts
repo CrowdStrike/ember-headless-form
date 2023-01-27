@@ -4,6 +4,7 @@ export interface HeadlessFormControlRadioInputComponentSignature {
   Element: HTMLInputElement;
   Args: {
     value: string;
+    name: string;
     checked: boolean;
     fieldId: string;
     setValue: (value: string) => void;

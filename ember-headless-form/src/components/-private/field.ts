@@ -9,34 +9,34 @@ import TextareaComponent from './control/textarea';
 import ErrorsComponent from './errors';
 import LabelComponent from './label';
 
-import type {
-  ErrorRecord,
-  FieldValidateCallback,
-  HeadlessFormData,
-  RegisterFieldCallback,
-  UnregisterFieldCallback,
-  ValidationError,
-} from '../headless-form';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
 import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
 import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
 import type { HeadlessFormErrorsComponentSignature } from './errors';
 import type { HeadlessFormLabelComponentSignature } from './label';
+import type {
+  ErrorRecord,
+  FieldValidateCallback,
+  FormData,
+  RegisterFieldCallback,
+  UnregisterFieldCallback,
+} from './types';
+import type { FormKey, UserData, ValidationError } from './types';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
-  DATA extends HeadlessFormData,
-  KEY extends keyof DATA = keyof DATA
+  DATA extends UserData,
+  KEY extends FormKey<FormData<DATA>> = FormKey<FormData<DATA>>
 > {
   Args: {
-    data: DATA;
+    data: FormData<DATA>;
     name: KEY;
     set: (key: KEY, value: DATA[KEY]) => void;
-    validate?: FieldValidateCallback<DATA, KEY>;
+    validate?: FieldValidateCallback<FormData<DATA>, KEY>;
     errors?: ErrorRecord<DATA, KEY>;
-    registerField: RegisterFieldCallback<DATA, KEY>;
-    unregisterField: UnregisterFieldCallback<DATA, KEY>;
+    registerField: RegisterFieldCallback<FormData<DATA>, KEY>;
+    unregisterField: UnregisterFieldCallback<FormData<DATA>, KEY>;
   };
   Blocks: {
     default: [
@@ -44,16 +44,19 @@ export interface HeadlessFormFieldComponentSignature<
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
           typeof InputComponent,
-          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
+          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         checkbox: WithBoundArgs<
           typeof CheckboxComponent,
-          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
+          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
-        radio: WithBoundArgs<typeof RadioComponent, 'selected' | 'setValue'>;
+        radio: WithBoundArgs<
+          typeof RadioComponent,
+          'name' | 'selected' | 'setValue'
+        >;
         textarea: WithBoundArgs<
           typeof TextareaComponent,
-          'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
+          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         value: DATA[KEY];
         id: string;
@@ -68,8 +71,8 @@ export interface HeadlessFormFieldComponentSignature<
 }
 
 export default class HeadlessFormFieldComponent<
-  DATA extends HeadlessFormData,
-  KEY extends keyof DATA = keyof DATA
+  DATA extends FormData,
+  KEY extends FormKey<FormData<DATA>> = FormKey<FormData<DATA>>
 > extends Component<HeadlessFormFieldComponentSignature<DATA, KEY>> {
   LabelComponent: ComponentLike<HeadlessFormLabelComponentSignature> =
     LabelComponent;

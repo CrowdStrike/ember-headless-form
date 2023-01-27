@@ -10,6 +10,7 @@ import type { ComponentLike, WithBoundArgs } from '@glint/template';
 export interface HeadlessFormControlRadioComponentSignature {
   Args: {
     value: string;
+    name: string;
     selected: string;
     setValue: (value: string) => void;
   };
@@ -19,7 +20,7 @@ export interface HeadlessFormControlRadioComponentSignature {
         label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
         input: WithBoundArgs<
           typeof RadioInputComponent,
-          'fieldId' | 'value' | 'setValue' | 'checked'
+          'fieldId' | 'value' | 'setValue' | 'checked' | 'name'
         >;
       }
     ];

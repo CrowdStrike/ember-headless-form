@@ -6,6 +6,7 @@
       )
       input=(component
         (ensure-safe-component this.InputComponent)
+        name=@name
         fieldId=fieldId
         errorId=errorId
         value=this.valueAsString
@@ -14,6 +15,7 @@
       )
       checkbox=(component
         (ensure-safe-component this.CheckboxComponent)
+        name=@name
         fieldId=fieldId
         errorId=errorId
         value=this.valueAsBoolean
@@ -22,6 +24,7 @@
       )
       textarea=(component
         (ensure-safe-component this.TextareaComponent)
+        name=@name
         fieldId=fieldId
         errorId=errorId
         value=this.valueAsString
@@ -30,6 +33,7 @@
       )
       radio=(component
         (ensure-safe-component this.RadioComponent)
+        name=@name
         selected=this.valueAsString
         setValue=this.setValue
       )
