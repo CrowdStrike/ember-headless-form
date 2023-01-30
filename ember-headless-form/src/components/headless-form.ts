@@ -89,18 +89,26 @@ export default class HeadlessFormComponent<
     const { validateOn } = this;
 
     return validateOn === 'submit'
-      ? undefined
-      : validateOn === 'blur'
+      ? // no need for dynamic validation, as validation always happens on submit
+        undefined
+      : // our component API expects "blur", but the actual blur event does not bubble up, so we use focusout internally instead
+      validateOn === 'blur'
       ? 'focusout'
       : validateOn;
   }
 
   get fieldRevalidationEvent(): 'focusout' | 'change' | undefined {
-    const { revalidateOn } = this;
+    const { validateOn, revalidateOn } = this;
 
     return revalidateOn === 'submit'
+      ? // no need for dynamic validation, as validation always happens on submit
+        undefined
+      : // when validation happens more frequently than revalidation, then we can ignore revalidation, because the validation handler will already cover us
+      validateOn === 'change' ||
+        (validateOn === 'blur' && revalidateOn === 'blur')
       ? undefined
-      : revalidateOn === 'blur'
+      : // our component API expects "blur", but the actual blur event does not bubble up, so we use focusout internally instead
+      revalidateOn === 'blur'
       ? 'focusout'
       : revalidateOn;
   }
