@@ -5,6 +5,8 @@
   {{on 'submit' this.onSubmit}}
   {{! @glint-expect-error: modifier helper not supported, see https://github.com/typed-ember/glint/issues/410 }}
   {{(if this.fieldValidationEvent (modifier this.on this.fieldValidationEvent this.handleFieldValidation))}}
+  {{! @glint-expect-error: modifier helper not supported, see https://github.com/typed-ember/glint/issues/410 }}
+  {{(if this.fieldRevalidationEvent (modifier this.on this.fieldRevalidationEvent this.handleFieldRevalidation))}}
 >
   {{yield
     (hash

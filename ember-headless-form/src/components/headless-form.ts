@@ -95,6 +95,16 @@ export default class HeadlessFormComponent<
       : validateOn;
   }
 
+  get fieldRevalidationEvent(): 'focusout' | 'change' | undefined {
+    const { revalidateOn } = this;
+
+    return revalidateOn === 'submit'
+      ? undefined
+      : revalidateOn === 'blur'
+      ? 'focusout'
+      : revalidateOn;
+  }
+
   get hasValidationErrors(): boolean {
     // Only consider validation errors for which we actually have a field rendered
     return this.lastValidationResult
@@ -213,6 +223,21 @@ export default class HeadlessFormComponent<
       if (field) {
         this.lastValidationResult = await this.validate();
         field.validationEnabled = true;
+      }
+    } else {
+      // @todo how to handle custom controls that don't emit focusout/change events from native form controls?
+    }
+  }
+
+  @action
+  async handleFieldRevalidation(e: Event): Promise<void> {
+    const { target } = e;
+    const { name } = target as HTMLInputElement;
+
+    if (name) {
+      if (this.showErrorsFor(name as FormKey<FormData<DATA>>)) {
+        this.lastValidationResult = await this.validate();
+        // field.validationEnabled = true;
       }
     } else {
       // @todo how to handle custom controls that don't emit focusout/change events from native form controls?

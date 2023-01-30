@@ -884,6 +884,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           validateCallback.calledWith({ ...data, firstName: 'Foo' }),
           '@validate is called with form data'
         );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called again on submit'
+        );
       });
 
       test('field validation callback is called on blur', async function (assert) {
@@ -924,10 +931,17 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           }),
           '@validate is called with form data'
         );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called again on submit'
+        );
       });
 
       test('validation errors are exposed as field.errors on blur', async function (assert) {
-        const data: TestFormData = { firstName: 'Foo', lastName: 'Foo' };
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
           <HeadlessForm
@@ -1020,6 +1034,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           validateCallback.calledWith({ ...data, firstName: 'Foo' }),
           '@validate is called with form data'
         );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called again on submit'
+        );
       });
 
       test('field validation callback is called on change', async function (assert) {
@@ -1053,10 +1074,17 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           }),
           '@validate is called with form data'
         );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called again on submit'
+        );
       });
 
       test('validation errors are exposed as field.errors on change', async function (assert) {
-        const data: TestFormData = { firstName: 'Foo', lastName: 'Foo' };
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
           <HeadlessForm
@@ -1102,6 +1130,491 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
             'validation errors are not rendered for untouched fields'
+          );
+      });
+    });
+  });
+
+  module(`@revalidateOn`, function () {
+    module('blur', function () {
+      test('form validation callback is called on blur', async function (assert) {
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+        const validateCallback = sinon.spy();
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @revalidateOn="blur"
+            @validate={{validateCallback}}
+            as |form|
+          >
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await fillIn('[data-test-first-name]', 'Foo');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called while typing'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called until submitting'
+        );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledOnce,
+          '@validate is called when submitting'
+        );
+        assert.true(
+          validateCallback.calledWith({ ...data, firstName: 'Foo' }),
+          '@validate is called with form data'
+        );
+
+        await fillIn('[data-test-first-name]', 'Tony');
+
+        assert.false(
+          validateCallback.calledTwice,
+          '@validate is not called while typing'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called for revalidation on blur'
+        );
+        assert.true(
+          validateCallback
+            .getCall(1)
+            .calledWith({ ...data, firstName: 'Tony' }),
+          '@validate is called with form data'
+        );
+      });
+
+      test('field validation callback is called on blur', async function (assert) {
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+        const validateCallback = sinon.spy();
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @revalidateOn="blur" as |form|>
+            <form.field
+              @name="firstName"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await fillIn('[data-test-first-name]', 'Foo');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called while typing'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called until submitting'
+        );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledOnce,
+          '@validate is called when submitting'
+        );
+        assert.true(
+          validateCallback.calledWith('Foo', 'firstName', {
+            ...data,
+            firstName: 'Foo',
+          }),
+          '@validate is called with form data'
+        );
+
+        await fillIn('[data-test-first-name]', 'Tony');
+
+        assert.false(
+          validateCallback.calledTwice,
+          '@validate is not called while typing'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called for revalidation on blur'
+        );
+        assert.true(
+          validateCallback.getCall(1).calledWith('Tony', 'firstName', {
+            ...data,
+            firstName: 'Tony',
+          }),
+          '@validate is called with form data'
+        );
+      });
+
+      test('validation errors are exposed as field.errors on blur', async function (assert) {
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @revalidateOn="blur"
+            @validate={{validateFormCallbackSync}}
+            as |form|
+          >
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+              <field.errors data-test-first-name-errors />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+              <field.errors data-test-last-name-errors />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+
+        await fillIn('[data-test-first-name]', 'Foo');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+
+        await blur('[data-test-first-name]');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+
+        await click('[data-test-submit]');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors appear on submit when validation fails'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors appear on submit when validation fails'
+          );
+
+        await fillIn('[data-test-first-name]', 'Tony');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors do not disappear until revalidation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors do not disappear until revalidation happens'
+          );
+
+        await blur('[data-test-first-name]');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors disappear after successful revalidation'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors do not disappear until revalidation happens'
+          );
+      });
+    });
+
+    module('change', function () {
+      test('form validation callback is called on change', async function (assert) {
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+        const validateCallback = sinon.spy();
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @revalidateOn="change"
+            @validate={{validateCallback}}
+            as |form|
+          >
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await fillIn('[data-test-first-name]', 'Foo');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called while typing'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called until submitting'
+        );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledOnce,
+          '@validate is called when submitting'
+        );
+        assert.true(
+          validateCallback.calledWith({ ...data, firstName: 'Foo' }),
+          '@validate is called with form data'
+        );
+
+        await fillIn('[data-test-first-name]', 'Tony');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called for revalidation on change'
+        );
+        assert.true(
+          validateCallback
+            .getCall(1)
+            .calledWith({ ...data, firstName: 'Tony' }),
+          '@validate is called with form data'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is not called again on blur'
+        );
+      });
+
+      test('field validation callback is called on change', async function (assert) {
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+        const validateCallback = sinon.spy();
+
+        await render(<template>
+          <HeadlessForm @data={{data}} @revalidateOn="change" as |form|>
+            <form.field
+              @name="firstName"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        await fillIn('[data-test-first-name]', 'Foo');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called while typing'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.false(
+          validateCallback.called,
+          '@validate is not called until submitting'
+        );
+
+        await click('[data-test-submit]');
+
+        assert.true(
+          validateCallback.calledOnce,
+          '@validate is called when submitting'
+        );
+        assert.true(
+          validateCallback.calledWith('Foo', 'firstName', {
+            ...data,
+            firstName: 'Foo',
+          }),
+          '@validate is called with form data'
+        );
+
+        await fillIn('[data-test-first-name]', 'Tony');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called for revalidation on change'
+        );
+        assert.true(
+          validateCallback.getCall(1).calledWith('Tony', 'firstName', {
+            ...data,
+            firstName: 'Tony',
+          }),
+          '@validate is called with form data'
+        );
+
+        await blur('[data-test-first-name]');
+
+        assert.true(
+          validateCallback.calledTwice,
+          '@validate is called for revalidation on blur'
+        );
+      });
+
+      test('validation errors are exposed as field.errors on change', async function (assert) {
+        const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
+
+        await render(<template>
+          <HeadlessForm
+            @data={{data}}
+            @revalidateOn="change"
+            @validate={{validateFormCallbackSync}}
+            as |form|
+          >
+            <form.field @name="firstName" as |field|>
+              <field.label>First Name</field.label>
+              <field.input data-test-first-name />
+              <field.errors data-test-first-name-errors />
+            </form.field>
+            <form.field @name="lastName" as |field|>
+              <field.label>Last Name</field.label>
+              <field.input data-test-last-name />
+              <field.errors data-test-last-name-errors />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+
+        await fillIn('[data-test-first-name]', 'Foo');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+
+        await blur('[data-test-first-name]');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .doesNotExist(
+            'validation errors are not rendered before initial validation happens'
+          );
+
+        await click('[data-test-submit]');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors appear on submit when validation fails'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors appear on submit when validation fails'
+          );
+
+        await fillIn('[data-test-first-name]', 'Tony');
+
+        assert
+          .dom('[data-test-first-name-errors]')
+          .doesNotExist(
+            'validation errors disappear after successful revalidation'
+          );
+        assert
+          .dom('[data-test-last-name-errors]')
+          .exists(
+            { count: 1 },
+            'validation errors do not disappear until revalidation happens'
           );
       });
     });
