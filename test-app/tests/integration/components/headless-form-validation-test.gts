@@ -847,7 +847,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
   });
 
   module(`@validateOn`, function () {
-    module('blur', function () {
+    module('@validateOn=blur', function () {
       test('form validation callback is called on blur', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
         const validateCallback = sinon.spy();
@@ -1004,7 +1004,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
       });
     });
 
-    module('change', function () {
+    module('@validateOn=change', function () {
       test('form validation callback is called on change', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
         const validateCallback = sinon.spy();
@@ -1136,7 +1136,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
   });
 
   module(`@revalidateOn`, function () {
-    module('blur', function () {
+    module('@revalidateOn=blur', function () {
       test('form validation callback is called on blur', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
         const validateCallback = sinon.spy();
@@ -1385,7 +1385,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
       });
     });
 
-    module('change', function () {
+    module('@revalidateOn=change', function () {
       test('form validation callback is called on change', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
         const validateCallback = sinon.spy();
