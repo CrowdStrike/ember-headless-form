@@ -42,7 +42,12 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
       {
         field: WithBoundArgs<
           typeof FieldComponent<DATA>,
-          'data' | 'set' | 'errors' | 'registerField' | 'unregisterField'
+          | 'data'
+          | 'set'
+          | 'errors'
+          | 'registerField'
+          | 'unregisterField'
+          | 'triggerValidationFor'
         >;
       }
     ];
@@ -267,9 +272,16 @@ export default class HeadlessFormComponent<
    * Validation will be triggered, and the particular field will be marked to show eventual validation errors.
    */
   @action
-  async handleFieldValidation(e: Event): Promise<void> {
-    const { target } = e;
-    const { name } = target as HTMLInputElement;
+  async handleFieldValidation(e: Event | string): Promise<void> {
+    let name: string;
+
+    if (typeof e === 'string') {
+      name = e;
+    } else {
+      const { target } = e;
+
+      name = (target as HTMLInputElement).name;
+    }
 
     if (name) {
       const field = this.fields.get(name as FormKey<FormData<DATA>>);

@@ -37,6 +37,7 @@ export interface HeadlessFormFieldComponentSignature<
     errors?: ErrorRecord<DATA, KEY>;
     registerField: RegisterFieldCallback<FormData<DATA>, KEY>;
     unregisterField: UnregisterFieldCallback<FormData<DATA>, KEY>;
+    triggerValidationFor(name: string): Promise<void>;
   };
   Blocks: {
     default: [
@@ -65,6 +66,7 @@ export interface HeadlessFormFieldComponentSignature<
           typeof ErrorsComponent<DATA[KEY]>,
           'errors' | 'id'
         >;
+        triggerValidation: () => void;
       }
     ];
   };
