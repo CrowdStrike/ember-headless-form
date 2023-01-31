@@ -48,6 +48,9 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
   };
 }
 
+/**
+ * This internal data structure maintains information about each field that is registered to the form by `registerField`.
+ */
 class FieldData<
   DATA extends FormData,
   KEY extends FormKey<DATA> = FormKey<DATA>
@@ -56,8 +59,14 @@ class FieldData<
     this.validate = fieldRegistration.validate;
   }
 
+  /**
+   * tracked state that enabled a dynamic validation of a field *before* the whole form is submitted, e.g. by `@validateOn="blur" and the blur event being triggered for that particular field.
+   */
   @tracked validationEnabled = false;
 
+  /**
+   * The *field* level validation callback passed to the field as in `<form.field @name="foo" @validate={{this.validateCallback}}>`
+   */
   validate?: FieldValidateCallback<DATA, KEY>;
 }
 
@@ -70,11 +79,21 @@ export default class HeadlessFormComponent<
   // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
   on = on;
 
+  /**
+   * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
+   */
   internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
 
   fields = new Map<FormKey<FormData<DATA>>, FieldData<FormData<DATA>>>();
 
+  /**
+   * The last result of calling `this.validate()`.
+   */
   @tracked lastValidationResult?: ErrorRecord<FormData<DATA>>;
+
+  /**
+   * When this is set to true by submitting the form, eventual validation errors are show for *all* field, regardless of their individual dynamic validation status in `FieldData#validationEnabled`
+   */
   @tracked showAllValidations = false;
 
   get validateOn(): ValidateOn {
@@ -85,6 +104,9 @@ export default class HeadlessFormComponent<
     return this.args.revalidateOn ?? 'change';
   }
 
+  /**
+   * Return the event type that will be listened on for dynamic validation (i.e. *before* submitting)
+   */
   get fieldValidationEvent(): 'focusout' | 'change' | undefined {
     const { validateOn } = this;
 
@@ -97,6 +119,9 @@ export default class HeadlessFormComponent<
       : validateOn;
   }
 
+  /**
+   * Return the event type that will be listened on for dynamic *re*validation, i.e. updating the validation status of a field that has been previously marked as invalid
+   */
   get fieldRevalidationEvent(): 'focusout' | 'change' | undefined {
     const { validateOn, revalidateOn } = this;
 
@@ -113,6 +138,9 @@ export default class HeadlessFormComponent<
       : revalidateOn;
   }
 
+  /**
+   * Return true if validation has happened (by submitting or by an `@validateOn` event being triggered) and at least one field is invalid
+   */
   get hasValidationErrors(): boolean {
     // Only consider validation errors for which we actually have a field rendered
     return this.lastValidationResult
@@ -122,6 +150,9 @@ export default class HeadlessFormComponent<
       : false;
   }
 
+  /**
+   * Call the passed validation callbacks, defined both on the whole form as well as on field level, and return the merged result for all fields.
+   */
   async validate(): Promise<ErrorRecord<FormData<DATA>> | undefined> {
     let errors: ErrorRecord<FormData<DATA>> | undefined = undefined;
 
@@ -152,6 +183,11 @@ export default class HeadlessFormComponent<
     return Object.keys(errors).length > 0 ? errors : undefined;
   }
 
+  /**
+   * Return a mapping of field to validation errors, for all fields that are invalid *and* for which validation errors should be visible.
+   * Validation errors will be visible for a certain field, if validation errors for *all* fields are visible, which is the case when trying to submit the form,
+   * or when that field has triggered the event given by `@validateOn` for showing validation errors before submitting, e.g. on blur.
+   */
   get visibleErrors(): ErrorRecord<FormData<DATA>> | undefined {
     if (!this.lastValidationResult) {
       return undefined;
@@ -171,6 +207,9 @@ export default class HeadlessFormComponent<
     return visibleErrors;
   }
 
+  /**
+   * Given a field name, return if eventual errors for the field should be visible. See `visibleErrors` for further details.
+   */
   showErrorsFor(field: FormKey<FormData<DATA>>): boolean {
     return (
       this.showAllValidations ||
@@ -220,6 +259,11 @@ export default class HeadlessFormComponent<
     this.internalData[key] = value;
   }
 
+  /**
+   * Handle the `@validateOn` event for a certain field, e.g. "blur".
+   * Associating the event with a field is done by looking at the event target's `name` attribute, which must match one of the `<form.field @name="...">` invocations by the user's template.
+   * Validation will be triggered, and the particular field will be marked to show eventual validation errors.
+   */
   @action
   async handleFieldValidation(e: Event): Promise<void> {
     const { target } = e;
@@ -237,6 +281,13 @@ export default class HeadlessFormComponent<
     }
   }
 
+  /**
+   * Handle the `@revalidateOn` event for a certain field, e.g. "blur".
+   * Associating the event with a field is done by looking at the event target's `name` attribute, which must match one of the `<form.field @name="...">` invocations by the user's template.
+   * When a field has been already marked to show validation errors by `@validateOn`, then for revalidation another validation will be triggered.
+   *
+   * The use case here is to allow this to happen more frequently than the initial validation, e.g. `@validateOn="blur" @revalidateOn="change"`.
+   */
   @action
   async handleFieldRevalidation(e: Event): Promise<void> {
     const { target } = e;
@@ -245,7 +296,6 @@ export default class HeadlessFormComponent<
     if (name) {
       if (this.showErrorsFor(name as FormKey<FormData<DATA>>)) {
         this.lastValidationResult = await this.validate();
-        // field.validationEnabled = true;
       }
     } else {
       // @todo how to handle custom controls that don't emit focusout/change events from native form controls?
