@@ -882,7 +882,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         assert.true(
           validateCallback.calledWith({ ...data, firstName: 'Foo' }),
-          '@validate is called with form data'
+          '@validate is called with form data on blur'
         );
 
         await click('[data-test-submit]');
@@ -929,7 +929,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             ...data,
             firstName: 'Foo',
           }),
-          '@validate is called with form data'
+          '@validate is called with form data on blur'
         );
 
         await click('[data-test-submit]');
@@ -967,12 +967,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens'
+            'validation errors are not rendered before form is filled in'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens'
+            'validation errors are not rendered before form is filled in'
           );
 
         await fillIn('[data-test-first-name]', 'Foo');
@@ -980,12 +980,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens'
+            'validation errors are not rendered before validation happens on blur'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens'
+            'validation errors are not rendered before validation happens on blur'
           );
 
         await blur('[data-test-first-name]');
@@ -1032,7 +1032,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         assert.true(
           validateCallback.calledWith({ ...data, firstName: 'Foo' }),
-          '@validate is called with form data'
+          '@validate is called with form data on change'
         );
 
         await click('[data-test-submit]');
@@ -1110,12 +1110,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens'
+            'validation errors are not rendered before validation happens on change'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens'
+            'validation errors are not rendered before validation happens on change'
           );
 
         await fillIn('[data-test-first-name]', 'Foo');
@@ -1182,7 +1182,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
         assert.true(
           validateCallback.calledWith({ ...data, firstName: 'Foo' }),
-          '@validate is called with form data'
+          '@validate is called with form data on submit'
         );
 
         await fillIn('[data-test-first-name]', 'Tony');
@@ -1202,7 +1202,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           validateCallback
             .getCall(1)
             .calledWith({ ...data, firstName: 'Tony' }),
-          '@validate is called with form data'
+          '@validate is called with form data on blur'
         );
       });
 
@@ -1305,12 +1305,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens before form is filled in'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens before form is filled in'
           );
 
         await fillIn('[data-test-first-name]', 'Foo');
@@ -1318,12 +1318,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
 
         await blur('[data-test-first-name]');
@@ -1331,12 +1331,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
 
         await click('[data-test-submit]');
@@ -1360,13 +1360,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           .dom('[data-test-first-name-errors]')
           .exists(
             { count: 1 },
-            'validation errors do not disappear until revalidation happens'
+            'validation errors do not disappear until revalidation happens on blur'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .exists(
             { count: 1 },
-            'validation errors do not disappear until revalidation happens'
+            'validation errors do not disappear until revalidation happens on blur'
           );
 
         await blur('[data-test-first-name]');
@@ -1374,13 +1374,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors disappear after successful revalidation'
+            'validation errors disappear after successful revalidation on blur'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .exists(
             { count: 1 },
-            'validation errors do not disappear until revalidation happens'
+            'validation errors do not disappear until revalidation happens on blur'
           );
       });
     });
@@ -1554,12 +1554,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens before form is filled in'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens before form is filled in'
           );
 
         await fillIn('[data-test-first-name]', 'Foo');
@@ -1567,12 +1567,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
 
         await blur('[data-test-first-name]');
@@ -1580,12 +1580,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before initial validation happens'
+            'validation errors are not rendered before initial validation happens on submit'
           );
 
         await click('[data-test-submit]');
@@ -1608,13 +1608,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors disappear after successful revalidation'
+            'validation errors disappear after successful revalidation on change'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .exists(
             { count: 1 },
-            'validation errors do not disappear until revalidation happens'
+            'validation errors do not disappear until revalidation happens on change'
           );
       });
     });
