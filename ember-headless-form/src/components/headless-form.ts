@@ -48,6 +48,8 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
           | 'registerField'
           | 'unregisterField'
           | 'triggerValidationFor'
+          | 'fieldValidationEvent'
+          | 'fieldRevalidationEvent'
         >;
       }
     ];

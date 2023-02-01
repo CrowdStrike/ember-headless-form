@@ -1,12 +1,14 @@
-{{! ignoring prettier here is need to *not* wrap the modifier usage below into a new line, making @glint-expect-error fail to work 🙈 }}
-{{! prettier-ignore }}
 <form
   ...attributes
   {{on 'submit' this.onSubmit}}
-  {{! @glint-expect-error: modifier helper not supported, see https://github.com/typed-ember/glint/issues/410 }}
-  {{(if this.fieldValidationEvent (modifier this.on this.fieldValidationEvent this.handleFieldValidation))}}
-  {{! @glint-expect-error: modifier helper not supported, see https://github.com/typed-ember/glint/issues/410 }}
-  {{(if this.fieldRevalidationEvent (modifier this.on this.fieldRevalidationEvent this.handleFieldRevalidation))}}
+  {{(if
+    this.fieldValidationEvent
+    (modifier this.on this.fieldValidationEvent this.handleFieldValidation)
+  )}}
+  {{(if
+    this.fieldRevalidationEvent
+    (modifier this.on this.fieldRevalidationEvent this.handleFieldRevalidation)
+  )}}
 >
   {{yield
     (hash
@@ -18,6 +20,8 @@
         registerField=this.registerField
         unregisterField=this.unregisterField
         triggerValidationFor=this.handleFieldValidation
+        fieldValidationEvent=this.fieldValidationEvent
+        fieldRevalidationEvent=this.fieldRevalidationEvent
       )
     )
   }}

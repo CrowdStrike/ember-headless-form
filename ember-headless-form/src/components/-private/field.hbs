@@ -1,4 +1,10 @@
-{{#let (unique-id) (unique-id) (fn @set @name) as |fieldId errorId setValue|}}
+{{#let
+  (unique-id)
+  (unique-id)
+  (fn @set @name)
+  (fn @triggerValidationFor @name)
+  as |fieldId errorId setValue triggerValidation|
+}}
   {{yield
     (hash
       label=(component
@@ -48,7 +54,12 @@
           id=errorId
         )
       )
-      triggerValidation=(fn @triggerValidationFor @name)
+      triggerValidation=triggerValidation
+      captureEvents=(modifier
+        this.CaptureEventsModifier
+        event=(if this.hasErrors @fieldRevalidationEvent @fieldValidationEvent)
+        triggerValidation=triggerValidation
+      )
     )
   }}
 {{/let}}
