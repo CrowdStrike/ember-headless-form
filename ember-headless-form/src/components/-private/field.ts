@@ -68,12 +68,14 @@ export interface HeadlessFormFieldComponentSignature<
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         value: DATA[KEY];
-        id: string;
         setValue: (value: DATA[KEY]) => void;
+        id: string;
+        errorId: string;
         errors?: WithBoundArgs<
           typeof ErrorsComponent<DATA[KEY]>,
           'errors' | 'id'
         >;
+        isInvalid: boolean;
         triggerValidation: () => void;
         captureEvents: WithBoundArgs<
           ModifierLike<CaptureEventsModifierSignature>,

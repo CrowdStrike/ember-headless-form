@@ -106,6 +106,77 @@ module(
     });
 
     module('validation', function () {
+      test('yielded isInvalid can be used to mark validation state', async function (assert) {
+        const data: TestFormData = { custom: 'foo' };
+        const validateCallback = sinon.fake.returns([
+          { type: 'invalidate', value: undefined, message: 'Invalid value!' },
+        ]);
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field
+              @name="custom"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <CustomControl
+                @value={{field.value}}
+                @onChange={{field.setValue}}
+                aria-invalid={{if field.isInvalid "true"}}
+              />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert.dom('[data-test-custom-control]').doesNotHaveAria('invalid');
+
+        await click('[data-test-submit]');
+
+        assert.dom('[data-test-custom-control]').hasAria('invalid', 'true');
+      });
+
+      test('yielded errorId can be used to connect errors with custom control', async function (this: RenderingTestContext, assert) {
+        const data: TestFormData = { custom: 'foo' };
+        const validateCallback = sinon.fake.returns([
+          { type: 'invalidate', value: undefined, message: 'Invalid value!' },
+        ]);
+
+        await render(<template>
+          <HeadlessForm @data={{data}} as |form|>
+            <form.field
+              @name="custom"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <CustomControl
+                @value={{field.value}}
+                @onChange={{field.setValue}}
+                aria-errormessage={{if field.isInvalid field.errorId}}
+              />
+              <field.errors data-test-errors />
+            </form.field>
+            <button type="submit" data-test-submit>Submit</button>
+          </HeadlessForm>
+        </template>);
+
+        assert
+          .dom('[data-test-custom-control]')
+          .doesNotHaveAria('errormessage');
+
+        await click('[data-test-submit]');
+
+        const id = this.element.querySelector('[data-test-errors]')?.id ?? '';
+
+        assert
+          .dom('[data-test-custom-control]')
+          .hasAria(
+            'errormessage',
+            id,
+            'errors are associated to invalid input via aria-errormessage'
+          );
+      });
+
       test('triggerValidation allows wiring up arbitrary triggers for validation', async function (assert) {
         const data: TestFormData = { custom: 'foo' };
         const validateCallback = sinon.fake.returns([
