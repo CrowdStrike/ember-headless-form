@@ -16,49 +16,38 @@ module(
     setupRenderingTest(hooks);
 
     interface TestFormData {
-      date?: Date;
+      custom?: string;
     }
 
-    const days = new Array(31).fill(0).map((_v, index) => index + 1);
-    const months = new Array(12).fill(0).map((_v, index) => index + 1);
-    const years = new Array(20).fill(0).map((_v, index) => index + 2023);
-
-    const CustomDateControl: TemplateOnlyComponent<{
-      Element: HTMLFieldSetElement;
+    // this is a mock of a custom control component, not yielded by headless-form itself
+    const CustomControl: TemplateOnlyComponent<{
+      Element: HTMLInputElement;
+      Args: {
+        value?: string;
+        onChange(value: string): void;
+      };
     }> = <template>
-      <fieldset ...attributes>
-        <legend>Date</legend>
-        <label for="date-day">Day:</label>
-        <select id="date-day" data-test-custom-date-control-day>
-          {{#each days as |day|}}
-            <option value="{{day}}">{{day}}</option>
-          {{/each}}
-        </select>
-        <label for="date-month">Month:</label>
-        <select id="date-month" data-test-custom-date-control-month>
-          {{#each months as |month|}}
-            <option value="{{month}}">{{month}}</option>
-          {{/each}}
-        </select>
-        <label for="date-year">Year:</label>
-        <select id="date-year" data-test-custom-date-control-year>
-          {{#each years as |year|}}
-            <option value="{{year}}">{{year}}</option>
-          {{/each}}
-        </select>
-      </fieldset>
+      <input
+        type="text"
+        value={{@value}}
+        data-test-custom-control
+        ...attributes
+      />
     </template>;
 
     test('triggerValidation allows wiring up arbitrary triggers for validation', async function (assert) {
       const data: TestFormData = {};
       const validateCallback = sinon.fake.returns([
-        { type: 'invalid-date', value: undefined, message: 'Invalid Date!' },
+        { type: 'invalidate', value: undefined, message: 'Invalid value!' },
       ]);
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="date" @validate={{validateCallback}} as |field|>
-            <CustomDateControl />
+          <form.field @name="custom" @validate={{validateCallback}} as |field|>
+            <CustomControl
+              @value={{field.value}}
+              @onChange={{field.setValue}}
+            />
             <button
               type="button"
               {{on "click" field.triggerValidation}}
@@ -75,7 +64,7 @@ module(
       await click('[data-test-validate]');
 
       assert.true(
-        validateCallback.calledWith(undefined, 'date', data),
+        validateCallback.calledWith(undefined, 'custom', data),
         '@validate is called with form data'
       );
 
@@ -93,21 +82,29 @@ module(
 
         await render(<template>
           <HeadlessForm @data={{data}} @validateOn="blur" as |form|>
-            <form.field @name="date" @validate={{validateCallback}} as |field|>
-              <CustomDateControl {{field.captureEvents}} />
+            <form.field
+              @name="custom"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <CustomControl
+                @value={{field.value}}
+                @onChange={{field.setValue}}
+                {{field.captureEvents}}
+              />
               <field.errors data-test-date-errors />
             </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
 
-        // the select that triggers the blur does *not* have a name that would allow headless-form to understand from which field this event is coming from
+        // the input that triggers the blur does *not* have a name that would allow headless-form to understand from which field this event is coming from
         // but applying {{captureEvents}} will make headless-form be able to assiciate it to the name of the field
-        await focus('[data-test-custom-date-control-day');
-        await blur('[data-test-custom-date-control-day');
+        await focus('[data-test-custom-control');
+        await blur('[data-test-custom-control');
 
         assert.true(
-          validateCallback.calledWith(undefined, 'date', data),
+          validateCallback.calledWith(undefined, 'custom', data),
           '@validate is called with form data'
         );
 
@@ -127,20 +124,28 @@ module(
 
         await render(<template>
           <HeadlessForm @data={{data}} @validateOn="change" as |form|>
-            <form.field @name="date" @validate={{validateCallback}} as |field|>
-              <CustomDateControl {{field.captureEvents}} />
+            <form.field
+              @name="custom"
+              @validate={{validateCallback}}
+              as |field|
+            >
+              <CustomControl
+                @value={{field.value}}
+                @onChange={{field.setValue}}
+                {{field.captureEvents}}
+              />
               <field.errors data-test-date-errors />
             </form.field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
 
-        // the select that triggers the blur does *not* have a name that would allow headless-form to understand from which field this event is coming from
+        // the input that triggers the blur does *not* have a name that would allow headless-form to understand from which field this event is coming from
         // but applying {{captureEvents}} will make headless-form be able to assiciate it to the name of the field
-        await triggerEvent('[data-test-custom-date-control-day', 'change');
+        await triggerEvent('[data-test-custom-control', 'change');
 
         assert.true(
-          validateCallback.calledWith(undefined, 'date', data),
+          validateCallback.calledWith(undefined, 'custom', data),
           '@validate is called with form data'
         );
 
@@ -166,15 +171,19 @@ module(
           @revalidateOn="change"
           as |form|
         >
-          <form.field @name="date" @validate={{validateCallback}} as |field|>
-            <CustomDateControl {{field.captureEvents}} />
+          <form.field @name="custom" @validate={{validateCallback}} as |field|>
+            <CustomControl
+              @value={{field.value}}
+              @onChange={{field.setValue}}
+              {{field.captureEvents}}
+            />
             <field.errors data-test-date-errors />
           </form.field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
 
-      await triggerEvent('[data-test-custom-date-control-day', 'change');
+      await triggerEvent('[data-test-custom-control', 'change');
 
       assert.false(
         validateCallback.called,
@@ -184,11 +193,11 @@ module(
         .dom('[data-test-date-errors]')
         .doesNotExist('validation errors do not exist until blur');
 
-      await focus('[data-test-custom-date-control-day');
-      await blur('[data-test-custom-date-control-day');
+      await focus('[data-test-custom-control');
+      await blur('[data-test-custom-control');
 
       assert.true(
-        validateCallback.calledWith(undefined, 'date', data),
+        validateCallback.calledWith(undefined, 'custom', data),
         '@validate is called with form data'
       );
 
@@ -196,7 +205,7 @@ module(
         .dom('[data-test-date-errors]')
         .exists({ count: 1 }, 'validation errors appear when validation fails');
 
-      await triggerEvent('[data-test-custom-date-control-day', 'change');
+      await triggerEvent('[data-test-custom-control', 'change');
 
       assert.true(
         validateCallback.calledTwice,
