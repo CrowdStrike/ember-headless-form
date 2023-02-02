@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { assert } from '@ember/debug';
+import { assert, warn } from '@ember/debug';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
@@ -292,8 +292,11 @@ export default class HeadlessFormComponent<
         this.lastValidationResult = await this.validate();
         field.validationEnabled = true;
       }
-    } else {
-      // @todo how to handle custom controls that don't emit focusout/change events from native form controls?
+    } else if (e instanceof Event) {
+      warn(
+        `An event of type "${e.type}" was received by headless-form, which is supposed to trigger validations for a certain field. But the name of that field could not be determined. Make sure that your control element has a \`name\` attribute matching the field, or use the yielded \`{{field.captureEvents}}\` to capture the events.`,
+        { id: 'headless-form.validation-event-for-unknown-field' }
+      );
     }
   }
 
@@ -314,7 +317,10 @@ export default class HeadlessFormComponent<
         this.lastValidationResult = await this.validate();
       }
     } else {
-      // @todo how to handle custom controls that don't emit focusout/change events from native form controls?
+      warn(
+        `An event of type "${e.type}" was received by headless-form, which is supposed to trigger validations for a certain field. But the name of that field could not be determined. Make sure that your control element has a \`name\` attribute matching the field, or use the yielded \`{{field.captureEvents}}\` to capture the events.`,
+        { id: 'headless-form.validation-event-for-unknown-field' }
+      );
     }
   }
 }
