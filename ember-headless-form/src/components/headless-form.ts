@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 
 import { TrackedObject } from 'tracked-built-ins';
 
@@ -153,6 +154,7 @@ export default class HeadlessFormComponent<
   /**
    * Call the passed validation callbacks, defined both on the whole form as well as on field level, and return the merged result for all fields.
    */
+  @waitFor
   async validate(): Promise<ErrorRecord<FormData<DATA>> | undefined> {
     let errors: ErrorRecord<FormData<DATA>> | undefined = undefined;
 
