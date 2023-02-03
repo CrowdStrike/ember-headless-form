@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 
+import CaptureEventsModifier from './capture-events';
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import RadioComponent from './control/radio';
@@ -9,6 +10,7 @@ import TextareaComponent from './control/textarea';
 import ErrorsComponent from './errors';
 import LabelComponent from './label';
 
+import type { CaptureEventsModifierSignature } from './capture-events';
 import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
 import type { HeadlessFormControlInputComponentSignature } from './control/input';
 import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
@@ -23,7 +25,11 @@ import type {
   UnregisterFieldCallback,
 } from './types';
 import type { FormKey, UserData, ValidationError } from './types';
-import type { ComponentLike, WithBoundArgs } from '@glint/template';
+import type {
+  ComponentLike,
+  ModifierLike,
+  WithBoundArgs,
+} from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
   DATA extends UserData,
@@ -37,6 +43,9 @@ export interface HeadlessFormFieldComponentSignature<
     errors?: ErrorRecord<DATA, KEY>;
     registerField: RegisterFieldCallback<FormData<DATA>, KEY>;
     unregisterField: UnregisterFieldCallback<FormData<DATA>, KEY>;
+    triggerValidationFor(name: KEY): Promise<void>;
+    fieldValidationEvent: 'focusout' | 'change' | undefined;
+    fieldRevalidationEvent: 'focusout' | 'change' | undefined;
   };
   Blocks: {
     default: [
@@ -59,11 +68,18 @@ export interface HeadlessFormFieldComponentSignature<
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
         value: DATA[KEY];
-        id: string;
         setValue: (value: DATA[KEY]) => void;
+        id: string;
+        errorId: string;
         errors?: WithBoundArgs<
           typeof ErrorsComponent<DATA[KEY]>,
           'errors' | 'id'
+        >;
+        isInvalid: boolean;
+        triggerValidation: () => void;
+        captureEvents: WithBoundArgs<
+          ModifierLike<CaptureEventsModifierSignature>,
+          'event' | 'triggerValidation'
         >;
       }
     ];
@@ -87,6 +103,7 @@ export default class HeadlessFormFieldComponent<
     TextareaComponent;
   RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =
     RadioComponent;
+  CaptureEventsModifier = CaptureEventsModifier;
 
   constructor(
     owner: unknown,

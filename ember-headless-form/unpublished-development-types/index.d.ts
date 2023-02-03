@@ -22,5 +22,8 @@ declare module '@glint/environment-ember-loose/registry' {
     // See https://typed-ember.gitbook.io/glint/using-glint/ember/using-addons
 
     'ensure-safe-component': typeof ensureSafeComponent;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- effectively skipping type checks until https://github.com/typed-ember/glint/issues/410 is resolved
+    modifier: any;
   }
 }
