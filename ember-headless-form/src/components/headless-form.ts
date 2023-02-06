@@ -28,7 +28,7 @@ import type {
   WithBoundArgs,
 } from '@glint/template';
 
-type ValidateOn = 'change' | 'blur' | 'submit';
+type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
 
 export interface HeadlessFormComponentSignature<DATA extends UserData> {
   Element: HTMLFormElement;
@@ -127,34 +127,29 @@ export default class HeadlessFormComponent<
   /**
    * Return the event type that will be listened on for dynamic validation (i.e. *before* submitting)
    */
-  get fieldValidationEvent(): 'focusout' | 'change' | undefined {
+  get fieldValidationEvent(): 'focusout' | 'change' | 'input' | undefined {
     const { validateOn } = this;
 
     return validateOn === 'submit'
       ? // no need for dynamic validation, as validation always happens on submit
         undefined
-      : // our component API expects "blur", but the actual blur event does not bubble up, so we use focusout internally instead
-      validateOn === 'blur'
-      ? 'focusout'
       : validateOn;
   }
 
   /**
    * Return the event type that will be listened on for dynamic *re*validation, i.e. updating the validation status of a field that has been previously marked as invalid
    */
-  get fieldRevalidationEvent(): 'focusout' | 'change' | undefined {
+  get fieldRevalidationEvent(): 'focusout' | 'change' | 'input' | undefined {
     const { validateOn, revalidateOn } = this;
 
     return revalidateOn === 'submit'
       ? // no need for dynamic validation, as validation always happens on submit
         undefined
       : // when validation happens more frequently than revalidation, then we can ignore revalidation, because the validation handler will already cover us
-      validateOn === 'change' ||
-        (validateOn === 'blur' && revalidateOn === 'blur')
+      validateOn === 'input' ||
+        (validateOn === 'change' && revalidateOn === 'focusout') ||
+        validateOn === revalidateOn
       ? undefined
-      : // our component API expects "blur", but the actual blur event does not bubble up, so we use focusout internally instead
-      revalidateOn === 'blur'
-      ? 'focusout'
       : revalidateOn;
   }
 
