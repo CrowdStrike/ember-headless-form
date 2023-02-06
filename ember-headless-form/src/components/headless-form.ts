@@ -5,9 +5,11 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 
+import { modifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
 import FieldComponent from './-private/field';
+import { mergeErrorRecord } from './-private/utils';
 
 import type { HeadlessFormFieldComponentSignature } from './-private/field';
 import type {
@@ -20,7 +22,11 @@ import type {
   UserData,
   ValidationError,
 } from './-private/types';
-import type { ComponentLike, WithBoundArgs } from '@glint/template';
+import type {
+  ComponentLike,
+  ModifierLike,
+  WithBoundArgs,
+} from '@glint/template';
 
 type ValidateOn = 'change' | 'blur' | 'submit';
 
@@ -86,6 +92,12 @@ export default class HeadlessFormComponent<
 
   // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
   on = on;
+
+  formElement?: HTMLFormElement;
+
+  registerForm = modifier((el: HTMLFormElement, _p: []) => {
+    this.formElement = el;
+  }) as unknown as ModifierLike<unknown>; // @todo getting Glint errors without this. Try again with Glint 1.0 (beta)!
 
   /**
    * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
@@ -162,34 +174,82 @@ export default class HeadlessFormComponent<
    * Call the passed validation callbacks, defined both on the whole form as well as on field level, and return the merged result for all fields.
    */
   @waitFor
-  async validate(): Promise<ErrorRecord<FormData<DATA>> | undefined> {
-    let errors: ErrorRecord<FormData<DATA>> | undefined = undefined;
-
-    if (this.args.validate) {
-      errors = await this.args.validate(this.internalData);
-    }
-
-    if (!errors) {
-      errors = {};
-    }
+  async validate(): Promise<ErrorRecord<FormData<DATA>>> {
+    const nativeValidation = this.validateNative();
+    const customFormValidation = await this.args.validate?.(this.internalData);
+    const customFieldValidations: ErrorRecord<FormData<DATA>>[] = [];
 
     for (const [name, field] of this.fields) {
-      const fieldValidation = await field.validate?.(
+      const fieldValidationResult = await field.validate?.(
         this.internalData[name],
         name,
         this.internalData
       );
 
-      if (fieldValidation) {
-        const existingFieldErrors = errors[name];
-
-        errors[name] = existingFieldErrors
-          ? [...existingFieldErrors, ...fieldValidation]
-          : fieldValidation;
+      if (fieldValidationResult) {
+        customFieldValidations.push({
+          [name]: fieldValidationResult,
+        } as ErrorRecord<FormData<DATA>>);
       }
     }
 
-    return Object.keys(errors).length > 0 ? errors : undefined;
+    return mergeErrorRecord(
+      nativeValidation,
+      customFormValidation,
+      ...customFieldValidations
+    );
+  }
+
+  validateNative(): ErrorRecord<FormData<DATA>> | undefined {
+    const form = this.formElement;
+
+    assert(
+      'Form element expected to be present. If you see this, please report it as a bug to ember-headless-form!',
+      form
+    );
+
+    if (form.checkValidity()) {
+      return;
+    }
+
+    const errors: ErrorRecord<FormData<DATA>> = {};
+
+    for (const el of form.elements) {
+      // This is just to make TS happy, as we need to access properties on el that only form elements have, but elements in `form.elements` are just typed as plain `Element`. Should never occur in reality.
+      assert(
+        'Unexpected form element. If you see this, please report it as a bug to ember-headless-form!',
+        el instanceof HTMLInputElement ||
+          el instanceof HTMLTextAreaElement ||
+          el instanceof HTMLSelectElement ||
+          el instanceof HTMLButtonElement ||
+          el instanceof HTMLFieldSetElement ||
+          el instanceof HTMLObjectElement ||
+          el instanceof HTMLOutputElement
+      );
+
+      if (el.validity.valid) {
+        continue;
+      }
+
+      const name = el.name as FormKey<FormData<DATA>>;
+
+      if (this.fields.has(name)) {
+        errors[name] = [
+          {
+            type: 'native',
+            value: this.internalData[name],
+            message: el.validationMessage,
+          },
+        ];
+      } else {
+        warn(
+          `An invalid form element with name "${name}" was detected, but this name is not used as a form field. It will be ignored for validation. Make sure to apply the correct name to custom form elements that participate in form validation!`,
+          { id: 'headless-form.invalid-control-for-unknown-field' }
+        );
+      }
+    }
+
+    return errors;
   }
 
   /**
