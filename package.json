@@ -6,6 +6,7 @@
   "license": "MIT",
   "author": "CrowdStrike UX Team",
   "scripts": {
+    "release": "changeset publish",
     "prepare": "pnpm build",
     "build": "pnpm --filter ember-headless-form build",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
@@ -16,8 +17,10 @@
     "lint:fix": "pnpm --filter '*' lint:fix"
   },
   "devDependencies": {
-    "concurrently": "^7.2.1",
-    "prettier": "^2.5.1"
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.0",
+    "concurrently": "^7.6.0",
+    "prettier": "^2.8.3"
   },
   "workspaces": [
     "ember-headless-form",

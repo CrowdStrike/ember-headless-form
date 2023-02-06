@@ -1,0 +1,9 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "ember-headless-form": "0.0.0",
+    "test-app": "0.0.0"
+  },
+  "changesets": []
+}

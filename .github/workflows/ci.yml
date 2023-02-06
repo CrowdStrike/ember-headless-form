@@ -11,52 +11,96 @@ concurrency:
   group: ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
+env:
+  CI: true
+  dist: ember-headless-form/dist
+
 jobs:
-  test:
-    name: 'Tests'
+  install_dependencies:
+    name: Install
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - name: Install Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: pnpm
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Lint
+      - uses: ./.github/actions/pnpm
+
+  build:
+    name: Build Tests
+    needs: [install_dependencies]
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/assert-build
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: [install_dependencies, build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      # To be able to run glint, we need the dist directory
+      - uses: ./.github/actions/download-built-package
+      - name: Lint + Format + Glint
         run: pnpm lint
-      - name: Run Tests
-        run: pnpm test
 
-  floating:
-    name: 'Floating Dependencies'
+  typecheck:
+    name: '${{ matrix.typescript-scenario }}'
     runs-on: ubuntu-latest
+    timeout-minutes: 2
+    needs: [build]
+    continue-on-error: true
+    strategy:
+      fail-fast: true
+      matrix:
+        typescript-scenario:
+          - typescript@4.8
+          - typescript@4.9
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: pnpm
-      - name: Install Dependencies
-        run: pnpm install --no-lockfile
-      - name: Run Tests
-        run: pnpm test
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - name: 'Change TS to ${{ matrix.typescript-scenario }}'
+        run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
+        working-directory: ./test-app
+      - name: 'Type checking'
+        run: |
+          pnpm --filter test-app exec tsc -v;
+          pnpm --filter test-app exec glint --version;
+          pnpm --filter test-app exec glint;
 
-  try-scenarios:
-    name: ${{ matrix.try-scenario }}
+
+  default_tests:
+    name: Default Tests
+    timeout-minutes: 5
     runs-on: ubuntu-latest
-    needs: 'test'
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - run: pnpm --filter test-app test:ember
+
+  floating_tests:
+    name: Floating Deps Test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - name: Install Dependencies (without lockfile)
+        run: rm pnpm-lock.yaml && pnpm install
+      - uses: ./.github/actions/download-built-package
+      - run: pnpm --filter test-app test:ember
+
+  try_scenarios:
+    name: ${{ matrix.try-scenario }}
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: [default_tests]
 
     strategy:
       fail-fast: false
@@ -67,22 +111,114 @@ jobs:
           - ember-release
           - ember-beta
           - ember-canary
-          - embroider-safe
-          - embroider-optimized
+          - "'ember-lts-4.8 + embroider-safe'"
+          - "'ember-lts-4.8 + embroider-optimized'"
+          - "'ember-release + embroider-optimized'"
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - name: Install Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: pnpm
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
       - name: Run Tests
-        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
-        working-directory: test-app
+        working-directory: ./test-app
+        run: >-
+          node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+          --skip-cleanup
+
+  # https://github.com/changesets/action
+  release:
+    name: Release
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - default_tests
+      - floating_tests
+      - typecheck
+      - try_scenarios
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm release
+          title: "Release Preview"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
+  # TODO: add docs app + docs
+  #
+  # TypecheckDocs:
+  #   name: Typecheck Docs
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false
+  #     - uses: ./.github/actions/pnpm
+  #     - uses: ./.github/actions/download-built-package
+  #     - run: pnpm glint
+  #       working-directory: docs-app
+
+
+
+  # PublishDocstoCloudflarePages:
+  #   name: Publish Docs to Cloudflare Pages
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   permissions:
+  #     contents: read
+  #     deployments: write
+  #   outputs:
+  #     url: ${{ steps.publishStep.outputs.url }}
+  #     env: ${{ steps.publishStep.outputs.environment }}
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false
+  #     - uses: ./.github/actions/pnpm
+  #     - uses: ./.github/actions/download-built-package
+  #     - run: pnpm build:docs-app
+  #     - name: Publish to Cloudflare Pages
+  #       id: publishStep
+  #       uses: cloudflare/pages-action@1
+  #       with:
+  #         apiToken: ${{ secrets.UX_OSS_CLOUDFLARE_API_TOKEN }}
+  #         accountId: ${{ secrets.UX_OSS_CLOUDFLARE_ACCOUNT_ID }}
+  #         projectName: ember-toucan-core
+  #         directory: ./docs-app/dist
+  #         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+  # PostPreviewURLascommenttoPR:
+  #   name: Post Preview URL as comment to PR
+  #   runs-on: ubuntu-latest
+  #   needs: PublishDocstoCloudflarePages
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false
+  #     - uses: ./.github/actions/pnpm
+  #     - uses: ./.github/actions/download-built-package
+  #     - uses: marocchino/sticky-pull-request-comment@v2
+  #       with:
+  #         message: |+
+  #           ## Preview URLs
+  #           GH Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
+  #           docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
+  #           api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/api/modules.html
+
+
+
+

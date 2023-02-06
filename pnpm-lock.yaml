@@ -7,11 +7,11 @@ importers:
 
   .:
     specifiers:
-      concurrently: ^7.2.1
-      prettier: ^2.5.1
+      concurrently: ^7.6.0
+      prettier: ^2.8.3
     devDependencies:
       concurrently: 7.6.0
-      prettier: 2.8.2
+      prettier: 2.8.3
 
   ember-headless-form:
     specifiers:
@@ -124,7 +124,7 @@ importers:
     specifiers:
       '@ember/optional-features': ^2.0.0
       '@ember/test-helpers': ^2.8.1
-      '@embroider/test-setup': ^1.7.1
+      '@embroider/test-setup': ^2.1.1
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
       '@glint/core': ^0.9.7
@@ -210,7 +210,7 @@ importers:
     devDependencies:
       '@ember/optional-features': 2.0.0
       '@ember/test-helpers': 2.9.3_ember-source@4.10.0
-      '@embroider/test-setup': 1.8.3
+      '@embroider/test-setup': 2.1.1
       '@glimmer/component': 1.1.2
       '@glimmer/tracking': 1.1.2
       '@glint/core': 0.9.7_typescript@4.9.4
@@ -2149,8 +2149,8 @@ packages:
       semver: 7.3.8
       typescript-memoize: 1.1.1
 
-  /@embroider/test-setup/1.8.3:
-    resolution: {integrity: sha512-BCCbBG7UWkCw+cQ401Ip6LnqTRaQDeKImxR+e7Q4oP6H4EBj7p4iGR1z6fhMy4NNyXKPB6jk3bGa9bTiiNoEAw==}
+  /@embroider/test-setup/2.1.1:
+    resolution: {integrity: sha512-t81a2z2OEFAOZVbV7wkgiDuCyZ3ajD7J7J+keaTfNSRiXoQgeFFASEECYq1TCsH8m/R+xHMRiY59apF2FIeFhw==}
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
       lodash: 4.17.21
@@ -2435,7 +2435,7 @@ packages:
     peerDependencies:
       '@glimmer/component': ^1.1.2
     dependencies:
-      '@glimmer/component': 1.1.2_@babel+core@7.20.12
+      '@glimmer/component': 1.1.2
     dev: true
 
   /@glint/transform/0.9.7:
@@ -3209,7 +3209,7 @@ packages:
     dev: true
 
   /@types/eslint/7.29.0:
-    resolution: {integrity: sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng==, tarball: '@types/eslint/-/eslint-7.29.0.tgz'}
+    resolution: {integrity: sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng==}
     dependencies:
       '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
@@ -7330,7 +7330,7 @@ packages:
     dev: true
 
   /eslint-plugin-es/4.1.0_eslint@7.32.0:
-    resolution: {integrity: sha512-GILhQTnjYE2WorX5Jyi5i4dz5ALWxBIdQECVQavL6s7cI76IZTDWleTHkxz/QT3kvcs2QlGHvKLYsSlPOlPXnQ==, tarball: eslint-plugin-es/-/eslint-plugin-es-4.1.0.tgz}
+    resolution: {integrity: sha512-GILhQTnjYE2WorX5Jyi5i4dz5ALWxBIdQECVQavL6s7cI76IZTDWleTHkxz/QT3kvcs2QlGHvKLYsSlPOlPXnQ==}
     engines: {node: '>=8.10.0'}
     peerDependencies:
       eslint: '>=4.19.1'
@@ -10880,12 +10880,6 @@ packages:
       prettier: 2.8.3
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /prettier/2.8.2:
-    resolution: {integrity: sha512-BtRV9BcncDyI2tsuS19zzhzoxD8Dh8LiCx7j7tHzrkz8GFXAexeWFdi22mjE1d16dftH2qNaytVxqiRTGlMfpw==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
     dev: true
 
   /prettier/2.8.3:
