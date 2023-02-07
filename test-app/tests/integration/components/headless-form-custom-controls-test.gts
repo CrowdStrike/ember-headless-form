@@ -223,7 +223,7 @@ module(
       });
 
       module('captureEvents', function () {
-        test('captures blur events triggering validation without controls having name matching field name when @validateOn="blur"', async function (assert) {
+        test('captures blur events triggering validation without controls having name matching field name when @validateOn="focusout"', async function (assert) {
           const data: TestFormData = { custom: 'foo' };
           const validateCallback = sinon.fake.returns([
             {
@@ -234,7 +234,7 @@ module(
           ]);
 
           await render(<template>
-            <HeadlessForm @data={{data}} @validateOn="blur" as |form|>
+            <HeadlessForm @data={{data}} @validateOn="focusout" as |form|>
               <form.field
                 @name="custom"
                 @validate={{validateCallback}}
@@ -315,7 +315,7 @@ module(
         });
       });
 
-      test('captures blur/change events triggering re-/validation without controls having name matching field name when @validateOn="blur" and @revalidateOn="change"', async function (assert) {
+      test('captures blur/change events triggering re-/validation without controls having name matching field name when @validateOn="focusout" and @revalidateOn="change"', async function (assert) {
         const data: TestFormData = { custom: 'foo' };
         const validateCallback = sinon.fake.returns([
           { type: 'invalid-date', value: undefined, message: 'Invalid Date!' },
@@ -324,7 +324,7 @@ module(
         await render(<template>
           <HeadlessForm
             @data={{data}}
-            @validateOn="blur"
+            @validateOn="focusout"
             @revalidateOn="change"
             as |form|
           >

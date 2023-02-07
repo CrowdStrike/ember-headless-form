@@ -1,6 +1,7 @@
 <HeadlessForm
   @data={{this.data}}
-  @validateOn='blur'
+  @validateOn='focusout'
+  @revalidateOn='input'
   @onSubmit={{this.doSomething}}
   as |form|
 >

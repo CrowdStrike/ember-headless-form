@@ -44,8 +44,8 @@ export interface HeadlessFormFieldComponentSignature<
     registerField: RegisterFieldCallback<FormData<DATA>, KEY>;
     unregisterField: UnregisterFieldCallback<FormData<DATA>, KEY>;
     triggerValidationFor(name: KEY): Promise<void>;
-    fieldValidationEvent: 'focusout' | 'change' | undefined;
-    fieldRevalidationEvent: 'focusout' | 'change' | undefined;
+    fieldValidationEvent: 'focusout' | 'change' | 'input' | undefined;
+    fieldRevalidationEvent: 'focusout' | 'change' | 'input' | undefined;
   };
   Blocks: {
     default: [
