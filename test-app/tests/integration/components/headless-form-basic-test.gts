@@ -25,13 +25,19 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders form markup', async function (assert) {
-    await render(<template><HeadlessForm class="foo" novalidate /></template>);
+    await render(<template>
+      <HeadlessForm class="foo" autocomplete="off" />
+    </template>);
 
     assert.dom('form').exists('it renders as <form>');
     assert
       .dom('form')
       .hasClass('foo', 'it accepts custom HTML classes')
-      .hasAttribute('novalidate', '', 'it accepts arbitrary HTML attributes');
+      .hasAttribute(
+        'autocomplete',
+        'off',
+        'it accepts arbitrary HTML attributes'
+      );
   });
 
   module('form.field', function () {

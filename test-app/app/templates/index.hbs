@@ -6,7 +6,8 @@
 >
   <form.field @name='name' as |field|>
     <field.label>Name</field.label>
-    <field.input />
+    <field.input required />
+    <field.errors />
   </form.field>
 
   <button type='submit'>Submit</button>

@@ -1,5 +1,7 @@
 <form
+  novalidate
   ...attributes
+  {{this.registerForm}}
   {{on 'submit' this.onSubmit}}
   {{(if
     this.fieldValidationEvent
