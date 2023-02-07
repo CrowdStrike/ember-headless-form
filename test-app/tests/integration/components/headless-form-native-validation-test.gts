@@ -417,6 +417,61 @@ module(
       assert.dom('[data-test-last-name-errors]').doesNotExist();
     });
 
+    test('no validation errors render when form data is valid', async function (assert) {
+      const data = { firstName: 'John', lastName: 'Smith' };
+      const formValidateCallback = ({ firstName }: { firstName: string }) =>
+        firstName.charAt(0).toUpperCase() !== firstName.charAt(0)
+          ? {
+              firstName: [
+                {
+                  type: 'uppercase',
+                  value: firstName,
+                  message: 'First name must be upper case!',
+                },
+              ],
+            }
+          : undefined;
+      const fieldValidateCallback = (firstName: string) =>
+        firstName.toLowerCase().startsWith('foo')
+          ? [
+              {
+                type: 'notFoo',
+                value: firstName,
+                message: 'Foo is an invalid first name!',
+              },
+            ]
+          : undefined;
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validate={{formValidateCallback}}
+          as |form|
+        >
+          <form.field
+            @name="firstName"
+            @validate={{fieldValidateCallback}}
+            as |field|
+          >
+            <field.label>First Name</field.label>
+            <field.input required pattern="^[A-Za-z]+$" data-test-first-name />
+            <field.errors data-test-first-name-errors />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+            <field.errors data-test-last-name-errors />
+          </form.field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await click('[data-test-submit]');
+
+      assert.dom('[data-test-first-name-errors]').doesNotExist();
+      assert.dom('[data-test-last-name-errors]').doesNotExist();
+    });
+
     module(`@validateOn`, function () {
       module('@validateOn=blur', function () {
         test('validation errors are exposed as field.errors on blur', async function (assert) {
