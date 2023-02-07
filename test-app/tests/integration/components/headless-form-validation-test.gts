@@ -1168,7 +1168,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         assert.true(
           validateCallback.calledWith({ ...data, firstName: 'Foo' }),
-          '@validate is called with form data on change'
+          '@validate is called with form data on input'
         );
 
         await click('[data-test-submit]');
@@ -1246,12 +1246,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         assert
           .dom('[data-test-first-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens on change'
+            'validation errors are not rendered before validation happens on input'
           );
         assert
           .dom('[data-test-last-name-errors]')
           .doesNotExist(
-            'validation errors are not rendered before validation happens on change'
+            'validation errors are not rendered before validation happens on input'
           );
 
         await input('[data-test-first-name]', 'Foo');
@@ -1260,7 +1260,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           .dom('[data-test-first-name-errors]')
           .exists(
             { count: 1 },
-            'validation errors appear on focusout when validation fails'
+            'validation errors appear on input when validation fails'
           );
         assert
           .dom('[data-test-last-name-errors]')
