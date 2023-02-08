@@ -22,10 +22,6 @@
     "concurrently": "^7.6.0",
     "prettier": "^2.8.3"
   },
-  "workspaces": [
-    "ember-headless-form",
-    "test-app"
-  ],
   "pnpm": {
     "overrides": {
       "@types/eslint": "^7.0.0"
