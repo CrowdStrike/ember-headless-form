@@ -276,4 +276,63 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       assert.dom('input[data-test-first-name]').hasValue('Nicole');
     });
   });
+  module('@mutableData', function () {
+    test('mutates passed @data when form fields are updated', async function (assert) {
+      const data = { firstName: 'Tony', lastName: 'Ward' };
+
+      await render(<template>
+        <HeadlessForm @data={{data}} @mutableData={{true}} as |form|>
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+          </form.field>
+        </HeadlessForm>
+      </template>);
+
+      await fillIn('input[data-test-first-name]', 'Preston');
+      assert.dom('input[data-test-first-name]').hasValue('Preston');
+      assert.strictEqual(
+        data.firstName,
+        'Preston',
+        'data object is mutated after entering data'
+      );
+    });
+
+    test('@onSubmit is called with same instance of @data', async function (assert) {
+      const data = { firstName: 'Tony', lastName: 'Ward' };
+      const submitHandler = sinon.spy();
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @mutableData={{true}}
+          @onSubmit={{submitHandler}}
+          as |form|
+        >
+          <form.field @name="firstName" as |field|>
+            <field.label>First Name</field.label>
+            <field.input data-test-first-name />
+          </form.field>
+          <form.field @name="lastName" as |field|>
+            <field.label>Last Name</field.label>
+            <field.input data-test-last-name />
+          </form.field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await fillIn('input[data-test-first-name]', 'Preston');
+      await click('[data-test-submit]');
+
+      assert.strictEqual(
+        submitHandler.firstCall.firstArg,
+        data,
+        '@OnSubmit is called with same instance of @data, not a copy'
+      );
+    });
+  });
 });
