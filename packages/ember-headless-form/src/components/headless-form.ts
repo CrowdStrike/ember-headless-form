@@ -175,7 +175,10 @@ export default class HeadlessFormComponent<
   @waitFor
   async validate(): Promise<ErrorRecord<FormData<DATA>>> {
     const nativeValidation = this.validateNative();
-    const customFormValidation = await this.args.validate?.(this.internalData);
+    const customFormValidation = await this.args.validate?.(
+      this.internalData,
+      Array.from(this.fields.keys())
+    );
     const customFieldValidations: ErrorRecord<FormData<DATA>>[] = [];
 
     for (const [name, field] of this.fields) {
