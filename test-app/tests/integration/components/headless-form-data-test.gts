@@ -276,12 +276,12 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       assert.dom('input[data-test-first-name]').hasValue('Nicole');
     });
   });
-  module('@mutableData', function () {
+  module('@dataMode="mutable"', function () {
     test('mutates passed @data when form fields are updated', async function (assert) {
       const data = { firstName: 'Tony', lastName: 'Ward' };
 
       await render(<template>
-        <HeadlessForm @data={{data}} @mutableData={{true}} as |form|>
+        <HeadlessForm @data={{data}} @dataMode="mutable" as |form|>
           <form.field @name="firstName" as |field|>
             <field.label>First Name</field.label>
             <field.input data-test-first-name />
@@ -309,7 +309,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       await render(<template>
         <HeadlessForm
           @data={{data}}
-          @mutableData={{true}}
+          @dataMode="mutable"
           @onSubmit={{submitHandler}}
           as |form|
         >

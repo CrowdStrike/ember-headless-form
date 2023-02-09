@@ -34,7 +34,7 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
   Element: HTMLFormElement;
   Args: {
     data?: DATA;
-    mutableData?: boolean;
+    dataMode?: 'mutable' | 'immutable';
     validateOn?: ValidateOn;
     revalidateOn?: ValidateOn;
     validate?: FormValidateCallback<FormData<DATA>>;
@@ -104,7 +104,7 @@ export default class HeadlessFormComponent<
    * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
    */
   internalData: DATA =
-    this.args.mutableData && this.args.data
+    this.args.dataMode == 'mutable' && this.args.data
       ? this.args.data
       : (new TrackedObject(this.args.data ?? {}) as DATA);
 
