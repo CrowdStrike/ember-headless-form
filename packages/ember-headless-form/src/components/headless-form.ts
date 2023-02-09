@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
 import { on } from '@ember/modifier';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 
 import { modifier } from 'ember-modifier';
@@ -34,6 +34,7 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
   Element: HTMLFormElement;
   Args: {
     data?: DATA;
+    dataMode?: 'mutable' | 'immutable';
     validateOn?: ValidateOn;
     revalidateOn?: ValidateOn;
     validate?: FormValidateCallback<FormData<DATA>>;
@@ -102,7 +103,10 @@ export default class HeadlessFormComponent<
   /**
    * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
    */
-  internalData: DATA = new TrackedObject(this.args.data ?? {}) as DATA;
+  internalData: DATA =
+    this.args.dataMode == 'mutable' && this.args.data
+      ? this.args.data
+      : (new TrackedObject(this.args.data ?? {}) as DATA);
 
   fields = new Map<FormKey<FormData<DATA>>, FieldData<FormData<DATA>>>();
 
@@ -320,7 +324,8 @@ export default class HeadlessFormComponent<
 
   @action
   set<KEY extends FormKey<FormData<DATA>>>(key: KEY, value: DATA[KEY]): void {
-    this.internalData[key] = value;
+    // when @mutableData is set, our internalData is something we don't control, i.e. might require old-school set() to be on the safe side
+    set(this.internalData, key, value);
   }
 
   /**

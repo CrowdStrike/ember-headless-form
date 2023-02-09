@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
-import { action } from '@ember/object';
+import { action, get } from '@ember/object';
 
 import CaptureEventsModifier from './capture-events';
 import CheckboxComponent from './control/checkbox';
@@ -111,6 +111,11 @@ export default class HeadlessFormFieldComponent<
   ) {
     super(owner, args);
 
+    assert(
+      'Nested property paths in @name are not supported.',
+      typeof this.args.name !== 'string' || !this.args.name.includes('.')
+    );
+
     this.args.registerField(this.args.name, {
       validate: this.args.validate,
     });
@@ -123,7 +128,9 @@ export default class HeadlessFormFieldComponent<
   }
 
   get value(): DATA[KEY] {
-    return this.args.data[this.args.name];
+    // when @mutableData is set, data is something we don't control, i.e. might require old-school get() to be on the safe side
+    // we do not want to support nested property paths for now though, see the constructor assertion!
+    return get(this.args.data, this.args.name) as DATA[KEY];
   }
 
   get errors(): ValidationError<DATA[KEY]>[] | undefined {
