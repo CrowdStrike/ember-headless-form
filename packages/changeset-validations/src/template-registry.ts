@@ -6,4 +6,5 @@ import type validateChangeset from './helpers/validate-changeset';
 
 export default interface Registry {
   validateChangeset: typeof validateChangeset;
+  'validate-changeset': typeof validateChangeset;
 }
