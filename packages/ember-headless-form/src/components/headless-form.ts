@@ -37,7 +37,7 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
     dataMode?: 'mutable' | 'immutable';
     validateOn?: ValidateOn;
     revalidateOn?: ValidateOn;
-    validate?: FormValidateCallback<FormData<DATA>>;
+    validate?: FormValidateCallback<DATA>;
     onSubmit?: (data: FormData<DATA>) => void;
     onInvalid?: (
       data: FormData<DATA>,

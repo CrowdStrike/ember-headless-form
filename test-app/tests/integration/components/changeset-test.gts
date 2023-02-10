@@ -57,6 +57,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{data}}
         @dataMode="mutable"
+        {{! @glint-expect-error --  a type error is expected here, as this test intentionally has a type mismatch whwithen data not being a changeset }}
         @validate={{validateChangeset}}
         @onSubmit={{submitHandler}}
         as |form|

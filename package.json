@@ -8,7 +8,7 @@
   "scripts": {
     "release": "changeset publish",
     "prepare": "pnpm build",
-    "build": "pnpm --filter !test-app build",
+    "build": "pnpm --filter ember-headless-form build && pnpm --filter '@ember-headless-form/*' build",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:tests": "pnpm --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
