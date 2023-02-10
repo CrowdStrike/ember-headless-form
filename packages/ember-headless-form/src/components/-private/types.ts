@@ -33,7 +33,8 @@ export type ErrorRecord<
  * Callback used for form level validation
  */
 export type FormValidateCallback<DATA extends FormData> = (
-  formData: DATA
+  formData: DATA,
+  fields: Array<FormKey<DATA>>
 ) => undefined | ErrorRecord<DATA> | Promise<undefined | ErrorRecord<DATA>>;
 
 /**

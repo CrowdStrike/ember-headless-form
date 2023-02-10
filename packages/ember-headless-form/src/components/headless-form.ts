@@ -37,7 +37,7 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
     dataMode?: 'mutable' | 'immutable';
     validateOn?: ValidateOn;
     revalidateOn?: ValidateOn;
-    validate?: FormValidateCallback<FormData<DATA>>;
+    validate?: FormValidateCallback<DATA>;
     onSubmit?: (data: FormData<DATA>) => void;
     onInvalid?: (
       data: FormData<DATA>,
@@ -175,7 +175,10 @@ export default class HeadlessFormComponent<
   @waitFor
   async validate(): Promise<ErrorRecord<FormData<DATA>>> {
     const nativeValidation = this.validateNative();
-    const customFormValidation = await this.args.validate?.(this.internalData);
+    const customFormValidation = await this.args.validate?.(
+      this.internalData,
+      Array.from(this.fields.keys())
+    );
     const customFieldValidations: ErrorRecord<FormData<DATA>>[] = [];
 
     for (const [name, field] of this.fields) {

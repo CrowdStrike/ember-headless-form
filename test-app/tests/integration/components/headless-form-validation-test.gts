@@ -67,11 +67,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
   };
 
   const validateFormCallbackAsync: FormValidateCallback<TestFormData> = async (
-    data
+    data,
+    fields
   ) => {
     // intentionally adding a delay here, to make the validation behave truly async and assert that we are correctly waiting for it in tests
     await new Promise((resolve) => setTimeout(resolve, 10));
-    return validateFormCallbackSync(data);
+    return validateFormCallbackSync(data, fields);
   };
 
   const validateFieldCallbackSync: FieldValidateCallback<TestFormData> = (
