@@ -33,6 +33,7 @@ const validateChangeset: FormValidateCallback<EmberChangeset> = async (
     // some type casting due to https://github.com/validated-changeset/validated-changeset/issues/187
     const fixedValidations = validation as string | string[];
 
+    // aggregate all errors into the ErrorRecord that is expected as the return type of the validate callback
     const messages: string[] = Array.isArray(fixedValidations)
       ? fixedValidations
       : [fixedValidations];

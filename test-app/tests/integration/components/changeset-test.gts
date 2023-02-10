@@ -40,6 +40,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
     return errors.length > 0 ? errors : true;
   };
 
+  // Could not get this test to work, setupOnerror does not catch the error as expected here
   skip('throws error when validating and data is no changeset', async function (assert) {
     assert.expect(1);
     setupOnerror((e: Error) => {
