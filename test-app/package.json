@@ -29,6 +29,7 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
     "@ember-headless-form/changeset": "workspace:*",
+    "@ember-headless-form/yup": "workspace:*",
     "@embroider/test-setup": "^2.1.1",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
@@ -112,7 +113,8 @@
     "qunit-dom": "^2.0.0",
     "sinon": "^15.0.1",
     "typescript": "^4.9.4",
-    "webpack": "^5.75.0"
+    "webpack": "^5.75.0",
+    "yup": "^1.0.0"
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
