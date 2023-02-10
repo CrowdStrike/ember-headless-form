@@ -14,6 +14,10 @@ const validateChangeset: FormValidateCallback<EmberChangeset> = async (
     isChangeset(changeset)
   );
 
+  // there is also an argument-less version of changeset.validate(), but for this to work the changeset needs a so called validationMap, and not just a validator function
+  // while ember-changeset-validations would provide such a map, we cannot necessarily rely on it being present, so the way to reliably validate all fields is to iterate
+  // over them explicitly
+  //
   await Promise.all(fields.map((field) => changeset.validate(field)));
 
   if (changeset.get('isValid')) {
