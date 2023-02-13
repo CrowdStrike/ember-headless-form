@@ -237,7 +237,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           await fillIn('input[data-test-last-name]', 'Chung');
           await click('[data-test-submit]');
 
-          assert.true(submitHandler.called, '@onSubmit has been called');
+          assert.true(
+            submitHandler.calledWith({
+              firstName: 'Nicole',
+              lastName: 'Chung',
+            }),
+            '@onSubmit has been called'
+          );
         });
 
         test('validation errors are exposed as field.errors on submit', async function (assert) {
