@@ -5,7 +5,7 @@ overrides:
 
 patchedDependencies:
   ember-a11y-testing@5.2.0:
-    hash: oqqpvsqtv442p3f53fl7gppdq4
+    hash: ynlyhbi6rwlli5mc64kgdri6jy
     path: patches/ember-a11y-testing@5.2.0.patch
 
 importers:
@@ -461,7 +461,7 @@ importers:
       babel-eslint: 10.1.0_eslint@7.32.0
       broccoli-asset-rev: 3.0.0
       concurrently: 7.6.0
-      ember-a11y-testing: 5.2.0_oqqpvsqtv442p3f53fl7gppdq4_xxksirw4yhzqkev2rkehjstyum
+      ember-a11y-testing: 5.2.0_ynlyhbi6rwlli5mc64kgdri6jy_xxksirw4yhzqkev2rkehjstyum
       ember-auto-import: 2.5.0_webpack@5.75.0
       ember-changeset: 4.1.2_bnlywo5dnzz6qpynghcv26asqa
       ember-cli: 4.10.0-beta.0
@@ -2866,7 +2866,7 @@ packages:
     peerDependencies:
       '@glimmer/component': ^1.1.2
     dependencies:
-      '@glimmer/component': 1.1.2
+      '@glimmer/component': 1.1.2_@babel+core@7.20.12
     dev: true
 
   /@glint/transform/0.9.7:
@@ -6642,7 +6642,7 @@ packages:
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
 
-  /ember-a11y-testing/5.2.0_oqqpvsqtv442p3f53fl7gppdq4_xxksirw4yhzqkev2rkehjstyum:
+  /ember-a11y-testing/5.2.0_ynlyhbi6rwlli5mc64kgdri6jy_xxksirw4yhzqkev2rkehjstyum:
     resolution: {integrity: sha512-dWU3+ADTL7gnm+zxFL238OZJpGvLGRGEy07Zxgd64mNIdfNYYPeXOVZ6wjKUIuDXlKzvEnrwHV9D/pcj2rq9UA==}
     engines: {node: 12.* || 14.* || >= 16}
     peerDependencies:
