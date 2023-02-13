@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
 import { action, get } from '@ember/object';
 
-import CaptureEventsModifier from './capture-events';
+import CaptureEventsModifier from '../modifiers/capture-events';
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import RadioComponent from './control/radio';
@@ -10,21 +10,21 @@ import TextareaComponent from './control/textarea';
 import ErrorsComponent from './errors';
 import LabelComponent from './label';
 
-import type { CaptureEventsModifierSignature } from './capture-events';
-import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
-import type { HeadlessFormControlInputComponentSignature } from './control/input';
-import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
-import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
-import type { HeadlessFormErrorsComponentSignature } from './errors';
-import type { HeadlessFormLabelComponentSignature } from './label';
+import type { CaptureEventsModifierSignature } from '../modifiers/capture-events';
 import type {
   ErrorRecord,
   FieldValidateCallback,
   FormData,
   RegisterFieldCallback,
   UnregisterFieldCallback,
-} from './types';
-import type { FormKey, UserData, ValidationError } from './types';
+} from '../types';
+import type { FormKey, UserData, ValidationError } from '../types';
+import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
+import type { HeadlessFormControlInputComponentSignature } from './control/input';
+import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
+import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
+import type { HeadlessFormErrorsComponentSignature } from './errors';
+import type { HeadlessFormLabelComponentSignature } from './label';
 import type {
   ComponentLike,
   ModifierLike,

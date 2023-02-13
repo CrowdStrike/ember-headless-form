@@ -4,7 +4,7 @@
 import { click, fillIn, render, setupOnerror } from '@ember/test-helpers';
 import { module, test, skip } from 'qunit';
 
-import HeadlessForm from 'ember-headless-form/components/headless-form';
+import { HeadlessForm } from 'ember-headless-form';
 import validateChangeset from '@ember-headless-form/changeset/helpers/validate-changeset';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
