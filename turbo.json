@@ -24,7 +24,10 @@
       // But for ember apps, they build themselves during
       // test execution, so we can only get away with only
       // building our dependencies
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "env": [
+        "EMBER_TRY_CURRENT_SCENARIO"
+      ]
     },
     "build": {
       "outputs": ["dist/**"],
