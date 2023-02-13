@@ -26,7 +26,8 @@
       // building our dependencies
       "dependsOn": ["^build"],
       "env": [
-        "EMBER_TRY_CURRENT_SCENARIO"
+        "EMBER_TRY_CURRENT_SCENARIO",
+        "EMBROIDER_TEST_SETUP_OPTIONS"
       ]
     },
     "build": {
