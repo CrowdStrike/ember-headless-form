@@ -134,11 +134,12 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: foo-123
       - uses: ./.github/actions/pnpm
-      - name: Run Tests
+      - name: Setup Tests
         working-directory: ./test-app
         run: >-
           node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
-          --skip-cleanup
+          --skip-cleanup --- echo "setup"
+      - run: pnpm test
 
   # https://github.com/changesets/action
   release:
