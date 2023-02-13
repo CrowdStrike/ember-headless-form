@@ -136,9 +136,16 @@ jobs:
       - uses: ./.github/actions/pnpm
       - name: Setup Tests
         working-directory: ./test-app
+        # This command doesn't actually run the bash command, but
+        # instead falls back to ember test...
+        # run: >-
+        #   node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+        #   --skip-cleanup --- bash -c "cd ../ && pnpm test"
+        # same as the above, but without the sub-shell
         run: >-
-          node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
-          --skip-cleanup --- bash -c "cd ../ && pnpm test"
+          node_modules/.bin/ember try:one ${{matrix.try-scenario}}
+          --skip-cleanup --- pnpm turbo --api='http://127.0.0.1:9080' --token=foo-123 --team=foo test
+
 
   # https://github.com/changesets/action
   release:
