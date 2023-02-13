@@ -1,13 +1,16 @@
 import Controller from '@ember/controller';
 
 interface MyFormData {
-  name: string;
+  firstName?: string;
+  lastName?: string;
+  gender?: 'male' | 'female' | 'other';
+  email?: string;
+  accept_tos?: boolean;
+  comment?: string;
 }
 
 export default class IndexController extends Controller {
-  data: MyFormData = {
-    name: 'Simon',
-  };
+  data: MyFormData = {};
 
   doSomething(data: MyFormData) {
     // eslint-disable-next-line no-console
