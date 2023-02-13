@@ -12,6 +12,7 @@
     "start:tests": "pnpm --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
     "build": "pnpm _turbo build",
+    "turbo:start": "pnpm _turbo start",
     "test": "pnpm _turbo test",
     "lint": "pnpm _turbo lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
