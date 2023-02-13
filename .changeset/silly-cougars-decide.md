@@ -1,5 +1,5 @@
 ---
-'ember-headless-form': patch
+'ember-headless-form': major
 ---
 
-Test initial beta release
+Initial release
