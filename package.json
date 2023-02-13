@@ -9,6 +9,7 @@
     "release": "changeset publish",
     "prepare": "pnpm build",
     "build": "pnpm --filter ember-headless-form build && pnpm --filter '@ember-headless-form/*' build",
+    "build:docs-app": "pnpm --filter 'docs-app' build",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:tests": "pnpm --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",

@@ -167,62 +167,49 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  # TODO: add docs app + docs
-  #
-  # TypecheckDocs:
-  #   name: Typecheck Docs
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         persist-credentials: false
-  #     - uses: ./.github/actions/pnpm
-  #     - uses: ./.github/actions/download-built-package
-  #     - run: pnpm glint
-  #       working-directory: docs-app
+  PublishDocstoCloudflarePages:
+    name: Publish Docs to Cloudflare Pages
+    runs-on: ubuntu-latest
+    # needs: build
+    permissions:
+      contents: read
+      deployments: write
+    outputs:
+      url: ${{ steps.publishStep.outputs.url }}
+      env: ${{ steps.publishStep.outputs.environment }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/pnpm
+      - run: pnpm build
+      # - uses: ./.github/actions/download-built-package
+      - run: pnpm build:docs-app
+      - name: Publish to Cloudflare Pages
+        id: publishStep
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.UX_OSS_CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.UX_OSS_CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ember-headless-form
+          directory: ./docs-app/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-  # PublishDocstoCloudflarePages:
-  #   name: Publish Docs to Cloudflare Pages
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   permissions:
-  #     contents: read
-  #     deployments: write
-  #   outputs:
-  #     url: ${{ steps.publishStep.outputs.url }}
-  #     env: ${{ steps.publishStep.outputs.environment }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         persist-credentials: false
-  #     - uses: ./.github/actions/pnpm
-  #     - uses: ./.github/actions/download-built-package
-  #     - run: pnpm build:docs-app
-  #     - name: Publish to Cloudflare Pages
-  #       id: publishStep
-  #       uses: cloudflare/pages-action@1
-  #       with:
-  #         apiToken: ${{ secrets.UX_OSS_CLOUDFLARE_API_TOKEN }}
-  #         accountId: ${{ secrets.UX_OSS_CLOUDFLARE_ACCOUNT_ID }}
-  #         projectName: ember-toucan-core
-  #         directory: ./docs-app/dist
-  #         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-  # PostPreviewURLascommenttoPR:
-  #   name: Post Preview URL as comment to PR
-  #   runs-on: ubuntu-latest
-  #   needs: PublishDocstoCloudflarePages
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         persist-credentials: false
-  #     - uses: ./.github/actions/pnpm
-  #     - uses: ./.github/actions/download-built-package
-  #     - uses: marocchino/sticky-pull-request-comment@v2
-  #       with:
-  #         message: |+
-  #           ## Preview URLs
-  #           GH Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
-  #           docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
-  #           api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/api/modules.html
+  PostPreviewURLascommenttoPR:
+    name: Post Preview URL as comment to PR
+    runs-on: ubuntu-latest
+    needs: PublishDocstoCloudflarePages
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/pnpm
+      - run: pnpm build
+      # - uses: ./.github/actions/download-built-package
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |+
+            ## Preview URLs
+            Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
+            Docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
+#            # api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/api/modules.html
