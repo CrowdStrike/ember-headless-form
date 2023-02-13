@@ -20,7 +20,7 @@ runs:
         target: ${{ env.dist }}
         setup:
           run: pnpm build
-          cwd: ./ember-headless-form
+          cwd: ./
         expect: |
           index.js
           index.js.map

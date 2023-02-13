@@ -11,7 +11,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build --environment=production",
+    "build": "echo 'apps do not build this way'",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
     "lint:hbs": "ember-template-lint .",
@@ -22,13 +22,13 @@
     "lint:prettier": "prettier -c .",
     "lint:prettier:fix": "prettier -w .",
     "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
+    "test": "ember test",
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@ember-headless-form/changeset": "workspace:*",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
-    "@ember-headless-form/changeset": "workspace:*",
     "@ember-headless-form/yup": "workspace:*",
     "@embroider/test-setup": "^2.1.1",
     "@glimmer/component": "^1.1.2",

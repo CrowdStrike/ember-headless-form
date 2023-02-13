@@ -8,19 +8,22 @@
   "scripts": {
     "release": "changeset publish",
     "prepare": "pnpm build",
-    "build": "pnpm --filter ember-headless-form build && pnpm --filter '@ember-headless-form/*' build",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:tests": "pnpm --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
-    "test": "pnpm --filter test-app test",
-    "lint": "pnpm --filter '*' lint",
-    "lint:fix": "pnpm --filter '*' lint:fix"
+    "build": "pnpm _turbo build",
+    "test": "pnpm _turbo test",
+    "lint": "pnpm _turbo lint",
+    "lint:fix": "pnpm --filter '*' lint:fix",
+    "dev": "pnpm start",
+    "_turbo": "pnpm turbo --api='http://127.0.0.1:9080' --token=foo-123 --team=foo"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.0",
     "concurrently": "^7.6.0",
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "turbo": "^1.7.4"
   },
   "pnpm": {
     "overrides": {
