@@ -252,6 +252,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.30.5
       '@typescript-eslint/parser': ^5.30.5
       concurrently: ^7.2.1
+      ember-functions-as-helper-polyfill: ^2.1.1
       ember-headless-form: workspace:*
       ember-template-lint: ^4.0.0
       eslint: ^7.32.0
@@ -267,6 +268,7 @@ importers:
       yup: ^1.0.0
     dependencies:
       '@embroider/addon-shim': 1.8.4
+      ember-functions-as-helper-polyfill: 2.1.1
     devDependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.12
@@ -7337,6 +7339,19 @@ packages:
       - encoding
       - supports-color
     dev: true
+
+  /ember-functions-as-helper-polyfill/2.1.1:
+    resolution: {integrity: sha512-vZ2w9G/foohwtPm99Jos1m6bhlXyyyiJ4vhLbxyjWB4wh7bcpRzXPgCewDRrwefZQ2BwtHg3c9zvVMlI0g+o2Q==}
+    engines: {node: '>= 14.0.0'}
+    peerDependencies:
+      ember-source: ^3.25.0 || ^4.0.0
+    dependencies:
+      ember-cli-babel: 7.26.11
+      ember-cli-typescript: 5.2.1
+      ember-cli-version-checker: 5.1.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /ember-inflector/4.0.2:
     resolution: {integrity: sha512-+oRstEa52mm0jAFzhr51/xtEWpCEykB3SEBr7vUg8YnXUZJ5hKNBppP938q8Zzr9XfJEbzrtDSGjhKwJCJv6FQ==}
