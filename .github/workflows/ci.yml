@@ -42,7 +42,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: foo-123
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
       - name: Lint + Format + Glint
         run: pnpm lint
 
@@ -68,15 +67,11 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: foo-123
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
         working-directory: ./test-app
       - name: 'Type checking'
-        run: |
-          pnpm --filter test-app exec tsc -v;
-          pnpm --filter test-app exec glint --version;
-          pnpm --filter test-app exec glint;
+        run: pnpm _turbo typecheck
 
   default_tests:
     name: Default Tests
@@ -92,7 +87,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: foo-123
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
       - run: pnpm test
 
   floating_tests:
@@ -111,7 +105,6 @@ jobs:
       - uses: ./.github/actions/pnpm
       - name: Install Dependencies (without lockfile)
         run: rm pnpm-lock.yaml && pnpm install
-      - run: pnpm build
       - run: pnpm test
 
   try_scenarios:
@@ -141,7 +134,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: foo-123
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
       - name: Run Tests
         working-directory: ./test-app
         run: >-

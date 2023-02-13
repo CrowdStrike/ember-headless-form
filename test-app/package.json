@@ -23,7 +23,8 @@
     "lint:prettier:fix": "prettier -w .",
     "start": "ember serve",
     "test": "ember test",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "typecheck": "pnpm tsc -v; pnpm glint --version; pnpm lint:types"
   },
   "devDependencies": {
     "@ember-headless-form/changeset": "workspace:*",

@@ -41,6 +41,11 @@
       "outputs": [],
       // We treat type checking as a lint, so it requires the build be successful
       "dependsOn": ["^build"]
+    },
+    // Used for typescript-support-matrix
+    "typecheck": {
+      "outputs": [],
+      "dependsOn": ["^build"]
     }
   }
 }
