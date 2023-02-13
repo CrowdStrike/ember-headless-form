@@ -138,14 +138,7 @@ jobs:
         working-directory: ./test-app
         run: >-
           node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
-          --skip-cleanup --- echo "setup"
-      # ember-version is controlled by dependencies, rather than the ember-try arguments
-      # embroider *usage* is controlled by dependencies, rather than the ember-try arguments
-      # embroifer safe vs optimized *is* controlled by env variable
-      - run: pnpm test
-        env:
-          EMBER_TRY_CURRENT_SCENARIO: ${{ matrix.try-scenario }}
-      - run: pnpm ember --version
+          --skip-cleanup --- bash -c "cd ../ && pnpm test"
 
   # https://github.com/changesets/action
   release:
