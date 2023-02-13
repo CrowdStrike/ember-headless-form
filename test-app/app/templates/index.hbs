@@ -5,12 +5,81 @@
   @onSubmit={{this.doSomething}}
   as |form|
 >
-  <form.field @name='name' as |field|>
-    <field.label>Name</field.label>
-    <field.input required />
-    <field.errors />
+  <form.field @name='firstName' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.label class={{if field.isInvalid 'text-red-500'}}>First name</field.label>
+      <field.input
+        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        required
+      />
+      <field.errors class='text-red-600' />
+    </div>
   </form.field>
 
-  <button type='submit'>Submit</button>
-  {{! <form.submitButton>Submit</form.submitButton> }}
+  <form.field @name='lastName' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.label class={{if field.isInvalid 'text-red-500'}}>Last name</field.label>
+      <field.input
+        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        required
+      />
+      <field.errors class='text-red-600' />
+    </div>
+  </form.field>
+
+  <form.field @name='gender' as |field|>
+    <div class='my-2 flex flex-col'>
+      Gender:
+      <div class='flex flex-row space-x-2'>
+        <field.radio @value='male' as |radio|>
+          <radio.input />
+          <radio.label>Male</radio.label>
+        </field.radio>
+        <field.radio @value='female' as |radio|>
+          <radio.input />
+          <radio.label>Female</radio.label>
+        </field.radio>
+        <field.radio @value='other' as |radio|>
+          <radio.input />
+          <radio.label>Other</radio.label>
+        </field.radio>
+      </div>
+    </div>
+  </form.field>
+
+  <form.field @name='email' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.label
+        class={{if field.isInvalid 'text-red-500'}}
+      >Email</field.label>
+      <field.input
+        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        @type='email'
+        required
+      />
+      <field.errors class='text-red-600' />
+    </div>
+  </form.field>
+
+  <form.field @name='comment' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.label>Comment</field.label>
+      <field.textarea class='border rounded px-2' />
+      <field.errors class='text-red-600' />
+    </div>
+  </form.field>
+
+  <form.field @name='accept_tos' as |field|>
+    <div class='my-2 flex flex-row space-x-2'>
+      <field.checkbox required />
+      <field.label class={{if field.isInvalid 'text-red-500'}}>Accept TOS</field.label>
+      <field.errors class='text-red-600' />
+    </div>
+  </form.field>
+
+  <button
+    type='submit'
+    class='bg-slate-600 text-white rounded px-8 py-1'
+    data-test-submit
+  >Submit</button>
 </HeadlessForm>
