@@ -25,7 +25,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
 
 
@@ -40,7 +39,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
       - name: Lint + Format + Glint
         run: pnpm lint
@@ -65,7 +63,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
@@ -85,7 +82,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
       - run: pnpm test
 
@@ -101,7 +97,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
       - name: Install Dependencies (without lockfile)
         run: rm pnpm-lock.yaml && pnpm install
@@ -132,7 +127,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
       - name: Setup Tests
         working-directory: ./test-app
@@ -144,7 +138,7 @@ jobs:
         # same as the above, but without the sub-shell
         run: >-
           node_modules/.bin/ember try:one ${{matrix.try-scenario}}
-          --skip-cleanup --- pnpm turbo --api='http://127.0.0.1:9080' --token=foo-123 --team=foo test
+          --skip-cleanup --- pnpm turbo --api='http://127.0.0.1:9080'
 
 
   # https://github.com/changesets/action
@@ -167,7 +161,6 @@ jobs:
         uses: felixmosh/turborepo-gh-artifacts@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: foo-123
       - uses: ./.github/actions/pnpm
       - run: pnpm build
       - name: Create Release Pull Request or Publish to npm

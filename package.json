@@ -17,7 +17,7 @@
     "lint": "pnpm _turbo lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
     "dev": "pnpm start",
-    "_turbo": "pnpm turbo --api='http://127.0.0.1:9080' --token=foo-123 --team=foo"
+    "_turbo": "pnpm turbo --api='http://127.0.0.1:9080'"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
