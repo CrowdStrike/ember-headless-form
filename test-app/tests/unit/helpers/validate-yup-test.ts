@@ -1,4 +1,4 @@
-import validateYup from '@ember-headless-form/yup/helpers/validate-yup';
+import { validateYup } from '@ember-headless-form/yup';
 import { module, test } from 'qunit';
 
 import { object, string } from 'yup';

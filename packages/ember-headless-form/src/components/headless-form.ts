@@ -8,10 +8,10 @@ import { waitFor } from '@ember/test-waiters';
 import { modifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
-import FieldComponent from './-private/field';
-import { mergeErrorRecord } from './-private/utils';
+import FieldComponent from '../-private/components/field';
+import { mergeErrorRecord } from '../-private/utils';
 
-import type { HeadlessFormFieldComponentSignature } from './-private/field';
+import type { HeadlessFormFieldComponentSignature } from '../-private/components/field';
 import type {
   ErrorRecord,
   FieldRegistrationData,
@@ -21,7 +21,7 @@ import type {
   FormValidateCallback,
   UserData,
   ValidationError,
-} from './-private/types';
+} from '../-private/types';
 import type {
   ComponentLike,
   ModifierLike,

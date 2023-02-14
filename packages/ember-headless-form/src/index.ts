@@ -1,4 +1,4 @@
-export type { InputType } from './components/-private/control/input';
+export type { InputType } from './-private/components/control/input';
 export type {
   ErrorRecord,
   FieldValidateCallback,
@@ -6,4 +6,5 @@ export type {
   FormKey,
   FormValidateCallback,
   ValidationError,
-} from './components/-private/types';
+} from './-private/types';
+export { default as HeadlessForm } from './components/headless-form';

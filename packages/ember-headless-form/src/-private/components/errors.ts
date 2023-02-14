@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-import type { ValidationError } from './types';
+import type { ValidationError } from '../types';
 
 export interface HeadlessFormErrorsComponentSignature<VALUE> {
   Element: HTMLDivElement;

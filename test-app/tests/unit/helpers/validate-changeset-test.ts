@@ -1,4 +1,4 @@
-import validateChangeset from '@ember-headless-form/changeset/helpers/validate-changeset';
+import { validateChangeset } from '@ember-headless-form/changeset';
 import { module, test } from 'qunit';
 
 import { Changeset } from 'ember-changeset';
