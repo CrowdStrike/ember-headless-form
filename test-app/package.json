@@ -11,7 +11,6 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "echo 'apps do not build this way'",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
     "lint:hbs": "ember-template-lint .",
