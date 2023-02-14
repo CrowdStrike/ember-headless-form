@@ -4,15 +4,14 @@
     <h1 class="type-3xl">ember-headless-form</h1>
 
     <p class="type-lg">
-      ...
+      The Ember.js addon that distills the common behavior and accessibility
+      best practices of forms into reusable components, without any opinions on
+      specific markup or styling. Use it to build your forms directly, or to
+      build your opinionated forms component kit on top of it.
     </p>
 
     <span>
-      <Toucan::Link
-        @variant="brand"
-        class="px-6 py-1 flex gap-3"
-        @href="/docs/installation"
-      >
+      <Toucan::Link @variant="brand" class="px-6 py-1 flex gap-3" @href="/docs">
         Read the Docs
         <svg
           class="w-4 ml-2"
@@ -38,12 +37,14 @@
 <Main>
   <ContentSection>
     <:header>
-      Lorem ipsum
+      Why even?
     </:header>
     <:content>
-      dolor sit amet consectetur, adipisicing elit. Veniam aliquid voluptatem
-      quam blanditiis modi, tempora perferendis ea. Facere labore laborum
-      architecto dolore alias quia corrupti, sunt iste perferendis vitae aut!
+      Forms aren't exactly a new thing, so why this addon? Existing solutions
+      are either not using the latest Ember paradigms (Octane/Polaris), generate
+      specific markup and thus hard to customize or coupled to a specific
+      validation library. ember-headless-form is none of this. It gives you all
+      the flexibility, without having to reinvent the wheel.
     </:content>
   </ContentSection>
 
@@ -52,27 +53,27 @@
       <div
         class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 md:gap-16"
       >
-        <FeatureCard @title="Coming Soon">
+        <FeatureCard @title="TypeScript/Glint">
           Features coming up!
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
+        <FeatureCard @title="Accessibility">
           Features coming up!
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
+        <FeatureCard @title="Native validation">
           Features coming up!
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
+        <FeatureCard @title="Custom validation">
           Features coming up!
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
+        <FeatureCard @title="ember-changeset">
           Features coming up!
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
+        <FeatureCard @title="yup">
           Features coming up!
         </FeatureCard>
 
