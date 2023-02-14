@@ -32,16 +32,9 @@
     },
     "build": {
       "outputs": ["dist/**"],
-      // Normally, A package's `test` script depends on that package's
-      // own `build` script being completed first.
-      // But for ember apps, they build themselves during
-      // test execution, so we can only get away with only
-      // building our dependencies
       "dependsOn": ["^build"]
     },
     "lint": {
-      // A package's `lint` script has no dependencies and
-      // can be run whenever. It also has no filesystem outputs.
       "outputs": [],
       // We treat type checking as a lint, so it requires the build be successful
       "dependsOn": ["^build"]
