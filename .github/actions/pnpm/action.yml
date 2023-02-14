@@ -13,4 +13,10 @@ runs:
       shell: 'bash'
       run: |
         pnpm -v
-        pnpm install
+        pnpm install --fix-lockfile
+        git_diff=$(git diff)
+        if [[ "$git_diff" -eq "" ]]; then
+          echo "Success: no lockfile differences" ;
+        else
+          echo "Error: lockfile differences detected";
+        fi
