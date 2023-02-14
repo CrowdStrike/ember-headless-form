@@ -16,12 +16,9 @@ export default {
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
     addon.publicEntrypoints([
-      'components/*.js',
-      'index.js',
-      'template-registry.js',
-      // these are not really public entrypoints, but rollup-plugin-ts messes things up badly when trying to tree-shake TS declarations, so we treat them as entrypoints as far as our build system
-      '-private/components/**/*.js',
-      '-private/modifiers/**/*.js',
+      // For our own build we treat all JS modules as entry points, to not cause rollup-plugin-ts to mess things up badly when trying to tree-shake TS declarations
+      // but the actual importable modules are further restricted by the package.json entry points!
+      '**/*.js',
     ]),
 
     // These are the modules that should get reexported into the traditional

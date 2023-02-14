@@ -106,6 +106,7 @@
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     },
+    "./-private/*": null,
     "./addon-main.js": "./addon-main.js"
   },
   "typesVersions": {
