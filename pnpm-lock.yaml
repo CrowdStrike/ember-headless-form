@@ -11137,8 +11137,8 @@ packages:
     dependencies:
       path-key: 3.1.1
 
-  /npm/8.19.3:
-    resolution: {integrity: sha512-0QjmyPtDxSyMWWD8I91QGbrgx9KzbV6C9FK1liEb/K0zppiZkr5KxXc990G+LzPwBHDfRjUBlO9T1qZ08vl9mA==}
+  /npm/8.19.4:
+    resolution: {integrity: sha512-3HANl8i9DKnUA89P4KEgVNN28EjSeDCmvEqbzOAuxCFDzdBZzjUl99zgnGpOUumvW5lvJo2HKcjrsc+tfyv1Hw==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     hasBin: true
     dev: true
@@ -14000,7 +14000,7 @@ packages:
       '@types/ungap__structured-clone': 0.3.0
       '@ungap/structured-clone': 0.3.4
       i: 0.3.7
-      npm: 8.19.3
+      npm: 8.19.4
     dev: true
 
   /vary/1.1.2:
