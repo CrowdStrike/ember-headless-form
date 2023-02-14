@@ -26,7 +26,6 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
-    "@ember-headless-form/changeset": "workspace:*",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
     "@ember-headless-form/changeset": "workspace:*",
