@@ -128,7 +128,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
-      - name: Setup Tests
+      - name: Run Tests
         working-directory: ./test-app
         # This command doesn't actually run the bash command, but
         # instead falls back to ember test...
