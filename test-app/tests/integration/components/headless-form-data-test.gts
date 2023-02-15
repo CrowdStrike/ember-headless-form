@@ -32,36 +32,36 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
-          <form.field @name="gender" as |field|>
-            <field.radio @value="male" as |radio|>
-              <radio.input data-test-gender-male />
-              <radio.label>Male</radio.label>
-            </field.radio>
-            <field.radio @value="female" as |radio|>
-              <radio.input data-test-gender-female />
-              <radio.label>Female</radio.label>
-            </field.radio>
-            <field.radio @value="other" as |radio|>
-              <radio.input data-test-gender-other />
-              <radio.label>Other</radio.label>
-            </field.radio>
-          </form.field>
-          <form.field @name="comments" as |field|>
-            <field.label>Comments</field.label>
-            <field.textarea data-test-comments />
-          </form.field>
-          <form.field @name="acceptTerms" as |field|>
-            <field.label>Terms accepted</field.label>
-            <field.checkbox data-test-terms />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
+          <form.Field @name="gender" as |field|>
+            <field.Radio @value="male" as |radio|>
+              <radio.Input data-test-gender-male />
+              <radio.Label>Male</radio.Label>
+            </field.Radio>
+            <field.Radio @value="female" as |radio|>
+              <radio.Input data-test-gender-female />
+              <radio.Label>Female</radio.Label>
+            </field.Radio>
+            <field.Radio @value="other" as |radio|>
+              <radio.Input data-test-gender-other />
+              <radio.Label>Other</radio.Label>
+            </field.Radio>
+          </form.Field>
+          <form.Field @name="comments" as |field|>
+            <field.Label>Comments</field.Label>
+            <field.Textarea data-test-comments />
+          </form.Field>
+          <form.Field @name="acceptTerms" as |field|>
+            <field.Label>Terms accepted</field.Label>
+            <field.Checkbox data-test-terms />
+          </form.Field>
         </HeadlessForm>
       </template>);
 
@@ -79,12 +79,12 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
+          <form.Field @name="firstName" as |field|>
             <div data-test-first-name>{{field.value}}</div>
-          </form.field>
-          <form.field @name="lastName" as |field|>
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
             <div data-test-last-name>{{field.value}}</div>
-          </form.field>
+          </form.Field>
         </HeadlessForm>
       </template>);
 
@@ -104,14 +104,14 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
         </HeadlessForm>
       </template>);
 
@@ -132,14 +132,14 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
         </HeadlessForm>
       </template>);
 
@@ -173,36 +173,36 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
-          <form.field @name="gender" as |field|>
-            <field.radio @value="male" as |radio|>
-              <radio.input data-test-gender-male />
-              <radio.label>Male</radio.label>
-            </field.radio>
-            <field.radio @value="female" as |radio|>
-              <radio.input data-test-gender-female />
-              <radio.label>Female</radio.label>
-            </field.radio>
-            <field.radio @value="other" as |radio|>
-              <radio.input data-test-gender-other />
-              <radio.label>Other</radio.label>
-            </field.radio>
-          </form.field>
-          <form.field @name="comments" as |field|>
-            <field.label>Comments</field.label>
-            <field.textarea data-test-comments />
-          </form.field>
-          <form.field @name="acceptTerms" as |field|>
-            <field.label>Terms accepted</field.label>
-            <field.checkbox data-test-terms />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
+          <form.Field @name="gender" as |field|>
+            <field.Radio @value="male" as |radio|>
+              <radio.Input data-test-gender-male />
+              <radio.Label>Male</radio.Label>
+            </field.Radio>
+            <field.Radio @value="female" as |radio|>
+              <radio.Input data-test-gender-female />
+              <radio.Label>Female</radio.Label>
+            </field.Radio>
+            <field.Radio @value="other" as |radio|>
+              <radio.Input data-test-gender-other />
+              <radio.Label>Other</radio.Label>
+            </field.Radio>
+          </form.Field>
+          <form.Field @name="comments" as |field|>
+            <field.Label>Comments</field.Label>
+            <field.Textarea data-test-comments />
+          </form.Field>
+          <form.Field @name="acceptTerms" as |field|>
+            <field.Label>Terms accepted</field.Label>
+            <field.Checkbox data-test-terms />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -248,7 +248,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
+          <form.Field @name="firstName" as |field|>
             <label for="first-name">First name:</label>
             <input
               type="text"
@@ -263,7 +263,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             >
               Update
             </button>
-          </form.field>
+          </form.Field>
         </HeadlessForm>
       </template>);
 
@@ -282,14 +282,14 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await render(<template>
         <HeadlessForm @data={{data}} @dataMode="mutable" as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
         </HeadlessForm>
       </template>);
 
@@ -313,14 +313,14 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           @onSubmit={{submitHandler}}
           as |form|
         >
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);

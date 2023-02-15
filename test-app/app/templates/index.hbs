@@ -5,77 +5,77 @@
   @onSubmit={{this.doSomething}}
   as |form|
 >
-  <form.field @name='firstName' as |field|>
+  <form.Field @name='firstName' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.label class={{if field.isInvalid 'text-red-500'}}>First name</field.label>
-      <field.input
+      <field.Label class={{if field.isInvalid 'text-red-500'}}>First name</field.Label>
+      <field.Input
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         required
       />
       <field.errors class='text-red-600' />
     </div>
-  </form.field>
+  </form.Field>
 
-  <form.field @name='lastName' as |field|>
+  <form.Field @name='lastName' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.label class={{if field.isInvalid 'text-red-500'}}>Last name</field.label>
-      <field.input
+      <field.Label class={{if field.isInvalid 'text-red-500'}}>Last name</field.Label>
+      <field.Input
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         required
       />
       <field.errors class='text-red-600' />
     </div>
-  </form.field>
+  </form.Field>
 
-  <form.field @name='gender' as |field|>
+  <form.Field @name='gender' as |field|>
     <div class='my-2 flex flex-col'>
       Gender:
       <div class='flex flex-row space-x-2'>
-        <field.radio @value='male' as |radio|>
-          <radio.input />
-          <radio.label>Male</radio.label>
-        </field.radio>
-        <field.radio @value='female' as |radio|>
-          <radio.input />
-          <radio.label>Female</radio.label>
-        </field.radio>
-        <field.radio @value='other' as |radio|>
-          <radio.input />
-          <radio.label>Other</radio.label>
-        </field.radio>
+        <field.Radio @value='male' as |radio|>
+          <radio.Input />
+          <radio.Label>Male</radio.Label>
+        </field.Radio>
+        <field.Radio @value='female' as |radio|>
+          <radio.Input />
+          <radio.Label>Female</radio.Label>
+        </field.Radio>
+        <field.Radio @value='other' as |radio|>
+          <radio.Input />
+          <radio.Label>Other</radio.Label>
+        </field.Radio>
       </div>
     </div>
-  </form.field>
+  </form.Field>
 
-  <form.field @name='email' as |field|>
+  <form.Field @name='email' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.label
+      <field.Label
         class={{if field.isInvalid 'text-red-500'}}
-      >Email</field.label>
-      <field.input
+      >Email</field.Label>
+      <field.Input
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         @type='email'
         required
       />
       <field.errors class='text-red-600' />
     </div>
-  </form.field>
+  </form.Field>
 
-  <form.field @name='comment' as |field|>
+  <form.Field @name='comment' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.label>Comment</field.label>
-      <field.textarea class='border rounded px-2' />
+      <field.Label>Comment</field.Label>
+      <field.Textarea class='border rounded px-2' />
       <field.errors class='text-red-600' />
     </div>
-  </form.field>
+  </form.Field>
 
-  <form.field @name='accept_tos' as |field|>
+  <form.Field @name='accept_tos' as |field|>
     <div class='my-2 flex flex-row space-x-2'>
-      <field.checkbox required />
-      <field.label class={{if field.isInvalid 'text-red-500'}}>Accept TOS</field.label>
+      <field.Checkbox required />
+      <field.Label class={{if field.isInvalid 'text-red-500'}}>Accept TOS</field.Label>
       <field.errors class='text-red-600' />
     </div>
-  </form.field>
+  </form.Field>
 
   <button
     type='submit'

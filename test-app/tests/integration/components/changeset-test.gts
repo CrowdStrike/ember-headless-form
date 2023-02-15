@@ -63,10 +63,10 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @onSubmit={{submitHandler}}
         as |form|
       >
-        <form.field @name="firstName" as |field|>
-          <field.label>First Name</field.label>
-          <field.input data-test-first-name />
-        </form.field>
+        <form.Field @name="firstName" as |field|>
+          <field.Label>First Name</field.Label>
+          <field.Input data-test-first-name />
+        </form.Field>
         <button type="submit" data-test-submit>Submit</button>
       </HeadlessForm>
     </template>);
@@ -87,10 +87,10 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @onSubmit={{submitHandler}}
         as |form|
       >
-        <form.field @name="firstName" as |field|>
-          <field.label>First Name</field.label>
-          <field.input data-test-first-name />
-        </form.field>
+        <form.Field @name="firstName" as |field|>
+          <field.Label>First Name</field.Label>
+          <field.Input data-test-first-name />
+        </form.Field>
         <button type="submit" data-test-submit>Submit</button>
       </HeadlessForm>
     </template>);
@@ -113,10 +113,10 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @onInvalid={{invalidHandler}}
         as |form|
       >
-        <form.field @name="firstName" as |field|>
-          <field.label>First Name</field.label>
-          <field.input data-test-first-name />
-        </form.field>
+        <form.Field @name="firstName" as |field|>
+          <field.Label>First Name</field.Label>
+          <field.Input data-test-first-name />
+        </form.Field>
         <button type="submit" data-test-submit>Submit</button>
       </HeadlessForm>
     </template>);
@@ -150,14 +150,14 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @onSubmit={{submitHandler}}
         as |form|
       >
-        <form.field @name="firstName" as |field|>
-          <field.label>First Name</field.label>
-          <field.input data-test-first-name />
-        </form.field>
-        <form.field @name="lastName" as |field|>
-          <field.label>Last Name</field.label>
-          <field.input data-test-last-name />
-        </form.field>
+        <form.Field @name="firstName" as |field|>
+          <field.Label>First Name</field.Label>
+          <field.Input data-test-first-name />
+        </form.Field>
+        <form.Field @name="lastName" as |field|>
+          <field.Label>Last Name</field.Label>
+          <field.Input data-test-last-name />
+        </form.Field>
         <button type="submit" data-test-submit>Submit</button>
       </HeadlessForm>
     </template>);
@@ -183,16 +183,16 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @validate={{validateChangeset}}
         as |form|
       >
-        <form.field @name="firstName" as |field|>
-          <field.label>First Name</field.label>
-          <field.input data-test-first-name />
+        <form.Field @name="firstName" as |field|>
+          <field.Label>First Name</field.Label>
+          <field.Input data-test-first-name />
           <field.errors data-test-first-name-errors />
-        </form.field>
-        <form.field @name="lastName" as |field|>
-          <field.label>Last Name</field.label>
-          <field.input data-test-last-name />
+        </form.Field>
+        <form.Field @name="lastName" as |field|>
+          <field.Label>Last Name</field.Label>
+          <field.Input data-test-last-name />
           <field.errors data-test-last-name-errors />
-        </form.field>
+        </form.Field>
         <button type="submit" data-test-submit>Submit</button>
       </HeadlessForm>
     </template>);

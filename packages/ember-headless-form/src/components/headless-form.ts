@@ -47,7 +47,7 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
   Blocks: {
     default: [
       {
-        field: WithBoundArgs<
+        Field: WithBoundArgs<
           typeof FieldComponent<DATA>,
           | 'data'
           | 'set'

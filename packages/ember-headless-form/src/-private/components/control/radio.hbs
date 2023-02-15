@@ -1,8 +1,8 @@
 {{#let (unique-id) as |uuid|}}
   {{yield
     (hash
-      label=(component (ensure-safe-component this.LabelComponent) fieldId=uuid)
-      input=(component
+      Label=(component (ensure-safe-component this.LabelComponent) fieldId=uuid)
+      Input=(component
         (ensure-safe-component this.RadioInputComponent)
         name=@name
         fieldId=uuid

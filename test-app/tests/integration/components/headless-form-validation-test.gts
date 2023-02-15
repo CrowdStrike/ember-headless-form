@@ -131,14 +131,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{validateCallback}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input data-test-last-name />
-              </form.field>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -162,10 +162,10 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @onSubmit={{submitHandler}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -186,10 +186,10 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @onInvalid={{invalidHandler}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -221,14 +221,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @onSubmit={{submitHandler}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input data-test-last-name />
-              </form.field>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -255,16 +255,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{validateCallback}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
                 <field.errors data-test-first-name-errors />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input data-test-last-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
                 <field.errors data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -304,11 +304,11 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{validateCallback}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
                 <field.errors data-test-first-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -357,11 +357,11 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{validateCallback}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
                 <field.errors data-test-first-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -385,9 +385,9 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{validateCallback}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
                 <field.errors data-test-first-name-errors as |errors|>
                   {{#each errors as |e|}}
                     <div data-test-error>
@@ -403,7 +403,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                     </div>
                   {{/each}}
                 </field.errors>
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -481,18 +481,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               as |form|
             >
               {{#if formState.showFirstName}}
-                <form.field @name="firstName" as |field|>
-                  <field.label>First Name</field.label>
-                  <field.input data-test-first-name />
+                <form.Field @name="firstName" as |field|>
+                  <field.Label>First Name</field.Label>
+                  <field.Input data-test-first-name />
                   <field.errors data-test-first-name-errors />
-                </form.field>
+                </form.Field>
               {{/if}}
               {{#if formState.showLastName}}
-                <form.field @name="lastName" as |field|>
-                  <field.label>Last Name</field.label>
-                  <field.input data-test-last-name />
+                <form.Field @name="lastName" as |field|>
+                  <field.Label>Last Name</field.Label>
+                  <field.Input data-test-last-name />
                   <field.errors data-test-last-name-errors />
-                </form.field>
+                </form.Field>
               {{/if}}
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -563,10 +563,10 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{validateCallback}}
               as |form|
             >
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -579,7 +579,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
     );
   });
 
-  module('form.field @validation callback', function () {
+  module('form.Field @validation callback', function () {
     [
       { testType: 'sync', validateCallback: validateFieldCallbackSync },
       { testType: 'async', validateCallback: validateFieldCallbackAsync },
@@ -591,18 +591,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
           await render(<template>
             <HeadlessForm @data={{data}} as |form|>
-              <form.field
+              <form.Field
                 @name="firstName"
                 @validate={{validateCallback}}
                 as |field|
               >
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input data-test-last-name />
-              </form.field>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -621,14 +621,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
           await render(<template>
             <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-              <form.field
+              <form.Field
                 @name="firstName"
                 @validate={{validateCallback}}
                 as |field|
               >
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
-              </form.field>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -643,20 +643,20 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
           await render(<template>
             <HeadlessForm @data={{data}} as |form|>
-              <form.field
+              <form.Field
                 @name="firstName"
                 @validate={{validateCallback}}
                 as |field|
               >
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
                 <field.errors data-test-first-name-errors />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input data-test-last-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
                 <field.errors data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -687,26 +687,26 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           await render(<template>
             <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
               {{#if formState.showFirstName}}
-                <form.field
+                <form.Field
                   @name="firstName"
                   @validate={{validateCallback}}
                   as |field|
                 >
-                  <field.label>First Name</field.label>
-                  <field.input data-test-first-name />
+                  <field.Label>First Name</field.Label>
+                  <field.Input data-test-first-name />
                   <field.errors data-test-first-name-errors />
-                </form.field>
+                </form.Field>
               {{/if}}
               {{#if formState.showLastName}}
-                <form.field
+                <form.Field
                   @name="lastName"
                   @validate={{validateCallback}}
                   as |field|
                 >
-                  <field.label>Last Name</field.label>
-                  <field.input data-test-last-name />
+                  <field.Label>Last Name</field.Label>
+                  <field.Input data-test-last-name />
                   <field.errors data-test-last-name-errors />
-                </form.field>
+                </form.Field>
               {{/if}}
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -783,13 +783,13 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               @validate={{formValidateCallback}}
               as |form|
             >
-              <form.field
+              <form.Field
                 @name="firstName"
                 @validate={{fieldValidateCallback}}
                 as |field|
               >
-                <field.label>First Name</field.label>
-                <field.input data-test-first-name />
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
                 <field.errors data-test-first-name-errors as |errors|>
                   {{#each errors as |e index|}}
                     <div data-test-error={{index}}>
@@ -805,12 +805,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                     </div>
                   {{/each}}
                 </field.errors>
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input data-test-last-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
                 <field.errors data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -872,14 +872,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateCallback}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -912,18 +912,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @validateOn="focusout" as |form|>
-            <form.field
+            <form.Field
               @name="firstName"
               @validate={{validateCallback}}
               as |field|
             >
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -963,16 +963,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateFormCallbackSync}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
               <field.errors data-test-first-name-errors />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
               <field.errors data-test-last-name-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1029,14 +1029,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateCallback}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1062,18 +1062,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @validateOn="change" as |form|>
-            <form.field
+            <form.Field
               @name="firstName"
               @validate={{validateCallback}}
               as |field|
             >
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1106,16 +1106,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateFormCallbackSync}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
               <field.errors data-test-first-name-errors />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
               <field.errors data-test-last-name-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1159,14 +1159,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateCallback}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1192,18 +1192,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @validateOn="input" as |form|>
-            <form.field
+            <form.Field
               @name="firstName"
               @validate={{validateCallback}}
               as |field|
             >
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1236,16 +1236,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateFormCallbackSync}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
               <field.errors data-test-first-name-errors />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
               <field.errors data-test-last-name-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1291,14 +1291,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateCallback}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1355,18 +1355,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @revalidateOn="focusout" as |form|>
-            <form.field
+            <form.Field
               @name="firstName"
               @validate={{validateCallback}}
               as |field|
             >
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1431,16 +1431,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateFormCallbackSync}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
               <field.errors data-test-first-name-errors />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
               <field.errors data-test-last-name-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1540,14 +1540,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateCallback}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1604,18 +1604,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @revalidateOn="change" as |form|>
-            <form.field
+            <form.Field
               @name="firstName"
               @validate={{validateCallback}}
               as |field|
             >
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1680,16 +1680,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateFormCallbackSync}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
               <field.errors data-test-first-name-errors />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
               <field.errors data-test-last-name-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1774,14 +1774,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateCallback}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1838,18 +1838,18 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
         await render(<template>
           <HeadlessForm @data={{data}} @revalidateOn="input" as |form|>
-            <form.field
+            <form.Field
               @name="firstName"
               @validate={{validateCallback}}
               as |field|
             >
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
-            </form.field>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -1914,16 +1914,16 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @validate={{validateFormCallbackSync}}
             as |form|
           >
-            <form.field @name="firstName" as |field|>
-              <field.label>First Name</field.label>
-              <field.input data-test-first-name />
+            <form.Field @name="firstName" as |field|>
+              <field.Label>First Name</field.Label>
+              <field.Input data-test-first-name />
               <field.errors data-test-first-name-errors />
-            </form.field>
-            <form.field @name="lastName" as |field|>
-              <field.label>Last Name</field.label>
-              <field.input data-test-last-name />
+            </form.Field>
+            <form.Field @name="lastName" as |field|>
+              <field.Label>Last Name</field.Label>
+              <field.Input data-test-last-name />
               <field.errors data-test-last-name-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);

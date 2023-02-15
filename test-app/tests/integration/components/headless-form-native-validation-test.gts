@@ -26,10 +26,10 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -43,10 +43,10 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -65,10 +65,10 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} @onInvalid={{invalidHandler}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -87,14 +87,14 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input required data-test-last-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input required data-test-last-name />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -111,16 +111,16 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
             <field.errors data-test-first-name-errors />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
             <field.errors data-test-last-name-errors />
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -153,11 +153,11 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
             <field.errors data-test-first-name-errors />
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -175,9 +175,9 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
             <field.errors data-test-first-name-errors as |errors|>
               {{#each errors as |e|}}
                 <div data-test-error>
@@ -193,7 +193,7 @@ module(
                 </div>
               {{/each}}
             </field.errors>
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -227,9 +227,9 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input data-test-first-name />
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
             <field.errors data-test-first-name-errors as |errors|>
               {{#each errors as |e|}}
                 <div data-test-error>
@@ -245,7 +245,7 @@ module(
                 </div>
               {{/each}}
             </field.errors>
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -284,10 +284,10 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="firstName" as |field|>
-            <field.label>First Name</field.label>
-            <field.input required data-test-first-name />
-          </form.field>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required data-test-first-name />
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -328,13 +328,13 @@ module(
           @validate={{formValidateCallback}}
           as |form|
         >
-          <form.field
+          <form.Field
             @name="firstName"
             @validate={{fieldValidateCallback}}
             as |field|
           >
-            <field.label>First Name</field.label>
-            <field.input required pattern="^[A-Za-z]+$" data-test-first-name />
+            <field.Label>First Name</field.Label>
+            <field.Input required pattern="^[A-Za-z]+$" data-test-first-name />
             <field.errors data-test-first-name-errors as |errors|>
               {{#each errors as |e index|}}
                 <div data-test-error={{index}}>
@@ -350,12 +350,12 @@ module(
                 </div>
               {{/each}}
             </field.errors>
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
             <field.errors data-test-last-name-errors />
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -448,20 +448,20 @@ module(
           @validate={{formValidateCallback}}
           as |form|
         >
-          <form.field
+          <form.Field
             @name="firstName"
             @validate={{fieldValidateCallback}}
             as |field|
           >
-            <field.label>First Name</field.label>
-            <field.input required pattern="^[A-Za-z]+$" data-test-first-name />
+            <field.Label>First Name</field.Label>
+            <field.Input required pattern="^[A-Za-z]+$" data-test-first-name />
             <field.errors data-test-first-name-errors />
-          </form.field>
-          <form.field @name="lastName" as |field|>
-            <field.label>Last Name</field.label>
-            <field.input data-test-last-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
             <field.errors data-test-last-name-errors />
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -479,24 +479,24 @@ module(
 
           await render(<template>
             <HeadlessForm @data={{data}} @validateOn="focusout" as |form|>
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
                 <field.errors data-test-first-name-errors />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
                 <field.errors required data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -547,24 +547,24 @@ module(
 
           await render(<template>
             <HeadlessForm @data={{data}} @validateOn="change" as |form|>
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
                 <field.errors data-test-first-name-errors />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
                 <field.errors data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -604,24 +604,24 @@ module(
 
           await render(<template>
             <HeadlessForm @data={{data}} @revalidateOn="focusout" as |form|>
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
                 <field.errors data-test-first-name-errors />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
                 <field.errors data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -715,24 +715,24 @@ module(
 
           await render(<template>
             <HeadlessForm @data={{data}} @revalidateOn="change" as |form|>
-              <form.field @name="firstName" as |field|>
-                <field.label>First Name</field.label>
-                <field.input
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
                 <field.errors data-test-first-name-errors />
-              </form.field>
-              <form.field @name="lastName" as |field|>
-                <field.label>Last Name</field.label>
-                <field.input
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input
                   required
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
                 <field.errors data-test-last-name-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
