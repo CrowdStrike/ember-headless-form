@@ -31,7 +31,8 @@
   },
   "peerDependencies": {
     "yup": "^1.0.0",
-    "ember-headless-form": "^0.0.0"
+    "ember-headless-form": "^0.0.0",
+    "ember-source": "^4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
@@ -66,6 +67,7 @@
     "concurrently": "^7.2.1",
     "ember-headless-form": "workspace:*",
     "ember-template-lint": "^4.0.0",
+    "ember-source": "~4.10.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^10.5.8",
