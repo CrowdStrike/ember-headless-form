@@ -57,12 +57,12 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-          <form.field @name="custom" as |field|>
+          <form.Field @name="custom" as |field|>
             <CustomControl
               @value={{field.value}}
               @onChange={{field.setValue}}
             />
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -80,14 +80,14 @@ module(
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
-          <form.field @name="custom" as |field|>
-            <field.label>Custom</field.label>
+          <form.Field @name="custom" as |field|>
+            <field.Label>Custom</field.Label>
             <CustomControl
               @value={{field.value}}
               @onChange={{field.setValue}}
               id={{field.id}}
             />
-          </form.field>
+          </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
       </template>);
@@ -114,7 +114,7 @@ module(
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
-            <form.field
+            <form.Field
               @name="custom"
               @validate={{validateCallback}}
               as |field|
@@ -124,7 +124,7 @@ module(
                 @onChange={{field.setValue}}
                 aria-invalid={{if field.isInvalid "true"}}
               />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -144,7 +144,7 @@ module(
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
-            <form.field
+            <form.Field
               @name="custom"
               @validate={{validateCallback}}
               as |field|
@@ -155,7 +155,7 @@ module(
                 aria-errormessage={{if field.isInvalid field.errorId}}
               />
               <field.errors data-test-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -185,7 +185,7 @@ module(
 
         await render(<template>
           <HeadlessForm @data={{data}} as |form|>
-            <form.field
+            <form.Field
               @name="custom"
               @validate={{validateCallback}}
               as |field|
@@ -202,7 +202,7 @@ module(
                 Validate now!
               </button>
               <field.errors data-test-date-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);
@@ -235,7 +235,7 @@ module(
 
           await render(<template>
             <HeadlessForm @data={{data}} @validateOn="focusout" as |form|>
-              <form.field
+              <form.Field
                 @name="custom"
                 @validate={{validateCallback}}
                 as |field|
@@ -246,7 +246,7 @@ module(
                   {{field.captureEvents}}
                 />
                 <field.errors data-test-date-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -281,7 +281,7 @@ module(
 
           await render(<template>
             <HeadlessForm @data={{data}} @validateOn="change" as |form|>
-              <form.field
+              <form.Field
                 @name="custom"
                 @validate={{validateCallback}}
                 as |field|
@@ -292,7 +292,7 @@ module(
                   {{field.captureEvents}}
                 />
                 <field.errors data-test-date-errors />
-              </form.field>
+              </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
           </template>);
@@ -328,7 +328,7 @@ module(
             @revalidateOn="change"
             as |form|
           >
-            <form.field
+            <form.Field
               @name="custom"
               @validate={{validateCallback}}
               as |field|
@@ -339,7 +339,7 @@ module(
                 {{field.captureEvents}}
               />
               <field.errors data-test-date-errors />
-            </form.field>
+            </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
         </template>);

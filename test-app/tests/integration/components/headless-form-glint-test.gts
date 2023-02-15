@@ -23,9 +23,9 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
     await render(<template>
       <HeadlessForm @data={{data}} as |form|>
         {{! this is valid }}
-        <form.field @name="firstName" />
+        <form.Field @name="firstName" />
         {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
-        <form.field @name="lastName" />
+        <form.Field @name="lastName" />
       </HeadlessForm>
     </template>);
   });
@@ -37,9 +37,9 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
     await render(<template>
       <HeadlessForm @data={{data}} as |form|>
         {{! this is valid }}
-        <form.field @name="firstName" />
+        <form.Field @name="firstName" />
         {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
-        <form.field @name="lastName" />
+        <form.Field @name="lastName" />
       </HeadlessForm>
     </template>);
   });
@@ -51,7 +51,7 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
     await render(<template>
       <HeadlessForm @data={{data}} as |form|>
         {{! @glint-expect-error this is expected to be a glint error, as "lastName" does not exist on the type of @data! }}
-        <form.field @name="firstName" />
+        <form.Field @name="firstName" />
       </HeadlessForm>
     </template>);
   });
@@ -62,9 +62,9 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
 
     await render(<template>
       <HeadlessForm @data={{data}} as |form|>
-        <form.field @name="foo" />
+        <form.Field @name="foo" />
         {{! @glint-expect-error this is expected to be a glint error, as 0 is a valid key of data, but we also require it to be a string! }}
-        <form.field @name={{0}} />
+        <form.Field @name={{0}} />
       </HeadlessForm>
     </template>);
   });

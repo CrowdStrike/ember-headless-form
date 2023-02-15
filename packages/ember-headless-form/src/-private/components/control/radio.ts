@@ -17,8 +17,8 @@ export interface HeadlessFormControlRadioComponentSignature {
   Blocks: {
     default: [
       {
-        label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
-        input: WithBoundArgs<
+        Label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
+        Input: WithBoundArgs<
           typeof RadioInputComponent,
           'fieldId' | 'value' | 'setValue' | 'checked' | 'name'
         >;

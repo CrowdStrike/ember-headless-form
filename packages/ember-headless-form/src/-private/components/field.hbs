@@ -7,10 +7,10 @@
 }}
   {{yield
     (hash
-      label=(component
+      Label=(component
         (ensure-safe-component this.LabelComponent) fieldId=fieldId
       )
-      input=(component
+      Input=(component
         (ensure-safe-component this.InputComponent)
         name=@name
         fieldId=fieldId
@@ -19,7 +19,7 @@
         setValue=this.setValue
         invalid=this.hasErrors
       )
-      checkbox=(component
+      Checkbox=(component
         (ensure-safe-component this.CheckboxComponent)
         name=@name
         fieldId=fieldId
@@ -28,7 +28,7 @@
         setValue=this.setValue
         invalid=this.hasErrors
       )
-      textarea=(component
+      Textarea=(component
         (ensure-safe-component this.TextareaComponent)
         name=@name
         fieldId=fieldId
@@ -37,7 +37,7 @@
         setValue=this.setValue
         invalid=this.hasErrors
       )
-      radio=(component
+      Radio=(component
         (ensure-safe-component this.RadioComponent)
         name=@name
         selected=this.valueAsString

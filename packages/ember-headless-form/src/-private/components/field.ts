@@ -50,20 +50,20 @@ export interface HeadlessFormFieldComponentSignature<
   Blocks: {
     default: [
       {
-        label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
-        input: WithBoundArgs<
+        Label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
+        Input: WithBoundArgs<
           typeof InputComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
-        checkbox: WithBoundArgs<
+        Checkbox: WithBoundArgs<
           typeof CheckboxComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
-        radio: WithBoundArgs<
+        Radio: WithBoundArgs<
           typeof RadioComponent,
           'name' | 'selected' | 'setValue'
         >;
-        textarea: WithBoundArgs<
+        Textarea: WithBoundArgs<
           typeof TextareaComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
