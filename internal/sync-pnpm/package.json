@@ -1,0 +1,19 @@
+{
+  "name": "sync-pnpm",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Sync build artifacts of workspace packages to pnpm injected/hard linked copies",
+  "repository": "",
+  "license": "MIT",
+  "author": "",
+  "main": "index.js",
+  "bin": "bin/sync-pnpm.js",
+  "type": "module",
+  "dependencies": {
+    "@manypkg/find-root": "^2.1.0",
+    "@manypkg/get-packages": "^2.1.0",
+    "@pnpm/fs.hard-link-dir": "^1.0.3",
+    "fs-extra": "^11.1.0",
+    "resolve-package-path": "^4.0.3"
+  }
+}

@@ -23,7 +23,8 @@
     "start": "ember serve",
     "test": "ember test",
     "test:ember": "ember test",
-    "typecheck": "pnpm tsc -v; pnpm glint --version; pnpm lint:types"
+    "typecheck": "pnpm tsc -v; pnpm glint --version; pnpm lint:types",
+    "_build": "pnpm sync-pnpm"
   },
   "devDependencies": {
     "@ember-headless-form/changeset": "workspace:*",
@@ -117,7 +118,8 @@
     "typescript": "^4.9.4",
     "validated-changeset": "^1.3.4",
     "webpack": "^5.75.0",
-    "yup": "^1.0.0"
+    "yup": "^1.0.0",
+    "sync-pnpm": "workspace:*"
   },
   "dependenciesMeta": {
     "ember-headless-form": {

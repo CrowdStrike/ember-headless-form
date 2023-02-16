@@ -1,4 +1,5 @@
 packages:
   - 'packages/*'
+  - 'internal/*'
   - 'test-app'
   - 'docs-app'
