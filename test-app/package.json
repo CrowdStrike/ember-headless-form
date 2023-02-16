@@ -11,7 +11,6 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build --environment=production",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
     "lint:hbs": "ember-template-lint .",
@@ -22,8 +21,9 @@
     "lint:prettier": "prettier -c .",
     "lint:prettier:fix": "prettier -w .",
     "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test"
+    "test": "ember test",
+    "test:ember": "ember test",
+    "typecheck": "pnpm tsc -v; pnpm glint --version; pnpm lint:types"
   },
   "devDependencies": {
     "@ember-headless-form/changeset": "workspace:*",
