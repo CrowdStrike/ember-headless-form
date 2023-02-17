@@ -36,47 +36,159 @@ export interface HeadlessFormFieldComponentSignature<
   KEY extends FormKey<FormData<DATA>> = FormKey<FormData<DATA>>
 > {
   Args: {
-    data: FormData<DATA>;
+    /**
+     * The name of your field, which must match a property of the `@data` passed to the form
+     */
     name: KEY;
-    set: (key: KEY, value: DATA[KEY]) => void;
+
+    /**
+     * Provide a custom validation function, that operates only on this specific field. Eventual validation errors are merged with native validation errors to determine the effective set of errors rendered for the field.
+     *
+     * Return undefined when no validation errors are present, otherwise an array of (one or multiple) `ValidationError`s.
+     */
     validate?: FieldValidateCallback<FormData<DATA>, KEY>;
+
+    // the following are private arguments curried by the component helper, so users will never have to use those
+
+    /*
+     * @internal
+     */
+    data: FormData<DATA>;
+
+    /*
+     * @internal
+     */
+    set: (key: KEY, value: DATA[KEY]) => void;
+
+    /*
+     * @internal
+     */
     errors?: ErrorRecord<DATA, KEY>;
+
+    /*
+     * @internal
+     */
     registerField: RegisterFieldCallback<FormData<DATA>, KEY>;
+
+    /*
+     * @internal
+     */
     unregisterField: UnregisterFieldCallback<FormData<DATA>, KEY>;
+
+    /*
+     * @internal
+     */
     triggerValidationFor(name: KEY): Promise<void>;
+
+    /*
+     * @internal
+     */
     fieldValidationEvent: 'focusout' | 'change' | 'input' | undefined;
+
+    /*
+     * @internal
+     */
     fieldRevalidationEvent: 'focusout' | 'change' | 'input' | undefined;
   };
   Blocks: {
     default: [
       {
+        /**
+         * Yielded component that renders the `<label>` element.
+         */
         Label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
+
+        /**
+         * Yielded control component that renders an `<input>` element.
+         */
         Input: WithBoundArgs<
           typeof InputComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
+
+        /**
+         * Yielded control component that renders an `<input type="checkbox">` element.
+         */
         Checkbox: WithBoundArgs<
           typeof CheckboxComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
+
+        /**
+         * Yielded control component that renders a single radio control.
+         *
+         * Use multiple to define a radio group. It further yields components to render `Input` and `Label`.
+         */
         Radio: WithBoundArgs<
           typeof RadioComponent,
           'name' | 'selected' | 'setValue'
         >;
+
+        /**
+         * Yielded control component that renders a `<textarea>` element.
+         */
         Textarea: WithBoundArgs<
           typeof TextareaComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
+
+        /**
+         * The current value of the field's form data.
+         *
+         * If you don't use one of the supplied control components, then use this to pass the value to your custom component.
+         */
         value: DATA[KEY];
+
+        /**
+         * Action to update the (internal) form data for this field.
+         *
+         * If you don't use one of the supplied control components, then use this to update the value whenever you custom component's value has changed.
+         */
         setValue: (value: DATA[KEY]) => void;
+
+        /**
+         * Unique ID of this field, used to associate the control with its label.
+         *
+         * If you don't use the supplied components, then you can use this as the `id` of the control and the `for` attribute of the `<label>`.
+         */
         id: string;
+
+        /**
+         * Unique error ID of this field, used to associate the control with its validation error message.
+         *
+         * If you don't use the supplied components, then you can use this as the `id` of the validation error element and the `aria-errormessage` or `aria-describedby` attribute of the control.
+         */
         errorId: string;
+
+        /**
+         * Yielded component that renders all validation error messages if there are any.
+         *
+         * In non-block mode it will render all messages by default. In block-mode, it yields all `ValidationError` objects for you to customize the rendering.
+         */
         errors?: WithBoundArgs<
           typeof ErrorsComponent<DATA[KEY]>,
           'errors' | 'id'
         >;
+
+        /**
+         * Will be `true` when validation was triggered and this field is invalid.
+         *
+         * You can use this to customize your markup, e.g. apply HTML classes for error styling.
+         */
         isInvalid: boolean;
+
+        /**
+         * When calling this action, validation will be triggered.
+         *
+         * Can be used for custom controls that don't emit the `@validateOn` events that would normally trigger a dynamic validation.
+         */
         triggerValidation: () => void;
+
+        /**
+         * Yielded modifier that when applied to the control element or any other element wrapping it will be able to recognize the `@validateOn` events and associate them to this field.
+         *
+         * This is only needed for very special cases, where the control is not a native form control or does not have the `@name` of the field assigned to the `name` attribute of the control.
+         */
         captureEvents: WithBoundArgs<
           ModifierLike<CaptureEventsModifierSignature>,
           'event' | 'triggerValidation'

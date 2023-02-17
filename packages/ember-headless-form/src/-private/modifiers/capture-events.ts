@@ -4,7 +4,14 @@ export interface CaptureEventsModifierSignature {
   Element: HTMLElement;
   Args: {
     Named: {
+      /*
+       * @internal
+       */
       event: 'focusout' | 'change';
+
+      /*
+       * @internal
+       */
       triggerValidation(): void;
     };
   };

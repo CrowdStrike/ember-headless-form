@@ -33,12 +33,45 @@ type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
 export interface HeadlessFormComponentSignature<DATA extends UserData> {
   Element: HTMLFormElement;
   Args: {
+    /**
+     * The initial data the form will use to pre-populate the fields.
+     *
+     * Make sure the type of it matches what you expect the form to represent, i.e. the names of all form fields match the properties of the data and their respective types!
+     */
     data?: DATA;
+
+    /**
+     * By default the data you pass as `@data` is never mutated by the form component, you will only receive the updated data (a copy) on successful submission via `@onSubmit`.
+     * Setting this to `'mutable'` will mutate the data whenever the user updates a field. This is especially useful when the data already has some "buffering" behavior, like with `ember-changeset`.
+     */
     dataMode?: 'mutable' | 'immutable';
+
+    /**
+     * Specify when to dynamically validate a field before even submitting the whole form. By default this is `submit`, which means no dynamic validation happens. Another common setting is to validate on `focusout`.
+     */
     validateOn?: ValidateOn;
+
+    /**
+     * Specify when to revalidate a previously validated field that is invalid. By default this happens on `change`. Another common setting is to revalidate on `input`.
+     * Mind that text-based inputs don't emit the `change` event on every key stroke, but only on focusing out. Changing this to `input` would make text-based inputs revalidate on every key stroke.
+     */
     revalidateOn?: ValidateOn;
+
+    /**
+     * Provide a custom validation function, that operates on all fields of the form. Eventual validation errors are merged with native validation errors to determine the effective set of errors rendered in the form.
+     *
+     * Return undefined when no validation errors are present, otherwise an `ErrorRecord` mapping (one or multiple) `ValidationError`s to each invalid field.
+     */
     validate?: FormValidateCallback<DATA>;
+
+    /**
+     * Called when the user has submitted the form and no validation errors have been determined. Receives the new form data, or in case of `@dataMode="mutable"` the original data object.
+     */
     onSubmit?: (data: FormData<DATA>) => void;
+
+    /**
+     * Called when the user tried to submit the form, but validation failed. Receives the new data (or in case of `@dataMode="mutable"` the original data object), and the record of validation errors by field.
+     */
     onInvalid?: (
       data: FormData<DATA>,
       errors: ErrorRecord<FormData<DATA>>
@@ -47,6 +80,9 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
   Blocks: {
     default: [
       {
+        /**
+         * Field component to define the fields of your form. It yields the further components for the form control, label and validation error.
+         */
         Field: WithBoundArgs<
           typeof FieldComponent<DATA>,
           | 'data'
@@ -85,6 +121,36 @@ class FieldData<
   validate?: FieldValidateCallback<DATA, KEY>;
 }
 
+/**
+ * Headless form component.
+ *
+ * @example
+ * Usage example:
+ *
+ * ```hbs
+ * <HeadlessForm
+ *   @data={{this.data}}
+ *   @validateOn="focusout"
+ *   @revalidateOn="input"
+ *   @onSubmit={{this.doSomething}}
+ *   as |form|
+ * >
+ *   <form.Field @name="firstName" as |field|>
+ *     <div>
+ *       <field.Label>First name</field.Label>
+ *       <field.Input
+ *         required
+ *       />
+ *       <field.errors />
+ *     </div>
+ *   </form.Field>
+ *
+ *   <button
+ *     type="submit"
+ *   >Submit</button>
+ * </HeadlessForm>
+ * ```
+ */
 export default class HeadlessFormComponent<
   DATA extends UserData
 > extends Component<HeadlessFormComponentSignature<DATA>> {
