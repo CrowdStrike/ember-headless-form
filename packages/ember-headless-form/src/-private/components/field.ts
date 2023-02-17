@@ -142,7 +142,7 @@ export interface HeadlessFormFieldComponentSignature<
         /**
          * Action to update the (internal) form data for this field.
          *
-         * If you don't use one of the supplied control components, then use this to update the value whenever you custom component's value has changed.
+         * If you don't use one of the supplied control components, then use this to update the value whenever your custom component's value has changed.
          */
         setValue: (value: DATA[KEY]) => void;
 

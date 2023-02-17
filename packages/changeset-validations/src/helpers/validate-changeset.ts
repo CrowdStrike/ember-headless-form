@@ -8,7 +8,7 @@ import { assert } from '@ember/debug';
  * Validation helper for integrating `ember-changeset` based validations into headless forms:
  *
  * - pass a changeset to the form's `@data`
- * - pass this helper into the form's `@validate` hook
+ * - pass this helper into the form's `@validate` hook `@validate={{validateChangeset}}`
  * - opt-in to `@dataMode="mutable"`
  */
 const validateChangeset: FormValidateCallback<EmberChangeset> = async (
