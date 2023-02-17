@@ -7,7 +7,7 @@ const isProduction = () => EmberApp.env() === 'production';
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     autoImport: {
-      watchDependencies: ['@crowdstrike/ember-toucan-core'],
+      watchDependencies: ['ember-headless-form'],
     },
     'ember-cli-babel': {
       enableTypeScriptTransform: true,
