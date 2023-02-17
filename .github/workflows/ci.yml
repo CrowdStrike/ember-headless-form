@@ -182,7 +182,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
+      - run: pnpm build && pnpm i -f
       # - uses: ./.github/actions/download-built-package
       - run: pnpm build:docs-app
       - name: Publish to Cloudflare Pages
@@ -204,7 +204,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
+      - run: pnpm build && pnpm i -f
       # - uses: ./.github/actions/download-built-package
       - uses: marocchino/sticky-pull-request-comment@v2
         with:

@@ -125,5 +125,10 @@
     "highlight.js": "^11.6.0",
     "highlightjs-glimmer": "^1.4.1",
     "tracked-built-ins": "^3.1.0"
+  },
+  "dependenciesMeta": {
+    "ember-headless-form": {
+      "injected": true
+    }
   }
 }
