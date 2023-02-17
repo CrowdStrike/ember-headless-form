@@ -7,6 +7,11 @@ import { assert } from '@ember/debug';
 
 import type { ObjectSchema, ValidationError } from 'yup';
 
+/**
+ * Validation helper for integrating `yup` based validations into headless forms.
+ *
+ * Pass this to the `@validate` hook, supplying the `yup` schema as the only argument: `@validate={{validateYup schema}}`.
+ */
 export default function validateChangeset<DATA extends object>(
   schema: ObjectSchema<DATA>
 ): FormValidateCallback<Partial<DATA>> {

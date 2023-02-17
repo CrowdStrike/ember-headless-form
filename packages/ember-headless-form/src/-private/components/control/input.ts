@@ -3,7 +3,7 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 
 // Possible values for the input type, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
-// for the sake ok completeness, we list all here, with some commented out that are better handled elsewhere, or not at all...
+// for the sake of completeness, we list all here, with some commented out that are better handled elsewhere, or not at all...
 export type InputType =
   // | 'button' - not useful as a control component
   // | 'checkbox' - handled separately, for handling `checked` correctly and operating with true boolean values
@@ -31,12 +31,54 @@ export type InputType =
 export interface HeadlessFormControlInputComponentSignature {
   Element: HTMLInputElement;
   Args: {
-    value: string;
-    name: string;
+    /**
+     * The `type` of the `<input>` element, by default `text`.
+     *
+     * Note that certain types should not be used, as they have dedicated control components:
+     * - `checkbox`
+     * - `radio`
+     *
+     * Also these types are not useful to use as input controls:
+     * - `button`
+     * - `file`
+     * - `image`
+     * - `reset`
+     * - `submit`
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
+     */
     type?: InputType;
+
+    // the following are private arguments curried by the component helper, so users will never have to use those
+
+    /*
+     * @internal
+     */
+    value: string;
+
+    /*
+     * @internal
+     */
+    name: string;
+
+    /*
+     * @internal
+     */
     fieldId: string;
+
+    /*
+     * @internal
+     */
     setValue: (value: string) => void;
+
+    /*
+     * @internal
+     */
     invalid: boolean;
+
+    /*
+     * @internal
+     */
     errorId: string;
   };
 }

@@ -5,7 +5,16 @@ import type { ValidationError } from '../types';
 export interface HeadlessFormErrorsComponentSignature<VALUE> {
   Element: HTMLDivElement;
   Args: {
+    // the following are private arguments curried by the component helper, so users will never have to use those
+
+    /*
+     * @internal
+     */
     errors: ValidationError<VALUE>[];
+
+    /*
+     * @internal
+     */
     id: string;
   };
   Blocks: {

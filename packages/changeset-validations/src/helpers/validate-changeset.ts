@@ -4,6 +4,13 @@ import type { ErrorRecord, FormValidateCallback } from 'ember-headless-form';
 import type { EmberChangeset } from 'ember-changeset';
 import { assert } from '@ember/debug';
 
+/**
+ * Validation helper for integrating `ember-changeset` based validations into headless forms:
+ *
+ * - pass a changeset to the form's `@data`
+ * - pass this helper into the form's `@validate` hook `@validate={{validateChangeset}}`
+ * - opt-in to `@dataMode="mutable"`
+ */
 const validateChangeset: FormValidateCallback<EmberChangeset> = async (
   changeset,
   fields
