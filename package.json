@@ -7,16 +7,16 @@
   "author": "CrowdStrike UX Team",
   "scripts": {
     "release": "changeset publish",
-    "build:docs": "pnpm _turbo build --filter docs-app",
+    "build:docs": "pnpm turbo build --filter docs-app",
     "start": "pnpm start:tests",
-    "start:docs": "pnpm _turbo --filter docs-app start",
-    "start:tests": "pnpm _turbo --filter test-app start",
+    "start:docs": "pnpm turbo --filter docs-app start",
+    "start:tests": "pnpm turbo --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
-    "build": "pnpm _turbo build",
-    "test": "pnpm _turbo test",
-    "lint": "pnpm _turbo lint",
-    "lint:fix": "pnpm --filter '*' lint:fix",
-    "_turbo": "pnpm turbo --api='http://127.0.0.1:9080' --token=foo-123 --team=foo"
+    "build": "pnpm turbo build",
+    "test": "pnpm turbo --filter test-app test",
+    "test:docs": "pnpm turbo --filter docs-app test",
+    "lint": "pnpm turbo lint",
+    "lint:fix": "pnpm --filter '*' lint:fix"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
