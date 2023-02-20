@@ -10,9 +10,9 @@
 >
   <form.Field @name='firstName' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.Label class={{if field.isInvalid 'text-red-500'}}>First name</field.Label>
+      <field.Label class={{if field.isInvalid 'text-critical'}}>First name</field.Label>
       <field.Input
-        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        class='border rounded px-2 {{if field.isInvalid "border-critical"}}'
         required
       />
       <field.errors class='text-red-600' />
@@ -21,9 +21,9 @@
 
   <form.Field @name='lastName' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.Label class={{if field.isInvalid 'text-red-500'}}>Last name</field.Label>
+      <field.Label class={{if field.isInvalid 'text-critical'}}>Last name</field.Label>
       <field.Input
-        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        class='border rounded px-2 {{if field.isInvalid "border-critical"}}'
         required
       />
       <field.errors class='text-red-600' />
@@ -53,10 +53,10 @@
   <form.Field @name='email' as |field|>
     <div class='my-2 flex flex-col'>
       <field.Label
-        class={{if field.isInvalid 'text-red-500'}}
+        class={{if field.isInvalid 'text-critical'}}
       >Email</field.Label>
       <field.Input
-        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        class='border rounded px-2 {{if field.isInvalid "border-critical"}}'
         @type='email'
         required
       />
@@ -75,7 +75,7 @@
   <form.Field @name='accept_tos' as |field|>
     <div class='my-2 flex flex-row space-x-2'>
       <field.Checkbox required />
-      <field.Label class={{if field.isInvalid 'text-red-500'}}>Accept TOS</field.Label>
+      <field.Label class={{if field.isInvalid 'text-critical'}}>Accept TOS</field.Label>
       <field.errors class='text-red-600' />
     </div>
   </form.Field>
