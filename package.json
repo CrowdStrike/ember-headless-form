@@ -22,7 +22,7 @@
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.0",
     "concurrently": "^7.6.0",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "turbo": "^1.7.4"
   },
   "pnpm": {
@@ -34,12 +34,10 @@
     },
     "peerDependencyRules": {
       "ignoreMissing": [
-        "webpack",
         "ember-cli-htmlbars",
         "@babel/core"
       ],
       "ignore-notes": {
-        "webpack": "required by anything that depends on ember-auto-import: solution: convert ember-source & co to v2 addons",
         "ember-cli-htmlbars": "required by ember-tracked-storage-polyfill and tracked-built-ins: solution convert to babel plugin?",
         "@babel/core": "See https://github.com/embroider-build/addon-blueprint/pull/77"
       }
