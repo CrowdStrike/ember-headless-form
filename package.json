@@ -7,16 +7,15 @@
   "author": "CrowdStrike UX Team",
   "scripts": {
     "release": "changeset publish",
-    "build:docs-app": "pnpm _turbo build --filter 'docs-app'",
-    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
-    "start:tests": "pnpm --filter test-app start",
+    "build:docs": "pnpm _turbo build --filter docs-app",
+    "start": "pnpm start:tests",
+    "start:docs": "pnpm _turbo --filter docs-app start",
+    "start:tests": "pnpm _turbo --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
     "build": "pnpm _turbo build",
-    "turbo:start": "pnpm _turbo start",
     "test": "pnpm _turbo test",
     "lint": "pnpm _turbo lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
-    "dev": "pnpm start",
     "_turbo": "pnpm turbo --api='http://127.0.0.1:9080' --token=foo-123 --team=foo"
   },
   "devDependencies": {
