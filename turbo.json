@@ -6,7 +6,7 @@
       // dependencies and devDependencies
       // `build` tasks  being completed first
       // (the `^` symbol signifies `upstream`).
-      "dependsOn": ["^build"],
+      "dependsOn": ["_syncPnpm"],
       // Ignore all outputs for "dev", because we don't want to cache anything
       "outputs": [],
       "cache": false
@@ -23,26 +23,26 @@
       // But for ember apps, they build themselves during
       // test execution, so we can only get away with only
       // building our dependencies
-      "dependsOn": ["_build"],
+      "dependsOn": ["_syncPnpm"],
       "env": ["EMBER_TRY_CURRENT_SCENARIO", "EMBROIDER_TEST_SETUP_OPTIONS"]
     },
     "build": {
       "outputs": ["dist/**"],
-      "dependsOn": ["^build"]
+      "dependsOn": ["_syncPnpm"]
     },
-    "_build": {
-      "dependsOn": ["build"],
+    "_syncPnpm": {
+      "dependsOn": ["^build"],
       "cache": false
     },
     "lint": {
       "outputs": [],
       // We treat type checking as a lint, so it requires the build to be successful
-      "dependsOn": ["_build"]
+      "dependsOn": ["_syncPnpm"]
     },
     // Used for typescript-support-matrix
     "typecheck": {
       "outputs": [],
-      "dependsOn": ["_build"]
+      "dependsOn": ["_syncPnpm"]
     }
   }
 }

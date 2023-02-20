@@ -7,7 +7,7 @@
   "author": "CrowdStrike UX Team",
   "scripts": {
     "release": "changeset publish",
-    "build:docs-app": "pnpm --filter 'docs-app' build",
+    "build:docs-app": "pnpm _turbo build --filter 'docs-app'",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:tests": "pnpm --filter test-app start",
     "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
