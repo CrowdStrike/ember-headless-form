@@ -1,6 +1,6 @@
 ---
 title: ember-changeset
-order: 5
+order: 6
 ---
 
 # Integrating with `ember-changeset`

@@ -5,7 +5,7 @@ order: 4
 
 # Form controls
 
-Controls as we use the term here refer to the UI widgets that allow a user to enter data. In its most basic form that would be a `<input>`.
+Controls as we use the term here refer to the UI widgets that allow a user to enter data. In its most basic form that would be an `<input>`.
 
 ember-headless-form comes with support for the following controls built-in (but you can also use [custom controls](./custom-controls.md)), all yielded from the `Field` component:
 
