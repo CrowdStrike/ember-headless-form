@@ -22,8 +22,10 @@
     "lint:prettier": "prettier -c .",
     "lint:prettier:fix": "prettier -w .",
     "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test"
+    "test": "ember test",
+    "test:ember": "ember test",
+    "typecheck": "pnpm tsc -v; pnpm glint --version; pnpm lint:types",
+    "_syncPnpm": "pnpm sync-pnpm"
   },
   "devDependencies": {
     "@ember-headless-form/changeset": "workspace:*",
@@ -117,7 +119,8 @@
     "typescript": "^4.9.4",
     "validated-changeset": "^1.3.4",
     "webpack": "^5.75.0",
-    "yup": "^1.0.0"
+    "yup": "^1.0.0",
+    "sync-pnpm": "workspace:*"
   },
   "dependenciesMeta": {
     "ember-headless-form": {
