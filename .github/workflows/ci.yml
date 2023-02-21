@@ -121,7 +121,8 @@ jobs:
           - ember-lts-4.8
           - ember-release
           - ember-beta
-          - ember-canary
+          # @todo enable this again: https://github.com/CrowdStrike/ember-headless-form/issues/54
+          # - ember-canary
           - "'ember-lts-4.8 + embroider-safe'"
           - "'ember-lts-4.8 + embroider-optimized'"
           - "'ember-release + embroider-optimized'"
