@@ -114,12 +114,12 @@ module(
           <form.Field @name="firstName" as |field|>
             <field.Label>First Name</field.Label>
             <field.Input required data-test-first-name />
-            <field.errors data-test-first-name-errors />
+            <field.Errors data-test-first-name-errors />
           </form.Field>
           <form.Field @name="lastName" as |field|>
             <field.Label>Last Name</field.Label>
             <field.Input data-test-last-name />
-            <field.errors data-test-last-name-errors />
+            <field.Errors data-test-last-name-errors />
           </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
@@ -148,7 +148,7 @@ module(
         );
     });
 
-    test('field.errors renders all error messages in non-block mode', async function (assert) {
+    test('field.Errors renders all error messages in non-block mode', async function (assert) {
       const data: TestFormData = {};
 
       await render(<template>
@@ -156,7 +156,7 @@ module(
           <form.Field @name="firstName" as |field|>
             <field.Label>First Name</field.Label>
             <field.Input required data-test-first-name />
-            <field.errors data-test-first-name-errors />
+            <field.Errors data-test-first-name-errors />
           </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
@@ -170,7 +170,7 @@ module(
         .hasAnyText(); // validation error message is browser and locale dependant, so testing against actual message would be very brittle.
     });
 
-    test('field.errors yields errors in block mode', async function (assert) {
+    test('field.Errors yields errors in block mode', async function (assert) {
       const data: TestFormData = {};
 
       await render(<template>
@@ -178,7 +178,7 @@ module(
           <form.Field @name="firstName" as |field|>
             <field.Label>First Name</field.Label>
             <field.Input required data-test-first-name />
-            <field.errors data-test-first-name-errors as |errors|>
+            <field.Errors data-test-first-name-errors as |errors|>
               {{#each errors as |e|}}
                 <div data-test-error>
                   <div data-test-error-type>
@@ -192,7 +192,7 @@ module(
                   </div>
                 </div>
               {{/each}}
-            </field.errors>
+            </field.Errors>
           </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
@@ -230,7 +230,7 @@ module(
           <form.Field @name="firstName" as |field|>
             <field.Label>First Name</field.Label>
             <field.Input data-test-first-name />
-            <field.errors data-test-first-name-errors as |errors|>
+            <field.Errors data-test-first-name-errors as |errors|>
               {{#each errors as |e|}}
                 <div data-test-error>
                   <div data-test-error-type>
@@ -244,7 +244,7 @@ module(
                   </div>
                 </div>
               {{/each}}
-            </field.errors>
+            </field.Errors>
           </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
@@ -335,7 +335,7 @@ module(
           >
             <field.Label>First Name</field.Label>
             <field.Input required pattern="^[A-Za-z]+$" data-test-first-name />
-            <field.errors data-test-first-name-errors as |errors|>
+            <field.Errors data-test-first-name-errors as |errors|>
               {{#each errors as |e index|}}
                 <div data-test-error={{index}}>
                   <div data-test-error-type>
@@ -349,12 +349,12 @@ module(
                   </div>
                 </div>
               {{/each}}
-            </field.errors>
+            </field.Errors>
           </form.Field>
           <form.Field @name="lastName" as |field|>
             <field.Label>Last Name</field.Label>
             <field.Input data-test-last-name />
-            <field.errors data-test-last-name-errors />
+            <field.Errors data-test-last-name-errors />
           </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
@@ -455,12 +455,12 @@ module(
           >
             <field.Label>First Name</field.Label>
             <field.Input required pattern="^[A-Za-z]+$" data-test-first-name />
-            <field.errors data-test-first-name-errors />
+            <field.Errors data-test-first-name-errors />
           </form.Field>
           <form.Field @name="lastName" as |field|>
             <field.Label>Last Name</field.Label>
             <field.Input data-test-last-name />
-            <field.errors data-test-last-name-errors />
+            <field.Errors data-test-last-name-errors />
           </form.Field>
           <button type="submit" data-test-submit>Submit</button>
         </HeadlessForm>
@@ -474,7 +474,7 @@ module(
 
     module(`@validateOn`, function () {
       module('@validateOn=focusout', function () {
-        test('validation errors are exposed as field.errors on focusout', async function (assert) {
+        test('validation errors are exposed as field.Errors on focusout', async function (assert) {
           const data: TestFormData = {};
 
           await render(<template>
@@ -486,7 +486,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
@@ -495,7 +495,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
-                <field.errors required data-test-last-name-errors />
+                <field.Errors required data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -542,7 +542,7 @@ module(
       });
 
       module('@validateOn=change', function () {
-        test('validation errors are exposed as field.errors on change', async function (assert) {
+        test('validation errors are exposed as field.Errors on change', async function (assert) {
           const data: TestFormData = {};
 
           await render(<template>
@@ -554,7 +554,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
@@ -563,7 +563,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
-                <field.errors data-test-last-name-errors />
+                <field.Errors data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -599,7 +599,7 @@ module(
 
     module(`@revalidateOn`, function () {
       module('@revalidateOn=focusout', function () {
-        test('validation errors are exposed as field.errors on focusout', async function (assert) {
+        test('validation errors are exposed as field.Errors on focusout', async function (assert) {
           const data: TestFormData = {};
 
           await render(<template>
@@ -611,7 +611,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
@@ -620,7 +620,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
-                <field.errors data-test-last-name-errors />
+                <field.Errors data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -722,7 +722,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-first-name
                 />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
@@ -731,7 +731,7 @@ module(
                   pattern="^[A-Za-z]+$"
                   data-test-last-name
                 />
-                <field.errors data-test-last-name-errors />
+                <field.Errors data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>

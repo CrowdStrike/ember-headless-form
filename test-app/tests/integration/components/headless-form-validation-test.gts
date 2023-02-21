@@ -246,7 +246,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           );
         });
 
-        test('validation errors are exposed as field.errors on submit', async function (assert) {
+        test('validation errors are exposed as field.Errors on submit', async function (assert) {
           const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
 
           await render(<template>
@@ -258,12 +258,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               <form.Field @name="firstName" as |field|>
                 <field.Label>First Name</field.Label>
                 <field.Input data-test-first-name />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
                 <field.Input data-test-last-name />
-                <field.errors data-test-last-name-errors />
+                <field.Errors data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -295,7 +295,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             );
         });
 
-        test('field.errors is associated to input', async function (this: RenderingTestContext, assert) {
+        test('field.Errors is associated to input', async function (this: RenderingTestContext, assert) {
           const data: TestFormData = { firstName: 'Foo' };
 
           await render(<template>
@@ -307,7 +307,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               <form.Field @name="firstName" as |field|>
                 <field.Label>First Name</field.Label>
                 <field.Input data-test-first-name />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -348,7 +348,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             );
         });
 
-        test('field.errors renders all error messages in non-block mode', async function (assert) {
+        test('field.Errors renders all error messages in non-block mode', async function (assert) {
           const data: TestFormData = { firstName: 'foo' };
 
           await render(<template>
@@ -360,7 +360,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               <form.Field @name="firstName" as |field|>
                 <field.Label>First Name</field.Label>
                 <field.Input data-test-first-name />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -376,7 +376,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             );
         });
 
-        test('field.errors yields errors in block mode', async function (assert) {
+        test('field.Errors yields errors in block mode', async function (assert) {
           const data: TestFormData = { firstName: 'foo' };
 
           await render(<template>
@@ -388,7 +388,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               <form.Field @name="firstName" as |field|>
                 <field.Label>First Name</field.Label>
                 <field.Input data-test-first-name />
-                <field.errors data-test-first-name-errors as |errors|>
+                <field.Errors data-test-first-name-errors as |errors|>
                   {{#each errors as |e|}}
                     <div data-test-error>
                       <div data-test-error-type>
@@ -402,7 +402,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                       </div>
                     </div>
                   {{/each}}
-                </field.errors>
+                </field.Errors>
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -484,14 +484,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                 <form.Field @name="firstName" as |field|>
                   <field.Label>First Name</field.Label>
                   <field.Input data-test-first-name />
-                  <field.errors data-test-first-name-errors />
+                  <field.Errors data-test-first-name-errors />
                 </form.Field>
               {{/if}}
               {{#if formState.showLastName}}
                 <form.Field @name="lastName" as |field|>
                   <field.Label>Last Name</field.Label>
                   <field.Input data-test-last-name />
-                  <field.errors data-test-last-name-errors />
+                  <field.Errors data-test-last-name-errors />
                 </form.Field>
               {{/if}}
               <button type="submit" data-test-submit>Submit</button>
@@ -638,7 +638,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           assert.false(submitHandler.called, '@onSubmit is not called');
         });
 
-        test('validation errors are exposed as field.errors on submit', async function (assert) {
+        test('validation errors are exposed as field.Errors on submit', async function (assert) {
           const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
 
           await render(<template>
@@ -650,12 +650,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               >
                 <field.Label>First Name</field.Label>
                 <field.Input data-test-first-name />
-                <field.errors data-test-first-name-errors />
+                <field.Errors data-test-first-name-errors />
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
                 <field.Input data-test-last-name />
-                <field.errors data-test-last-name-errors />
+                <field.Errors data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -694,7 +694,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                 >
                   <field.Label>First Name</field.Label>
                   <field.Input data-test-first-name />
-                  <field.errors data-test-first-name-errors />
+                  <field.Errors data-test-first-name-errors />
                 </form.Field>
               {{/if}}
               {{#if formState.showLastName}}
@@ -705,7 +705,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                 >
                   <field.Label>Last Name</field.Label>
                   <field.Input data-test-last-name />
-                  <field.errors data-test-last-name-errors />
+                  <field.Errors data-test-last-name-errors />
                 </form.Field>
               {{/if}}
               <button type="submit" data-test-submit>Submit</button>
@@ -790,7 +790,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
               >
                 <field.Label>First Name</field.Label>
                 <field.Input data-test-first-name />
-                <field.errors data-test-first-name-errors as |errors|>
+                <field.Errors data-test-first-name-errors as |errors|>
                   {{#each errors as |e index|}}
                     <div data-test-error={{index}}>
                       <div data-test-error-type>
@@ -804,12 +804,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
                       </div>
                     </div>
                   {{/each}}
-                </field.errors>
+                </field.Errors>
               </form.Field>
               <form.Field @name="lastName" as |field|>
                 <field.Label>Last Name</field.Label>
                 <field.Input data-test-last-name />
-                <field.errors data-test-last-name-errors />
+                <field.Errors data-test-last-name-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -953,7 +953,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
       });
 
-      test('validation errors are exposed as field.errors on focusout', async function (assert) {
+      test('validation errors are exposed as field.Errors on focusout', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
@@ -966,12 +966,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             <form.Field @name="firstName" as |field|>
               <field.Label>First Name</field.Label>
               <field.Input data-test-first-name />
-              <field.errors data-test-first-name-errors />
+              <field.Errors data-test-first-name-errors />
             </form.Field>
             <form.Field @name="lastName" as |field|>
               <field.Label>Last Name</field.Label>
               <field.Input data-test-last-name />
-              <field.errors data-test-last-name-errors />
+              <field.Errors data-test-last-name-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1096,7 +1096,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
       });
 
-      test('validation errors are exposed as field.errors on change', async function (assert) {
+      test('validation errors are exposed as field.Errors on change', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
@@ -1109,12 +1109,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             <form.Field @name="firstName" as |field|>
               <field.Label>First Name</field.Label>
               <field.Input data-test-first-name />
-              <field.errors data-test-first-name-errors />
+              <field.Errors data-test-first-name-errors />
             </form.Field>
             <form.Field @name="lastName" as |field|>
               <field.Label>Last Name</field.Label>
               <field.Input data-test-last-name />
-              <field.errors data-test-last-name-errors />
+              <field.Errors data-test-last-name-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1226,7 +1226,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
       });
 
-      test('validation errors are exposed as field.errors on input', async function (assert) {
+      test('validation errors are exposed as field.Errors on input', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
@@ -1239,12 +1239,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             <form.Field @name="firstName" as |field|>
               <field.Label>First Name</field.Label>
               <field.Input data-test-first-name />
-              <field.errors data-test-first-name-errors />
+              <field.Errors data-test-first-name-errors />
             </form.Field>
             <form.Field @name="lastName" as |field|>
               <field.Label>Last Name</field.Label>
               <field.Input data-test-last-name />
-              <field.errors data-test-last-name-errors />
+              <field.Errors data-test-last-name-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1421,7 +1421,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
       });
 
-      test('validation errors are exposed as field.errors on focusout', async function (assert) {
+      test('validation errors are exposed as field.Errors on focusout', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
@@ -1434,12 +1434,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             <form.Field @name="firstName" as |field|>
               <field.Label>First Name</field.Label>
               <field.Input data-test-first-name />
-              <field.errors data-test-first-name-errors />
+              <field.Errors data-test-first-name-errors />
             </form.Field>
             <form.Field @name="lastName" as |field|>
               <field.Label>Last Name</field.Label>
               <field.Input data-test-last-name />
-              <field.errors data-test-last-name-errors />
+              <field.Errors data-test-last-name-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1670,7 +1670,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
       });
 
-      test('validation errors are exposed as field.errors on change', async function (assert) {
+      test('validation errors are exposed as field.Errors on change', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
@@ -1683,12 +1683,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             <form.Field @name="firstName" as |field|>
               <field.Label>First Name</field.Label>
               <field.Input data-test-first-name />
-              <field.errors data-test-first-name-errors />
+              <field.Errors data-test-first-name-errors />
             </form.Field>
             <form.Field @name="lastName" as |field|>
               <field.Label>Last Name</field.Label>
               <field.Input data-test-last-name />
-              <field.errors data-test-last-name-errors />
+              <field.Errors data-test-last-name-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -1904,7 +1904,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
         );
       });
 
-      test('validation errors are exposed as field.errors on input', async function (assert) {
+      test('validation errors are exposed as field.Errors on input', async function (assert) {
         const data: TestFormData = { firstName: 'Tony', lastName: 'Foo' };
 
         await render(<template>
@@ -1917,12 +1917,12 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             <form.Field @name="firstName" as |field|>
               <field.Label>First Name</field.Label>
               <field.Input data-test-first-name />
-              <field.errors data-test-first-name-errors />
+              <field.Errors data-test-first-name-errors />
             </form.Field>
             <form.Field @name="lastName" as |field|>
               <field.Label>Last Name</field.Label>
               <field.Input data-test-last-name />
-              <field.errors data-test-last-name-errors />
+              <field.Errors data-test-last-name-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>

@@ -172,7 +172,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
     );
   });
 
-  test('validation errors are exposed as field.errors on submit', async function (assert) {
+  test('validation errors are exposed as field.Errors on submit', async function (assert) {
     const data: TestFormData = { firstName: 'Foo', lastName: 'Smith' };
     const changeset = Changeset(data, validator);
 
@@ -186,12 +186,12 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         <form.Field @name="firstName" as |field|>
           <field.Label>First Name</field.Label>
           <field.Input data-test-first-name />
-          <field.errors data-test-first-name-errors />
+          <field.Errors data-test-first-name-errors />
         </form.Field>
         <form.Field @name="lastName" as |field|>
           <field.Label>Last Name</field.Label>
           <field.Input data-test-last-name />
-          <field.errors data-test-last-name-errors />
+          <field.Errors data-test-last-name-errors />
         </form.Field>
         <button type="submit" data-test-submit>Submit</button>
       </HeadlessForm>
