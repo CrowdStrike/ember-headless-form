@@ -12,7 +12,7 @@
 
     <span>
       <Toucan::Link @variant="brand" class="px-6 py-1 flex gap-3" @href="/docs">
-        Read the Docs
+        Getting started
         <svg
           class="w-4 ml-2"
           viewBox="0 0 14 13"
@@ -37,14 +37,23 @@
 <Main>
   <ContentSection>
     <:header>
-      Why even?
+      Why even this addon?
     </:header>
     <:content>
-      Forms aren't exactly a new thing, so why this addon? Existing solutions
-      are either not using the latest Ember paradigms (Octane/Polaris), generate
-      specific markup and thus hard to customize or coupled to a specific
-      validation library. ember-headless-form is none of this. It gives you all
-      the flexibility, without having to reinvent the wheel.
+      <div>
+        <p class="mb-4">Forms aren't exactly a new thing, so why this addon?
+          Existing solutions are either not using the latest Ember paradigms
+          (Octane/Polaris), generate specific markup and thus hard to customize
+          or coupled to a specific validation library. ember-headless-form is
+          none of this. It gives you all the flexibility, without having to
+          reinvent the wheel.</p>
+        <p>It tries to solve these main problems:</p>
+        <ul class="list-disc list-inside">
+          <li>Getting data in and out of the from</li>
+          <li>Rendering semantic form markup, accessible by default</li>
+          <li>Provide rich support for client-side validation</li>
+        </ul>
+      </div>
     </:content>
   </ContentSection>
 
