@@ -165,7 +165,7 @@ export interface HeadlessFormFieldComponentSignature<
          *
          * In non-block mode it will render all messages by default. In block-mode, it yields all `ValidationError` objects for you to customize the rendering.
          */
-        errors?: WithBoundArgs<
+        Errors?: WithBoundArgs<
           typeof ErrorsComponent<DATA[KEY]>,
           'errors' | 'id'
         >;

@@ -154,7 +154,7 @@ module(
                 @onChange={{field.setValue}}
                 aria-errormessage={{if field.isInvalid field.errorId}}
               />
-              <field.errors data-test-errors />
+              <field.Errors data-test-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -201,7 +201,7 @@ module(
               >
                 Validate now!
               </button>
-              <field.errors data-test-date-errors />
+              <field.Errors data-test-date-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>
@@ -245,7 +245,7 @@ module(
                   @onChange={{field.setValue}}
                   {{field.captureEvents}}
                 />
-                <field.errors data-test-date-errors />
+                <field.Errors data-test-date-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -291,7 +291,7 @@ module(
                   @onChange={{field.setValue}}
                   {{field.captureEvents}}
                 />
-                <field.errors data-test-date-errors />
+                <field.Errors data-test-date-errors />
               </form.Field>
               <button type="submit" data-test-submit>Submit</button>
             </HeadlessForm>
@@ -338,7 +338,7 @@ module(
                 @onChange={{field.setValue}}
                 {{field.captureEvents}}
               />
-              <field.errors data-test-date-errors />
+              <field.Errors data-test-date-errors />
             </form.Field>
             <button type="submit" data-test-submit>Submit</button>
           </HeadlessForm>

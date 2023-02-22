@@ -12,7 +12,7 @@
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         required
       />
-      <field.errors class='text-red-600' />
+      <field.Errors class='text-red-600' />
     </div>
   </form.Field>
 
@@ -23,7 +23,7 @@
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         required
       />
-      <field.errors class='text-red-600' />
+      <field.Errors class='text-red-600' />
     </div>
   </form.Field>
 
@@ -57,7 +57,7 @@
         @type='email'
         required
       />
-      <field.errors class='text-red-600' />
+      <field.Errors class='text-red-600' />
     </div>
   </form.Field>
 
@@ -65,7 +65,7 @@
     <div class='my-2 flex flex-col'>
       <field.Label>Comment</field.Label>
       <field.Textarea class='border rounded px-2' />
-      <field.errors class='text-red-600' />
+      <field.Errors class='text-red-600' />
     </div>
   </form.Field>
 
@@ -73,7 +73,7 @@
     <div class='my-2 flex flex-row space-x-2'>
       <field.Checkbox required />
       <field.Label class={{if field.isInvalid 'text-red-500'}}>Accept TOS</field.Label>
-      <field.errors class='text-red-600' />
+      <field.Errors class='text-red-600' />
     </div>
   </form.Field>
 
