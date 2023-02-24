@@ -5,7 +5,7 @@ order: 5
 
 # Integrating with `yup`
 
-[`yup`](https://github.com/jquense/yup) is a popular framework-agnostic validation library. The additional `@ember-headless-form/yup` package makes it easy to integrate `yup` based schema-validation with ember-headless-form. Especially its powerful TypeScript support combined with the [TypeScript / Glint support](../typescript.md) of ember-headless-form makes this a compelling solution for TypeScript users, but not only those.
+[`yup`](https://github.com/jquense/yup) is a popular framework-agnostic validation library. The additional `@ember-headless-form/yup` package makes it easy to integrate `yup` based schema-validation with ember-headless-form. Especially its powerful TypeScript support combined with the [TypeScript / Glint support](../typescript/index.md) of ember-headless-form makes this a compelling solution for TypeScript users, but not only those.
 
 First install both packages:
 

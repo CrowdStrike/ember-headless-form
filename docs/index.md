@@ -9,7 +9,7 @@ order: 1
 
 - Ember.js 4.4 or above
 - ember-auto-import v2 or Embroider (safe + optimized)
-- optionally: TypeScript 4.8 or above, Glint 1.0.0-beta.3 (see [TypeScript support](./typescript.md))
+- optionally: TypeScript 4.8 or above, Glint 1.0.0-beta.3 (see [TypeScript support](./typescript/index.md))
 
 ## Installation
 

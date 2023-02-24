@@ -11,4 +11,4 @@ In the following example we assume a `<CustomInput>` component, that supports `@
 
 - `id`: an auto-generated ID that you can set as the `id` of the control, so that the control is correctly associated to its `<label>`, which uses the same ID as its `for` attribute already.
 - `value`: the current value of the given field. Pass it to the control.
-- `setValue`: an action that receives a (new) value) to set it on the internal form data object. This will make the new value available for [form submission](../data/) and [validation](../../validation/).
+- `setValue`: an action that receives a (new) value) to set it on the internal form data object. This will make the new value available for [form submission](../data/index.md) and [validation](../../validation/index.md).

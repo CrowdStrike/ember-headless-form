@@ -5,7 +5,7 @@ order: 1
 
 # Validation
 
-Client side validation is a first-class citizen of ember-headless-form, supporting both [native HTML validation](./native/) as well as JavaScript-based [custom validation](./custom-validation.md).
+Client side validation is a first-class citizen of ember-headless-form, supporting both [native HTML validation](./native.md) as well as JavaScript-based [custom validation](./custom-validation.md).
 
 See the following chapters for how to integrate the different kinds of validation. Common to all of them is how they affect what happens when a [form is submitted](../usage/data/index.md#getting-data-out). Normally upon submission the form's `@onSubmit` action is called. When however the form has validation in place, it will only be called when the validation actually passed. Otherwise `@onInvalid` is called, which also receives the in this case invalid form data object, alongside an `ErrorRecord` object.
 
