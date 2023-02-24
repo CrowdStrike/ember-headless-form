@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 
 export default class CustomInput extends Component<{
   Element: HTMLInputElement;
