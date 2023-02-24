@@ -43,11 +43,11 @@
       <div>
         <p class="mb-4">Forms aren't exactly a new thing, so why this addon?
           Existing solutions are either not using the latest Ember paradigms
-          (Octane/Polaris), generate specific markup and thus hard to customize
-          or coupled to a specific validation library. ember-headless-form is
-          none of this. It gives you all the flexibility, without having to
-          reinvent the wheel.</p>
-        <p>It tries to solve these main problems:</p>
+          (Octane/Polaris), generate specific markup and are thus hard to
+          customize, or are coupled to a specific validation library.
+          ember-headless-form is none of this. It gives you all the flexibility,
+          without having to reinvent the wheel.</p>
+        <p>These are the main problems it solves:</p>
         <ul class="list-disc list-inside">
           <li>Getting data in and out of the from</li>
           <li>Rendering semantic form markup, accessible by default</li>
@@ -60,30 +60,40 @@
   <ContentSection>
     <:content>
       <div
-        class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 md:gap-16"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16"
       >
         <FeatureCard @title="TypeScript/Glint">
-          Features coming up!
+          Written in TypeScript/Glint, with TypeScript/Glint users in mind. Get
+          strict type checking of its components, arguments and form data,
+          together with API docs right in your IDE.
         </FeatureCard>
 
         <FeatureCard @title="Accessibility">
-          Features coming up!
+          Bakes accessibility best practices into the addon, so you have to care
+          less. It does not render much, but what it renders is pure semantic
+          and ARIA enriched form markup, tested for a11y.
         </FeatureCard>
 
         <FeatureCard @title="Native validation">
-          Features coming up!
+          Integrates native HTML5 based form validation seamlessly, with custom
+          error rendering. Use it alone, or mix it with custom validations.
         </FeatureCard>
 
         <FeatureCard @title="Custom validation">
-          Features coming up!
+          Where native validation falls short, you can extend that with custom
+          JavaScript-based validation rules. Either by writing your own
+          functions, or by integrating 3rd party validation libraries.
         </FeatureCard>
 
         <FeatureCard @title="ember-changeset">
-          Features coming up!
+          Integrate ember-changeset and ember-changeset-validations seamlessly
+          into your forms, offloading the form validation to the validations
+          defined on your Changeset.
         </FeatureCard>
 
         <FeatureCard @title="yup">
-          Features coming up!
+          Use the popular TypeScript-friendly validation library to validate
+          your form data with a yup schema.
         </FeatureCard>
 
       </div>
