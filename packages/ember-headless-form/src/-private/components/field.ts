@@ -15,21 +15,13 @@ import type {
   ErrorRecord,
   FieldValidateCallback,
   FormData,
+  FormKey,
   RegisterFieldCallback,
   UnregisterFieldCallback,
+  UserData,
+  ValidationError,
 } from '../types';
-import type { FormKey, UserData, ValidationError } from '../types';
-import type { HeadlessFormControlCheckboxComponentSignature } from './control/checkbox';
-import type { HeadlessFormControlInputComponentSignature } from './control/input';
-import type { HeadlessFormControlRadioComponentSignature } from './control/radio';
-import type { HeadlessFormControlTextareaComponentSignature } from './control/textarea';
-import type { HeadlessFormErrorsComponentSignature } from './errors';
-import type { HeadlessFormLabelComponentSignature } from './label';
-import type {
-  ComponentLike,
-  ModifierLike,
-  WithBoundArgs,
-} from '@glint/template';
+import type { ModifierLike, WithBoundArgs } from '@glint/template';
 
 export interface HeadlessFormFieldComponentSignature<
   DATA extends UserData,
@@ -202,19 +194,12 @@ export default class HeadlessFormFieldComponent<
   DATA extends FormData,
   KEY extends FormKey<FormData<DATA>> = FormKey<FormData<DATA>>
 > extends Component<HeadlessFormFieldComponentSignature<DATA, KEY>> {
-  LabelComponent: ComponentLike<HeadlessFormLabelComponentSignature> =
-    LabelComponent;
-  InputComponent: ComponentLike<HeadlessFormControlInputComponentSignature> =
-    InputComponent;
-  CheckboxComponent: ComponentLike<HeadlessFormControlCheckboxComponentSignature> =
-    CheckboxComponent;
-  ErrorsComponent: ComponentLike<
-    HeadlessFormErrorsComponentSignature<DATA[KEY]>
-  > = ErrorsComponent;
-  TextareaComponent: ComponentLike<HeadlessFormControlTextareaComponentSignature> =
-    TextareaComponent;
-  RadioComponent: ComponentLike<HeadlessFormControlRadioComponentSignature> =
-    RadioComponent;
+  LabelComponent = LabelComponent;
+  InputComponent = InputComponent;
+  CheckboxComponent = CheckboxComponent;
+  ErrorsComponent = ErrorsComponent<DATA[KEY]>;
+  TextareaComponent = TextareaComponent;
+  RadioComponent = RadioComponent;
   CaptureEventsModifier = CaptureEventsModifier;
 
   constructor(
