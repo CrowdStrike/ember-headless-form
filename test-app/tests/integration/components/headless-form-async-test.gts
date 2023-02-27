@@ -1,30 +1,13 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
 /* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
-import { tracked } from '@glimmer/tracking';
-import {
-  blur,
-  click,
-  fillIn,
-  render,
-  rerender,
-  waitFor,
-} from '@ember/test-helpers';
+import { click, render, rerender, waitFor } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
-import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
-import type { RenderingTestContext } from '@ember/test-helpers';
-import type {
-  FormValidateCallback,
-  FieldValidateCallback,
-  ErrorRecord,
-  ValidationError,
-} from 'ember-headless-form';
-
-import { input } from '../../helpers/dom';
+import type { FieldValidateCallback } from 'ember-headless-form';
 
 module('Integration Component HeadlessForm > Async state', function (hooks) {
   setupRenderingTest(hooks);
@@ -104,23 +87,26 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
 
       assert
         .dom('[data-test-validation-state]')
-        .doesNotExist('form.validation is not present until first validation');
+        .doesNotExist(
+          'form.validationState is not present until first validation'
+        );
 
       const promise = click('[data-test-submit]');
       await waitFor('[data-test-validation-state]');
 
       assert
         .dom('[data-test-validation-state]')
-        .hasText('PENDING', 'form.validation is pending');
+        .hasText('PENDING', 'form.validationState is pending');
 
       await promise;
+      await rerender();
 
       assert
         .dom('[data-test-validation-state]')
-        .hasText('RESOLVED', 'form.validation has resolved');
+        .hasText('RESOLVED', 'form.validationState has resolved');
       assert
         .dom('[data-test-validation-value]')
-        .hasText('{}', 'validationState.value has no errors');
+        .hasText('{}', 'form.validationState.value has no errors');
     });
 
     test('validation state is yielded - invalid', async function (assert) {
@@ -150,26 +136,194 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
 
       assert
         .dom('[data-test-validation-state]')
-        .doesNotExist('form.validation is not present until first validation');
+        .doesNotExist(
+          'form.validationState is not present until first validation'
+        );
 
       const promise = click('[data-test-submit]');
       await waitFor('[data-test-validation-state]');
 
       assert
         .dom('[data-test-validation-state]')
-        .hasText('PENDING', 'form.validation is pending');
+        .hasText('PENDING', 'form.validationState is pending');
 
       await promise;
+      await rerender();
 
       assert
         .dom('[data-test-validation-state]')
-        .hasText('RESOLVED', 'form.validation has resolved');
+        .hasText('RESOLVED', 'form.validationState has resolved');
       assert
         .dom('[data-test-validation-value]')
         .hasText(
           '{"firstName":[{"type":"notFoo","value":"Foo","message":"Foo is an invalid firstName!"}]}',
-          'validationState.value has ErrorRecord'
+          'form.validationState.value has ErrorRecord'
         );
+    });
+  });
+
+  module('submission', function () {
+    test('submission state is yielded - resolved', async function (assert) {
+      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+      const submitHandler = (): Promise<string> =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve('SUCCESS'), 10);
+        });
+
+      await render(<template>
+        <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+          {{#if form.submissionState}}
+            <div data-test-submission-state>{{form.submissionState.state}}</div>
+            {{#if form.submissionState.isResolved}}
+              <div data-test-submission-value>
+                {{form.submissionState.value}}
+              </div>
+            {{/if}}
+          {{/if}}
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('[data-test-submission-state]')
+        .doesNotExist(
+          'form.submissionState is not present until first submission'
+        );
+
+      const promise = click('[data-test-submit]');
+      await waitFor('[data-test-submission-state]');
+
+      assert
+        .dom('[data-test-submission-state]')
+        .hasText('PENDING', 'form.submissionState is pending');
+
+      await promise;
+      await rerender();
+
+      assert
+        .dom('[data-test-submission-state]')
+        .hasText('RESOLVED', 'form.submissionState has resolved');
+      assert
+        .dom('[data-test-submission-value]')
+        .hasText(
+          'SUCCESS',
+          'form.submissionState.value has value returned by @onSubmit action'
+        );
+    });
+
+    test('submission state is yielded - rejected', async function (assert) {
+      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+      const submitHandler = (): Promise<string> =>
+        new Promise((_resolve, reject) => {
+          setTimeout(() => reject('ERROR'), 10);
+        });
+
+      await render(<template>
+        <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+          {{#if form.submissionState}}
+            <div data-test-submission-state>{{form.submissionState.state}}</div>
+            {{#if form.submissionState.isRejected}}
+              <div data-test-submission-error>
+                {{stringify form.submissionState.error}}
+              </div>
+            {{/if}}
+          {{/if}}
+        </HeadlessForm>
+      </template>);
+
+      assert
+        .dom('[data-test-submission-state]')
+        .doesNotExist(
+          'form.submissionState is not present until first submission'
+        );
+
+      const promise = click('[data-test-submit]');
+      await waitFor('[data-test-submission-state]');
+
+      assert
+        .dom('[data-test-submission-state]')
+        .hasText('PENDING', 'form.submissionState is pending');
+
+      await promise;
+      await rerender();
+
+      assert
+        .dom('[data-test-submission-state]')
+        .hasText('REJECTED', 'form.submissionState has rejected');
+      assert
+        .dom('[data-test-submission-error]')
+        .hasText(
+          '"ERROR"',
+          'form.submissionState.error has error returned by @onSubmit action'
+        );
+    });
+
+    test('validation and submission are sequential', async function (assert) {
+      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+      const submitHandler = (): Promise<string> =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve('SUCCESS'), 10);
+        });
+
+      await render(<template>
+        <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+          <form.Field
+            @name="firstName"
+            @validate={{validateFieldCallbackAsync}}
+            as |field|
+          >
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+          {{#if form.validationState}}
+            <div data-test-validation-state>{{form.validationState.state}}</div>
+          {{/if}}
+          {{#if form.submissionState}}
+            <div data-test-submission-state>{{form.submissionState.state}}</div>
+          {{/if}}
+        </HeadlessForm>
+      </template>);
+
+      const promise = click('[data-test-submit]');
+      await waitFor('[data-test-validation-state]');
+
+      assert
+        .dom('[data-test-validation-state]')
+        .hasText('PENDING', 'form.validationState is pending');
+      assert
+        .dom('[data-test-submission-state]')
+        .doesNotExist(
+          'form.submissionStatenis not present until validation has finished'
+        );
+
+      await waitFor('[data-test-submission-state]');
+
+      assert
+        .dom('[data-test-validation-state]')
+        .hasText('RESOLVED', 'form.validationState is resolved');
+      assert
+        .dom('[data-test-submission-state]')
+        .hasText('PENDING', 'form.submissionState is pending');
+
+      await promise;
+      await rerender();
+
+      assert
+        .dom('[data-test-validation-state]')
+        .hasText('RESOLVED', 'form.validationState is still resolved');
+      assert
+        .dom('[data-test-submission-state]')
+        .hasText('RESOLVED', 'form.submissionState has resolved');
     });
   });
 });
