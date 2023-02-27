@@ -223,12 +223,14 @@ importers:
       '@manypkg/find-root': ^2.1.0
       '@manypkg/get-packages': ^2.1.0
       '@pnpm/fs.hard-link-dir': ^1.0.3
+      debug: ^4.3.4
       fs-extra: ^11.1.0
       resolve-package-path: ^4.0.3
     dependencies:
       '@manypkg/find-root': 2.1.0
       '@manypkg/get-packages': 2.1.0
       '@pnpm/fs.hard-link-dir': 1.0.3
+      debug: 4.3.4
       fs-extra: 11.1.0
       resolve-package-path: 4.0.3
 
