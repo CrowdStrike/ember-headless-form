@@ -3,8 +3,8 @@ import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
-import { waitFor } from '@ember/test-waiters';
 
+import { TrackedAsyncData } from 'ember-async-data';
 import { modifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
@@ -91,6 +91,13 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
         >;
 
         /**
+         * The (async) validation state as `TrackedAsyncData`.
+         *
+         * Use derived state like `.isPending` to conditionally render the UI.
+         */
+        validationState?: TrackedAsyncData<undefined | ErrorRecord<DATA>>;
+
+        /**
          * Will be true if at least one form field is invalid.
          */
         isInvalid: boolean;
@@ -175,10 +182,7 @@ export default class HeadlessFormComponent<
 
   fields = new Map<FormKey<FormData<DATA>>, FieldData<FormData<DATA>>>();
 
-  /**
-   * The last result of calling `this.validate()`.
-   */
-  @tracked lastValidationResult?: ErrorRecord<FormData<DATA>>;
+  @tracked validationState?: TrackedAsyncData<ErrorRecord<DATA>>;
 
   /**
    * When this is set to true by submitting the form, eventual validation errors are show for *all* field, regardless of their individual dynamic validation status in `FieldData#validationEnabled`
@@ -226,9 +230,11 @@ export default class HeadlessFormComponent<
    * Return true if validation has happened (by submitting or by an `@validateOn` event being triggered) and at least one field is invalid
    */
   get hasValidationErrors(): boolean {
+    const { validationState } = this;
+
     // Only consider validation errors for which we actually have a field rendered
-    return this.lastValidationResult
-      ? Object.keys(this.lastValidationResult).some((name) =>
+    return validationState?.isResolved
+      ? Object.keys(validationState.value).some((name) =>
           this.fields.has(name as FormKey<FormData<DATA>>)
         )
       : false;
@@ -237,7 +243,6 @@ export default class HeadlessFormComponent<
   /**
    * Call the passed validation callbacks, defined both on the whole form as well as on field level, and return the merged result for all fields.
    */
-  @waitFor
   async validate(): Promise<ErrorRecord<FormData<DATA>>> {
     const nativeValidation = this.validateNative();
     const customFormValidation = await this.args.validate?.(
@@ -265,6 +270,14 @@ export default class HeadlessFormComponent<
       customFormValidation,
       ...customFieldValidations
     );
+  }
+
+  async _validate(): Promise<ErrorRecord<FormData<DATA>>> {
+    const promise = this.validate();
+
+    this.validationState = new TrackedAsyncData(promise, this);
+
+    return promise;
   }
 
   validateNative(): ErrorRecord<FormData<DATA>> | undefined {
@@ -325,13 +338,15 @@ export default class HeadlessFormComponent<
    * or when that field has triggered the event given by `@validateOn` for showing validation errors before submitting, e.g. on blur.
    */
   get visibleErrors(): ErrorRecord<FormData<DATA>> | undefined {
-    if (!this.lastValidationResult) {
+    if (!this.validationState?.isResolved) {
       return undefined;
     }
 
     const visibleErrors: ErrorRecord<FormData<DATA>> = {};
 
-    for (const [field, errors] of Object.entries(this.lastValidationResult) as [
+    for (const [field, errors] of Object.entries(
+      this.validationState.value
+    ) as [
       FormKey<FormData<DATA>>,
       ValidationError<FormData<DATA>[FormKey<FormData<DATA>>]>[]
     ][]) {
@@ -357,7 +372,7 @@ export default class HeadlessFormComponent<
   async onSubmit(e: Event): Promise<void> {
     e.preventDefault();
 
-    this.lastValidationResult = await this.validate();
+    await this._validate();
     this.showAllValidations = true;
 
     if (!this.hasValidationErrors) {
@@ -365,9 +380,9 @@ export default class HeadlessFormComponent<
     } else {
       assert(
         'Validation errors expected to be present. If you see this, please report it as a bug to ember-headless-form!',
-        this.lastValidationResult
+        this.validationState?.isResolved
       );
-      this.args.onInvalid?.(this.internalData, this.lastValidationResult);
+      this.args.onInvalid?.(this.internalData, this.validationState.value);
     }
   }
 
@@ -417,7 +432,7 @@ export default class HeadlessFormComponent<
       const field = this.fields.get(name as FormKey<FormData<DATA>>);
 
       if (field) {
-        this.lastValidationResult = await this.validate();
+        await this._validate();
         field.validationEnabled = true;
       }
     } else if (e instanceof Event) {
@@ -442,7 +457,7 @@ export default class HeadlessFormComponent<
 
     if (name) {
       if (this.showErrorsFor(name as FormKey<FormData<DATA>>)) {
-        this.lastValidationResult = await this.validate();
+        await this._validate();
       }
     } else {
       warn(
