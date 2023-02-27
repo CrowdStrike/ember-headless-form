@@ -10,6 +10,8 @@ This addon is written in TypeScript, and strives to give TypeScript users a firs
 > Type changes during minor upgrades may be considered breaking changes to some.
 > The goal, is to follow the advice of [Semantic Versioning for TypeScript Types](https://www.semver-ts.org/) eventually. Until noted in the Changelog that our TypeScript types fall under SemVer, consider type changes as "bugfixes" for patch releases.
 
+## Usage with classic templates (hbs)
+
 All the components, which are `<HeadlessForm>` as well as those [yielded from it](./usage), have strict Glint types. In case you are already using _strict mode templates_ via [ember-template-imports](https://github.com/ember-template-imports/ember-template-imports), you only need to import the component and you are ready to go. For the more likely case of using classic `.hbs` templates, Glint requires a template registry to be set up, that declares a mapping of component _names_ to their types. This addon follows the [recommendations for Glint-enabled addons](https://typed-ember.gitbook.io/glint/using-glint/ember/using-addons#using-glint-enabled-addons), so add the addon's provided registry to your app's own registry as follows:
 
 ```ts
@@ -28,7 +30,9 @@ The same applies for any additional packages of this project if in use, like [`@
 
 ## Typing of form data
 
-This addon's types also ensure that your form data matches the form fields you use in your templates. In other words, you cannot use a field with a `@name` which does not have a corresponding property on `@data`. Take the following example:
+This addon's types also ensure that your form data matches the form fields you use in your templates. As such it is recommended that you type your form data in a strict and explicit way. Make sure to mark properties as optional, if they are not guaranteed to be filled out initially.
+
+In other words, you cannot use a field with a `@name` which does not have a corresponding property on `@data`. Take the following example:
 
 ```hbs
 <HeadlessForm @data={{this.data}} @onSubmit={{this.handleSubmit}} as |form|>
@@ -50,6 +54,7 @@ This addon's types also ensure that your form data matches the form fields you u
 import Component from '@glimmer/component';
 
 export default class MyFormComponent extends Component {
+  // notice there is no firstName or lastName key in data
   data = {};
 
   handleSubmit({
@@ -68,7 +73,7 @@ Glint will show an error with the following, because `data` has a type of an emp
 
 ![Glint error from unknown field name](./glint-name-error.png)
 
-So it is recommended that you type your form data in a strict and explicit way. Make sure to mark properties as optional, if they are not guaranteed to be filled out initially. The correctly typed version of the component definition of the previous example would look like this:
+The correctly typed version of the component definition of the previous example would look like this:
 
 ```ts
 import Component from '@glimmer/component';

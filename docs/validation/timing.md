@@ -7,12 +7,12 @@ order: 4
 
 In the most basic way validation will happen whenever you try to submit a form. This is how server-rendered apps without any native validation or JavaScript worked for a long time. And in fact, ember-headless-form enforces validation whenever you try to submit the form.
 
-But in addition to that, as our app is running client-side, we can do validation even earlier, for example whenever an input was changed. This is what we call dynamic validation here.
-
 By default validation will happen:
 
-- initially, when you try to submit
-- on "revalidation", when a field is in an invalid state (due to a prior submission attempt), and the user changes its value (a `change` event is fired from the control)
+- **initially**, when you try to submit
+- on **"revalidation"**, when a field is in an invalid state (due to a prior submission attempt), and the user changes its value (a `change` event is fired from the control)
+
+But in addition to that, as our app is running client-side, we can do validation even earlier, for example whenever an input was changed. This is what we call dynamic validation here.
 
 In the following example, when you enter an invalid email address like `foo`, nothing will happen until you press the submit button. When pressing the submit button the email field will become invalid and show the (native) error message. When you fix it to be a real email _and_ move focus out of the input (which triggers a `change` event), you will see that the validation error is immediately removed:
 
