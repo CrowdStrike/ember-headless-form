@@ -11,7 +11,6 @@ import { TrackedObject } from 'tracked-built-ins';
 import FieldComponent from '../-private/components/field';
 import { mergeErrorRecord } from '../-private/utils';
 
-import type { HeadlessFormFieldComponentSignature } from '../-private/components/field';
 import type {
   ErrorRecord,
   FieldRegistrationData,
@@ -22,11 +21,7 @@ import type {
   UserData,
   ValidationError,
 } from '../-private/types';
-import type {
-  ComponentLike,
-  ModifierLike,
-  WithBoundArgs,
-} from '@glint/template';
+import type { ModifierLike, WithBoundArgs } from '@glint/template';
 
 type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
 
@@ -154,8 +149,7 @@ class FieldData<
 export default class HeadlessFormComponent<
   DATA extends UserData
 > extends Component<HeadlessFormComponentSignature<DATA>> {
-  FieldComponent: ComponentLike<HeadlessFormFieldComponentSignature<DATA>> =
-    FieldComponent;
+  FieldComponent = FieldComponent<DATA>;
 
   // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
   on = on;
