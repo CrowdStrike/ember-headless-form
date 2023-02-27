@@ -3,11 +3,13 @@ import { createRequire } from 'node:module';
 
 import { getPackages } from '@manypkg/get-packages';
 import { findRoot } from '@manypkg/find-root';
-import { readJson, pathExists } from 'fs-extra/esm';
+import { readJson, pathExists, remove } from 'fs-extra/esm';
 import { hardLinkDir } from '@pnpm/fs.hard-link-dir';
 import resolvePackagePath from 'resolve-package-path';
+import Debug from 'debug';
 
 const require = createRequire(import.meta.url);
+const debug = Debug('sync-pnpm');
 
 const syncDir = './dist';
 
@@ -35,6 +37,12 @@ export default async function syncPnpm(dir = process.cwd()) {
     const syncTo = join(resolvedPackagePath, syncDir);
 
     if (await pathExists(syncFrom)) {
+      if (await pathExists(syncTo)) {
+        await remove(syncTo);
+        debug(`removed ${syncTo} before syncing`);
+      }
+
+      debug(`syncing from ${syncFrom} to ${syncTo}`);
       await hardLinkDir(syncFrom, [syncTo]);
     }
   }
