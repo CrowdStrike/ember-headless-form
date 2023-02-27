@@ -7,7 +7,7 @@ order: 1
 
 Client side validation is a first-class citizen of ember-headless-form, supporting both [native HTML validation](./native.md) as well as JavaScript-based [custom validation](./custom-validation.md).
 
-See the following chapters for how to integrate the different kinds of validation. Common to all of them is how they affect what happens when a [form is submitted](../usage/data/index.md#getting-data-out). Normally upon submission the form's `@onSubmit` action is called. When however the form has validation in place, it will only be called when the validation actually passed. Otherwise `@onInvalid` is called, which also receives the in this case invalid form data object, alongside an `ErrorRecord` object.
+See the following chapters for how to integrate the different kinds of validation. Common to all of them is how they affect what happens when a [form is submitted](../usage/data/index.md#getting-data-out). Upon submitting the form, the `@onSubmit` action is called. When the form has validation in place, it will only be called when the validation has passed. Otherwise `@onInvalid` is called, which receives the invalid form data object, alongside an `ErrorRecord` object.
 
 ## Validation Errors
 
@@ -21,7 +21,7 @@ interface ValidationError<T> {
 }
 ```
 
-An `ErrorRecord` is just a record or dictionary, mapping (invalid) field names to an array of `ValidationError`. So in TypeScript syntax basically a `Record<KEY, ValidationError<DATA[KEY]>[]>` (they _actual_ type definition is a bit more verbose, but that does not matter here).
+An `ErrorRecord` is just a record or dictionary, mapping (invalid) field names to an array of `ValidationError`. So in TypeScript syntax basically a `Record<KEY, ValidationError<DATA[KEY]>[]>` (the _actual_ type definition is a bit more verbose, but that does not matter here).
 
 ## Rendering validation errors
 

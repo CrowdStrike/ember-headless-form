@@ -5,7 +5,7 @@ order: 5
 
 # Custom controls
 
-Instead of using the [built-in control components](../controls.md) you can also integrate any existing components. The built-in components give you the benefit that everything is wired up for you automatically though. So when using custom components, you will need to wire some things up explicitly, pertaining data flow and accessible markup.
+Instead of using the [built-in control components](../controls.md) you can also integrate any existing components in your codebase. The components provided by ember-headless-form give you the benefit that everything is wired up for you automatically. When using custom components, you will need to wire up data flow and accessibility.
 
 In the following example we assume a `<CustomInput>` component, that supports `@value` and `@onChange` arguments to pass data into and out of the component. To integrate it into our form, the `Field` component yields:
 

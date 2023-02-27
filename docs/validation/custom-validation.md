@@ -21,7 +21,7 @@ See the [field-level example](#docfy-demo-validation-custom-validation-field-lev
 
 ## Validation error merging
 
-We now have learned about three sources of validation errors: [native validation](./native.md) as well as [form-level](#form-level-validation) and [field-level](#field-level-validation) custom validation. And these sources are not mutually-exclusive, but can actually combined together. ember-headless-form will merge validation errors coming from all these sources together, make them all available when [rendering validation errors](./index.md#rendering-validation-errors).
+We now have learned about three sources of validation errors: [native validation](./native.md) as well as [form-level](#form-level-validation) and [field-level](#field-level-validation) custom validation. And these sources are not mutually-exclusive, but can actually combined together. ember-headless-form will merge validation errors coming from all these sources, making them available when [rendering validation errors](./index.md#rendering-validation-errors).
 
 This allows you for example to cover the basic validation requirements like `required` fields or specific input types using native validation, while adding more complex validations using custom validation that cannot be expressed with the native capabilities.
 
