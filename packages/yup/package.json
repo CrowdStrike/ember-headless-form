@@ -32,7 +32,7 @@
   "peerDependencies": {
     "yup": "^1.0.0",
     "ember-headless-form": "^0.0.0",
-    "ember-source": "^4.4.0"
+    "ember-source": ">=4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",

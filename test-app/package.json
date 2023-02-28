@@ -90,7 +90,7 @@
     "ember-headless-form": "workspace:*",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
-    "ember-qunit": "^6.0.0",
+    "ember-qunit": "^6.2.0",
     "ember-resolver": "^10.0.0",
     "ember-sinon-qunit": "^7.0.0",
     "ember-source": "~4.10.0",
