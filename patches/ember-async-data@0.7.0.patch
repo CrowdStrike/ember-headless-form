@@ -1,0 +1,15 @@
+diff --git a/package.json b/package.json
+index db0bec2d525d9e30edf8554f8de01b06aad5c6a5..613fceda14a9f7c591e0b8ab7b8fd3c91fa71271 100644
+--- a/package.json
++++ b/package.json
+@@ -46,6 +46,10 @@
+     "@ember/test-waiters": "^3.0.0",
+     "@embroider/addon-shim": "^1.8.3"
+   },
++  "peerDependencies": {
++    "@glimmer/tracking": "^1.1.2",
++    "ember-source": "^4.8.4"
++  },
+   "devDependencies": {
+     "@babel/core": "^7.20.2",
+     "@babel/plugin-proposal-class-properties": "^7.18.6",

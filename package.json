@@ -43,7 +43,8 @@
       }
     },
     "patchedDependencies": {
-      "ember-a11y-testing@5.2.0": "patches/ember-a11y-testing@5.2.0.patch"
+      "ember-a11y-testing@5.2.0": "patches/ember-a11y-testing@5.2.0.patch",
+      "ember-async-data@0.7.0": "patches/ember-async-data@0.7.0.patch"
     }
   },
   "volta": {
