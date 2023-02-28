@@ -225,6 +225,7 @@ importers:
       '@pnpm/fs.hard-link-dir': ^1.0.3
       debug: ^4.3.4
       fs-extra: ^11.1.0
+      proper-lockfile: ^4.1.2
       resolve-package-path: ^4.0.3
     dependencies:
       '@manypkg/find-root': 2.1.0
@@ -232,6 +233,7 @@ importers:
       '@pnpm/fs.hard-link-dir': 1.0.3
       debug: 4.3.4
       fs-extra: 11.1.0
+      proper-lockfile: 4.1.2
       resolve-package-path: 4.0.3
 
   packages/changeset-validations:
@@ -510,15 +512,15 @@ importers:
       '@types/ember__application': 4.0.5_@babel+core@7.20.12
       '@types/ember__array': 4.0.3_@babel+core@7.20.12
       '@types/ember__component': 4.0.12_@babel+core@7.20.12
-      '@types/ember__controller': 4.0.4_@babel+core@7.20.12
-      '@types/ember__debug': 4.0.3_@babel+core@7.20.12
-      '@types/ember__engine': 4.0.4_@babel+core@7.20.12
+      '@types/ember__controller': 4.0.4
+      '@types/ember__debug': 4.0.3
+      '@types/ember__engine': 4.0.4
       '@types/ember__error': 4.0.2
-      '@types/ember__object': 4.0.5_@babel+core@7.20.12
+      '@types/ember__object': 4.0.5
       '@types/ember__polyfills': 4.0.1
       '@types/ember__routing': 4.0.12_@babel+core@7.20.12
       '@types/ember__runloop': 4.0.2_@babel+core@7.20.12
-      '@types/ember__service': 4.0.2_@babel+core@7.20.12
+      '@types/ember__service': 4.0.2
       '@types/ember__string': 3.16.3
       '@types/ember__template': 4.0.1
       '@types/ember__test': 4.0.1_@babel+core@7.20.12
@@ -15114,7 +15116,6 @@ packages:
       graceful-fs: 4.2.10
       retry: 0.12.0
       signal-exit: 3.0.7
-    dev: true
 
   /property-expr/2.0.5:
     resolution: {integrity: sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA==}
@@ -15643,7 +15644,6 @@ packages:
   /retry/0.12.0:
     resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
     engines: {node: '>= 4'}
-    dev: true
 
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
