@@ -613,6 +613,7 @@ importers:
       broccoli-asset-rev: ^3.0.0
       concurrently: ^7.6.0
       ember-a11y-testing: ^5.2.0
+      ember-async-data: ^0.7.0
       ember-auto-import: ^2.5.0
       ember-changeset: ^4.1.2
       ember-cli: ~4.10.0-beta.0
@@ -701,6 +702,7 @@ importers:
       broccoli-asset-rev: 3.0.0
       concurrently: 7.6.0
       ember-a11y-testing: 5.2.0_ynlyhbi6rwlli5mc64kgdri6jy_xxksirw4yhzqkev2rkehjstyum
+      ember-async-data: 0.7.0
       ember-auto-import: 2.6.1_webpack@5.75.0
       ember-changeset: 4.1.2_webpack@5.75.0
       ember-cli: 4.10.0
