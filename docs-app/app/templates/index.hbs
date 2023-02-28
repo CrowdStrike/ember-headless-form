@@ -4,16 +4,15 @@
     <h1 class="type-3xl">ember-headless-form</h1>
 
     <p class="type-lg">
-      ...
+      The Ember.js addon that distills the common behavior and accessibility
+      best practices of forms into reusable components, without any opinions on
+      specific markup or styling. Use it to build your forms directly, or to
+      build your opinionated forms component kit on top of it.
     </p>
 
     <span>
-      <Toucan::Link
-        @variant="brand"
-        class="px-6 py-1 flex gap-3"
-        @href="/docs/installation"
-      >
-        Read the Docs
+      <Toucan::Link @variant="brand" class="px-6 py-1 flex gap-3" @href="/docs">
+        Getting started
         <svg
           class="w-4 ml-2"
           viewBox="0 0 14 13"
@@ -38,42 +37,63 @@
 <Main>
   <ContentSection>
     <:header>
-      Lorem ipsum
+      Why use this addon?
     </:header>
     <:content>
-      dolor sit amet consectetur, adipisicing elit. Veniam aliquid voluptatem
-      quam blanditiis modi, tempora perferendis ea. Facere labore laborum
-      architecto dolore alias quia corrupti, sunt iste perferendis vitae aut!
+      <div>
+        <p class="mb-4">Forms aren't exactly a new thing, so why use this addon?
+          Existing solutions are either not using the latest Ember paradigms
+          (Octane/Polaris), generate specific markup and are thus hard to
+          customize, or are coupled to a specific validation library.
+          ember-headless-form is none of this. It gives you all the flexibility,
+          without having to reinvent the wheel.</p>
+        <p>These are the main problems it solves:</p>
+        <ul class="list-disc list-inside">
+          <li>Getting data in and out of the form</li>
+          <li>Rendering semantic form markup, accessible by default</li>
+          <li>Provide rich support for client-side validation</li>
+        </ul>
+      </div>
     </:content>
   </ContentSection>
 
   <ContentSection>
     <:content>
       <div
-        class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 md:gap-16"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16"
       >
-        <FeatureCard @title="Coming Soon">
-          Features coming up!
+        <FeatureCard @title="TypeScript/Glint">
+          Written in TypeScript/Glint, with TypeScript/Glint users in mind. Get
+          strict type checking of its components, arguments and form data,
+          together with API docs right in your IDE.
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
-          Features coming up!
+        <FeatureCard @title="Accessibility">
+          Bakes accessibility best practices into the addon, so you have to care
+          less. It does not render much, but what it renders is pure semantic
+          and ARIA enriched form markup, tested for a11y.
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
-          Features coming up!
+        <FeatureCard @title="Native validation">
+          Integrates native HTML5 based form validation seamlessly, with custom
+          error rendering. Use it alone, or mix it with custom validations.
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
-          Features coming up!
+        <FeatureCard @title="Custom validation">
+          Where native validation falls short, you can extend that with custom
+          JavaScript-based validation rules. Either by writing your own
+          functions, or by integrating 3rd party validation libraries.
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
-          Features coming up!
+        <FeatureCard @title="ember-changeset">
+          Integrate ember-changeset and ember-changeset-validations seamlessly
+          into your forms, offloading the form validation to the validations
+          defined on your Changeset.
         </FeatureCard>
 
-        <FeatureCard @title="Coming Soon">
-          Features coming up!
+        <FeatureCard @title="yup">
+          Use the popular TypeScript-friendly validation library to validate
+          your form data with a yup schema.
         </FeatureCard>
 
       </div>
