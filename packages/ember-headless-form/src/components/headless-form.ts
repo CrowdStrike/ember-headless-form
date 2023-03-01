@@ -89,6 +89,11 @@ export interface HeadlessFormComponentSignature<DATA extends UserData> {
           | 'fieldValidationEvent'
           | 'fieldRevalidationEvent'
         >;
+
+        /**
+         * Will be true if at least one form field is invalid.
+         */
+        isInvalid: boolean;
       }
     ];
   };
