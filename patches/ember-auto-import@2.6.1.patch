@@ -1,0 +1,13 @@
+diff --git a/js/webpack.js b/js/webpack.js
+index 86641517cc55be2349fbed507ec6f93ebd027469..06ba89d05b908b44aa97a7ea6e4aa5a8d0e3101c 100644
+--- a/js/webpack.js
++++ b/js/webpack.js
+@@ -384,7 +384,7 @@ class WebpackBundler extends broccoli_plugin_1.default {
+          */
+         let host = this.opts.rootPackage;
+         let emberSource = host.requestedRange('ember-source');
+-        let emberSourceVersion = semver_1.default.coerce(emberSource);
++        let emberSourceVersion = semver_1.default.valid(emberSource);
+         if (emberSourceVersion && semver_1.default.lt(emberSourceVersion, '3.27.0')) {
+             if (this.opts.earlyBootSet) {
+                 throw new Error('autoImport.earlyBootSet is not supported for ember-source <= 3.27.0');
