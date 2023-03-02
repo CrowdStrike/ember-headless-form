@@ -54,3 +54,19 @@ In block-mode it will yield the raw `ValidationError` objects as described above
   <button type='submit'>Submit</button>
 </HeadlessForm>
 ```
+
+For rendering other markup based on the current validation state, both the form itself as well as each field yields an `isInvalid` property:
+
+```hbs
+<HeadlessForm as |form|>
+  {{#if form.isInvalid}}
+    <p>Fix all form validation errors below before submitting again!</p>
+  {{/if}}
+  <form.Field @name='firstName' as |field|>
+    <field.Label>First name</field.Label>
+    <field.Input required class={{if field.isInvalid 'has-errors'}} />
+    <field.Errors />
+  </form.Field>
+  <button type='submit'>Submit</button>
+</HeadlessForm>
+```

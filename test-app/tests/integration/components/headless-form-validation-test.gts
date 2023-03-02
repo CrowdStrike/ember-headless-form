@@ -28,12 +28,14 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
   }
 
   const validateFormCallbackSync: FormValidateCallback<TestFormData> = (
-    data
+    data,
+    fields
   ) => {
     const errorRecord: ErrorRecord<TestFormData> = {};
 
-    for (const [field, value] of Object.entries(data)) {
-      const errors: ValidationError<string>[] = [];
+    for (const field of fields) {
+      const value = data[field];
+      const errors: ValidationError<string | undefined>[] = [];
       if (value == undefined) {
         errors.push({
           type: 'required',
@@ -1994,6 +1996,72 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             'validation errors do not disappear until revalidation happens on input'
           );
       });
+    });
+  });
+
+  module('validation state', function () {
+    test('form yields isInvalid', async function (assert) {
+      const data: TestFormData = {};
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validate={{validateFormCallbackSync}}
+          as |form|
+        >
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+          {{#if form.isInvalid}}
+            <div data-test-invalid />
+          {{/if}}
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('[data-test-invalid]').doesNotExist();
+
+      await click('[data-test-submit]');
+
+      assert.dom('[data-test-invalid]').exists();
+
+      await fillIn('[data-test-first-name]', 'Tony');
+      await click('[data-test-submit]');
+
+      assert.dom('[data-test-invalid]').doesNotExist();
+    });
+
+    test('field yields isInvalid', async function (assert) {
+      const data: TestFormData = {};
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validate={{validateFormCallbackSync}}
+          as |form|
+        >
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+            {{#if field.isInvalid}}
+              <div data-test-invalid />
+            {{/if}}
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('[data-test-invalid]').doesNotExist();
+
+      await click('[data-test-submit]');
+
+      assert.dom('[data-test-invalid]').exists();
+
+      await fillIn('[data-test-first-name]', 'Tony');
+      await click('[data-test-submit]');
+
+      assert.dom('[data-test-invalid]').doesNotExist();
     });
   });
 });
