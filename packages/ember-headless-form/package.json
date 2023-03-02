@@ -1,5 +1,5 @@
 {
-  "name": "ember-headless-form",
+  "name": "@crowdstrike/ember-headless-form",
   "version": "0.0.0",
   "description": "The default blueprint for Embroider v2 addons.",
   "keywords": [

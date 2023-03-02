@@ -14,7 +14,7 @@ import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-import { HeadlessForm } from 'ember-headless-form';
+import { HeadlessForm } from '@crowdstrike/ember-headless-form';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 import type { RenderingTestContext } from '@ember/test-helpers';

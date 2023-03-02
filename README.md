@@ -10,7 +10,7 @@
 ## Installation
 
 ```
-ember install ember-headless-form
+ember install @crowdstrike/ember-headless-form
 ```
 
 ## Usage

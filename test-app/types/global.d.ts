@@ -1,8 +1,8 @@
 import '@glint/environment-ember-loose';
 import '@glint/environment-ember-template-imports';
 
+import type HeadlessFormRegistry from '@crowdstrike/ember-headless-form/template-registry';
 import type { HelperLike } from '@glint/template';
-import type HeadlessFormRegistry from 'ember-headless-form/template-registry';
 
 // Types for compiled templates
 // declare module 'test-app/templates/*' {

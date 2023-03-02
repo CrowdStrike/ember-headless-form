@@ -2,7 +2,7 @@ import type {
   ErrorRecord,
   FormKey,
   FormValidateCallback,
-} from 'ember-headless-form';
+} from '@crowdstrike/ember-headless-form';
 import { assert } from '@ember/debug';
 
 import type { ObjectSchema, ValidationError } from 'yup';

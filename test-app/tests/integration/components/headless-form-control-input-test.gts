@@ -4,10 +4,10 @@
 import { render, setupOnerror } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { HeadlessForm } from 'ember-headless-form';
+import { HeadlessForm } from '@crowdstrike/ember-headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
-import type { InputType } from 'ember-headless-form';
+import type { InputType } from '@crowdstrike/ember-headless-form';
 
 module('Integration Component HeadlessForm > Input', function (hooks) {
   setupRenderingTest(hooks);

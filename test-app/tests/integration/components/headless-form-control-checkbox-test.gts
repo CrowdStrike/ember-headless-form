@@ -4,7 +4,7 @@
 import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import { HeadlessForm } from 'ember-headless-form';
+import { HeadlessForm } from '@crowdstrike/ember-headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
 module('Integration Component HeadlessForm > Checkbox', function (hooks) {

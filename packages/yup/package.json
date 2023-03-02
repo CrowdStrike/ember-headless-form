@@ -1,5 +1,5 @@
 {
-  "name": "@ember-headless-form/yup",
+  "name": "@crowdstrike/ember-headless-form-yup",
   "version": "0.0.0",
   "description": "Integrates yup-based validations with ember-headless-form",
   "keywords": [
@@ -31,7 +31,7 @@
   },
   "peerDependencies": {
     "yup": "^1.0.0",
-    "ember-headless-form": "^0.0.0",
+    "@crowdstrike/ember-headless-form": "^0.0.0",
     "ember-source": ">=4.4.0"
   },
   "devDependencies": {
@@ -40,6 +40,7 @@
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-decorators": "^7.17.0",
     "@babel/plugin-syntax-decorators": "^7.17.0",
+    "@crowdstrike/ember-headless-form": "^0.0.0",
     "@embroider/addon-dev": "^3.0.0",
     "@glimmer/component": "^1.1.2",
     "@glint/core": "^1.0.0-beta.3",
@@ -66,7 +67,6 @@
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "concurrently": "^7.2.1",
-    "ember-headless-form": "workspace:*",
     "ember-template-lint": "^4.0.0",
     "ember-source": "~4.10.0",
     "eslint": "^7.32.0",
