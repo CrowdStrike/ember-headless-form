@@ -32,13 +32,13 @@
     "@embroider/addon-shim": "^1.0.0",
     "@ember/test-waiters": "^3.0.2",
     "@embroider/util": "^1.10.0",
-    "ember-modifier": "^4.0.0",
+    "ember-modifier": "^4.1.0",
     "tracked-built-ins": "^3.1.0"
   },
   "peerDependencies": {
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "ember-source": "^4.4.0"
+    "ember-source": ">=4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
