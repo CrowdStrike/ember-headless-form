@@ -5,7 +5,7 @@ import { click, fillIn, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
-import { validateYup } from '@ember-headless-form/yup';
+import { validateYup } from 'ember-headless-form-yup';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 

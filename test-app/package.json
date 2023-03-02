@@ -28,8 +28,9 @@
     "_syncPnpm": "pnpm sync-pnpm"
   },
   "devDependencies": {
-    "@ember-headless-form/changeset": "workspace:*",
-    "@ember-headless-form/yup": "workspace:*",
+    "ember-headless-form": "workspace:*",
+    "ember-headless-form-changeset": "workspace:*",
+    "ember-headless-form-yup": "workspace:*",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.8.1",
@@ -88,7 +89,6 @@
     "ember-cli-typescript": "^5.2.1",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-fetch": "^8.1.2",
-    "ember-headless-form": "workspace:*",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^6.2.0",
@@ -121,10 +121,10 @@
     "ember-headless-form": {
       "injected": true
     },
-    "@ember-headless-form/changeset": {
+    "ember-headless-form-changeset": {
       "injected": true
     },
-    "@ember-headless-form/yup": {
+    "ember-headless-form-yup": {
       "injected": true
     }
   },

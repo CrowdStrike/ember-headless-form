@@ -1,7 +1,7 @@
-import { validateChangeset } from '@ember-headless-form/changeset';
 import { module, test } from 'qunit';
 
 import { Changeset } from 'ember-changeset';
+import { validateChangeset } from 'ember-headless-form-changeset';
 
 import type { ValidatorAction } from 'ember-changeset/types';
 

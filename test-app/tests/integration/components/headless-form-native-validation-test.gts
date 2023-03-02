@@ -4,7 +4,7 @@
 import { blur, click, fillIn, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-import HeadlessForm from 'ember-headless-form/components/headless-form';
+import { HeadlessForm } from 'ember-headless-form';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
