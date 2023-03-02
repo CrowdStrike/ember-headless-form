@@ -105,3 +105,25 @@ You will have to use multiple instances of `Radio`. Each of those will itself yi
   <button type='submit'>Submit</button>
 </HeadlessForm>
 ```
+
+## Select
+
+Renders a native `<select>` dropdown. It will yield another `Option` component for the individual options, which receives a `@value` and the visible label as the block content, just like the native `<option>` element.
+
+```hbs preview-template
+<HeadlessForm as |form|>
+  <form.Field @name='country' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.Label>Country</field.Label>
+      <field.Select class='border rounded px-2' as |select|>
+        <select.Option @value=''>Please select...</select.Option>
+        <select.Option @value='USA'>United States</select.Option>
+        <select.Option @value='CA'>Canada</select.Option>
+        <select.Option @value='GER'>Germany</select.Option>
+      </field.Select>
+    </div>
+  </form.Field>
+
+  <button type='submit'>Submit</button>
+</HeadlessForm>
+```
