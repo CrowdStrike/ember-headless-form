@@ -1,6 +1,6 @@
-import { validateYup } from '@ember-headless-form/yup';
 import { module, test } from 'qunit';
 
+import { validateYup } from 'ember-headless-form-yup';
 import { object, string } from 'yup';
 
 module('Unit | Helpers | validate-yup', function () {

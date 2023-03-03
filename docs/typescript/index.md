@@ -26,7 +26,7 @@ declare module '@glint/environment-ember-loose/registry' {
 }
 ```
 
-The same applies for any additional packages of this project if in use, like [`@ember-headless-form/yup`](./validation/yup) or [`@ember-headless-form/changeset`](./validation/ember-changeset).
+The same applies for any additional packages of this project if in use, like [`ember-headless-form-yup`](./validation/yup) or [`ember-headless-form-changeset`](./validation/ember-changeset).
 
 ## Typing of form data
 
