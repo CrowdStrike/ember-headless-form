@@ -110,11 +110,11 @@
     "qunit": "^2.19.3",
     "qunit-dom": "^2.0.0",
     "sinon": "^15.0.1",
+    "sync-pnpm": "workspace:*",
     "typescript": "^4.9.4",
     "validated-changeset": "^1.3.4",
     "webpack": "^5.75.0",
-    "yup": "^1.0.0",
-    "sync-pnpm": "workspace:*"
+    "yup": "^1.0.0"
   },
   "dependenciesMeta": {
     "ember-headless-form": {
@@ -132,5 +132,10 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "@embroider/compat": "^2.0.0",
+    "@embroider/core": "^2.0.0",
+    "@embroider/webpack": "^2.0.0"
   }
 }
