@@ -1,0 +1,17 @@
+<select
+  name={{@name}}
+  value={{@value}}
+  id={{@fieldId}}
+  aria-invalid={{if @invalid 'true'}}
+  aria-errormessage={{if @invalid @errorId}}
+  ...attributes
+  {{on 'input' this.handleInput}}
+>
+  {{yield
+    (hash
+      Option=(component
+        (ensure-safe-component this.OptionComponent) selected=@value
+      )
+    )
+  }}
+</select>

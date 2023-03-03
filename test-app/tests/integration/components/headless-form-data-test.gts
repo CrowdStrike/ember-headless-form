@@ -9,6 +9,7 @@ import {
   fillIn,
   render,
   rerender,
+  select,
   triggerEvent,
 } from '@ember/test-helpers';
 import { module, skip, test } from 'qunit';
@@ -26,6 +27,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         firstName: 'Tony',
         lastName: 'Ward',
         gender: 'male',
+        country: 'USA',
         comments: 'lorem ipsum',
         acceptTerms: true,
       };
@@ -54,6 +56,13 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
               <radio.Label>Other</radio.Label>
             </field.Radio>
           </form.Field>
+          <form.Field @name="country" as |field|>
+            <field.Label>Country</field.Label>
+            <field.Select data-test-country as |select|>
+              <select.Option @value="USA">United States</select.Option>
+              <select.Option @value="GER">Germany</select.Option>
+            </field.Select>
+          </form.Field>
           <form.Field @name="comments" as |field|>
             <field.Label>Comments</field.Label>
             <field.Textarea data-test-comments />
@@ -70,6 +79,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       assert.dom('input[data-test-gender-male]').isChecked();
       assert.dom('input[data-test-gender-female]').isNotChecked();
       assert.dom('input[data-test-gender-other]').isNotChecked();
+      assert.dom('select[data-test-country]').hasValue('USA');
       assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
       assert.dom('input[data-test-terms]').isChecked();
     });
@@ -166,6 +176,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         firstName: 'Tony',
         lastName: 'Ward',
         gender: 'male',
+        country: 'USA',
         comments: 'lorem ipsum',
         acceptTerms: false,
       };
@@ -195,6 +206,13 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
               <radio.Label>Other</radio.Label>
             </field.Radio>
           </form.Field>
+          <form.Field @name="country" as |field|>
+            <field.Label>Country</field.Label>
+            <field.Select data-test-country as |select|>
+              <select.Option @value="USA">United States</select.Option>
+              <select.Option @value="CA">Canada</select.Option>
+            </field.Select>
+          </form.Field>
           <form.Field @name="comments" as |field|>
             <field.Label>Comments</field.Label>
             <field.Textarea data-test-comments />
@@ -214,6 +232,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       await fillIn('input[data-test-first-name]', 'Nicole');
       await fillIn('input[data-test-last-name]', 'Chung');
+      await select('select[data-test-country]', 'CA');
       await click('input[data-test-gender-female]');
       await fillIn('textarea[data-test-comments]', 'foo bar');
       await click('input[data-test-terms]');
@@ -225,6 +244,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           firstName: 'Tony',
           lastName: 'Ward',
           gender: 'male',
+          country: 'USA',
           comments: 'lorem ipsum',
           acceptTerms: false,
         },
@@ -236,6 +256,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           firstName: 'Nicole',
           lastName: 'Chung',
           gender: 'female',
+          country: 'CA',
           comments: 'foo bar',
           acceptTerms: true,
         }),

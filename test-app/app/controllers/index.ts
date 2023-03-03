@@ -5,6 +5,7 @@ interface MyFormData {
   lastName?: string;
   gender?: 'male' | 'female' | 'other';
   email?: string;
+  country?: string;
   accept_tos?: boolean;
   comment?: string;
 }

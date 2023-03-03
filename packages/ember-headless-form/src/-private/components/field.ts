@@ -6,6 +6,7 @@ import CaptureEventsModifier from '../modifiers/capture-events';
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import RadioComponent from './control/radio';
+import SelectComponent from './control/select';
 import TextareaComponent from './control/textarea';
 import ErrorsComponent from './errors';
 import LabelComponent from './label';
@@ -117,6 +118,14 @@ export interface HeadlessFormFieldComponentSignature<
         >;
 
         /**
+         * Yielded control component that renders a `<select>` element.
+         */
+        Select: WithBoundArgs<
+          typeof SelectComponent,
+          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
+        >;
+
+        /**
          * Yielded control component that renders a `<textarea>` element.
          */
         Textarea: WithBoundArgs<
@@ -198,6 +207,7 @@ export default class HeadlessFormFieldComponent<
   InputComponent = InputComponent;
   CheckboxComponent = CheckboxComponent;
   ErrorsComponent = ErrorsComponent<DATA[KEY]>;
+  SelectComponent = SelectComponent;
   TextareaComponent = TextareaComponent;
   RadioComponent = RadioComponent;
   CaptureEventsModifier = CaptureEventsModifier;

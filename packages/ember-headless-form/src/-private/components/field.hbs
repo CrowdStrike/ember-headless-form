@@ -28,6 +28,15 @@
         setValue=this.setValue
         invalid=this.hasErrors
       )
+      Select=(component
+        (ensure-safe-component this.SelectComponent)
+        name=@name
+        fieldId=fieldId
+        errorId=errorId
+        value=this.valueAsString
+        setValue=this.setValue
+        invalid=this.hasErrors
+      )
       Textarea=(component
         (ensure-safe-component this.TextareaComponent)
         name=@name
