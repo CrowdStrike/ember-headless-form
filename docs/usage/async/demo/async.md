@@ -44,6 +44,7 @@ export default class MyFormComponent extends Component {
     }
 
     if (this.saved.includes(email)) {
+      // Throwing this error will cause the form to yield form.submissionState.isRejected as true
       throw new Error(`${email} is already taken!`);
     }
 
