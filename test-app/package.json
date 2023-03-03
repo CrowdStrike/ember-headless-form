@@ -74,6 +74,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.6.0",
     "ember-a11y-testing": "^5.2.0",
+    "ember-async-data": "^0.7.0",
     "ember-auto-import": "^2.5.0",
     "ember-changeset": "^4.1.2",
     "ember-cli": "~4.10.0-beta.0",
@@ -110,11 +111,11 @@
     "qunit": "^2.19.3",
     "qunit-dom": "^2.0.0",
     "sinon": "^15.0.1",
+    "sync-pnpm": "workspace:*",
     "typescript": "^4.9.4",
     "validated-changeset": "^1.3.4",
     "webpack": "^5.75.0",
-    "yup": "^1.0.0",
-    "sync-pnpm": "workspace:*"
+    "yup": "^1.0.0"
   },
   "dependenciesMeta": {
     "ember-headless-form": {

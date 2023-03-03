@@ -9,6 +9,8 @@ module.exports = function (defaults) {
         'ember-headless-form',
         '@ember-headless-form/changeset',
       ],
+      // See https://github.com/ef4/ember-auto-import/issues/564#issuecomment-1448820349
+      earlyBootSet: () => ['@glimmer/tracking'],
     },
   });
 
