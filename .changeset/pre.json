@@ -3,7 +3,15 @@
   "tag": "beta",
   "initialVersions": {
     "ember-headless-form": "0.0.0",
-    "test-app": "0.0.0"
+    "test-app": "0.0.0",
+    "docs-app": "0.0.0",
+    "sync-pnpm": "0.0.0",
+    "ember-headless-form-changeset": "0.0.0",
+    "ember-headless-form-yup": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "four-squids-change",
+    "orange-walls-run",
+    "silly-cougars-decide"
+  ]
 }
