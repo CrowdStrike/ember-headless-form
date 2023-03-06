@@ -28,6 +28,27 @@ In the following example, we use an `email` typed input and applied `required` a
     </div>
   </form.Field>
 
+  <form.Field @name='gender' as |field|>
+    <div class='my-2 flex flex-col'>
+      Gender:
+      <div class='flex flex-row space-x-2'>
+        <field.Radio @value='male' as |radio|>
+          <radio.Input required />
+          <radio.Label>Male</radio.Label>
+        </field.Radio>
+        <field.Radio @value='female' as |radio|>
+          <radio.Input required />
+          <radio.Label>Female</radio.Label>
+        </field.Radio>
+        <field.Radio @value='other' as |radio|>
+          <radio.Input required />
+          <radio.Label>Other</radio.Label>
+        </field.Radio>
+      </div>
+      <field.Errors />
+    </div>
+  </form.Field>
+
   <button type='submit'>Submit</button>
 </HeadlessForm>
 ```
