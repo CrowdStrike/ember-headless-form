@@ -318,13 +318,11 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
           assert
             .dom('input')
             .doesNotHaveAria('invalid')
-            .doesNotHaveAria('errormessage');
+            .doesNotHaveAria('describedby');
 
           assert.dom('[data-test-first-name-errors]').doesNotExist();
 
           await click('[data-test-submit]');
-
-          // a11y markup recommendations taken from https://www.w3.org/TR/wai-aria-1.2/#aria-errormessage
 
           assert
             .dom('[data-test-first-name-errors]')
@@ -344,9 +342,9 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             .dom('input')
             .hasAria('invalid', 'true')
             .hasAria(
-              'errormessage',
+              'describedby',
               id,
-              'errors are associated to invalid input via aria-errormessage'
+              'errors are associated to invalid input via aria-describedby'
             );
         });
 

@@ -152,7 +152,7 @@ module(
               <CustomControl
                 @value={{field.value}}
                 @onChange={{field.setValue}}
-                aria-errormessage={{if field.isInvalid field.errorId}}
+                aria-describedby={{if field.isInvalid field.errorId}}
               />
               <field.Errors data-test-errors />
             </form.Field>
@@ -160,9 +160,7 @@ module(
           </HeadlessForm>
         </template>);
 
-        assert
-          .dom('[data-test-custom-control]')
-          .doesNotHaveAria('errormessage');
+        assert.dom('[data-test-custom-control]').doesNotHaveAria('describedby');
 
         await click('[data-test-submit]');
 
@@ -171,9 +169,9 @@ module(
         assert
           .dom('[data-test-custom-control]')
           .hasAria(
-            'errormessage',
+            'describedby',
             id,
-            'errors are associated to invalid input via aria-errormessage'
+            'errors are associated to invalid input via aria-describedby'
           );
       });
 
