@@ -70,3 +70,8 @@ For rendering other markup based on the current validation state, both the form 
   <button type='submit'>Submit</button>
 </HeadlessForm>
 ```
+
+If you prefer to not use the yielded `<field.Errors>` component for error rendering, you can use the raw `ValidationError` objects instead to render them on your own. They are yielded as `rawErrors`
+
+- from the form, as an `ErrorRecord` for all fields
+- from each field as an array of `ValidationError`s
