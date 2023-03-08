@@ -2061,5 +2061,76 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
 
       assert.dom('[data-test-invalid]').doesNotExist();
     });
+
+    test('field yields rawErrors', async function (assert) {
+      const data: TestFormData = { firstName: 'foo' };
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validate={{validateFormCallbackSync}}
+          as |form|
+        >
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+            <div data-test-first-name-errors>
+              {{#each field.rawErrors as |e|}}
+                <div data-test-error>
+                  <div data-test-error-type>
+                    {{e.type}}
+                  </div>
+                  <div data-test-error-value>
+                    {{e.value}}
+                  </div>
+                  <div data-test-error-message>
+                    {{e.message}}
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await click('[data-test-submit]');
+
+      assert
+        .dom('[data-test-first-name-errors] [data-test-error]')
+        .exists({ count: 2 });
+
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-type]'
+        )
+        .hasText('uppercase');
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-value]'
+        )
+        .hasText('foo');
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error]:first-child [data-test-error-message]'
+        )
+        .hasText('firstName must be upper case!');
+
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-type]'
+        )
+        .hasText('notFoo');
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-value]'
+        )
+        .hasText('foo');
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error]:last-child [data-test-error-message]'
+        )
+        .hasText('Foo is an invalid firstName!');
+    });
   });
 });

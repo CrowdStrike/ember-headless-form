@@ -179,6 +179,11 @@ export interface HeadlessFormFieldComponentSignature<
         isInvalid: boolean;
 
         /**
+         * An array of raw ValidationError objects, for custom rendering of error output
+         */
+        rawErrors?: ValidationError<DATA[KEY]>[];
+
+        /**
          * When calling this action, validation will be triggered.
          *
          * Can be used for custom controls that don't emit the `@validateOn` events that would normally trigger a dynamic validation.
