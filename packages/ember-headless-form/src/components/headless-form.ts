@@ -113,6 +113,11 @@ export interface HeadlessFormComponentSignature<
          * Will be true if at least one form field is invalid.
          */
         isInvalid: boolean;
+
+        /**
+         * An ErrorRecord, for custom rendering of error output
+         */
+        rawErrors?: ErrorRecord<DATA>;
       }
     ];
   };

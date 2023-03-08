@@ -2030,6 +2030,106 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
       assert.dom('[data-test-invalid]').doesNotExist();
     });
 
+    test('form yields rawErrors', async function (assert) {
+      const data: TestFormData = { firstName: 'foo' };
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validate={{validateFormCallbackSync}}
+          as |form|
+        >
+          {{#each-in form.rawErrors as |name errors|}}
+            <div data-test-errors={{name}}>
+              {{#each errors as |e|}}
+                <div data-test-error>
+                  <div data-test-error-type>
+                    {{e.type}}
+                  </div>
+                  <div data-test-error-value>
+                    {{e.value}}
+                  </div>
+                  <div data-test-error-message>
+                    {{e.message}}
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+          {{/each-in}}
+
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await click('[data-test-submit]');
+
+      // firstName
+      assert
+        .dom('[data-test-errors="firstName"] [data-test-error]')
+        .exists({ count: 2 });
+
+      assert
+        .dom(
+          '[data-test-errors="firstName"] [data-test-error]:first-child [data-test-error-type]'
+        )
+        .hasText('uppercase');
+      assert
+        .dom(
+          '[data-test-errors="firstName"] [data-test-error]:first-child [data-test-error-value]'
+        )
+        .hasText('foo');
+      assert
+        .dom(
+          '[data-test-errors="firstName"] [data-test-error]:first-child [data-test-error-message]'
+        )
+        .hasText('firstName must be upper case!');
+
+      assert
+        .dom(
+          '[data-test-errors="firstName"] [data-test-error]:last-child [data-test-error-type]'
+        )
+        .hasText('notFoo');
+      assert
+        .dom(
+          '[data-test-errors="firstName"] [data-test-error]:last-child [data-test-error-value]'
+        )
+        .hasText('foo');
+      assert
+        .dom(
+          '[data-test-errors="firstName"] [data-test-error]:last-child [data-test-error-message]'
+        )
+        .hasText('Foo is an invalid firstName!');
+
+      // lastName
+      assert
+        .dom('[data-test-errors="lastName"] [data-test-error]')
+        .exists({ count: 1 });
+
+      assert
+        .dom(
+          '[data-test-errors="lastName"] [data-test-error]:first-child [data-test-error-type]'
+        )
+        .hasText('required');
+      assert
+        .dom(
+          '[data-test-errors="lastName"] [data-test-error]:first-child [data-test-error-value]'
+        )
+        .hasNoText();
+      assert
+        .dom(
+          '[data-test-errors="lastName"] [data-test-error]:first-child [data-test-error-message]'
+        )
+        .hasText('lastName is required!');
+    });
+
     test('field yields isInvalid', async function (assert) {
       const data: TestFormData = {};
 
