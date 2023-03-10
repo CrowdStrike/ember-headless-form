@@ -183,7 +183,7 @@ jobs:
       - run: pnpm build:docs
       - name: Publish to Cloudflare Pages
         id: publishStep
-        uses: cloudflare/pages-action@1
+        uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.UX_OSS_CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.UX_OSS_CLOUDFLARE_ACCOUNT_ID }}
