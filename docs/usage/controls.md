@@ -76,30 +76,30 @@ Renders a single `<input type="checkbox">` form element. Note that form data ass
 
 ## Radio group
 
-Renders `<input type="radio">` form elements. Using a single control is not useful here, instead multiple radio buttons form a radio group. As such the usage pattern differs from previous examples.
+Renders `<input type="radio">` form elements, wrapped in a `<div role="radiogroup">`. Using a single control is not useful here, instead multiple radio buttons form a radio group. As such the usage pattern differs from previous examples.
 
-You will have to use multiple instances of `Radio`. Each of those will itself yield additional sub-components `Input` (for rendering the actual `<input`) and `Label` (for the `<label>` associated to the `Input`). Pass `@value` to the `Radio`, determining the value of the field's form data when that radio button is selected.
+You will have to use multiple instances of `Radio`, yielded from `RadioGroup`. Each of those will itself yield additional sub-components `Input` (for rendering the actual `<input`) and `Label` (for the `<label>` associated to the `Input`). Pass `@value` to the `Radio`, determining the value of the field's form data when that radio button is selected. Make sure to also use a `Label` for the radio group:
 
 ```hbs preview-template
 <HeadlessForm as |form|>
   <form.Field @name='gender' as |field|>
-    <div class='my-2 flex flex-col'>
-      Payment method:
+    <field.RadioGroup class='my-2 flex flex-col' as |group|>
+      <group.Label>Payment method:</group.Label>
       <div class='flex flex-row space-x-2'>
-        <field.Radio @value='cc_master' as |radio|>
+        <group.Radio @value='cc_master' as |radio|>
           <radio.Input />
           <radio.Label>Mastercard</radio.Label>
-        </field.Radio>
-        <field.Radio @value='cc_visa' as |radio|>
+        </group.Radio>
+        <group.Radio @value='cc_visa' as |radio|>
           <radio.Input />
           <radio.Label>Visa</radio.Label>
-        </field.Radio>
-        <field.Radio @value='paypal' as |radio|>
+        </group.Radio>
+        <group.Radio @value='paypal' as |radio|>
           <radio.Input />
           <radio.Label>Paypal</radio.Label>
-        </field.Radio>
+        </group.Radio>
       </div>
-    </div>
+    </field.RadioGroup>
   </form.Field>
 
   <button type='submit'>Submit</button>

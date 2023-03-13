@@ -46,11 +46,13 @@
         setValue=this.setValue
         invalid=this.hasErrors
       )
-      Radio=(component
-        (ensure-safe-component this.RadioComponent)
+      RadioGroup=(component
+        (ensure-safe-component this.RadioGroupComponent)
         name=@name
+        errorId=errorId
         selected=this.valueAsString
         setValue=this.setValue
+        invalid=this.hasErrors
       )
       value=this.value
       setValue=setValue

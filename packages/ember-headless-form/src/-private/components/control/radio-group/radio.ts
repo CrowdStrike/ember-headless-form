@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-import LabelComponent from '../label';
+import LabelComponent from '../../label';
 import RadioInputComponent from './radio/input';
 
 import type { WithBoundArgs } from '@glint/template';
