@@ -472,7 +472,7 @@ module(
       assert.dom('[data-test-last-name-errors]').doesNotExist();
     });
 
-    test('opt out of native validation', async function (assert) {
+    test('opt out of native validation using @ignoreNativeValidation', async function (assert) {
       const data: TestFormData = { firstName: 'john' };
       const formValidateCallback = ({ firstName }: TestFormData) =>
         firstName?.charAt(0).toUpperCase() !== firstName?.charAt(0)

@@ -65,7 +65,7 @@ export interface HeadlessFormComponentSignature<
     /**
      * Allows you to opt-out of native validation.
      *
-     * This can be useful if all of the validation logic is already handled by the `@validate` hooks, but you have form controls that have validation requirements (e.g. `email` type) that would cause the native validation to interfere or.
+     * This can be useful if all of the validation logic is already handled by the `@validate` hooks, but you have form controls that have validation requirements (e.g. `email` type) that would cause the native validation to interfere.
      */
     ignoreNativeValidation?: boolean;
 

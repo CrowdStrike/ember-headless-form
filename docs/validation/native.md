@@ -36,4 +36,6 @@ In the following example, we use an `email` typed input and applied `required` a
 
 In case you have also provided [custom validations](./custom-validation.md) via the `@validate` argument, the validation errors from all sources including the native ones will be merged together. So you can have basic validations like setting `required` using native validations and add additional ones on top that are not possible otherwise using custom validation functions or the related adapter packages like [ember-changeset](./ember-changeset.md) or [yup](yup.md).
 
+## Ignoring native validation
+
 There can be cases however where this mix of validation sources is not desirable, like when your custom validations already cover the simple `required` checks. In this case you can opt-out of native validation by passing `@ignoreNativeValidation={{true}}` to the `<HeadlessForm>` component!
