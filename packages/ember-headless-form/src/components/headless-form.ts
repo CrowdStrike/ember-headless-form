@@ -63,6 +63,13 @@ export interface HeadlessFormComponentSignature<
     validate?: FormValidateCallback<DATA>;
 
     /**
+     * Allows you to opt-out of native validation.
+     *
+     * This can be useful if all of the validation logic is already handled by the `@validate` hooks, but you have form controls that have validation requirements (e.g. `email` type) that would cause the native validation to interfere or.
+     */
+    ignoreNativeValidation?: boolean;
+
+    /**
      * Called when the user has submitted the form and no validation errors have been determined. Receives the new form data, or in case of `@dataMode="mutable"` the original data object.
      */
     onSubmit?: (
@@ -263,7 +270,8 @@ export default class HeadlessFormComponent<
    * Call the passed validation callbacks, defined both on the whole form as well as on field level, and return the merged result for all fields.
    */
   async validate(): Promise<ErrorRecord<FormData<DATA>>> {
-    const nativeValidation = this.validateNative();
+    const nativeValidation =
+      this.args.ignoreNativeValidation !== true ? this.validateNative() : {};
     const customFormValidation = await this.args.validate?.(
       this.internalData,
       Array.from(this.fields.keys())

@@ -472,6 +472,81 @@ module(
       assert.dom('[data-test-last-name-errors]').doesNotExist();
     });
 
+    test('opt out of native validation', async function (assert) {
+      const data: TestFormData = { firstName: 'john' };
+      const formValidateCallback = ({ firstName }: TestFormData) =>
+        firstName?.charAt(0).toUpperCase() !== firstName?.charAt(0)
+          ? {
+              firstName: [
+                {
+                  type: 'uppercase',
+                  value: firstName,
+                  message: 'First name must be upper case!',
+                },
+              ],
+            }
+          : undefined;
+
+      await render(<template>
+        <HeadlessForm
+          @data={{data}}
+          @validate={{formValidateCallback}}
+          @ignoreNativeValidation={{true}}
+          as |form|
+        >
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input required pattern="^[A-Za-z]+$" data-test-first-name />
+            <field.Errors data-test-first-name-errors as |errors|>
+              {{#each errors as |e index|}}
+                <div data-test-error={{index}}>
+                  <div data-test-error-type>
+                    {{e.type}}
+                  </div>
+                  <div data-test-error-value>
+                    {{e.value}}
+                  </div>
+                  <div data-test-error-message>
+                    {{e.message}}
+                  </div>
+                </div>
+              {{/each}}
+            </field.Errors>
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input required data-test-last-name />
+            <field.Errors data-test-last-name-errors />
+          </form.Field>
+          <button type="submit" data-test-submit>Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      await click('[data-test-submit]');
+
+      assert
+        .dom('[data-test-first-name-errors] [data-test-error]')
+        .exists({ count: 1 });
+
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error="0"] [data-test-error-type]'
+        )
+        .hasText('uppercase');
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error="0"] [data-test-error-value]'
+        )
+        .hasText('john');
+      assert
+        .dom(
+          '[data-test-first-name-errors] [data-test-error="0"] [data-test-error-message]'
+        )
+        .hasText('First name must be upper case!');
+
+      assert.dom('[data-test-last-name-errors]').doesNotExist();
+    });
+
     module(`@validateOn`, function () {
       module('@validateOn=focusout', function () {
         test('validation errors are exposed as field.Errors on focusout', async function (assert) {
