@@ -29,24 +29,25 @@ In the following example, we use an `email` typed input and applied `required` a
   </form.Field>
 
   <form.Field @name='gender' as |field|>
-    <div class='my-2 flex flex-col'>
-      Gender:
+    <field.RadioGroup class='my-2 flex flex-col' as |group|>
+      <group.Label>Gender</group.Label>
+
       <div class='flex flex-row space-x-2'>
-        <field.Radio @value='male' as |radio|>
+        <group.Radio @value='male' as |radio|>
           <radio.Input required />
           <radio.Label>Male</radio.Label>
-        </field.Radio>
-        <field.Radio @value='female' as |radio|>
+        </group.Radio>
+        <group.Radio @value='female' as |radio|>
           <radio.Input required />
           <radio.Label>Female</radio.Label>
-        </field.Radio>
-        <field.Radio @value='other' as |radio|>
+        </group.Radio>
+        <group.Radio @value='other' as |radio|>
           <radio.Input required />
           <radio.Label>Other</radio.Label>
-        </field.Radio>
+        </group.Radio>
       </div>
-      <field.Errors />
-    </div>
+    </field.RadioGroup>
+    <field.Errors />
   </form.Field>
 
   <button type='submit'>Submit</button>
