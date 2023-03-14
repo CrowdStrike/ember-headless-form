@@ -1,5 +1,11 @@
 # ember-headless-form
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [#80](https://github.com/CrowdStrike/ember-headless-form/pull/80) [`241ccdc`](https://github.com/CrowdStrike/ember-headless-form/commit/241ccdcedaf52d8af8b3f366b61d3055e9e38fc9) Thanks [@simonihmig](https://github.com/simonihmig)! - Add `@ignoreNativeValidation` for opting out of native validation
+
 ## 1.0.0-beta.1
 
 ### Patch Changes

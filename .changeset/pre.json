@@ -10,6 +10,7 @@
     "ember-headless-form-yup": "0.0.0"
   },
   "changesets": [
+    "breezy-geese-remain",
     "four-squids-change",
     "heavy-experts-wonder",
     "orange-walls-run",
