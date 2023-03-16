@@ -268,7 +268,7 @@ importers:
       '@glint/core': ^1.0.0-beta.3
       '@glint/environment-ember-loose': ^1.0.0-beta.3
       '@glint/template': ^1.0.0-beta.3
-      '@tsconfig/ember': ^1.0.0
+      '@tsconfig/ember': ^2.0.0
       '@types/ember': ^4.0.0
       '@types/ember__application': ^4.0.0
       '@types/ember__array': ^4.0.0
@@ -318,7 +318,7 @@ importers:
       '@glint/core': 1.0.0-beta.3_typescript@4.9.4
       '@glint/environment-ember-loose': 1.0.0-beta.3_texnnavqqpxwzei56tmx6vmlle
       '@glint/template': 1.0.0-beta.3
-      '@tsconfig/ember': 1.1.0
+      '@tsconfig/ember': 2.0.0
       '@types/ember': 4.0.3_@babel+core@7.20.12
       '@types/ember__application': 4.0.5_@babel+core@7.20.12
       '@types/ember__array': 4.0.3_@babel+core@7.20.12
@@ -373,7 +373,7 @@ importers:
       '@glint/environment-ember-loose': ^1.0.0-beta.3
       '@glint/template': ^1.0.0-beta.3
       '@nullvoxpopuli/eslint-configs': ^3.0.2
-      '@tsconfig/ember': ^1.0.0
+      '@tsconfig/ember': ^2.0.0
       '@types/ember': ^4.0.0
       '@types/ember__application': ^4.0.0
       '@types/ember__array': ^4.0.0
@@ -431,7 +431,7 @@ importers:
       '@glint/environment-ember-loose': 1.0.0-beta.3_lzknv7pttioaiz55wn4tq6zl3y
       '@glint/template': 1.0.0-beta.3
       '@nullvoxpopuli/eslint-configs': 3.0.2_jmy35vv2ro7mqqw5zu2x3lq6qi
-      '@tsconfig/ember': 1.1.0
+      '@tsconfig/ember': 2.0.0
       '@types/ember': 4.0.3_@babel+core@7.20.12
       '@types/ember__application': 4.0.5_@babel+core@7.20.12
       '@types/ember__array': 4.0.3_@babel+core@7.20.12
@@ -480,7 +480,7 @@ importers:
       '@glint/core': ^1.0.0-beta.3
       '@glint/environment-ember-loose': ^1.0.0-beta.3
       '@glint/template': ^1.0.0-beta.3
-      '@tsconfig/ember': ^1.0.0
+      '@tsconfig/ember': ^2.0.0
       '@types/ember': ^4.0.0
       '@types/ember__application': ^4.0.0
       '@types/ember__array': ^4.0.0
@@ -531,7 +531,7 @@ importers:
       '@glint/core': 1.0.0-beta.3_typescript@4.9.4
       '@glint/environment-ember-loose': 1.0.0-beta.3_texnnavqqpxwzei56tmx6vmlle
       '@glint/template': 1.0.0-beta.3
-      '@tsconfig/ember': 1.1.0
+      '@tsconfig/ember': 2.0.0
       '@types/ember': 4.0.3_@babel+core@7.20.12
       '@types/ember__application': 4.0.5_@babel+core@7.20.12
       '@types/ember__array': 4.0.3_@babel+core@7.20.12
@@ -3866,10 +3866,6 @@ packages:
   /@trysound/sax/0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
-    dev: true
-
-  /@tsconfig/ember/1.1.0:
-    resolution: {integrity: sha512-VzIrPO7ZpnIEmU+dJe3ubEPhxUIyavwIh2vxg8rXrwSnB99hdVcq0ZFPQ4KRP0LrSNzaPI1QA2sATIPwnBYPQg==}
     dev: true
 
   /@tsconfig/ember/2.0.0:
