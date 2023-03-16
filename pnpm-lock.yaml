@@ -4,12 +4,12 @@ overrides:
   '@types/eslint': ^7.0.0
 
 patchedDependencies:
-  ember-auto-import@2.6.1:
-    hash: ic4j24wybap2f2xedeoakj5qoa
-    path: patches/ember-auto-import@2.6.1.patch
   ember-a11y-testing@5.2.0:
     hash: ynlyhbi6rwlli5mc64kgdri6jy
     path: patches/ember-a11y-testing@5.2.0.patch
+  ember-auto-import@2.6.1:
+    hash: ic4j24wybap2f2xedeoakj5qoa
+    path: patches/ember-auto-import@2.6.1.patch
 
 importers:
 
