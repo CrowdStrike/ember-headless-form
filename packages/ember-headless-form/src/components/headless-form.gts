@@ -1,12 +1,13 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
-import { hash } from '@ember/helper';
+// @ts-ignore hash is missing from ember types
+import { hash, modifier } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
 
 import { TrackedAsyncData } from 'ember-async-data';
-import { modifier } from 'ember-modifier';
+import { modifier as elementModifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
 import HeadlessFormFieldComponent from '../-private/components/field';
@@ -187,9 +188,11 @@ export default class HeadlessFormComponent<
   DATA extends UserData,
   SUBMISSION_VALUE
 > extends Component<HeadlessFormComponentSignature<DATA, SUBMISSION_VALUE>> {
+  // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
+  on = on;
   formElement?: HTMLFormElement;
 
-  registerForm = modifier((el: HTMLFormElement, _p: []) => {
+  registerForm = elementModifier((el: HTMLFormElement, _p: []) => {
     this.formElement = el;
   }) as unknown as ModifierLike<unknown>; // @todo getting Glint errors without this. Try again with Glint 1.0 (beta)!
 
