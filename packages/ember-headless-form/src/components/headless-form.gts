@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
 
@@ -8,7 +9,7 @@ import { TrackedAsyncData } from 'ember-async-data';
 import { modifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
-import FieldComponent from '../-private/components/field';
+import HeadlessFormFieldComponent from '../-private/components/field';
 import { mergeErrorRecord } from '../-private/utils';
 
 import type {
@@ -91,7 +92,7 @@ export interface HeadlessFormComponentSignature<
          * Field component to define the fields of your form. It yields the further components for the form control, label and validation error.
          */
         Field: WithBoundArgs<
-          typeof FieldComponent<DATA>,
+          typeof HeadlessFormFieldComponent<DATA>,
           | 'data'
           | 'set'
           | 'errors'
@@ -186,11 +187,6 @@ export default class HeadlessFormComponent<
   DATA extends UserData,
   SUBMISSION_VALUE
 > extends Component<HeadlessFormComponentSignature<DATA, SUBMISSION_VALUE>> {
-  FieldComponent = FieldComponent<DATA>;
-
-  // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
-  on = on;
-
   formElement?: HTMLFormElement;
 
   registerForm = modifier((el: HTMLFormElement, _p: []) => {
@@ -498,4 +494,43 @@ export default class HeadlessFormComponent<
       );
     }
   }
+
+  <template>
+    <form
+      novalidate
+      ...attributes
+      {{this.registerForm}}
+      {{on "submit" this.onSubmit}}
+      {{(if
+        this.fieldValidationEvent
+        (modifier this.on this.fieldValidationEvent this.handleFieldValidation)
+      )}}
+      {{(if
+        this.fieldRevalidationEvent
+        (modifier
+          this.on this.fieldRevalidationEvent this.handleFieldRevalidation
+        )
+      )}}
+    >
+      {{yield
+        (hash
+          Field=(component
+            HeadlessFormFieldComponent
+            data=this.internalData
+            set=this.set
+            errors=this.visibleErrors
+            registerField=this.registerField
+            unregisterField=this.unregisterField
+            triggerValidationFor=this.handleFieldValidation
+            fieldValidationEvent=this.fieldValidationEvent
+            fieldRevalidationEvent=this.fieldRevalidationEvent
+          )
+          validationState=this.validationState
+          submissionState=this.submissionState
+          isInvalid=this.hasValidationErrors
+          rawErrors=this.visibleErrors
+        )
+      }}
+    </form>
+  </template>
 }
