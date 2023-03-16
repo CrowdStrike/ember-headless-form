@@ -39,3 +39,11 @@ declare module '@glint/environment-ember-loose/registry' {
     modifier: any;
   }
 }
+
+import '@ember/helper';
+
+declare module '@ember/helper' {
+  import type { HelperLike, ModifierLike } from '@glint/template';
+
+  export const modifier: HelperLike<{Args: { Positional: unknown[] }, Return: ModifierLike }>;
+}
