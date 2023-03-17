@@ -45,5 +45,8 @@ import '@ember/helper';
 declare module '@ember/helper' {
   import type { HelperLike, ModifierLike } from '@glint/template';
 
-  export const modifier: HelperLike<{Args: { Positional: unknown[] }, Return: ModifierLike }>;
+  export const modifier: HelperLike<{
+    Args: { Positional: unknown[] };
+    Return: ModifierLike;
+  }>;
 }
