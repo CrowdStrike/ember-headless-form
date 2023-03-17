@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore hash is missing from ember types
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { hash, modifier } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
