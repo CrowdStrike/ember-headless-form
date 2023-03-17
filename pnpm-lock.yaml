@@ -409,7 +409,7 @@ importers:
       prettier: ^2.8.3
       rollup: ^2.67.0
       rollup-plugin-copy: ^3.4.0
-      rollup-plugin-glimmer-template-tag: ^0.2.0
+      rollup-plugin-glimmer-template-tag: ^0.3.0
       rollup-plugin-ts: ^3.2.0
       tracked-built-ins: ^3.1.0
       typescript: ^4.7.4
@@ -468,7 +468,7 @@ importers:
       prettier: 2.8.4
       rollup: 2.79.1
       rollup-plugin-copy: 3.4.0
-      rollup-plugin-glimmer-template-tag: 0.2.0_xclec7xqqqd6n3mvsagaaae64u
+      rollup-plugin-glimmer-template-tag: 0.3.0_xclec7xqqqd6n3mvsagaaae64u
       rollup-plugin-ts: 3.2.0_2zs7q5m7v7rji3boqu4hr3yyzm
       typescript: 4.9.4
       webpack: 5.75.0
@@ -16600,8 +16600,8 @@ packages:
       del: 5.1.0
     dev: true
 
-  /rollup-plugin-glimmer-template-tag/0.2.0_xclec7xqqqd6n3mvsagaaae64u:
-    resolution: {integrity: sha512-3B5fDertBtxl4j4orPR4vLSWom2RRlCX/HzvB9/wK//RDQBjEvRWnrzIzQ/Kre46TRYbyDC/Ua88gJ5sBC1l9A==}
+  /rollup-plugin-glimmer-template-tag/0.3.0_xclec7xqqqd6n3mvsagaaae64u:
+    resolution: {integrity: sha512-JQBAP3YvwM4AarGNbrLcs2Nkw5gpzDq6Qzvywksy+Qzjiz3YcTP01Uwtp5jSJHiFcPY7xSwBxrK5A2cIoBHFAw==}
     engines: {node: ^16.0.0 || ^18.0.0 || ^20.0.0}
     peerDependencies:
       '@babel/core': ^7.21.3
