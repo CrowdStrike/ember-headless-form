@@ -33,7 +33,7 @@ export default {
     addon.dependencies(),
 
     // compile <template> tag into plain JS
-    glimmerTemplateTag(),
+    glimmerTemplateTag({ preprocessOnly: true }),
 
     // compile TypeScript to latest JavaScript, including Babel transpilation
     typescript({
