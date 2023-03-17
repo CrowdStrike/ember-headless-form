@@ -112,7 +112,7 @@
     "qunit-dom": "^2.0.0",
     "sinon": "^15.0.1",
     "sync-pnpm": "workspace:*",
-    "typescript": "^4.9.4",
+    "typescript": "^5.0.0",
     "validated-changeset": "^1.3.4",
     "webpack": "^5.75.0",
     "yup": "^1.0.0"
