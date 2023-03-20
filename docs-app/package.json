@@ -30,7 +30,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@crowdstrike/ember-toucan-styles": "^2.0.0",
     "@crowdstrike/tailwind-toucan-base": "^3.3.1",
-    "@docfy/core": "^0.5.0",
+    "@docfy/core": "^0.6.0",
     "@docfy/ember": "^0.5.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",
