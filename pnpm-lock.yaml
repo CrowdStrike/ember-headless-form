@@ -35,7 +35,7 @@ importers:
       '@crowdstrike/ember-toucan-styles': ^2.0.0
       '@crowdstrike/tailwind-toucan-base': ^3.3.1
       '@docfy/core': ^0.6.0
-      '@docfy/ember': ^0.5.0
+      '@docfy/ember': ^0.6.0
       '@ember/optional-features': ^2.0.0
       '@ember/string': ^3.0.1
       '@ember/test-helpers': ^2.9.3
@@ -129,7 +129,7 @@ importers:
       webpack: ^5.75.0
       yup: ^1.0.0
     dependencies:
-      '@crowdstrike/ember-oss-docs': 1.1.4_virkxvekyrpvs7e6ejm6tyc64u
+      '@crowdstrike/ember-oss-docs': 1.1.4_t7ewl4xepa4tibgoqdb7p7aqzi
       '@ember/test-waiters': 3.0.2
       '@embroider/router': 2.0.0_7jjqwtirlvic2bg2g2mkufm4da
       ember-browser-services: 4.0.4
@@ -152,7 +152,7 @@ importers:
       '@crowdstrike/ember-toucan-styles': 2.0.0_djb6fcbrzded2ffhlom74d7sx4
       '@crowdstrike/tailwind-toucan-base': 3.3.1_gbtt6ss3tbiz4yjtvdr6fbrj44
       '@docfy/core': 0.6.0
-      '@docfy/ember': 0.5.0
+      '@docfy/ember': 0.6.0
       '@ember/optional-features': 2.0.0
       '@ember/string': 3.0.1
       '@ember/test-helpers': 2.9.3_7vtd5myfhclgvpdk736clxxu5q
@@ -2557,7 +2557,7 @@ packages:
     dev: true
     optional: true
 
-  /@crowdstrike/ember-oss-docs/1.1.4_virkxvekyrpvs7e6ejm6tyc64u:
+  /@crowdstrike/ember-oss-docs/1.1.4_t7ewl4xepa4tibgoqdb7p7aqzi:
     resolution: {integrity: sha512-V2T1GRGiDREzwuhzZ8PI1jFCbrRahCOjxDOvZvvnlGof+e6KFCSlYjsoFBT47g+fMHFc9Ms8SyOMLx4I4UhQvA==}
     peerDependencies:
       '@crowdstrike/tailwind-toucan-base': ^3.3.1
@@ -2574,7 +2574,7 @@ packages:
       '@babel/runtime': 7.20.7
       '@crowdstrike/tailwind-toucan-base': 3.3.1_gbtt6ss3tbiz4yjtvdr6fbrj44
       '@docfy/core': 0.6.0
-      '@docfy/ember': 0.5.0
+      '@docfy/ember': 0.6.0
       '@embroider/addon-shim': 1.8.4
       '@glimmer/component': 1.1.2_@babel+core@7.20.12
       '@glint/environment-ember-loose': 1.0.0-beta.3_yvie4as2oeexqlzjah3zmbisxm
@@ -2623,33 +2623,6 @@ packages:
       - postcss
       - ts-node
 
-  /@docfy/core/0.5.0:
-    resolution: {integrity: sha512-4SBim8DAveFju1CiUfiHXGiWc+zC7CMWKid+jbwPW1AiVlwitrY2KJYGe+LN1dNxd3EcIVV8QULl7Po7ZTqxgg==}
-    engines: {node: '>= 12.*'}
-    dependencies:
-      debug: 4.3.4
-      fast-glob: 3.2.12
-      git-repo-info: 2.1.1
-      github-slugger: 1.5.0
-      hosted-git-info: 3.0.8
-      mdast-util-to-string: 2.0.0
-      mdast-util-toc: 5.1.0
-      rehype-stringify: 8.0.0
-      remark-extract-frontmatter: 3.2.0
-      remark-frontmatter: 3.0.0
-      remark-gfm: 1.0.0
-      remark-normalize-headings: 2.0.0
-      remark-parse: 9.0.0
-      remark-rehype: 8.1.0
-      remark-slug: 6.1.0
-      to-vfile: 6.1.0
-      trough: 1.0.5
-      unified: 9.2.2
-      unist-util-visit: 2.0.3
-      yaml: 1.10.2
-    transitivePeerDependencies:
-      - supports-color
-
   /@docfy/core/0.6.0:
     resolution: {integrity: sha512-2L5UiE720h6tmkTxvB43Q+nZybKV/8UC6jYVBqiyP9YriVjWxxVpTkR80Egg4rrMnGfYKedOI4ZgxekgdoHDMQ==}
     engines: {node: '>= 12.*'}
@@ -2677,11 +2650,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@docfy/ember/0.5.0:
-    resolution: {integrity: sha512-kgBGrryYXTQ5pB5q8X1R6IoJMwka6W6Z/+NFYbrxv6r2BY+4pR+P8Of7rBDf/ViPRMCYIU0BtZcQWZFPeN45KA==}
+  /@docfy/ember/0.6.0:
+    resolution: {integrity: sha512-TcZoNwZpQGs7EuvSvuxLp6gt11Fq/9qIHUESYR5j9qZOwLFvuvRXaui27n+Rq03LZQW/eGtBUQM06nSn9FsuXg==}
     engines: {node: '>= 12'}
     dependencies:
-      '@docfy/core': 0.5.0
+      '@docfy/core': 0.6.0
       broccoli-bridge: 1.0.0
       broccoli-file-creator: 2.1.1
       broccoli-funnel: 3.0.8
@@ -2692,7 +2665,7 @@ packages:
       calculate-cache-key-for-tree: 2.0.0
       debug: 4.3.4
       ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 6.1.1
+      ember-cli-htmlbars: 6.2.0
       ember-cli-typescript: 4.2.1
       ember-get-config: 1.1.0
       mdast-util-to-string: 2.0.0
@@ -8238,7 +8211,6 @@ packages:
       walk-sync: 2.2.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /ember-cli-inject-live-reload/2.1.0:
     resolution: {integrity: sha512-YV5wYRD5PJHmxaxaJt18u6LE6Y+wo455BnmcpN+hGNlChy2piM9/GMvYgTAz/8Vin8RJ5KekqP/w/NEaRndc/A==}
