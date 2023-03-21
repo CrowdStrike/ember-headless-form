@@ -43,18 +43,20 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             <field.Input data-test-last-name />
           </form.Field>
           <form.Field @name="gender" as |field|>
-            <field.Radio @value="male" as |radio|>
-              <radio.Input data-test-gender-male />
-              <radio.Label>Male</radio.Label>
-            </field.Radio>
-            <field.Radio @value="female" as |radio|>
-              <radio.Input data-test-gender-female />
-              <radio.Label>Female</radio.Label>
-            </field.Radio>
-            <field.Radio @value="other" as |radio|>
-              <radio.Input data-test-gender-other />
-              <radio.Label>Other</radio.Label>
-            </field.Radio>
+            <field.RadioGroup as |group|>
+              <group.Radio @value="male" as |radio|>
+                <radio.Input data-test-gender-male />
+                <radio.Label>Male</radio.Label>
+              </group.Radio>
+              <group.Radio @value="female" as |radio|>
+                <radio.Input data-test-gender-female />
+                <radio.Label>Female</radio.Label>
+              </group.Radio>
+              <group.Radio @value="other" as |radio|>
+                <radio.Input data-test-gender-other />
+                <radio.Label>Other</radio.Label>
+              </group.Radio>
+            </field.RadioGroup>
           </form.Field>
           <form.Field @name="country" as |field|>
             <field.Label>Country</field.Label>
@@ -193,18 +195,20 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             <field.Input data-test-last-name />
           </form.Field>
           <form.Field @name="gender" as |field|>
-            <field.Radio @value="male" as |radio|>
-              <radio.Input data-test-gender-male />
-              <radio.Label>Male</radio.Label>
-            </field.Radio>
-            <field.Radio @value="female" as |radio|>
-              <radio.Input data-test-gender-female />
-              <radio.Label>Female</radio.Label>
-            </field.Radio>
-            <field.Radio @value="other" as |radio|>
-              <radio.Input data-test-gender-other />
-              <radio.Label>Other</radio.Label>
-            </field.Radio>
+            <field.RadioGroup as |group|>
+              <group.Radio @value="male" as |radio|>
+                <radio.Input data-test-gender-male />
+                <radio.Label>Male</radio.Label>
+              </group.Radio>
+              <group.Radio @value="female" as |radio|>
+                <radio.Input data-test-gender-female />
+                <radio.Label>Female</radio.Label>
+              </group.Radio>
+              <group.Radio @value="other" as |radio|>
+                <radio.Input data-test-gender-other />
+                <radio.Label>Other</radio.Label>
+              </group.Radio>
+            </field.RadioGroup>
           </form.Field>
           <form.Field @name="country" as |field|>
             <field.Label>Country</field.Label>

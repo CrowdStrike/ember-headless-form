@@ -5,7 +5,7 @@ import { action, get } from '@ember/object';
 import CaptureEventsModifier from '../modifiers/capture-events';
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
-import RadioComponent from './control/radio';
+import RadioGroupComponent from './control/radio-group';
 import SelectComponent from './control/select';
 import TextareaComponent from './control/textarea';
 import ErrorsComponent from './errors';
@@ -112,9 +112,9 @@ export interface HeadlessFormFieldComponentSignature<
          *
          * Use multiple to define a radio group. It further yields components to render `Input` and `Label`.
          */
-        Radio: WithBoundArgs<
-          typeof RadioComponent,
-          'name' | 'selected' | 'setValue'
+        RadioGroup: WithBoundArgs<
+          typeof RadioGroupComponent,
+          'name' | 'selected' | 'setValue' | 'invalid' | 'errorId'
         >;
 
         /**
@@ -214,7 +214,7 @@ export default class HeadlessFormFieldComponent<
   ErrorsComponent = ErrorsComponent<DATA[KEY]>;
   SelectComponent = SelectComponent;
   TextareaComponent = TextareaComponent;
-  RadioComponent = RadioComponent;
+  RadioGroupComponent = RadioGroupComponent;
   CaptureEventsModifier = CaptureEventsModifier;
 
   constructor(
