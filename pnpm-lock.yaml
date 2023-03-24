@@ -241,7 +241,7 @@ importers:
     specifiers:
       '@manypkg/find-root': ^2.1.0
       '@manypkg/get-packages': ^2.1.0
-      '@pnpm/fs.hard-link-dir': ^1.0.3
+      '@pnpm/fs.hard-link-dir': ^2.0.0
       debug: ^4.3.4
       fs-extra: ^11.1.0
       proper-lockfile: ^4.1.2
@@ -249,7 +249,7 @@ importers:
     dependencies:
       '@manypkg/find-root': 2.1.0
       '@manypkg/get-packages': 2.1.0
-      '@pnpm/fs.hard-link-dir': 1.0.3
+      '@pnpm/fs.hard-link-dir': 2.0.0
       debug: 4.3.4
       fs-extra: 11.1.0
       proper-lockfile: 4.1.2
@@ -3764,9 +3764,9 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /@pnpm/fs.hard-link-dir/1.0.3:
-    resolution: {integrity: sha512-zJIVUAhwYjfDCu+h4TfrEKSLUZXoE20iWAQ7lA5GrMImmt6qEimpLb9SfZblpsza3KsCVQGiG6SAUdNwN8BUbA==}
-    engines: {node: '>=14.6'}
+  /@pnpm/fs.hard-link-dir/2.0.0:
+    resolution: {integrity: sha512-UCXx4EmmCjOKiEmWX73fCER9s4iyThX7MOYd2mlUZq+QLt5FA2W9cnN5D8MFfwgkSLuSc8bWPWoqn+VN1nW1Tw==}
+    engines: {node: '>=16.14'}
     dev: false
 
   /@rollup/pluginutils/4.2.1:
