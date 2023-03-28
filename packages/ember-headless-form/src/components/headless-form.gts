@@ -1,18 +1,16 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore hash is missing from ember types
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { hash, modifier } from '@ember/helper';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
+import { EnsureSafeComponentHelper } from '@embroider/util';
 
 import { TrackedAsyncData } from 'ember-async-data';
 import { modifier as elementModifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
-import HeadlessFormFieldComponent from '../-private/components/field';
+import FieldComponent from '../-private/components/field';
 import { mergeErrorRecord } from '../-private/utils';
 
 import type {
@@ -25,9 +23,13 @@ import type {
   UserData,
   ValidationError,
 } from '../-private/types';
+import type { EnsureSafeComponentHelperFixed } from '@embroider/util';
 import type { ModifierLike, WithBoundArgs } from '@glint/template';
 
 type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
+
+const ensureSafeComponent =
+  EnsureSafeComponentHelper as typeof EnsureSafeComponentHelperFixed;
 
 export interface HeadlessFormComponentSignature<
   DATA extends UserData,
@@ -95,7 +97,7 @@ export interface HeadlessFormComponentSignature<
          * Field component to define the fields of your form. It yields the further components for the form control, label and validation error.
          */
         Field: WithBoundArgs<
-          typeof HeadlessFormFieldComponent<DATA>,
+          typeof FieldComponent<DATA>,
           | 'data'
           | 'set'
           | 'errors'
@@ -190,6 +192,8 @@ export default class HeadlessFormComponent<
   DATA extends UserData,
   SUBMISSION_VALUE
 > extends Component<HeadlessFormComponentSignature<DATA, SUBMISSION_VALUE>> {
+  FieldComponent = FieldComponent<DATA>;
+
   // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
   on = on;
   formElement?: HTMLFormElement;
@@ -520,7 +524,7 @@ export default class HeadlessFormComponent<
       {{yield
         (hash
           Field=(component
-            HeadlessFormFieldComponent
+            (ensureSafeComponent this.FieldComponent)
             data=this.internalData
             set=this.set
             errors=this.visibleErrors
@@ -539,3 +543,6 @@ export default class HeadlessFormComponent<
     </form>
   </template>
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- workaround for unknown modifier helper: https://github.com/typed-ember/glint/issues/410
+declare const modifier: any;
