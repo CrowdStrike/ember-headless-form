@@ -54,6 +54,10 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~4.8.0',
+            // @todo remove this once we have a stable release that includes https://github.com/embroider-build/embroider/pull/1383
+            '@embroider/core': '2.1.2-unstable.3a9d8ad',
+            '@embroider/compat': '2.1.2-unstable.3a9d8ad',
+            '@embroider/webpack': '2.1.2-unstable.3a9d8ad',
           },
         },
       }),
@@ -62,6 +66,10 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~4.8.0',
+            // @todo remove this once we have a stable release that includes https://github.com/embroider-build/embroider/pull/1383
+            '@embroider/core': '2.1.2-unstable.3a9d8ad',
+            '@embroider/compat': '2.1.2-unstable.3a9d8ad',
+            '@embroider/webpack': '2.1.2-unstable.3a9d8ad',
           },
         },
       }),
@@ -70,6 +78,10 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': releaseVersion,
+            // @todo remove this once we have a stable release that includes https://github.com/embroider-build/embroider/pull/1383
+            '@embroider/core': '2.1.2-unstable.3a9d8ad',
+            '@embroider/compat': '2.1.2-unstable.3a9d8ad',
+            '@embroider/webpack': '2.1.2-unstable.3a9d8ad',
           },
         },
       }),
