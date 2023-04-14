@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
+import { hash } from '@ember/helper';
 
-import LabelComponent from '../../label';
-import RadioInputComponent from './radio/input';
+import { uniqueId } from '../../../utils';
+import HeadlessFormLabelComponent from '../../label';
+import HeadlessFormControlRadioInputComponent from './radio/input';
 
 import type { WithBoundArgs } from '@glint/template';
 
@@ -35,13 +37,13 @@ export interface HeadlessFormControlRadioComponentSignature {
         /**
          * Yielded component that renders the `<label>` of this single radio element.
          */
-        Label: WithBoundArgs<typeof LabelComponent, 'fieldId'>;
+        Label: WithBoundArgs<typeof HeadlessFormLabelComponent, 'fieldId'>;
 
         /**
          * Yielded component that renders the `<input type="radio">` element.
          */
         Input: WithBoundArgs<
-          typeof RadioInputComponent,
+          typeof HeadlessFormControlRadioInputComponent,
           'fieldId' | 'value' | 'setValue' | 'checked' | 'name'
         >;
       }
@@ -50,10 +52,25 @@ export interface HeadlessFormControlRadioComponentSignature {
 }
 
 export default class HeadlessFormControlRadioComponent extends Component<HeadlessFormControlRadioComponentSignature> {
-  LabelComponent = LabelComponent;
-  RadioInputComponent = RadioInputComponent;
-
   get isChecked(): boolean {
     return this.args.selected === this.args.value;
   }
+
+  <template>
+    {{#let (uniqueId) as |uuid|}}
+      {{yield
+        (hash
+          Label=(component HeadlessFormLabelComponent fieldId=uuid)
+          Input=(component
+            HeadlessFormControlRadioInputComponent
+            name=@name
+            fieldId=uuid
+            value=@value
+            checked=this.isChecked
+            setValue=@setValue
+          )
+        )
+      }}
+    {{/let}}
+  </template>
 }

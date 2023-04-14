@@ -1,8 +1,10 @@
 import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
+import { fn, hash } from '@ember/helper';
 import { action, get } from '@ember/object';
 
 import CaptureEventsModifier from '../modifiers/capture-events';
+import { uniqueId } from '../utils';
 import CheckboxComponent from './control/checkbox';
 import InputComponent from './control/input';
 import RadioGroupComponent from './control/radio-group';
@@ -279,4 +281,85 @@ export default class HeadlessFormFieldComponent<
   setValue(value: unknown): void {
     this.args.set(this.args.name, value as DATA[KEY]);
   }
+
+  <template>
+    {{#let
+      (uniqueId)
+      (uniqueId)
+      (fn @set @name)
+      (fn @triggerValidationFor @name)
+      as |fieldId errorId setValue triggerValidation|
+    }}
+      {{yield
+        (hash
+          Label=(component this.LabelComponent fieldId=fieldId)
+          Input=(component
+            this.InputComponent
+            name=@name
+            fieldId=fieldId
+            errorId=errorId
+            value=this.valueAsString
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          Checkbox=(component
+            this.CheckboxComponent
+            name=@name
+            fieldId=fieldId
+            errorId=errorId
+            value=this.valueAsBoolean
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          Select=(component
+            this.SelectComponent
+            name=@name
+            fieldId=fieldId
+            errorId=errorId
+            value=this.valueAsString
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          Textarea=(component
+            this.TextareaComponent
+            name=@name
+            fieldId=fieldId
+            errorId=errorId
+            value=this.valueAsString
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          RadioGroup=(component
+            this.RadioGroupComponent
+            name=@name
+            errorId=errorId
+            selected=this.valueAsString
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          value=this.value
+          setValue=setValue
+          id=fieldId
+          errorId=errorId
+          Errors=(if
+            this.errors
+            (component this.ErrorsComponent errors=this.errors id=errorId)
+          )
+          isInvalid=this.hasErrors
+          rawErrors=this.errors
+          triggerValidation=triggerValidation
+          captureEvents=(modifier
+            this.CaptureEventsModifier
+            event=(if
+              this.hasErrors @fieldRevalidationEvent @fieldValidationEvent
+            )
+            triggerValidation=triggerValidation
+          )
+        )
+      }}
+    {{/let}}
+  </template>
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- workaround for unknown modifier helper: https://github.com/typed-ember/glint/issues/410
+declare const modifier: any;

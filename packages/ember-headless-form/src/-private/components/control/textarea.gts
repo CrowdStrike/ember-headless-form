@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 
 export interface HeadlessFormControlTextareaComponentSignature {
@@ -43,4 +44,15 @@ export default class HeadlessFormControlTextareaComponent extends Component<Head
   handleInput(e: Event | InputEvent): void {
     this.args.setValue((e.target as HTMLTextAreaElement).value);
   }
+
+  <template>
+    <textarea
+      name={{@name}}
+      id={{@fieldId}}
+      aria-invalid={{if @invalid "true"}}
+      aria-describedby={{if @invalid @errorId}}
+      ...attributes
+      {{on "input" this.handleInput}}
+    >{{@value}}</textarea>
+  </template>
 }

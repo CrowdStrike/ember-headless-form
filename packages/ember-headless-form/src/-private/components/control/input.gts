@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 
 // Possible values for the input type, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
@@ -107,4 +108,16 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
     assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
     this.args.setValue(e.target.value);
   }
+  <template>
+    <input
+      name={{@name}}
+      type={{@type}}
+      value={{@value}}
+      id={{@fieldId}}
+      aria-invalid={{if @invalid "true"}}
+      aria-describedby={{if @invalid @errorId}}
+      ...attributes
+      {{on "input" this.handleInput}}
+    />
+  </template>
 }

@@ -1,8 +1,0 @@
-<textarea
-  name={{@name}}
-  id={{@fieldId}}
-  aria-invalid={{if @invalid 'true'}}
-  aria-describedby={{if @invalid @errorId}}
-  ...attributes
-  {{on 'input' this.handleInput}}
->{{@value}}</textarea>

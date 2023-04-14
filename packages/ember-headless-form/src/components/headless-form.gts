@@ -4,7 +4,6 @@ import { assert, warn } from '@ember/debug';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
-import { EnsureSafeComponentHelper } from '@embroider/util';
 
 import { TrackedAsyncData } from 'ember-async-data';
 import { modifier as elementModifier } from 'ember-modifier';
@@ -23,13 +22,9 @@ import type {
   UserData,
   ValidationError,
 } from '../-private/types';
-import type { EnsureSafeComponentHelperFixed } from '@embroider/util';
 import type { ModifierLike, WithBoundArgs } from '@glint/template';
 
 type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
-
-const ensureSafeComponent =
-  EnsureSafeComponentHelper as typeof EnsureSafeComponentHelperFixed;
 
 export interface HeadlessFormComponentSignature<
   DATA extends UserData,
@@ -524,7 +519,7 @@ export default class HeadlessFormComponent<
       {{yield
         (hash
           Field=(component
-            (ensureSafeComponent this.FieldComponent)
+            this.FieldComponent
             data=this.internalData
             set=this.set
             errors=this.visibleErrors

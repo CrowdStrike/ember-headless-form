@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 
 export interface HeadlessFormControlCheckboxComponentSignature {
@@ -43,4 +44,16 @@ export default class HeadlessFormControlCheckboxComponent extends Component<Head
   handleInput(e: Event | InputEvent): void {
     this.args.setValue((e.target as HTMLInputElement).checked);
   }
+
+  <template>
+    <input
+      name={{@name}}
+      type="checkbox"
+      checked={{@value}}
+      id={{@fieldId}}
+      aria-invalid={{if @invalid "true"}}
+      ...attributes
+      {{on "click" this.handleInput}}
+    />
+  </template>
 }
