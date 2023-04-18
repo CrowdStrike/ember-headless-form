@@ -25,4 +25,18 @@ export interface HeadlessFormErrorsComponentSignature<VALUE> {
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes -- unfortunately we cannot use templateOnlyComponent() here, as it is not possible to type that as a generic type, like templateOnlyComponent<HeadlessFormErrorsComponentSignature<VALUE>>
 export default class HeadlessFormErrorsComponent<VALUE> extends Component<
   HeadlessFormErrorsComponentSignature<VALUE>
-> {}
+> {
+  <template>
+    <div id={{@id}} aria-live="assertive" ...attributes>
+      {{#if (has-block)}}
+        {{yield @errors}}
+      {{else}}
+        {{#each @errors as |e|}}
+          {{#if e.message}}
+            {{e.message}}<br />
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    </div>
+  </template>
+}

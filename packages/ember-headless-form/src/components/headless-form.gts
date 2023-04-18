@@ -1,11 +1,12 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
+import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action, set } from '@ember/object';
 
 import { TrackedAsyncData } from 'ember-async-data';
-import { modifier } from 'ember-modifier';
+import { modifier as elementModifier } from 'ember-modifier';
 import { TrackedObject } from 'tracked-built-ins';
 
 import FieldComponent from '../-private/components/field';
@@ -190,10 +191,9 @@ export default class HeadlessFormComponent<
 
   // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
   on = on;
-
   formElement?: HTMLFormElement;
 
-  registerForm = modifier((el: HTMLFormElement, _p: []) => {
+  registerForm = elementModifier((el: HTMLFormElement, _p: []) => {
     this.formElement = el;
   }) as unknown as ModifierLike<unknown>; // @todo getting Glint errors without this. Try again with Glint 1.0 (beta)!
 
@@ -498,4 +498,46 @@ export default class HeadlessFormComponent<
       );
     }
   }
+
+  <template>
+    <form
+      novalidate
+      ...attributes
+      {{this.registerForm}}
+      {{on "submit" this.onSubmit}}
+      {{(if
+        this.fieldValidationEvent
+        (modifier this.on this.fieldValidationEvent this.handleFieldValidation)
+      )}}
+      {{(if
+        this.fieldRevalidationEvent
+        (modifier
+          this.on this.fieldRevalidationEvent this.handleFieldRevalidation
+        )
+      )}}
+    >
+      {{yield
+        (hash
+          Field=(component
+            this.FieldComponent
+            data=this.internalData
+            set=this.set
+            errors=this.visibleErrors
+            registerField=this.registerField
+            unregisterField=this.unregisterField
+            triggerValidationFor=this.handleFieldValidation
+            fieldValidationEvent=this.fieldValidationEvent
+            fieldRevalidationEvent=this.fieldRevalidationEvent
+          )
+          validationState=this.validationState
+          submissionState=this.submissionState
+          isInvalid=this.hasValidationErrors
+          rawErrors=this.visibleErrors
+        )
+      }}
+    </form>
+  </template>
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- workaround for unknown modifier helper: https://github.com/typed-ember/glint/issues/410
+declare const modifier: any;
