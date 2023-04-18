@@ -26,10 +26,12 @@ module('Unit | Helpers | validate-changeset', function () {
     return errors.length > 0 ? errors : true;
   };
 
+  const validate = validateChangeset();
+
   test('it returns undefined if validation passes', async function (assert) {
     const changeset = Changeset({ firstName: 'Nicole' }, validator);
 
-    let result = await validateChangeset(changeset, ['firstName']);
+    let result = await validate(changeset, ['firstName']);
 
     assert.strictEqual(result, undefined);
   });
@@ -40,11 +42,7 @@ module('Unit | Helpers | validate-changeset', function () {
       validator
     );
 
-    let result = await validateChangeset(changeset, [
-      'firstName',
-      'lastName',
-      'email',
-    ]);
+    let result = await validate(changeset, ['firstName', 'lastName', 'email']);
 
     assert.deepEqual(result, {
       firstName: [

@@ -59,7 +59,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @data={{data}}
         @dataMode="mutable"
         {{! @glint-expect-error --  a type error is expected here, as this test intentionally has a type mismatch when data not being a changeset }}
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onSubmit={{submitHandler}}
         as |form|
       >
@@ -83,7 +83,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onSubmit={{submitHandler}}
         as |form|
       >
@@ -109,7 +109,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onInvalid={{invalidHandler}}
         as |form|
       >
@@ -146,7 +146,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onSubmit={{submitHandler}}
         as |form|
       >
@@ -180,7 +180,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         as |form|
       >
         <form.Field @name="firstName" as |field|>

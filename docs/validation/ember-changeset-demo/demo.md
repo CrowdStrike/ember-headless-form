@@ -7,7 +7,7 @@ Using a Changeset instance to validate a form.
   @data={{changeset this.data this.validations}}
   @dataMode='mutable'
   @onSubmit={{this.handleSubmit}}
-  @validate={{validate-changeset}}
+  @validate={{(validate-changeset)}}
   as |form|
 >
   <form.Field @name='name' as |field|>
