@@ -76,7 +76,7 @@
     "@types/ember__utils": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
-    "concurrently": "^7.2.1",
+    "concurrently": "^8.0.0",
     "ember-source": "^4.4.0",
     "ember-template-imports": "^3.4.1",
     "ember-template-lint": "^4.0.0",
