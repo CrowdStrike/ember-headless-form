@@ -30,6 +30,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         country: 'USA',
         comments: 'lorem ipsum',
         acceptTerms: true,
+        age: 21,
       };
 
       await render(<template>
@@ -58,6 +59,10 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
               </group.Radio>
             </field.RadioGroup>
           </form.Field>
+          <form.Field @name="age" as |field|>
+            <field.Label>Age</field.Label>
+            <field.Input @type="number" data-test-age />
+          </form.Field>
           <form.Field @name="country" as |field|>
             <field.Label>Country</field.Label>
             <field.Select data-test-country as |select|>
@@ -81,6 +86,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       assert.dom('input[data-test-gender-male]').isChecked();
       assert.dom('input[data-test-gender-female]').isNotChecked();
       assert.dom('input[data-test-gender-other]').isNotChecked();
+      assert.dom('input[data-test-age]').hasValue('21');
       assert.dom('select[data-test-country]').hasValue('USA');
       assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
       assert.dom('input[data-test-terms]').isChecked();
@@ -181,6 +187,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         country: 'USA',
         comments: 'lorem ipsum',
         acceptTerms: false,
+        age: 21,
       };
       const submitHandler = sinon.spy();
 
@@ -210,6 +217,10 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
               </group.Radio>
             </field.RadioGroup>
           </form.Field>
+          <form.Field @name="age" as |field|>
+            <field.Label>Age</field.Label>
+            <field.Input @type="number" data-test-age />
+          </form.Field>
           <form.Field @name="country" as |field|>
             <field.Label>Country</field.Label>
             <field.Select data-test-country as |select|>
@@ -238,6 +249,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       await fillIn('input[data-test-last-name]', 'Chung');
       await select('select[data-test-country]', 'CA');
       await click('input[data-test-gender-female]');
+      await fillIn('input[data-test-age]', '20');
       await fillIn('textarea[data-test-comments]', 'foo bar');
       await click('input[data-test-terms]');
       await click('[data-test-submit]');
@@ -251,6 +263,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           country: 'USA',
           comments: 'lorem ipsum',
           acceptTerms: false,
+          age: 21,
         },
         'original data is not mutated'
       );
@@ -263,6 +276,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           country: 'CA',
           comments: 'foo bar',
           acceptTerms: true,
+          age: 20,
         }),
         'new data is passed to submit handler'
       );

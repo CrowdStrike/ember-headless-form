@@ -266,6 +266,19 @@ export default class HeadlessFormFieldComponent<
     return this.value;
   }
 
+  get valueAsStringOrNumber(): string | number | undefined {
+    assert(
+      `Only string values are expected for ${String(
+        this.args.name
+      )}, but you passed ${typeof this.value}`,
+      typeof this.value === 'undefined' ||
+        typeof this.value === 'string' ||
+        typeof this.value === 'number'
+    );
+
+    return this.value;
+  }
+
   get valueAsBoolean(): boolean | undefined {
     assert(
       `Only boolean values are expected for ${String(
@@ -298,7 +311,7 @@ export default class HeadlessFormFieldComponent<
             name=@name
             fieldId=fieldId
             errorId=errorId
-            value=this.valueAsString
+            value=this.valueAsStringOrNumber
             setValue=this.setValue
             invalid=this.hasErrors
           )
