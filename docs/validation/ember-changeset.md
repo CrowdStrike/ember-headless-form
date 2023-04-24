@@ -27,3 +27,32 @@ Finally we need to integrate the changeset and the validation map with the valid
 - as we need to apply all interim changes of the form data by the user to the `Changeset`, so that its validations can operate on the changed values, we need to [opt into mutable mode](../usage/data/index.md#im-mutable-data) by setting `@dataMode="mutable"`.
 
 See the following example, where the form's validation is entirely delegated to the validations provided by `ember-changeset-validations`:
+
+### Using another changeset
+
+Sometimes you will need to use a changeset from the parent web page or component. In this case, the simplest thing to do is create the change in the parent and pass it to the `@data` arg:
+
+```diff
+{{!-- in the template --}}
+- @data={{changeset this.data this.validations}}
++ @data={{this.changeset}}
+```
+
+```javascript
+// in the backing class
+import Component from '@glimmer/component';
+import EmployeeValidations from '../validations/employee';
+import lookupValidator from 'ember-changeset-validations';
+import Changeset from 'ember-changeset';
+
+export default class ChangesetComponent extends Component {
+  constructor() {
+    super(...arguments);
+    this.changeset = new Changeset(
+      this.model,
+      lookupValidator(EmployeeValidations),
+      EmployeeValidations
+    );
+  }
+}
+```
