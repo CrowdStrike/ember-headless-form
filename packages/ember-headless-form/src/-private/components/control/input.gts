@@ -55,7 +55,7 @@ export interface HeadlessFormControlInputComponentSignature {
     /*
      * @internal
      */
-    value: string;
+    value: string | number;
 
     /*
      * @internal
@@ -70,7 +70,7 @@ export interface HeadlessFormControlInputComponentSignature {
     /*
      * @internal
      */
-    setValue: (value: string) => void;
+    setValue: (value: string | number) => void;
 
     /*
      * @internal
@@ -106,7 +106,9 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
   @action
   handleInput(e: Event | InputEvent): void {
     assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
-    this.args.setValue(e.target.value);
+    this.args.setValue(
+      this.type === 'number' ? parseFloat(e.target.value) : e.target.value
+    );
   }
   <template>
     <input
