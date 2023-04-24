@@ -59,10 +59,10 @@ importers:
         version: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.0-beta.3)(ember-source@4.12.0)
       ember-headless-form-changeset:
         specifier: workspace:*
-        version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0-beta.1)(ember-source@4.12.0)(validated-changeset@1.3.4)
+        version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0-beta.2)(ember-source@4.12.0)(validated-changeset@1.3.4)
       ember-headless-form-yup:
         specifier: workspace:*
-        version: file:packages/yup(ember-headless-form@1.0.0-beta.1)(ember-source@4.12.0)(yup@1.0.0)
+        version: file:packages/yup(ember-headless-form@1.0.0-beta.2)(ember-source@4.12.0)(yup@1.0.0)
       ember-modifier:
         specifier: ^4.0.0
         version: 4.1.0(ember-source@4.12.0)
@@ -466,7 +466,7 @@ importers:
         specifier: ^4.0.0
         version: 4.1.2(webpack@5.75.0)
       ember-headless-form:
-        specifier: ^1.0.0-beta.0
+        specifier: ^1.0.0-beta
         version: link:../ember-headless-form
       ember-source:
         specifier: ~4.12.0
@@ -1015,10 +1015,10 @@ importers:
         version: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.0-beta.3)(ember-source@4.12.0)
       ember-headless-form-changeset:
         specifier: workspace:*
-        version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0-beta.1)(ember-source@4.12.0)(validated-changeset@1.3.4)
+        version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0-beta.2)(ember-source@4.12.0)(validated-changeset@1.3.4)
       ember-headless-form-yup:
         specifier: workspace:*
-        version: file:packages/yup(ember-headless-form@1.0.0-beta.1)(ember-source@4.12.0)(yup@1.0.0)
+        version: file:packages/yup(ember-headless-form@1.0.0-beta.2)(ember-source@4.12.0)(yup@1.0.0)
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.20.12)
@@ -18580,14 +18580,14 @@ packages:
   /zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
 
-  file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0-beta.1)(ember-source@4.12.0)(validated-changeset@1.3.4):
+  file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0-beta.2)(ember-source@4.12.0)(validated-changeset@1.3.4):
     resolution: {directory: packages/changeset, type: directory}
     id: file:packages/changeset
     name: ember-headless-form-changeset
-    version: 1.0.0-beta.0
+    version: 1.0.0-beta.1
     peerDependencies:
       ember-changeset: ^4.1.2
-      ember-headless-form: ^1.0.0-beta.0
+      ember-headless-form: ^1.0.0-beta.2
       ember-source: '>=4.4.0'
       validated-changeset: ^1.3.4
     dependencies:
@@ -18603,7 +18603,7 @@ packages:
     resolution: {directory: packages/ember-headless-form, type: directory}
     id: file:packages/ember-headless-form
     name: ember-headless-form
-    version: 1.0.0-beta.1
+    version: 1.0.0-beta.2
     peerDependencies:
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
@@ -18622,7 +18622,7 @@ packages:
       - '@glint/template'
       - supports-color
 
-  file:packages/yup(ember-headless-form@1.0.0-beta.1)(ember-source@4.12.0)(yup@1.0.0):
+  file:packages/yup(ember-headless-form@1.0.0-beta.2)(ember-source@4.12.0)(yup@1.0.0):
     resolution: {directory: packages/yup, type: directory}
     id: file:packages/yup
     name: ember-headless-form-yup
