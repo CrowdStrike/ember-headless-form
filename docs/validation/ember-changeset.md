@@ -30,7 +30,7 @@ See the following example, where the form's validation is entirely delegated to 
 
 ### Using another changeset
 
-Sometimes you will need to use a changeset from the parent web page or component. In this case, the simplest thing to do is create the change in the parent and pass it to the `@data` arg:
+Sometimes you will need to use a changeset from the parent web page or component. In this case, the simplest thing to do is create the changeset in the parent and pass it to the `@data` arg:
 
 ```diff
 {{!-- in the template --}}
@@ -46,13 +46,10 @@ import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
 
 export default class ChangesetComponent extends Component {
-  constructor() {
-    super(...arguments);
-    this.changeset = new Changeset(
-      this.model,
-      lookupValidator(EmployeeValidations),
-      EmployeeValidations
-    );
-  }
+  changeset = new Changeset(
+    this.model,
+    lookupValidator(EmployeeValidations),
+    EmployeeValidations
+  );
 }
 ```
