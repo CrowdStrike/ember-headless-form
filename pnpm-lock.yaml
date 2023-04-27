@@ -481,8 +481,8 @@ importers:
         specifier: ^8.3.0
         version: 8.6.0(eslint@7.32.0)
       eslint-plugin-ember:
-        specifier: ^10.5.8
-        version: 10.6.1(eslint@7.32.0)
+        specifier: ^11.0.0
+        version: 11.4.6(eslint@7.32.0)
       eslint-plugin-node:
         specifier: ^11.1.0
         version: 11.1.0(eslint@7.32.0)
@@ -804,8 +804,8 @@ importers:
         specifier: ^8.3.0
         version: 8.6.0(eslint@7.32.0)
       eslint-plugin-ember:
-        specifier: ^10.5.8
-        version: 10.6.1(eslint@7.32.0)
+        specifier: ^11.0.0
+        version: 11.4.6(eslint@7.32.0)
       eslint-plugin-node:
         specifier: ^11.1.0
         version: 11.1.0(eslint@7.32.0)
@@ -10833,23 +10833,6 @@ packages:
       snake-case: 3.0.4
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /eslint-plugin-ember@10.6.1(eslint@7.32.0):
-    resolution: {integrity: sha512-R+TN3jwhYQ2ytZCA1VkfJDZSGgHFOHjsHU1DrBlRXYRepThe56PpuGxywAyDvQ7inhoAz3e6G6M60PzpvjzmNg==}
-    engines: {node: 10.* || 12.* || >= 14}
-    peerDependencies:
-      eslint: '>= 6'
-    dependencies:
-      '@ember-data/rfc395-data': 0.0.4
-      css-tree: 2.3.1
-      ember-rfc176-data: 0.3.17
-      eslint: 7.32.0
-      eslint-utils: 3.0.0(eslint@7.32.0)
-      estraverse: 5.3.0
-      lodash.kebabcase: 4.1.1
-      requireindex: 1.2.0
-      snake-case: 3.0.4
     dev: true
 
   /eslint-plugin-ember@11.4.6(eslint@7.32.0):
