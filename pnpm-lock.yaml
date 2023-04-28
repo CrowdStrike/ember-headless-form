@@ -969,8 +969,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0(patch_hash=ynlyhbi6rwlli5mc64kgdri6jy)(@ember/test-helpers@2.9.3)(qunit@2.19.3)(webpack@5.75.0)
       ember-async-data:
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^1.0.0
+        version: 1.0.0(ember-source@4.12.0)
       ember-auto-import:
         specifier: ^2.5.0
         version: 2.6.1(patch_hash=ic4j24wybap2f2xedeoakj5qoa)(webpack@5.75.0)
@@ -9322,6 +9322,18 @@ packages:
       '@embroider/addon-shim': 1.8.4
     transitivePeerDependencies:
       - supports-color
+
+  /ember-async-data@1.0.0(ember-source@4.12.0):
+    resolution: {integrity: sha512-uBsQw5B4FA88ANr01mDojYlWanuivT3t6Wm1NwIAVWdcJZI7XL9dgquWHqivB5EX63uBXCbYZJbKCDv2Y+h+Ug==}
+    peerDependencies:
+      ember-source: ^4.8.4
+    dependencies:
+      '@ember/test-waiters': 3.0.2
+      '@embroider/addon-shim': 1.8.4
+      ember-source: 4.12.0(@babel/core@7.20.12)(@glimmer/component@1.1.2)(webpack@5.75.0)
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /ember-auto-import@2.6.1(patch_hash=ic4j24wybap2f2xedeoakj5qoa)(webpack@5.75.0):
     resolution: {integrity: sha512-3bCRi/pXp4QslmuCXGlSz9xwR7DF5oDx3zZO5OXKzNZihtkqAM1xvGuRIdQSl46pvbAXOkp8Odl5fOen1i0dRw==}
