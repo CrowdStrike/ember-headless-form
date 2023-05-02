@@ -22,7 +22,7 @@ import type {
   UserData,
   ValidationError,
 } from '../-private/types';
-import type { ModifierLike, WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 
 type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
 
@@ -195,7 +195,7 @@ export default class HeadlessFormComponent<
 
   registerForm = elementModifier((el: HTMLFormElement, _p: []) => {
     this.formElement = el;
-  }) as unknown as ModifierLike<unknown>; // @todo getting Glint errors without this. Try again with Glint 1.0 (beta)!
+  });
 
   /**
    * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
@@ -538,6 +538,3 @@ export default class HeadlessFormComponent<
     </form>
   </template>
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- workaround for unknown modifier helper: https://github.com/typed-ember/glint/issues/410
-declare const modifier: any;
