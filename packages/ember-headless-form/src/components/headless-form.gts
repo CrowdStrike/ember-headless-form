@@ -189,8 +189,6 @@ export default class HeadlessFormComponent<
 > extends Component<HeadlessFormComponentSignature<DATA, SUBMISSION_VALUE>> {
   FieldComponent = FieldComponent<DATA>;
 
-  // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
-  on = on;
   formElement?: HTMLFormElement;
 
   registerForm = elementModifier((el: HTMLFormElement, _p: []) => {
@@ -499,22 +497,30 @@ export default class HeadlessFormComponent<
     }
   }
 
+  onValidation = elementModifier(
+    (
+      el: HTMLFormElement,
+      [eventName, handler]: [string | undefined, (e: Event) => void]
+    ) => {
+      if (eventName) {
+        el.addEventListener(eventName, handler);
+
+        return () => el.removeEventListener(eventName, handler);
+      }
+    }
+  );
+
   <template>
     <form
       novalidate
       ...attributes
       {{this.registerForm}}
       {{on "submit" this.onSubmit}}
-      {{(if
-        this.fieldValidationEvent
-        (modifier this.on this.fieldValidationEvent this.handleFieldValidation)
-      )}}
-      {{(if
+      {{this.onValidation this.fieldValidationEvent this.handleFieldValidation}}
+      {{this.onValidation
         this.fieldRevalidationEvent
-        (modifier
-          this.on this.fieldRevalidationEvent this.handleFieldRevalidation
-        )
-      )}}
+        this.handleFieldRevalidation
+      }}
     >
       {{yield
         (hash
