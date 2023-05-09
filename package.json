@@ -47,6 +47,9 @@
       "ember-auto-import@2.6.1": "patches/ember-auto-import@2.6.1.patch"
     }
   },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "volta": {
     "node": "18.16.0"
   }
