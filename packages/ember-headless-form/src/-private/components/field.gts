@@ -373,6 +373,3 @@ export default class HeadlessFormFieldComponent<
     {{/let}}
   </template>
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- workaround for unknown modifier helper: https://github.com/typed-ember/glint/issues/410
-declare const modifier: any;

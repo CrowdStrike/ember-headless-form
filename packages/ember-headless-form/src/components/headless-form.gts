@@ -22,7 +22,7 @@ import type {
   UserData,
   ValidationError,
 } from '../-private/types';
-import type { ModifierLike, WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 
 type ValidateOn = 'change' | 'focusout' | 'submit' | 'input';
 
@@ -189,13 +189,11 @@ export default class HeadlessFormComponent<
 > extends Component<HeadlessFormComponentSignature<DATA, SUBMISSION_VALUE>> {
   FieldComponent = FieldComponent<DATA>;
 
-  // we cannot use (modifier "on") directly in the template due to https://github.com/emberjs/ember.js/issues/19869
-  on = on;
   formElement?: HTMLFormElement;
 
   registerForm = elementModifier((el: HTMLFormElement, _p: []) => {
     this.formElement = el;
-  }) as unknown as ModifierLike<unknown>; // @todo getting Glint errors without this. Try again with Glint 1.0 (beta)!
+  });
 
   /**
    * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
@@ -499,22 +497,30 @@ export default class HeadlessFormComponent<
     }
   }
 
+  onValidation = elementModifier(
+    (
+      el: HTMLFormElement,
+      [eventName, handler]: [string | undefined, (e: Event) => void]
+    ) => {
+      if (eventName) {
+        el.addEventListener(eventName, handler);
+
+        return () => el.removeEventListener(eventName, handler);
+      }
+    }
+  );
+
   <template>
     <form
       novalidate
       ...attributes
       {{this.registerForm}}
       {{on "submit" this.onSubmit}}
-      {{(if
-        this.fieldValidationEvent
-        (modifier this.on this.fieldValidationEvent this.handleFieldValidation)
-      )}}
-      {{(if
+      {{this.onValidation this.fieldValidationEvent this.handleFieldValidation}}
+      {{this.onValidation
         this.fieldRevalidationEvent
-        (modifier
-          this.on this.fieldRevalidationEvent this.handleFieldRevalidation
-        )
-      )}}
+        this.handleFieldRevalidation
+      }}
     >
       {{yield
         (hash
@@ -538,6 +544,3 @@ export default class HeadlessFormComponent<
     </form>
   </template>
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- workaround for unknown modifier helper: https://github.com/typed-ember/glint/issues/410
-declare const modifier: any;
