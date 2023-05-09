@@ -16,7 +16,8 @@
     "debug": "^4.3.4",
     "fs-extra": "^11.1.0",
     "proper-lockfile": "^4.1.2",
-    "resolve-package-path": "^4.0.3"
+    "resolve-package-path": "^4.0.3",
+    "watcher": "^2.2.2"
   },
   "volta": {
     "extends": "../../package.json"

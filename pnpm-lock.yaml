@@ -359,6 +359,9 @@ importers:
       resolve-package-path:
         specifier: ^4.0.3
         version: 4.0.3
+      watcher:
+        specifier: ^2.2.2
+        version: 2.2.2
 
   packages/changeset:
     dependencies:
@@ -9152,6 +9155,10 @@ packages:
       defined: 1.0.1
       minimist: 1.2.7
 
+  /dettle@1.0.1:
+    resolution: {integrity: sha512-/oD3At60ZfhgzpofJtyClNTrIACyMdRe+ih0YiHzAniN0IZnLdLpEzgR6RtGs3kowxUkTnvV/4t1FBxXMUdusQ==}
+    dev: false
+
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
 
@@ -16162,6 +16169,12 @@ packages:
     dependencies:
       glob: 7.2.3
 
+  /ripstat@2.0.2:
+    resolution: {integrity: sha512-93g4yBvHzYwl9issdCObsHBojarat+rGT4QDFR0gFrOO4UrG90XUufMGkaSCn21awp08ahP/mQlqIiVFsTH8LQ==}
+    dependencies:
+      stubborn-fs: 1.2.4
+    dev: false
+
   /rollup-plugin-copy-assets@2.0.3(rollup@3.19.1):
     resolution: {integrity: sha512-ETShhQGb9SoiwcNrvb3BhUNSGR89Jao0+XxxfzzLW1YsUzx8+rMO4z9oqWWmo6OHUmfNQRvqRj0cAyPkS9lN9w==}
     peerDependencies:
@@ -16951,6 +16964,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /stubborn-fs@1.2.4:
+    resolution: {integrity: sha512-KRa4nIRJ8q6uApQbPwYZVhOof8979fw4xbajBWa5kPJFa4nyY3aFaMWVyIVCDnkNCCG/3HLipUZ4QaNlYsmX1w==}
+    dev: false
+
   /style-loader@2.0.0(webpack@5.75.0):
     resolution: {integrity: sha512-Z0gYUJmzZ6ZdRUqpg1r8GsaFKypE+3xAzuFeMuoHgjc9KZv3wMyCRjQIWEbhoFSq7+7yoHXySDJyyWQaPajeiQ==}
     engines: {node: '>= 10.13.0'}
@@ -17360,6 +17377,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /tiny-readdir@2.2.0:
+    resolution: {integrity: sha512-bO4IgID5M2x5YQFBru/wREgT30YuA8aoOd/F8Rd6LKRIn1gOe9aREjT74J9EVukHqI/2RB+4SM1RgXM0gwxoWw==}
+    dev: false
 
   /tmp@0.0.28:
     resolution: {integrity: sha512-c2mmfiBmND6SOVxzogm1oda0OJ1HZVIk/5n26N59dDTh80MUeavpiCls4PGAdkX1PFkKokLpcf7prSjCeXLsJg==}
@@ -18121,6 +18142,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /watcher@2.2.2:
+    resolution: {integrity: sha512-q6H+WoyFUtcKbOiMh8HqtHqv8qMbJdAunALRyp3/Iwi/8vEBZ86AV71vTcbiX1JrtvbM2FeqQTFrXLIs9jT7EQ==}
+    dependencies:
+      dettle: 1.0.1
+      ripstat: 2.0.2
+      tiny-readdir: 2.2.0
+    dev: false
 
   /watchpack@2.4.0:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}
