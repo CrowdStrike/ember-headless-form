@@ -15,6 +15,7 @@
     "@pnpm/fs.hard-link-dir": "^2.0.0",
     "debug": "^4.3.4",
     "fs-extra": "^11.1.0",
+    "proper-lockfile": "^4.1.2",
     "resolve-package-path": "^4.0.3",
     "watcher": "^2.2.2"
   },

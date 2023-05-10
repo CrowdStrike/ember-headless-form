@@ -7,6 +7,7 @@ import { readJson, pathExists, remove } from 'fs-extra/esm';
 import { hardLinkDir } from '@pnpm/fs.hard-link-dir';
 import resolvePackagePath from 'resolve-package-path';
 import Debug from 'debug';
+import lockfile from 'proper-lockfile';
 import Watcher from 'watcher';
 
 const require = createRequire(import.meta.url);
@@ -81,6 +82,17 @@ export default async function syncPnpm(dir = process.cwd()) {
 
 async function syncDependency(syncFrom, syncTo) {
 
+  let releaseLock;
+  try {
+    releaseLock = await lockfile.lock(syncTo, { realpath: false });
+    debug(`lockfile created for syncing to ${syncTo}`);
+  } catch (e) {
+    debug(
+      `lockfile already exists for syncing to ${syncTo}, some other sync process is already handling this directory, so skipping...`
+    );
+    return;
+  }
+
   if (await pathExists(syncTo)) {
     await remove(syncTo);
     debug(`removed ${syncTo} before syncing`);
@@ -88,4 +100,5 @@ async function syncDependency(syncFrom, syncTo) {
 
   debug(`syncing from ${syncFrom} to ${syncTo}`);
   await hardLinkDir(syncFrom, [syncTo]);
+  releaseLock();
 }
