@@ -21,7 +21,7 @@
     "lint:types": "glint",
     "lint:prettier": "prettier -c .",
     "lint:prettier:fix": "prettier -w .",
-    "start": "concurrently 'ember serve' 'npm:_syncPnpm' --names 'test-app serve,test-app sync built package'",
+    "start": "concurrently 'ember serve' 'sync-pnpm --watch' --names 'test-app serve,test-app sync built package'",
     "test": "ember test",
     "test:ember": "ember test",
     "typecheck": "pnpm tsc -v; pnpm glint --version; pnpm lint:types",

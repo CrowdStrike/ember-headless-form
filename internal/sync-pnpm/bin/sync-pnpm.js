@@ -1,3 +1,5 @@
 import syncPnpm from '../index.js';
 
-await syncPnpm();
+let watchMode = process.argv.find((arg) => arg === '--watch') !== undefined;
+
+await syncPnpm({ watchMode });

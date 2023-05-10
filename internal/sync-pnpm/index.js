@@ -17,7 +17,7 @@ const syncDir = './dist';
 
 const DEBOUNCE_INTERVAL = 50;
 
-export default async function syncPnpm(dir = process.cwd()) {
+export default async function syncPnpm({ dir = process.cwd(), watchMode = false }) {
   const root = await findRoot(dir);
   const ownPackageJson = await readJson(join(dir, 'package.json'));
   const ownDependencies = [
@@ -48,6 +48,14 @@ export default async function syncPnpm(dir = process.cwd()) {
     }
   }
 
+  if (!watchMode) {
+    for (const [syncFrom, syncTo] of Object.entries(paths)) {
+      syncDependency(syncFrom, syncTo);
+    }
+
+    return;
+  }
+
   let fromPaths = Object.keys(paths);
   let watcher = new Watcher(fromPaths);
 
@@ -74,6 +82,7 @@ export default async function syncPnpm(dir = process.cwd()) {
         await syncDependency(foundFromPath, paths[foundFromPath]);
       }
     }
+
     setTimeout(handleDirtyPaths, DEBOUNCE_INTERVAL);
   }
 
