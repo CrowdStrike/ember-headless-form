@@ -8,10 +8,12 @@
   "scripts": {
     "release": "changeset publish",
     "build:docs": "pnpm turbo build --filter docs-app",
-    "start": "concurrently 'npm:start:*' --names 'start:'",
+    "start": "concurrently 'npm:start:*(!only)' --names 'start:'",
     "start:docs": "pnpm --filter docs-app start",
     "start:tests": "pnpm --filter test-app start",
     "start:addon": "pnpm --filter './packages/*' start --no-watch.clearScreen",
+    "start:only:docs": "pnpm --stream --parallel --filter docs-app... start",
+    "start:only:tests": "pnpm --stream --parallel --filter test-app... start",
     "build": "pnpm turbo build",
     "test": "pnpm turbo --filter test-app test",
     "test:docs": "pnpm turbo --filter docs-app test",
