@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { assert, warn } from '@ember/debug';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
@@ -198,10 +198,56 @@ export default class HeadlessFormComponent<
   /**
    * A copy of the passed `@data` stored internally, which is only passed back to the component consumer after a (successful) form submission.
    */
-  internalData: DATA =
-    this.args.dataMode == 'mutable' && this.args.data
-      ? this.args.data
-      : (new TrackedObject(this.args.data ?? {}) as DATA);
+  internalData: DATA = new TrackedObject({}) as DATA;
+
+  @cached
+  get effectiveData(): DATA {
+    const obj: DATA = this.args.data ?? ({} as DATA);
+
+    if (this.args.dataMode == 'mutable') {
+      return obj;
+    }
+
+    const { internalData } = this;
+
+    return new Proxy(obj, {
+      get(target, prop) {
+        return prop in internalData
+          ? internalData[prop as keyof DATA]
+          : Reflect.get(target, prop);
+      },
+      set(target, property, value) {
+        return Reflect.set(internalData, property, value);
+      },
+
+      has(target, prop) {
+        return prop in internalData ? true : Reflect.has(target, prop);
+      },
+
+      getOwnPropertyDescriptor(target, prop) {
+        return Reflect.getOwnPropertyDescriptor(
+          prop in internalData ? internalData : target,
+          prop
+        );
+      },
+
+      ownKeys(target) {
+        return (
+          [...Reflect.ownKeys(target), ...Reflect.ownKeys(internalData)]
+            // return only unique values
+            .filter((value, index, array) => array.indexOf(value) === index)
+        );
+      },
+
+      deleteProperty(target, prop) {
+        if (prop in internalData) {
+          delete internalData[prop as keyof DATA];
+        }
+
+        return true;
+      },
+    });
+  }
 
   fields = new Map<FormKey<FormData<DATA>>, FieldData<FormData<DATA>>>();
 
@@ -271,16 +317,16 @@ export default class HeadlessFormComponent<
     const nativeValidation =
       this.args.ignoreNativeValidation !== true ? this.validateNative() : {};
     const customFormValidation = await this.args.validate?.(
-      this.internalData,
+      this.effectiveData,
       Array.from(this.fields.keys())
     );
     const customFieldValidations: ErrorRecord<FormData<DATA>>[] = [];
 
     for (const [name, field] of this.fields) {
       const fieldValidationResult = await field.validate?.(
-        this.internalData[name],
+        this.effectiveData[name],
         name,
-        this.internalData
+        this.effectiveData
       );
 
       if (fieldValidationResult) {
@@ -342,7 +388,7 @@ export default class HeadlessFormComponent<
         errors[name] = [
           {
             type: 'native',
-            value: this.internalData[name],
+            value: this.effectiveData[name],
             message: el.validationMessage,
           },
         ];
@@ -403,7 +449,7 @@ export default class HeadlessFormComponent<
     if (!this.hasValidationErrors) {
       if (this.args.onSubmit) {
         this.submissionState = new TrackedAsyncData(
-          this.args.onSubmit(this.internalData),
+          this.args.onSubmit(this.effectiveData),
           this
         );
       }
@@ -412,7 +458,7 @@ export default class HeadlessFormComponent<
         'Validation errors expected to be present. If you see this, please report it as a bug to ember-headless-form!',
         this.validationState?.isResolved
       );
-      this.args.onInvalid?.(this.internalData, this.validationState.value);
+      this.args.onInvalid?.(this.effectiveData, this.validationState.value);
     }
   }
 
@@ -437,8 +483,8 @@ export default class HeadlessFormComponent<
 
   @action
   set<KEY extends FormKey<FormData<DATA>>>(key: KEY, value: DATA[KEY]): void {
-    // when @mutableData is set, our internalData is something we don't control, i.e. might require old-school set() to be on the safe side
-    set(this.internalData, key, value);
+    // when @mutableData is set, our effectiveData is something we don't control, i.e. might require old-school set() to be on the safe side
+    set(this.effectiveData, key, value);
   }
 
   /**
@@ -526,7 +572,7 @@ export default class HeadlessFormComponent<
         (hash
           Field=(component
             this.FieldComponent
-            data=this.internalData
+            data=this.effectiveData
             set=this.set
             errors=this.visibleErrors
             registerField=this.registerField
