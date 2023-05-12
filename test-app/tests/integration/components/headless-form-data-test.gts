@@ -12,7 +12,7 @@ import {
   select,
   triggerEvent,
 } from '@ember/test-helpers';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
 import sinon from 'sinon';
