@@ -463,6 +463,18 @@ export default class HeadlessFormComponent<
   }
 
   @action
+  async onReset(e: Event): Promise<void> {
+    e.preventDefault();
+
+    for (const key of Object.keys(this.internalData)) {
+      delete this.internalData[key as keyof DATA];
+    }
+
+    this.validationState = undefined;
+    this.submissionState = undefined;
+  }
+
+  @action
   registerField(
     name: FormKey<FormData<DATA>>,
     field: FieldRegistrationData<FormData<DATA>>
@@ -562,6 +574,7 @@ export default class HeadlessFormComponent<
       ...attributes
       {{this.registerForm}}
       {{on "submit" this.onSubmit}}
+      {{on "reset" this.onReset}}
       {{this.onValidation this.fieldValidationEvent this.handleFieldValidation}}
       {{this.onValidation
         this.fieldRevalidationEvent
