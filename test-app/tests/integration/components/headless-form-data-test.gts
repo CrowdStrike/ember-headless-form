@@ -355,6 +355,48 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       );
     });
 
+    test('submit action is yielded', async function (assert) {
+      const data = {
+        firstName: 'Tony',
+        lastName: 'Ward',
+      };
+      const submitHandler = sinon.spy();
+
+      await render(<template>
+        <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
+          <button
+            type="button"
+            data-test-submit
+            {{on "click" form.submit}}
+          >Submit</button>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[data-test-first-name]').hasValue('Tony');
+      assert.dom('input[data-test-last-name]').hasValue('Ward');
+
+      await fillIn('input[data-test-first-name]', 'Nicole');
+      await fillIn('input[data-test-last-name]', 'Chung');
+
+      await click('[data-test-submit]');
+
+      assert.true(
+        submitHandler.calledWith({
+          firstName: 'Nicole',
+          lastName: 'Chung',
+        }),
+        'new data is passed to submit handler'
+      );
+    });
+
     test('setValue yielded from field sets internal value', async function (assert) {
       const data = { firstName: 'Tony' };
 

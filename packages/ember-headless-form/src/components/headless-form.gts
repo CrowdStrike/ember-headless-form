@@ -126,6 +126,11 @@ export interface HeadlessFormComponentSignature<
          * An ErrorRecord, for custom rendering of error output
          */
         rawErrors?: ErrorRecord<DATA>;
+
+        /**
+         * Yielded action that will trigger form validation and submission, same as when triggering the native `submit` event on the form.
+         */
+        submit: () => void;
       }
     ];
   };
@@ -440,8 +445,8 @@ export default class HeadlessFormComponent<
   }
 
   @action
-  async onSubmit(e: Event): Promise<void> {
-    e.preventDefault();
+  async onSubmit(e?: Event): Promise<void> {
+    e?.preventDefault();
 
     await this._validate();
     this.showAllValidations = true;
@@ -598,6 +603,7 @@ export default class HeadlessFormComponent<
           submissionState=this.submissionState
           isInvalid=this.hasValidationErrors
           rawErrors=this.visibleErrors
+          submit=this.onSubmit
         )
       }}
     </form>
