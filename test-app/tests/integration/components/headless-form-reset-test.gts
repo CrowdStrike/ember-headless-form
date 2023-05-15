@@ -34,7 +34,7 @@ module('Integration Component HeadlessForm > Reset', function (hooks) {
       </template>);
 
       await fillIn('[data-test-first-name]', 'Nicole');
-      await click('[data-test-reset');
+      await click('[data-test-reset]');
 
       assert.dom('[data-test-first-name]').hasValue('Tony');
       assert.dom('[data-test-last-name]').hasValue('Ward');
