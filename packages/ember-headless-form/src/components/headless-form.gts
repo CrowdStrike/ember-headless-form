@@ -131,6 +131,11 @@ export interface HeadlessFormComponentSignature<
          * Yielded action that will trigger form validation and submission, same as when triggering the native `submit` event on the form.
          */
         submit: () => void;
+
+        /**
+         * Yielded action that will reset form state, same as when triggering the native `reset` event on the form.
+         */
+        reset: () => void;
       }
     ];
   };
@@ -468,8 +473,8 @@ export default class HeadlessFormComponent<
   }
 
   @action
-  async onReset(e: Event): Promise<void> {
-    e.preventDefault();
+  async onReset(e?: Event): Promise<void> {
+    e?.preventDefault();
 
     for (const key of Object.keys(this.internalData)) {
       delete this.internalData[key as keyof DATA];
@@ -604,6 +609,7 @@ export default class HeadlessFormComponent<
           isInvalid=this.hasValidationErrors
           rawErrors=this.visibleErrors
           submit=this.onSubmit
+          reset=this.onReset
         )
       }}
     </form>
