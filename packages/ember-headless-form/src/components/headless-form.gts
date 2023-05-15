@@ -204,7 +204,7 @@ export default class HeadlessFormComponent<
   get effectiveData(): DATA {
     const obj: DATA = this.args.data ?? ({} as DATA);
 
-    if (this.args.dataMode == 'mutable') {
+    if (this.args.dataMode === 'mutable') {
       return obj;
     }
 
