@@ -12,7 +12,7 @@ import {
   select,
   triggerEvent,
 } from '@ember/test-helpers';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
 import sinon from 'sinon';
@@ -110,7 +110,43 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       assert.dom('[data-test-last-name]').hasText('Ward');
     });
 
-    skip('form controls are reactive to data updates', async function (assert) {
+    test('form controls are reactive to updating data', async function (assert) {
+      interface Data {
+        firstName: string;
+        lastName: string;
+      }
+      class Context {
+        @tracked
+        data?: Data;
+      }
+      const ctx = new Context();
+      ctx.data = { firstName: 'Tony', lastName: 'Ward' };
+
+      await render(<template>
+        <HeadlessForm @data={{ctx.data}} as |form|>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[data-test-first-name]').hasValue('Tony');
+      assert.dom('input[data-test-last-name]').hasValue('Ward');
+
+      ctx.data = { firstName: 'Preston', lastName: 'Sego' };
+
+      await rerender();
+
+      assert.dom('input[data-test-first-name]').hasValue('Preston');
+      assert.dom('input[data-test-last-name]').hasValue('Sego');
+    });
+
+    test('form controls are reactive to updating data properties', async function (assert) {
       class DummyData {
         @tracked
         firstName = 'Tony';
@@ -142,6 +178,43 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
       await rerender();
 
       assert.dom('input[data-test-first-name]').hasValue('Preston');
+      assert.dom('input[data-test-last-name]').hasValue('Sego');
+    });
+
+    test('form controls keep dirty state when updating data properties', async function (assert) {
+      class DummyData {
+        @tracked
+        firstName = 'Tony';
+
+        @tracked
+        lastName = 'Ward';
+      }
+      const data = new DummyData();
+
+      await render(<template>
+        <HeadlessForm @data={{data}} as |form|>
+          <form.Field @name="firstName" as |field|>
+            <field.Label>First Name</field.Label>
+            <field.Input data-test-first-name />
+          </form.Field>
+          <form.Field @name="lastName" as |field|>
+            <field.Label>Last Name</field.Label>
+            <field.Input data-test-last-name />
+          </form.Field>
+        </HeadlessForm>
+      </template>);
+
+      assert.dom('input[data-test-first-name]').hasValue('Tony');
+      assert.dom('input[data-test-last-name]').hasValue('Ward');
+
+      await fillIn('input[data-test-first-name]', 'Simon');
+
+      data.firstName = 'Preston';
+      data.lastName = 'Sego';
+
+      await rerender();
+
+      assert.dom('input[data-test-first-name]').hasValue('Simon');
       assert.dom('input[data-test-last-name]').hasValue('Sego');
     });
 

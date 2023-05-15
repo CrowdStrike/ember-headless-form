@@ -742,19 +742,19 @@ importers:
         version: 4.0.12(@babel/core@7.20.12)
       '@types/ember__controller':
         specifier: ^4.0.0
-        version: 4.0.4
+        version: 4.0.4(@babel/core@7.20.12)
       '@types/ember__debug':
         specifier: ^4.0.0
-        version: 4.0.3
+        version: 4.0.3(@babel/core@7.20.12)
       '@types/ember__engine':
         specifier: ^4.0.0
-        version: 4.0.4
+        version: 4.0.4(@babel/core@7.20.12)
       '@types/ember__error':
         specifier: ^4.0.0
         version: 4.0.2
       '@types/ember__object':
         specifier: ^4.0.0
-        version: 4.0.5
+        version: 4.0.5(@babel/core@7.20.12)
       '@types/ember__polyfills':
         specifier: ^4.0.0
         version: 4.0.1
@@ -766,7 +766,7 @@ importers:
         version: 4.0.2(@babel/core@7.20.12)
       '@types/ember__service':
         specifier: ^4.0.0
-        version: 4.0.2
+        version: 4.0.2(@babel/core@7.20.12)
       '@types/ember__string':
         specifier: ^3.16.0
         version: 3.16.3
