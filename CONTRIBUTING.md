@@ -34,8 +34,8 @@ You can now visit:
 If you don't need to run both apps you can save a little of your local 
 compute by running:
 
- * `start:only:docs` and visiting http://localhost:4201/
- * `start:only:tests` and visiting http://localhost:4202/tests
+ * `start:docs-app` and visiting http://localhost:4201/
+ * `start:test-app` and visiting http://localhost:4202/tests
 
 These commands will still build and watch the `packages/*` and sync changes
 to the running app. Don't run both `only` tasks together as this will cause
