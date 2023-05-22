@@ -8,15 +8,17 @@
   "scripts": {
     "release": "changeset publish",
     "build:docs": "pnpm turbo build --filter docs-app",
-    "start": "pnpm start:tests",
-    "start:docs": "pnpm turbo --filter docs-app start",
-    "start:tests": "pnpm turbo --filter test-app start",
-    "start:addon": "pnpm --filter !test-app start --no-watch.clearScreen",
+    "start": "pnpm --filter './packages/*' build; concurrently 'npm:_start:*' --names '_start:'",
+    "start:docs-app": "pnpm --filter './packages/*' build; pnpm --stream --parallel --filter docs-app... start",
+    "start:test-app": "pnpm --filter './packages/*' build; pnpm --stream --parallel --filter test-app... start",
     "build": "pnpm turbo build",
     "test": "pnpm turbo --filter test-app test",
     "test:docs": "pnpm turbo --filter docs-app test",
     "lint": "pnpm turbo lint",
-    "lint:fix": "pnpm --filter '*' lint:fix"
+    "lint:fix": "pnpm --filter '*' lint:fix",
+    "_start:docs": "pnpm --filter docs-app start",
+    "_start:tests": "pnpm --filter test-app start",
+    "_start:packages": "pnpm --stream -parallel --filter './packages/*' start --no-watch.clearScreen"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",

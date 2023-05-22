@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "description": "Sync build artifacts of workspace packages to pnpm injected/hard linked copies",
-  "repository": "",
+  "repository": "https://github.com/CrowdStrike/ember-headless-form.git",
   "license": "MIT",
-  "author": "",
+  "author": "CrowdStrike UX Team",
   "main": "index.js",
   "bin": "bin/sync-pnpm.js",
   "type": "module",
@@ -16,7 +16,8 @@
     "debug": "^4.3.4",
     "fs-extra": "^11.1.0",
     "proper-lockfile": "^4.1.2",
-    "resolve-package-path": "^4.0.3"
+    "resolve-package-path": "^4.0.3",
+    "watcher": "^2.2.2"
   },
   "volta": {
     "extends": "../../package.json"
