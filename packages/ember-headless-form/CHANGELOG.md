@@ -1,5 +1,21 @@
 # ember-headless-form
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- [#136](https://github.com/CrowdStrike/ember-headless-form/pull/136) [`da9f16c`](https://github.com/CrowdStrike/ember-headless-form/commit/da9f16c5165c98c70f3f5caf0042aa162fb435bc) Thanks [@simonihmig](https://github.com/simonihmig)! - Yield `submit` and `reset` actions
+
+  `<HeadlessForm>` yields `submit` and `reset` actions, that can be used in place of the native buttons.
+
+- [#134](https://github.com/CrowdStrike/ember-headless-form/pull/134) [`a3908fc`](https://github.com/CrowdStrike/ember-headless-form/commit/a3908fcf51dc1caa955a355c3e8e2a23d2cc341c) Thanks [@simonihmig](https://github.com/simonihmig)! - Add support for reset button
+
+  Click a native `reset` button will reset the state of the form.
+
+- [#132](https://github.com/CrowdStrike/ember-headless-form/pull/132) [`757353d`](https://github.com/CrowdStrike/ember-headless-form/commit/757353de0015e3d10db771dfe41bd366f3a284c7) Thanks [@simonihmig](https://github.com/simonihmig)! - Support reactivity when `@data` is updated
+
+  This supports updates of `@data` (or any of its tracked properties) getting rendered into the form, while previously filled in ("dirty") data is being preserved. This is the implementation for case `#2` of #130.
+
 ## 1.0.0-beta.2
 
 ### Patch Changes
