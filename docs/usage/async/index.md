@@ -1,6 +1,6 @@
 ---
 title: Async state
-order: 6
+order: 7
 ---
 
 # Managing asynchronous state
