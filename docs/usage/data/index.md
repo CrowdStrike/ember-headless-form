@@ -24,3 +24,9 @@ By default `@data` is immutable, i.e. the addon will only read from it. For hand
 But there are use cases where you would want to mutate the data immediately when the user has changed some field. This is especially the case when the data is already an object that has some "buffering" capabilities, shielding its original source data from premature mutations, as with libraries like [ember-changeset](https://github.com/poteto/ember-changeset) or [ember-buffered-proxy](https://github.com/yapplabs/ember-buffered-proxy).
 
 To do so, pass `@dataMode="mutable"` to the form component!
+
+## Updating data
+
+As we learned above, by default the form data passed as `@data` is immutable, and any changes due to the user entering or selecting new data as part of interacting with the form is stored as a separate copy, which we call "dirty" data here (as it deviates from the original data, but is not "persisted" yet). If you change `@data` (either by reassigning a whole new object or updating tracked properties), the form will automatically reflect those changes, i.e. form fields will update their value.
+
+However, this will _not_ happen for any non-pristine fields, i.e. fields that have new user-entered dirty data, as this would mean irrevocably losing that data. But if that is what you want, you need to explicitly wipe out that dirty data by [resetting the form](./reset). So to keep an existing form in place, but just replace all of its data, you would need to do both reassigning new `@data` and resetting the dirty state!
