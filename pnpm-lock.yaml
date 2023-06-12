@@ -527,8 +527,8 @@ importers:
         specifier: ^1.10.0
         version: 1.10.0(@glint/template@1.0.2)(ember-source@5.0.0)
       ember-async-data:
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^1.0.1
+        version: 1.0.1(ember-source@5.0.0)
       ember-modifier:
         specifier: ^4.1.0
         version: 4.1.0(ember-source@5.0.0)
@@ -973,8 +973,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0(patch_hash=ynlyhbi6rwlli5mc64kgdri6jy)(@ember/test-helpers@2.9.3)(qunit@2.19.3)(webpack@5.75.0)
       ember-async-data:
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^1.0.1
+        version: 1.0.1(ember-source@5.0.0)
       ember-auto-import:
         specifier: ^2.5.0
         version: 2.6.1(patch_hash=ic4j24wybap2f2xedeoakj5qoa)(webpack@5.75.0)
@@ -9939,12 +9939,14 @@ packages:
     dev: true
     patched: true
 
-  /ember-async-data@0.7.0:
-    resolution: {integrity: sha512-hiHSSMXYGd4eBM+w1EYCHiIkfnTpup/mxEUeEGVMmaAAzVMjb+ACieEPx2xoZ5Wi5baswYMKIIyoKDWT69645Q==}
-    engines: {node: 14.* || 16.* || >= 18}
+  /ember-async-data@1.0.1(ember-source@5.0.0):
+    resolution: {integrity: sha512-R9nBxCZ9WDPMJpuGBODs8wV1PHXUbkSbrzVmL34R4aOWbx237yLBllJghQOwfJs1+D72wdzgxg/+J3DY43xz3g==}
+    peerDependencies:
+      ember-source: ^4.8.4
     dependencies:
       '@ember/test-waiters': 3.0.2
       '@embroider/addon-shim': 1.8.4
+      ember-source: 5.0.0(@babel/core@7.21.3)(@glimmer/component@1.1.2)(webpack@5.75.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -11086,7 +11088,7 @@ packages:
       ember-cli-babel: 7.26.11
       ember-cli-typescript: 3.1.4(@babel/core@7.20.12)
       ember-cli-version-checker: 5.1.2
-      semver: 7.3.8
+      semver: 7.5.1
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -19535,7 +19537,7 @@ packages:
       '@embroider/util': 1.10.0(@glint/template@1.0.2)(ember-source@5.0.0)
       '@glimmer/component': 1.1.2(@babel/core@7.20.12)
       '@glimmer/tracking': 1.1.2
-      ember-async-data: 0.7.0
+      ember-async-data: 1.0.1(ember-source@5.0.0)
       ember-modifier: 4.1.0(ember-source@5.0.0)
       ember-source: 5.0.0(@babel/core@7.20.12)(@glimmer/component@1.1.2)(webpack@5.75.0)
       tracked-built-ins: 3.1.0

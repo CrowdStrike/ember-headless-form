@@ -356,7 +356,7 @@ export default class HeadlessFormComponent<
   async _validate(): Promise<ErrorRecord<FormData<DATA>>> {
     const promise = this.validate();
 
-    this.validationState = new TrackedAsyncData(promise, this);
+    this.validationState = new TrackedAsyncData(promise);
 
     return promise;
   }
@@ -459,8 +459,7 @@ export default class HeadlessFormComponent<
     if (!this.hasValidationErrors) {
       if (this.args.onSubmit) {
         this.submissionState = new TrackedAsyncData(
-          this.args.onSubmit(this.effectiveData),
-          this
+          this.args.onSubmit(this.effectiveData)
         );
       }
     } else {
