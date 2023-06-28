@@ -1,5 +1,4 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { tracked } from '@glimmer/tracking';
 import { blur, click, fillIn, render, rerender } from '@ember/test-helpers';
@@ -9,15 +8,15 @@ import { HeadlessForm } from 'ember-headless-form';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
 
+import { input } from '../../helpers/dom';
+
 import type { RenderingTestContext } from '@ember/test-helpers';
 import type {
-  FormValidateCallback,
-  FieldValidateCallback,
   ErrorRecord,
+  FieldValidateCallback,
+  FormValidateCallback,
   ValidationError,
 } from 'ember-headless-form';
-
-import { input } from '../../helpers/dom';
 
 module('Integration Component HeadlessForm > Validation', function (hooks) {
   setupRenderingTest(hooks);
@@ -36,6 +35,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
     for (const field of fields) {
       const value = data[field];
       const errors: ValidationError<string | undefined>[] = [];
+
       if (value == undefined) {
         errors.push({
           type: 'required',
@@ -74,6 +74,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
   ) => {
     // intentionally adding a delay here, to make the validation behave truly async and assert that we are correctly waiting for it in tests
     await new Promise((resolve) => setTimeout(resolve, 10));
+
     return validateFormCallbackSync(data, fields);
   };
 
@@ -82,6 +83,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
     field
   ) => {
     const errors = [];
+
     if (value == undefined) {
       errors.push({
         type: 'required',
@@ -114,6 +116,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
   > = async (value, field, data) => {
     // intentionally adding a delay here, to make the validation behave truly async and assert that we are correctly waiting for it in tests
     await new Promise((resolve) => setTimeout(resolve, 10));
+
     return validateFieldCallbackSync(value, field, data);
   };
 
@@ -471,6 +474,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @tracked showFirstName = true;
             @tracked showLastName = true;
           }
+
           const formState = new FormState();
 
           await render(<template>
@@ -682,6 +686,7 @@ module('Integration Component HeadlessForm > Validation', function (hooks) {
             @tracked showFirstName = true;
             @tracked showLastName = true;
           }
+
           const formState = new FormState();
 
           await render(<template>
