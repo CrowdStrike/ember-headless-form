@@ -1,11 +1,11 @@
 name: Setup node and pnpm
 description: Setup node and install dependencies using pnpm
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: pnpm/action-setup@v2.2.4
       with:
-        version: 7
+        version: 8.6.5
     - uses: actions/setup-node@v3
       with:
         cache: 'pnpm'
@@ -13,10 +13,4 @@ runs:
       shell: 'bash'
       run: |
         pnpm -v
-        pnpm install --fix-lockfile
-        git_diff=$(git diff)
-        if [[ "$git_diff" -eq "" ]]; then
-          echo "Success: no lockfile differences" ;
-        else
-          echo "Error: lockfile differences detected";
-        fi
+        pnpm install
