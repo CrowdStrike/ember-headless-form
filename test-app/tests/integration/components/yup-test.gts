@@ -1,5 +1,4 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { click, fillIn, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
@@ -8,7 +7,6 @@ import { HeadlessForm } from 'ember-headless-form';
 import { validateYup } from 'ember-headless-form-yup';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-
 import { object, string } from 'yup';
 
 module('Integration Component HeadlessForm > yup', function (hooks) {
@@ -167,6 +165,7 @@ module('Integration Component HeadlessForm > yup', function (hooks) {
 
   test('Glint: type error when schema does not match form data', async function (assert) {
     assert.expect(0);
+
     const data: { foo?: string } = {};
     const submitHandler = sinon.spy();
 

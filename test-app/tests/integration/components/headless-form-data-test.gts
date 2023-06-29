@@ -1,5 +1,4 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { tracked } from '@glimmer/tracking';
 import { fn } from '@ember/helper';
@@ -116,10 +115,11 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         lastName: string;
       }
       class Context {
-        @tracked
-        data?: Data;
+        @tracked data?: Data;
       }
+
       const ctx = new Context();
+
       ctx.data = { firstName: 'Tony', lastName: 'Ward' };
 
       await render(<template>
@@ -148,12 +148,11 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
     test('form controls are reactive to updating data properties', async function (assert) {
       class DummyData {
-        @tracked
-        firstName = 'Tony';
+        @tracked firstName = 'Tony';
 
-        @tracked
-        lastName = 'Ward';
+        @tracked lastName = 'Ward';
       }
+
       const data = new DummyData();
 
       await render(<template>
@@ -183,12 +182,11 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
     test('form controls keep dirty state when updating data properties', async function (assert) {
       class DummyData {
-        @tracked
-        firstName = 'Tony';
+        @tracked firstName = 'Tony';
 
-        @tracked
-        lastName = 'Ward';
+        @tracked lastName = 'Ward';
       }
+
       const data = new DummyData();
 
       await render(<template>

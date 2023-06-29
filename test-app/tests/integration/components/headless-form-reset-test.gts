@@ -1,12 +1,11 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
+import { on } from '@ember/modifier';
 import { click, fillIn, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import { on } from '@ember/modifier';
 
 interface TestFormData {
   firstName?: string;

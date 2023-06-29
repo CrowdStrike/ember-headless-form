@@ -1,5 +1,4 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { click, render, rerender, waitFor } from '@ember/test-helpers';
 import { module, test } from 'qunit';
@@ -22,6 +21,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
     field
   ) => {
     const errors = [];
+
     if (value == undefined) {
       errors.push({
         type: 'required',
@@ -54,6 +54,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
   > = async (value, field, data) => {
     // intentionally adding a delay here, to make the validation behave truly async and assert that we are correctly waiting for it in tests
     await new Promise((resolve) => setTimeout(resolve, 10));
+
     return validateFieldCallbackSync(value, field, data);
   };
 
@@ -92,6 +93,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
         );
 
       const promise = click('[data-test-submit]');
+
       await waitFor('[data-test-validation-state]');
 
       assert
@@ -141,6 +143,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
         );
 
       const promise = click('[data-test-submit]');
+
       await waitFor('[data-test-validation-state]');
 
       assert
@@ -195,6 +198,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
         );
 
       const promise = click('[data-test-submit]');
+
       await waitFor('[data-test-submission-state]');
 
       assert
@@ -247,6 +251,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
         );
 
       const promise = click('[data-test-submit]');
+
       await waitFor('[data-test-submission-state]');
 
       assert
@@ -295,6 +300,7 @@ module('Integration Component HeadlessForm > Async state', function (hooks) {
       </template>);
 
       const promise = click('[data-test-submit]');
+
       await waitFor('[data-test-validation-state]');
 
       assert
