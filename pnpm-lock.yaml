@@ -141,8 +141,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       '@nullvoxpopuli/eslint-configs':
-        specifier: 3.1.4
-        version: 3.1.4(@babel/core@7.20.12)(@babel/eslint-parser@7.19.1)(eslint-config-prettier@8.6.0)(eslint-plugin-ember@11.9.0)(eslint-plugin-qunit@7.3.4)(eslint@8.34.0)(prettier@2.8.4)
+        specifier: 3.2.0
+        version: 3.2.0(@babel/core@7.20.12)(@babel/eslint-parser@7.19.1)(eslint-config-prettier@8.6.0)(eslint-plugin-ember@11.9.0)(eslint-plugin-qunit@7.3.4)(eslint@8.34.0)(prettier@2.8.4)
       '@tailwindcss/typography':
         specifier: ^0.5.7
         version: 0.5.9(tailwindcss@3.2.6)
@@ -6651,16 +6651,16 @@ packages:
       - supports-color
     dev: true
 
-  /@nullvoxpopuli/eslint-configs@3.1.4(@babel/core@7.20.12)(@babel/eslint-parser@7.19.1)(eslint-config-prettier@8.6.0)(eslint-plugin-ember@11.9.0)(eslint-plugin-qunit@7.3.4)(eslint@8.34.0)(prettier@2.8.4):
-    resolution: {integrity: sha512-AXcuDy0EyxIJWOhgq6au6Qu8iksrLqDjPvz40d0DPPu8Kf9ubqlCu9tLaVNKU8ETfFC1YbxFR7Djtp+rBlcy7A==}
+  /@nullvoxpopuli/eslint-configs@3.2.0(@babel/core@7.20.12)(@babel/eslint-parser@7.19.1)(eslint-config-prettier@8.6.0)(eslint-plugin-ember@11.9.0)(eslint-plugin-qunit@7.3.4)(eslint@8.34.0)(prettier@2.8.4):
+    resolution: {integrity: sha512-Gg0Yr6N3hmrJ1ECgsN2eypOJSRhxTKlfySLHxiBGeKJMjvNrBCAxOTvXVj4k33sLTZw/1oykH3eo9WYhCEf8BQ==}
     engines: {node: '>= v16.0.0'}
     peerDependencies:
-      '@babel/core': ^7.22.5
-      '@babel/eslint-parser': ^7.22.5
-      '@typescript-eslint/eslint-plugin': ^5.60.1
-      '@typescript-eslint/parser': ^5.60.1
+      '@babel/core': ^7.22.8
+      '@babel/eslint-parser': ^7.22.7
+      '@typescript-eslint/eslint-plugin': ^5.61.0
+      '@typescript-eslint/parser': ^5.61.0
       eslint: ^7.0.0 || ^8.0.0
-      eslint-plugin-ember: ^11.9.0
+      eslint-plugin-ember: ^11.10.0
       eslint-plugin-qunit: ^8.0.0
       prettier: ^2.8.8
     peerDependenciesMeta:
@@ -7731,7 +7731,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.1
+      semver: 7.5.3
       tsutils: 3.21.0(typescript@5.0.2)
       typescript: 5.0.2
     transitivePeerDependencies:
@@ -12428,7 +12428,7 @@ packages:
       lodash: 4.17.21
       package-json: 6.5.0
       remote-git-tags: 3.0.0
-      semver: 7.5.1
+      semver: 7.5.3
     transitivePeerDependencies:
       - encoding
     dev: true
