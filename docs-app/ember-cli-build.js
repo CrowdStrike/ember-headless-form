@@ -33,12 +33,13 @@ module.exports = function (defaults) {
     extraPublicTrees: [],
     staticAddonTestSupportTrees: true,
     staticAddonTrees: true,
-    staticHelpers: true,
     staticModifiers: true,
     /**
      * Docfy does not allow us to use staticComponents
      */
     staticComponents: false,
+    staticHelpers: false,
+
     splitAtRoutes: ['/', '/docs'],
     skipBabel: [
       {
@@ -75,7 +76,7 @@ module.exports = function (defaults) {
             {
               // When webpack sees an import for a CSS files
               test: /\.css$/i,
-              exclude: /node_modules/,
+              // exclude: /node_modules/,
               use: [
                 {
                   loader: 'postcss-loader',
