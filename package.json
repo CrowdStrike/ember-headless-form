@@ -45,7 +45,6 @@
       }
     },
     "patchedDependencies": {
-      "ember-a11y-testing@5.2.0": "patches/ember-a11y-testing@5.2.0.patch",
       "ember-auto-import@2.6.1": "patches/ember-auto-import@2.6.1.patch"
     }
   },
