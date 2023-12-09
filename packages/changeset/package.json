@@ -76,7 +76,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
-    "rollup": "^3.0.0",
+    "rollup": "^4.0.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-ts": "^3.0.2",
     "typescript": "^5.0.0",
