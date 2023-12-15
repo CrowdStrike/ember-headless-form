@@ -12,11 +12,11 @@ import {
   triggerEvent,
 } from '@ember/test-helpers';
 import { module, test } from 'qunit';
+import { getOwnConfig, macroCondition } from '@embroider/macros';
 
 import { HeadlessForm } from 'ember-headless-form';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import { getOwnConfig, macroCondition } from '@embroider/macros';
 
 import type Store from '@ember-data/store';
 
