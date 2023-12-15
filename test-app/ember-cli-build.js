@@ -12,6 +12,12 @@ module.exports = function (defaults) {
       // See https://github.com/ef4/ember-auto-import/issues/564#issuecomment-1448820349
       earlyBootSet: () => ['@glimmer/tracking'],
     },
+
+    '@embroider/macros': {
+      setOwnConfig: {
+        supportsEmberData: !process.env.EMBROIDER_TEST_SETUP_OPTIONS,
+      },
+    },
   });
 
   const { maybeEmbroider } = require('@embroider/test-setup');

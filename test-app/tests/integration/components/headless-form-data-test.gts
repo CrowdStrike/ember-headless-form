@@ -16,6 +16,7 @@ import { module, test } from 'qunit';
 import { HeadlessForm } from 'ember-headless-form';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
+import { getOwnConfig, macroCondition } from '@embroider/macros';
 
 import type Store from '@ember-data/store';
 
@@ -168,77 +169,79 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         assert.dom('input[data-test-terms]').isChecked();
       });
 
-      test('ember-data object', async function (assert) {
-        const store = this.owner.lookup('service:store') as Store;
+      if (macroCondition(getOwnConfig<{ supportsEmberData: boolean }>().supportsEmberData)) {
+        test('ember-data object', async function (assert) {
+          const store = this.owner.lookup('service:store') as Store;
 
-        const data = store.createRecord('user', {
-          firstName: 'Tony',
-          lastName: 'Ward',
-          gender: 'male',
-          country: 'USA',
-          comments: 'lorem ipsum',
-          acceptTerms: true,
-          age: 21,
+          const data = store.createRecord('user', {
+            firstName: 'Tony',
+            lastName: 'Ward',
+            gender: 'male',
+            country: 'USA',
+            comments: 'lorem ipsum',
+            acceptTerms: true,
+            age: 21,
+          });
+
+          await render(<template>
+            <HeadlessForm @data={{data}} as |form|>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
+              </form.Field>
+              <form.Field @name="gender" as |field|>
+                <field.RadioGroup as |group|>
+                  <group.Radio @value="male" as |radio|>
+                    <radio.Input data-test-gender-male />
+                    <radio.Label>Male</radio.Label>
+                  </group.Radio>
+                  <group.Radio @value="female" as |radio|>
+                    <radio.Input data-test-gender-female />
+                    <radio.Label>Female</radio.Label>
+                  </group.Radio>
+                  <group.Radio @value="other" as |radio|>
+                    <radio.Input data-test-gender-other />
+                    <radio.Label>Other</radio.Label>
+                  </group.Radio>
+                </field.RadioGroup>
+              </form.Field>
+              <form.Field @name="age" as |field|>
+                <field.Label>Age</field.Label>
+                <field.Input @type="number" data-test-age />
+              </form.Field>
+              <form.Field @name="country" as |field|>
+                <field.Label>Country</field.Label>
+                <field.Select data-test-country as |select|>
+                  <select.Option @value="USA">United States</select.Option>
+                  <select.Option @value="GER">Germany</select.Option>
+                </field.Select>
+              </form.Field>
+              <form.Field @name="comments" as |field|>
+                <field.Label>Comments</field.Label>
+                <field.Textarea data-test-comments />
+              </form.Field>
+              <form.Field @name="acceptTerms" as |field|>
+                <field.Label>Terms accepted</field.Label>
+                <field.Checkbox data-test-terms />
+              </form.Field>
+            </HeadlessForm>
+          </template>);
+
+          assert.dom('input[data-test-first-name]').hasValue('Tony');
+          assert.dom('input[data-test-last-name]').hasValue('Ward');
+          assert.dom('input[data-test-gender-male]').isChecked();
+          assert.dom('input[data-test-gender-female]').isNotChecked();
+          assert.dom('input[data-test-gender-other]').isNotChecked();
+          assert.dom('input[data-test-age]').hasValue('21');
+          assert.dom('select[data-test-country]').hasValue('USA');
+          assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
+          assert.dom('input[data-test-terms]').isChecked();
         });
-
-        await render(<template>
-          <HeadlessForm @data={{data}} as |form|>
-            <form.Field @name="firstName" as |field|>
-              <field.Label>First Name</field.Label>
-              <field.Input data-test-first-name />
-            </form.Field>
-            <form.Field @name="lastName" as |field|>
-              <field.Label>Last Name</field.Label>
-              <field.Input data-test-last-name />
-            </form.Field>
-            <form.Field @name="gender" as |field|>
-              <field.RadioGroup as |group|>
-                <group.Radio @value="male" as |radio|>
-                  <radio.Input data-test-gender-male />
-                  <radio.Label>Male</radio.Label>
-                </group.Radio>
-                <group.Radio @value="female" as |radio|>
-                  <radio.Input data-test-gender-female />
-                  <radio.Label>Female</radio.Label>
-                </group.Radio>
-                <group.Radio @value="other" as |radio|>
-                  <radio.Input data-test-gender-other />
-                  <radio.Label>Other</radio.Label>
-                </group.Radio>
-              </field.RadioGroup>
-            </form.Field>
-            <form.Field @name="age" as |field|>
-              <field.Label>Age</field.Label>
-              <field.Input @type="number" data-test-age />
-            </form.Field>
-            <form.Field @name="country" as |field|>
-              <field.Label>Country</field.Label>
-              <field.Select data-test-country as |select|>
-                <select.Option @value="USA">United States</select.Option>
-                <select.Option @value="GER">Germany</select.Option>
-              </field.Select>
-            </form.Field>
-            <form.Field @name="comments" as |field|>
-              <field.Label>Comments</field.Label>
-              <field.Textarea data-test-comments />
-            </form.Field>
-            <form.Field @name="acceptTerms" as |field|>
-              <field.Label>Terms accepted</field.Label>
-              <field.Checkbox data-test-terms />
-            </form.Field>
-          </HeadlessForm>
-        </template>);
-
-        assert.dom('input[data-test-first-name]').hasValue('Tony');
-        assert.dom('input[data-test-last-name]').hasValue('Ward');
-        assert.dom('input[data-test-gender-male]').isChecked();
-        assert.dom('input[data-test-gender-female]').isNotChecked();
-        assert.dom('input[data-test-gender-other]').isNotChecked();
-        assert.dom('input[data-test-age]').hasValue('21');
-        assert.dom('select[data-test-country]').hasValue('USA');
-        assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
-        assert.dom('input[data-test-terms]').isChecked();
-      });
+      }
     });
 
     test('value is yielded from field component', async function (assert) {
@@ -611,104 +614,106 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         );
       });
 
-       test('ember-data object', async function (assert) {
-        const store = this.owner.lookup('service:store') as Store;
+      if (macroCondition(getOwnConfig<{ supportsEmberData: boolean }>().supportsEmberData)) {
+        test('ember-data object', async function (assert) {
+          const store = this.owner.lookup('service:store') as Store;
 
-        const data = store.createRecord('user', {
-          firstName: 'Tony',
-          lastName: 'Ward',
-          gender: 'male',
-          country: 'USA',
-          comments: 'lorem ipsum',
-          acceptTerms: false,
-          age: 21,
+          const data = store.createRecord('user', {
+            firstName: 'Tony',
+            lastName: 'Ward',
+            gender: 'male',
+            country: 'USA',
+            comments: 'lorem ipsum',
+            acceptTerms: false,
+            age: 21,
+          });
+          const submitHandler = sinon.spy();
+
+          await render(<template>
+            <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
+              <form.Field @name="firstName" as |field|>
+                <field.Label>First Name</field.Label>
+                <field.Input data-test-first-name />
+              </form.Field>
+              <form.Field @name="lastName" as |field|>
+                <field.Label>Last Name</field.Label>
+                <field.Input data-test-last-name />
+              </form.Field>
+              <form.Field @name="gender" as |field|>
+                <field.RadioGroup as |group|>
+                  <group.Radio @value="male" as |radio|>
+                    <radio.Input data-test-gender-male />
+                    <radio.Label>Male</radio.Label>
+                  </group.Radio>
+                  <group.Radio @value="female" as |radio|>
+                    <radio.Input data-test-gender-female />
+                    <radio.Label>Female</radio.Label>
+                  </group.Radio>
+                  <group.Radio @value="other" as |radio|>
+                    <radio.Input data-test-gender-other />
+                    <radio.Label>Other</radio.Label>
+                  </group.Radio>
+                </field.RadioGroup>
+              </form.Field>
+              <form.Field @name="age" as |field|>
+                <field.Label>Age</field.Label>
+                <field.Input @type="number" data-test-age />
+              </form.Field>
+              <form.Field @name="country" as |field|>
+                <field.Label>Country</field.Label>
+                <field.Select data-test-country as |select|>
+                  <select.Option @value="USA">United States</select.Option>
+                  <select.Option @value="CA">Canada</select.Option>
+                </field.Select>
+              </form.Field>
+              <form.Field @name="comments" as |field|>
+                <field.Label>Comments</field.Label>
+                <field.Textarea data-test-comments />
+              </form.Field>
+              <form.Field @name="acceptTerms" as |field|>
+                <field.Label>Terms accepted</field.Label>
+                <field.Checkbox data-test-terms />
+              </form.Field>
+              <button type="submit" data-test-submit>Submit</button>
+            </HeadlessForm>
+          </template>);
+
+          assert.dom('input[data-test-first-name]').hasValue('Tony');
+          assert.dom('input[data-test-last-name]').hasValue('Ward');
+          assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
+          assert.dom('input[data-test-terms]').isNotChecked();
+
+          await fillIn('input[data-test-first-name]', 'Nicole');
+          await fillIn('input[data-test-last-name]', 'Chung');
+          await select('select[data-test-country]', 'CA');
+          await click('input[data-test-gender-female]');
+          await fillIn('input[data-test-age]', '20');
+          await fillIn('textarea[data-test-comments]', 'foo bar');
+          await click('input[data-test-terms]');
+          await click('[data-test-submit]');
+
+          assert.strictEqual(data.firstName, 'Tony');
+          assert.strictEqual(data.lastName, 'Ward');
+          assert.strictEqual(data.gender, 'male');
+          assert.strictEqual(data.country, 'USA');
+          assert.strictEqual(data.comments, 'lorem ipsum');
+          assert.false(data.acceptTerms);
+          assert.strictEqual(data.age, 21);
+
+          assert.true(
+            submitHandler.calledWithMatch({
+              firstName: 'Nicole',
+              lastName: 'Chung',
+              gender: 'female',
+              country: 'CA',
+              comments: 'foo bar',
+              acceptTerms: true,
+              age: 20,
+            }),
+            'new data is passed to submit handler'
+          );
         });
-        const submitHandler = sinon.spy();
-
-        await render(<template>
-          <HeadlessForm @data={{data}} @onSubmit={{submitHandler}} as |form|>
-            <form.Field @name="firstName" as |field|>
-              <field.Label>First Name</field.Label>
-              <field.Input data-test-first-name />
-            </form.Field>
-            <form.Field @name="lastName" as |field|>
-              <field.Label>Last Name</field.Label>
-              <field.Input data-test-last-name />
-            </form.Field>
-            <form.Field @name="gender" as |field|>
-              <field.RadioGroup as |group|>
-                <group.Radio @value="male" as |radio|>
-                  <radio.Input data-test-gender-male />
-                  <radio.Label>Male</radio.Label>
-                </group.Radio>
-                <group.Radio @value="female" as |radio|>
-                  <radio.Input data-test-gender-female />
-                  <radio.Label>Female</radio.Label>
-                </group.Radio>
-                <group.Radio @value="other" as |radio|>
-                  <radio.Input data-test-gender-other />
-                  <radio.Label>Other</radio.Label>
-                </group.Radio>
-              </field.RadioGroup>
-            </form.Field>
-            <form.Field @name="age" as |field|>
-              <field.Label>Age</field.Label>
-              <field.Input @type="number" data-test-age />
-            </form.Field>
-            <form.Field @name="country" as |field|>
-              <field.Label>Country</field.Label>
-              <field.Select data-test-country as |select|>
-                <select.Option @value="USA">United States</select.Option>
-                <select.Option @value="CA">Canada</select.Option>
-              </field.Select>
-            </form.Field>
-            <form.Field @name="comments" as |field|>
-              <field.Label>Comments</field.Label>
-              <field.Textarea data-test-comments />
-            </form.Field>
-            <form.Field @name="acceptTerms" as |field|>
-              <field.Label>Terms accepted</field.Label>
-              <field.Checkbox data-test-terms />
-            </form.Field>
-            <button type="submit" data-test-submit>Submit</button>
-          </HeadlessForm>
-        </template>);
-
-        assert.dom('input[data-test-first-name]').hasValue('Tony');
-        assert.dom('input[data-test-last-name]').hasValue('Ward');
-        assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
-        assert.dom('input[data-test-terms]').isNotChecked();
-
-        await fillIn('input[data-test-first-name]', 'Nicole');
-        await fillIn('input[data-test-last-name]', 'Chung');
-        await select('select[data-test-country]', 'CA');
-        await click('input[data-test-gender-female]');
-        await fillIn('input[data-test-age]', '20');
-        await fillIn('textarea[data-test-comments]', 'foo bar');
-        await click('input[data-test-terms]');
-        await click('[data-test-submit]');
-
-        assert.strictEqual(data.firstName, 'Tony');
-        assert.strictEqual(data.lastName, 'Ward');
-        assert.strictEqual(data.gender, 'male');
-        assert.strictEqual(data.country, 'USA');
-        assert.strictEqual(data.comments, 'lorem ipsum');
-        assert.false(data.acceptTerms);
-        assert.strictEqual(data.age, 21);
-
-        assert.true(
-          submitHandler.calledWithMatch({
-            firstName: 'Nicole',
-            lastName: 'Chung',
-            gender: 'female',
-            country: 'CA',
-            comments: 'foo bar',
-            acceptTerms: true,
-            age: 20,
-          }),
-          'new data is passed to submit handler'
-        );
-      });
+      }
     });
 
     test('submit action is yielded', async function (assert) {
