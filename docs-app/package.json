@@ -26,14 +26,14 @@
     "_syncPnpm": "pnpm sync-pnpm"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.6",
+    "@babel/core": "^7.23.6",
     "@babel/eslint-parser": "^7.19.1",
     "@crowdstrike/ember-toucan-styles": "^2.0.0",
     "@crowdstrike/tailwind-toucan-base": "^4.0.0",
     "@docfy/core": "^0.7.0",
     "@docfy/ember": "^0.7.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/string": "^3.0.1",
+    "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.2.0",
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
@@ -82,6 +82,7 @@
     "ember-cli-htmlbars": "^6.1.1",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
+    "ember-data": "^5.3.0",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^8.0.0-beta.0",
@@ -118,7 +119,7 @@
   "dependencies": {
     "@crowdstrike/ember-oss-docs": "^1.1.3",
     "@ember/test-waiters": "^3.0.2",
-    "@embroider/router": "^2.0.0",
+    "@embroider/router": "^2.1.6",
     "ember-browser-services": "^4.0.4",
     "ember-changeset": "^4.1.2",
     "ember-changeset-validations": "^4.1.1",
