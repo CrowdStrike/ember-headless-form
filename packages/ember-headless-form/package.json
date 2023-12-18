@@ -24,8 +24,7 @@
     "lint:prettier": "prettier -c .",
     "lint:prettier:fix": "prettier -w .",
     "start": "rollup --config --watch",
-    "test": "echo 'A v2 addon does not have tests, run tests in test-app'",
-    "prepack": "rollup --config"
+    "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
   "dependencies": {
     "@babel/runtime": "^7.20.7",
