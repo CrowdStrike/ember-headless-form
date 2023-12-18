@@ -12,6 +12,7 @@
     "start:docs-app": "pnpm --filter './packages/*' build; pnpm --stream --parallel --filter docs-app... start",
     "start:test-app": "pnpm --filter './packages/*' build; pnpm --stream --parallel --filter test-app... start",
     "build": "pnpm turbo build",
+    "build:packages": "pnpm turbo --filter='./packages/*' build",
     "test": "pnpm turbo --filter test-app test",
     "test:docs": "pnpm turbo --filter docs-app test",
     "lint": "pnpm turbo lint",
