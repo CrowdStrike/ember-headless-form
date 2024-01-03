@@ -99,7 +99,7 @@
     "eslint-plugin-qunit": "^7.3.1",
     "loader.js": "^4.7.0",
     "postcss": "^8.4.17",
-    "postcss-import": "^15.0.0",
+    "postcss-import": "^16.0.0",
     "postcss-loader": "^7.0.1",
     "prettier": "^2.8.3",
     "prettier-plugin-ember-template-tag": "^1.0.0",
