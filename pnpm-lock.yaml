@@ -65,8 +65,8 @@ importers:
         specifier: ^4.0.0
         version: 4.1.0(ember-source@5.5.0)
       ember-resources:
-        specifier: ^6.0.0
-        version: 6.0.0(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.2)(ember-source@5.5.0)
+        specifier: ^7.0.0
+        version: 7.0.0(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.2)(ember-source@5.5.0)
       highlight.js:
         specifier: ^11.6.0
         version: 11.7.0
@@ -10516,30 +10516,19 @@ packages:
       - supports-color
     dev: true
 
-  /ember-resources@6.0.0(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.2)(ember-source@5.5.0):
-    resolution: {integrity: sha512-2jq1ZIZdzJfypstu+7qpXCd02hSkfpj2N2kfnRSNSomq7bihyLIPnzTkP07puLln+j3fssiAA5vkuZxuboLEpQ==}
+  /ember-resources@7.0.0(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.2)(ember-source@5.5.0):
+    resolution: {integrity: sha512-BRah6wsXMejHWfTBFJZ+8MYeUz4ylLP4afUxK+sPCb+Nv3LKqBTEPpvahHoE5FwY56pOPhg1TQWJI/+Aj1rWWA==}
     peerDependencies:
-      '@ember/test-waiters': ^3.0.0
-      '@glimmer/component': ^1.1.2
-      '@glimmer/tracking': ^1.1.2
-      '@glint/template': ^1.0.0-beta.3 || ^1.0.0
-      ember-async-data: ^1.0.1
-      ember-concurrency: ^2.0.0 || ^3.0.0
-      ember-source: ^3.28.0 || ^4.0.0 || ^5.0.0
+      '@glimmer/component': '>= 1.1.2'
+      '@glimmer/tracking': '>= 1.1.2'
+      '@glint/template': '>= 1.0.0'
+      ember-source: ^3.28.0 || ^4.0.0 || >= 5.0.0
     peerDependenciesMeta:
-      '@ember/test-waiters':
-        optional: true
       '@glimmer/component':
         optional: true
-      ember-async-data:
-        optional: true
-      ember-concurrency:
-        optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@ember/test-waiters': 3.0.2
-      '@embroider/addon-shim': 1.8.4
-      '@embroider/macros': 1.13.1(@glint/template@1.0.2)
+      '@embroider/addon-shim': 1.8.7
+      '@embroider/macros': 1.13.4(@glint/template@1.0.2)
       '@glimmer/component': 1.1.2(@babel/core@7.23.6)
       '@glimmer/tracking': 1.1.2
       '@glint/template': 1.0.2
