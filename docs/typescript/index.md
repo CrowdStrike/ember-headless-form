@@ -13,7 +13,7 @@ This addon is written in TypeScript, and strives to give TypeScript users a firs
 
 ## Usage with classic templates (hbs)
 
-All the components, which are `<HeadlessForm>` as well as those [yielded from it](./usage), have strict Glint types. In case you are already using _strict mode templates_ via [ember-template-imports](https://github.com/ember-template-imports/ember-template-imports), you only need to import the component from `ember-headless-form/components/headless-form` and you are ready to go. For the more likely case of using classic `.hbs` templates, Glint requires a template registry to be set up, that declares a mapping of component _names_ to their types. This addon follows the [recommendations for Glint-enabled addons](https://typed-ember.gitbook.io/glint/using-glint/ember/using-addons#using-glint-enabled-addons), so add the addon's provided registry to your app's own registry as follows:
+All the components, which are `<HeadlessForm>` as well as those [yielded from it](./usage), have strict Glint types. In case you are already using _strict mode templates_ via [ember-template-imports](https://github.com/ember-template-imports/ember-template-imports), you only need to import the component and you are ready to go. For the more likely case of using classic `.hbs` templates, Glint requires a template registry to be set up, that declares a mapping of component _names_ to their types. This addon follows the [recommendations for Glint-enabled addons](https://typed-ember.gitbook.io/glint/using-glint/ember/using-addons#using-glint-enabled-addons), so add the addon's provided registry to your app's own registry as follows:
 
 ```ts
 import '@glint/environment-ember-loose';
@@ -25,6 +25,44 @@ declare module '@glint/environment-ember-loose/registry' {
     // your app's own entries here...
   }
 }
+```
+
+## Usage with template tag (gjs/gts)
+
+When using `<HeadlessForm>` in a template tag you will need to import the component directly as can be seen in the following example:
+
+```ts
+import { HeadlessForm } from 'ember-headless-form';
+import { type TOC } from '@ember/component/template-only';
+
+interface MyFormSignature {
+  Element: HTMLFormElement;
+}
+
+type EmailDTO = {
+  emailAddress: string;
+};
+
+const data: EmailDTO = {
+  emailAddress: ''
+}
+
+async function handleSubmit(data: EmailDTO) {
+  console.log('Handle your form submission');
+}
+
+export const MyForm: TOC<MyFormSignature> = <template>
+  <HeadlessForm @data={{data}} @onSubmit={{handleSubmit}} as |form|>
+    <form.Field @name='emailAddress' as |field|>
+      <field.Label>Email Address</field.Label>
+      <field.Input />
+    </form.Field>
+
+    <button type='submit'>Submit</button>
+  </HeadlessForm>
+</template>;
+
+export default MyForm;
 ```
 
 The same applies for any additional packages of this project if in use, like [`ember-headless-form-yup`](./validation/yup) or [`ember-headless-form-changeset`](./validation/ember-changeset).
