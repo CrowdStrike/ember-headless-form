@@ -91,7 +91,7 @@ importers:
         version: 7.23.10(@babel/core@7.23.9)(eslint@8.34.0)
       '@crowdstrike/ember-toucan-styles':
         specifier: ^2.0.0
-        version: 2.0.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.17)(ember-source@5.6.0)(postcss@8.4.35)(tailwindcss@3.2.6)
+        version: 2.2.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.17)(ember-source@5.6.0)(postcss@8.4.35)(tailwindcss@3.2.6)
       '@crowdstrike/tailwind-toucan-base':
         specifier: ^4.0.0
         version: 4.0.0(autoprefixer@10.4.17)(postcss@8.4.35)
@@ -3503,15 +3503,15 @@ packages:
       - webpack-cli
     dev: false
 
-  /@crowdstrike/ember-toucan-styles@2.0.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.17)(ember-source@5.6.0)(postcss@8.4.35)(tailwindcss@3.2.6):
-    resolution: {integrity: sha512-mOHsNEW63FhCR2+c1Fdp4vOqv6HYRtfU85aZlLc82NhkTguz6NSS5DwYelhfDIxLERm5iktxBmBOyiXGHkk0Mg==}
+  /@crowdstrike/ember-toucan-styles@2.2.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.17)(ember-source@5.6.0)(postcss@8.4.35)(tailwindcss@3.2.6):
+    resolution: {integrity: sha512-cTLSsWh5QI5ql0AwkAQqq1TuvYMqMlonZ647RSz98fa5XooOhHdTO5oF12qpg1OUxxeKu/6k5jn1x/SAfewY3Q==}
     peerDependencies:
       '@glimmer/tracking': ^1.1.2
       ember-source: ^3.24.0 || >= 4.0.0
       tailwindcss: ^2.2.15 || ^3.0.0
     dependencies:
-      '@crowdstrike/tailwind-toucan-base': 3.3.1(autoprefixer@10.4.17)(postcss@8.4.35)
-      '@embroider/addon-shim': 1.8.4
+      '@crowdstrike/tailwind-toucan-base': 4.4.0(autoprefixer@10.4.17)(postcss@8.4.35)
+      '@embroider/addon-shim': 1.8.7
       '@glimmer/tracking': 1.1.2
       ember-browser-services: 4.0.4
       ember-source: 5.6.0(@babel/core@7.23.9)(@glimmer/component@1.1.2)(@glint/template@1.0.2)(webpack@5.75.0)
@@ -3520,17 +3520,6 @@ packages:
       - autoprefixer
       - postcss
       - supports-color
-      - ts-node
-    dev: true
-
-  /@crowdstrike/tailwind-toucan-base@3.3.1(autoprefixer@10.4.17)(postcss@8.4.35):
-    resolution: {integrity: sha512-DGjFKPK7Y0UNJaaWBjE6M0PT/0bgJe3craBrbmI46hzRXMqwsWBZVlk98Sj5pl3pM2N8xldC94W9BpdLDoxrOg==}
-    engines: {node: '>=14.15.0'}
-    dependencies:
-      tailwindcss: 2.2.19(autoprefixer@10.4.17)(postcss@8.4.35)
-    transitivePeerDependencies:
-      - autoprefixer
-      - postcss
       - ts-node
     dev: true
 
@@ -3543,6 +3532,17 @@ packages:
       - autoprefixer
       - postcss
       - ts-node
+
+  /@crowdstrike/tailwind-toucan-base@4.4.0(autoprefixer@10.4.17)(postcss@8.4.35):
+    resolution: {integrity: sha512-43B4MO3tpIxpLoQiCm8WhQmx14NVD5PDCUa2m0mW9y1+Ij8WoKxz6MjvT7V4+Vh50PL/lJisUbVFRHq7XE27Tg==}
+    engines: {node: '>=14.15.0'}
+    dependencies:
+      tailwindcss: 2.2.19(autoprefixer@10.4.17)(postcss@8.4.35)
+    transitivePeerDependencies:
+      - autoprefixer
+      - postcss
+      - ts-node
+    dev: true
 
   /@docfy/core@0.8.0:
     resolution: {integrity: sha512-QQ3qLzXVJIOiULe8ebccX8RvtftDYl0DItYRe1R5qF7Q0JInF+JkX2XcTe6sy14i1sZXDvim+JnlpsKdjDC+Gg==}
@@ -3983,7 +3983,6 @@ packages:
       semver: 7.6.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@embroider/babel-loader-8@3.0.1(@embroider/core@3.2.1)(supports-color@8.1.1)(webpack@5.75.0):
     resolution: {integrity: sha512-SQYJ7UnKh2GpsnSTHVZ178ZriK+B5kqlh4kWZhH1DFTyguJ89dCCm4zrjOe7iJDPZxw9R/Vmj+MR2NDxKTofYw==}
@@ -4215,7 +4214,7 @@ packages:
     dependencies:
       babel-import-util: 2.0.0
       debug: 4.3.4(supports-color@8.1.1)
-      ember-rfc176-data: 0.3.17
+      ember-rfc176-data: 0.3.18
       fs-extra: 9.1.0
       js-string-escape: 1.0.1
       lodash: 4.17.21
@@ -11754,7 +11753,7 @@ packages:
       '@babel/core': 7.23.9(supports-color@8.1.1)
       '@babel/plugin-proposal-decorators': 7.23.9(@babel/core@7.23.9)
       '@ember-data/rfc395-data': 0.0.4
-      ember-rfc176-data: 0.3.17
+      ember-rfc176-data: 0.3.18
       eslint: 7.32.0
       snake-case: 3.0.4
     transitivePeerDependencies:
