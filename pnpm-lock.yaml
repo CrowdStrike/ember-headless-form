@@ -307,7 +307,7 @@ importers:
         version: 16.0.1(postcss@8.4.35)
       postcss-loader:
         specifier: ^8.0.0
-        version: 8.0.0(postcss@8.4.35)(typescript@5.0.2)(webpack@5.75.0)
+        version: 8.1.1(postcss@8.4.35)(typescript@5.0.2)(webpack@5.75.0)
       prettier:
         specifier: ^2.8.3
         version: 2.8.4
@@ -16080,17 +16080,23 @@ packages:
       postcss: 8.4.35
       yaml: 1.10.2
 
-  /postcss-loader@8.0.0(postcss@8.4.35)(typescript@5.0.2)(webpack@5.75.0):
-    resolution: {integrity: sha512-+RiNlmYd1aXYv6QSBOAu6n9eJYy0ydyXTfjljAJ3vFU6MMo2M552zTVcBpBH+R5aAeKaYVG1K9UEyAVsLL1Qjg==}
+  /postcss-loader@8.1.1(postcss@8.4.35)(typescript@5.0.2)(webpack@5.75.0):
+    resolution: {integrity: sha512-0IeqyAsG6tYiDRCYKQJLAmgQr47DX6N7sFSWvQxt6AcupX8DIdmykuk/o/tx0Lze3ErGHJEp5OSRxrelC6+NdQ==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
+      '@rspack/core': 0.x || 1.x
       postcss: ^7.0.0 || ^8.0.1
       webpack: ^5.0.0
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
+      webpack:
+        optional: true
     dependencies:
       cosmiconfig: 9.0.0(typescript@5.0.2)
       jiti: 1.21.0
       postcss: 8.4.35
-      semver: 7.5.4
+      semver: 7.6.0
       webpack: 5.75.0
     transitivePeerDependencies:
       - typescript
