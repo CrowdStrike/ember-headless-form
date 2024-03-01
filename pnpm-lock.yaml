@@ -347,7 +347,7 @@ importers:
         version: 2.2.1
       '@manypkg/get-packages':
         specifier: ^2.1.0
-        version: 2.1.0
+        version: 2.2.0
       '@pnpm/fs.hard-link-dir':
         specifier: ^2.0.0
         version: 2.0.0
@@ -4903,22 +4903,12 @@ packages:
       read-yaml-file: 1.1.0
     dev: true
 
-  /@manypkg/get-packages@2.1.0:
-    resolution: {integrity: sha512-IgWPEGgeKeR3ISlgHAMbY+m042yjNe3NPt8UmJT0xMwofe/UifUVtOq5aUBkNSygfOrcUh/j5JExLPuOx72quA==}
+  /@manypkg/get-packages@2.2.0:
+    resolution: {integrity: sha512-B5p5BXMwhGZKi/syEEAP1eVg5DZ/9LP+MZr0HqfrHLgu9fq0w4ZwH8yVen4JmjrxI2dWS31dcoswYzuphLaRxg==}
     engines: {node: '>=14.18.0'}
     dependencies:
       '@manypkg/find-root': 2.2.1
-      '@manypkg/tools': 1.0.0
-    dev: false
-
-  /@manypkg/tools@1.0.0:
-    resolution: {integrity: sha512-W8uDMhDGtwNyXYr6A+MWggxdL3spOQ8rfMNYpNph1GDJ0v084MnBFdpF1jvcPZ0okHAeYccV7le8AUs+fzwsAQ==}
-    engines: {node: '>=14.18.0'}
-    dependencies:
-      fs-extra: 8.1.0
-      globby: 11.1.0
-      jju: 1.4.0
-      read-yaml-file: 1.1.0
+      '@manypkg/tools': 1.1.0
     dev: false
 
   /@manypkg/tools@1.1.0:
@@ -13847,7 +13837,7 @@ packages:
     dependencies:
       universalify: 2.0.1
     optionalDependencies:
-      graceful-fs: 4.2.11
+      graceful-fs: 4.2.10
 
   /jsonify@0.0.1:
     resolution: {integrity: sha512-2/Ki0GcmuqSrgFyelQq9M05y7PS0mEwuIzrf3f1fPqkVDVRvZrPZtVSMHxdgo8Aq0sxAOb/cr2aqqA3LeWHVPg==}
