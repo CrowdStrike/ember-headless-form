@@ -365,7 +365,7 @@ importers:
         version: 4.0.3
       watcher:
         specifier: ^2.2.2
-        version: 2.2.2
+        version: 2.3.0
 
   packages/changeset:
     dependencies:
@@ -16030,6 +16030,10 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: true
 
+  /promise-make-naked@2.1.1:
+    resolution: {integrity: sha512-BLvgZSNRkQNM5RGL4Cz8wK76WSb+t3VeMJL+/kxRBHI5+nliqZezranGGtiu/ePeFo5+CaLRvvGMzXrBuu2tAA==}
+    dev: false
+
   /promise-map-series@0.2.3:
     resolution: {integrity: sha512-wx9Chrutvqu1N/NHzTayZjE1BgIwt6SJykQoCOic4IZ9yUDjKyVYrpLa/4YCNsV61eRENfs29hrEquVuB13Zlw==}
     dependencies:
@@ -16618,12 +16622,6 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
-
-  /ripstat@2.0.2:
-    resolution: {integrity: sha512-93g4yBvHzYwl9issdCObsHBojarat+rGT4QDFR0gFrOO4UrG90XUufMGkaSCn21awp08ahP/mQlqIiVFsTH8LQ==}
-    dependencies:
-      stubborn-fs: 1.2.4
-    dev: false
 
   /rollup-plugin-copy-assets@2.0.3(rollup@4.12.0):
     resolution: {integrity: sha512-ETShhQGb9SoiwcNrvb3BhUNSGR89Jao0+XxxfzzLW1YsUzx8+rMO4z9oqWWmo6OHUmfNQRvqRj0cAyPkS9lN9w==}
@@ -17552,8 +17550,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /stubborn-fs@1.2.4:
-    resolution: {integrity: sha512-KRa4nIRJ8q6uApQbPwYZVhOof8979fw4xbajBWa5kPJFa4nyY3aFaMWVyIVCDnkNCCG/3HLipUZ4QaNlYsmX1w==}
+  /stubborn-fs@1.2.5:
+    resolution: {integrity: sha512-H2N9c26eXjzL/S/K+i/RHHcFanE74dptvvjM8iwzwbVcWY/zjBbgRqF3K0DY4+OD+uTTASTBvDoxPDaPN02D7g==}
     dev: false
 
   /style-loader@2.0.0(webpack@5.90.3):
@@ -17985,8 +17983,10 @@ packages:
       - supports-color
     dev: true
 
-  /tiny-readdir@2.2.0:
-    resolution: {integrity: sha512-bO4IgID5M2x5YQFBru/wREgT30YuA8aoOd/F8Rd6LKRIn1gOe9aREjT74J9EVukHqI/2RB+4SM1RgXM0gwxoWw==}
+  /tiny-readdir@2.4.0:
+    resolution: {integrity: sha512-LS7NQKLyLy/EepnIbOWDdkR4k8KPwPYkYCMZzQOttE5PhmXBbKqGdRk6ndIsTpB54hL208gREAtMftlb+aELrw==}
+    dependencies:
+      promise-make-naked: 2.1.1
     dev: false
 
   /tmp@0.0.28:
@@ -18748,12 +18748,12 @@ packages:
       - supports-color
     dev: true
 
-  /watcher@2.2.2:
-    resolution: {integrity: sha512-q6H+WoyFUtcKbOiMh8HqtHqv8qMbJdAunALRyp3/Iwi/8vEBZ86AV71vTcbiX1JrtvbM2FeqQTFrXLIs9jT7EQ==}
+  /watcher@2.3.0:
+    resolution: {integrity: sha512-6hVpT1OhmYTZhsgUND2o2gTL79TosB1rH8DWzDO7KBlyR9Yuxg/LXUGeHJqjjvwpnyHT7uUdDwWczprJuqae9Q==}
     dependencies:
       dettle: 1.0.1
-      ripstat: 2.0.2
-      tiny-readdir: 2.2.0
+      stubborn-fs: 1.2.5
+      tiny-readdir: 2.4.0
     dev: false
 
   /watchpack@2.4.0:
