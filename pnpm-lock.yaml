@@ -60,7 +60,7 @@ importers:
         version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0)(ember-source@5.7.0)(validated-changeset@1.3.4)
       ember-headless-form-yup:
         specifier: workspace:*
-        version: file:packages/yup(ember-headless-form@1.0.0)(ember-source@5.7.0)(yup@1.3.3)
+        version: file:packages/yup(ember-headless-form@1.0.0)(ember-source@5.7.0)(yup@1.4.0)
       ember-modifier:
         specifier: ^4.0.0
         version: 4.1.0(ember-source@5.7.0)
@@ -81,7 +81,7 @@ importers:
         version: 1.3.4
       yup:
         specifier: ^1.0.0
-        version: 1.3.3
+        version: 1.4.0
     devDependencies:
       '@babel/core':
         specifier: ^7.23.6
@@ -836,7 +836,7 @@ importers:
         version: 5.90.3
       yup:
         specifier: ^1.0.0
-        version: 1.3.3
+        version: 1.4.0
 
   test-app:
     devDependencies:
@@ -1037,7 +1037,7 @@ importers:
         version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.0)(ember-source@5.7.0)(validated-changeset@1.3.4)
       ember-headless-form-yup:
         specifier: workspace:*
-        version: file:packages/yup(ember-headless-form@1.0.0)(ember-source@5.7.0)(yup@1.3.3)
+        version: file:packages/yup(ember-headless-form@1.0.0)(ember-source@5.7.0)(yup@1.4.0)
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.24.0)
@@ -1118,7 +1118,7 @@ importers:
         version: 5.90.3
       yup:
         specifier: ^1.0.0
-        version: 1.3.3
+        version: 1.4.0
     dependenciesMeta:
       ember-headless-form:
         injected: true
@@ -19237,8 +19237,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /yup@1.3.3:
-    resolution: {integrity: sha512-v8QwZSsHH2K3/G9WSkp6mZKO+hugKT1EmnMqLNUcfu51HU9MDyhlETT/JgtzprnrnQHPWsjc6MUDMBp/l9fNnw==}
+  /yup@1.4.0:
+    resolution: {integrity: sha512-wPbgkJRCqIf+OHyiTBQoJiP5PFuAXaWiJK6AmYkzQAh5/c2K9hzSApBZG5wV9KoKSePF7sAxmNSvh/13YHkFDg==}
     dependencies:
       property-expr: 2.0.6
       tiny-case: 1.0.3
@@ -19288,7 +19288,7 @@ packages:
       - '@glint/template'
       - supports-color
 
-  file:packages/yup(ember-headless-form@1.0.0)(ember-source@5.7.0)(yup@1.3.3):
+  file:packages/yup(ember-headless-form@1.0.0)(ember-source@5.7.0)(yup@1.4.0):
     resolution: {directory: packages/yup, type: directory}
     id: file:packages/yup
     name: ember-headless-form-yup
@@ -19301,6 +19301,6 @@ packages:
       ember-functions-as-helper-polyfill: 2.1.2(ember-source@5.7.0)
       ember-headless-form: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.3.0)(ember-source@5.7.0)
       ember-source: 5.7.0(@babel/core@7.24.0)(@glimmer/component@1.1.2)(@glint/template@1.3.0)(webpack@5.90.3)
-      yup: 1.3.3
+      yup: 1.4.0
     transitivePeerDependencies:
       - supports-color
