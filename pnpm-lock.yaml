@@ -90,8 +90,8 @@ importers:
         specifier: ^7.19.1
         version: 7.24.1(@babel/core@7.24.1)(eslint@8.57.0)
       '@crowdstrike/ember-toucan-styles':
-        specifier: ^2.0.0
-        version: 2.2.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.18)(ember-source@5.7.0)(postcss@8.4.37)(tailwindcss@3.4.1)
+        specifier: ^3.0.0
+        version: 3.0.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.18)(ember-source@5.7.0)(postcss@8.4.37)(tailwindcss@3.4.1)
       '@crowdstrike/tailwind-toucan-base':
         specifier: ^5.0.0
         version: 5.0.0(autoprefixer@10.4.18)(postcss@8.4.37)
@@ -3534,14 +3534,14 @@ packages:
       - webpack-cli
     dev: false
 
-  /@crowdstrike/ember-toucan-styles@2.2.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.18)(ember-source@5.7.0)(postcss@8.4.37)(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-cTLSsWh5QI5ql0AwkAQqq1TuvYMqMlonZ647RSz98fa5XooOhHdTO5oF12qpg1OUxxeKu/6k5jn1x/SAfewY3Q==}
+  /@crowdstrike/ember-toucan-styles@3.0.0(@glimmer/tracking@1.1.2)(autoprefixer@10.4.18)(ember-source@5.7.0)(postcss@8.4.37)(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-Hc6rx3vojrWXkT82xnf3lvCvwFzjTxtAa+VSAENKq0B2yojwxgzKUBfGmOA0+c+XaNnqfHkFlvi3TEMaO8UE8w==}
     peerDependencies:
       '@glimmer/tracking': ^1.1.2
       ember-source: ^3.24.0 || >= 4.0.0
       tailwindcss: ^2.2.15 || ^3.0.0
     dependencies:
-      '@crowdstrike/tailwind-toucan-base': 4.4.0(autoprefixer@10.4.18)(postcss@8.4.37)
+      '@crowdstrike/tailwind-toucan-base': 5.0.0(autoprefixer@10.4.18)(postcss@8.4.37)
       '@embroider/addon-shim': 1.8.7
       '@glimmer/tracking': 1.1.2
       ember-browser-services: 4.0.4
@@ -3551,17 +3551,6 @@ packages:
       - autoprefixer
       - postcss
       - supports-color
-      - ts-node
-    dev: true
-
-  /@crowdstrike/tailwind-toucan-base@4.4.0(autoprefixer@10.4.18)(postcss@8.4.37):
-    resolution: {integrity: sha512-43B4MO3tpIxpLoQiCm8WhQmx14NVD5PDCUa2m0mW9y1+Ij8WoKxz6MjvT7V4+Vh50PL/lJisUbVFRHq7XE27Tg==}
-    engines: {node: '>=14.15.0'}
-    dependencies:
-      tailwindcss: 2.2.19(autoprefixer@10.4.18)(postcss@8.4.37)
-    transitivePeerDependencies:
-      - autoprefixer
-      - postcss
       - ts-node
     dev: true
 

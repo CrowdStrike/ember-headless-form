@@ -28,7 +28,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.6",
     "@babel/eslint-parser": "^7.19.1",
-    "@crowdstrike/ember-toucan-styles": "^2.0.0",
+    "@crowdstrike/ember-toucan-styles": "^3.0.0",
     "@crowdstrike/tailwind-toucan-base": "^5.0.0",
     "@docfy/core": "^0.8.0",
     "@docfy/ember": "^0.8.0",
