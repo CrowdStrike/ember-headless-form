@@ -150,11 +150,11 @@ importers:
         specifier: ^4.0.1
         version: 4.0.11(@babel/core@7.24.3)
       '@types/ember-qunit':
-        specifier: ^5.0.2
-        version: 5.0.2(@babel/core@7.24.3)(@glint/template@1.4.0)(ember-source@5.7.0)(webpack@5.91.0)
+        specifier: ^6.0.0
+        version: 6.1.1(@ember/test-helpers@3.3.0)(@glint/template@1.4.0)(ember-source@5.7.0)(qunit@2.20.1)
       '@types/ember-resolver':
-        specifier: ^5.0.11
-        version: 5.0.13(@babel/core@7.24.3)
+        specifier: ^9.0.0
+        version: 9.0.0(ember-source@5.7.0)
       '@types/ember__application':
         specifier: ^4.0.2
         version: 4.0.11(@babel/core@7.24.3)
@@ -5609,21 +5609,6 @@ packages:
       - supports-color
     dev: true
 
-  /@types/ember-qunit@5.0.2(@babel/core@7.24.3)(@glint/template@1.4.0)(ember-source@5.7.0)(webpack@5.91.0):
-    resolution: {integrity: sha512-LXp0Ew4wPhaCMuw49cNDHWs/bROn+Msb4ypMG1t60EMBx0UaEoX0tZlkf5bQJfdD249WZTu5cCtKvl47xbQzxA==}
-    dependencies:
-      '@types/ember-resolver': 9.0.0(ember-source@5.7.0)
-      '@types/ember__test': 4.0.6(@babel/core@7.24.3)
-      '@types/ember__test-helpers': 2.9.1(@glint/template@1.4.0)(ember-source@5.7.0)(webpack@5.91.0)
-      '@types/qunit': 2.19.10
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@glint/template'
-      - ember-source
-      - supports-color
-      - webpack
-    dev: true
-
   /@types/ember-qunit@6.1.1(@ember/test-helpers@3.3.0)(@glint/template@1.4.0)(ember-source@5.7.0)(qunit@2.20.1):
     resolution: {integrity: sha512-1g5A3vPKhvB/CuN/EP9rBLXYaJOjzKyLYWeBtNDEQNkTuG1dAo/Hg0CCixgbBgLlzaDP8mR/n1xpg8HqQ8SUKg==}
     deprecated: This is a stub types definition. ember-qunit provides its own type definitions, so you do not need this installed.
@@ -5634,16 +5619,6 @@ packages:
       - '@glint/template'
       - ember-source
       - qunit
-      - supports-color
-    dev: true
-
-  /@types/ember-resolver@5.0.13(@babel/core@7.24.3):
-    resolution: {integrity: sha512-pO964cAPhAaFJoS28M8+b5MzAhQ/tVuNM4GDUIAexheQat36axG2WTG8LQ5ea07MSFPesrRFk2T3z88pfvdYKA==}
-    dependencies:
-      '@types/ember__object': 4.0.12(@babel/core@7.24.3)
-      '@types/ember__owner': 4.0.9
-    transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
     dev: true
 
@@ -5944,18 +5919,6 @@ packages:
 
   /@types/ember__template@4.0.7:
     resolution: {integrity: sha512-jv4hhG+8d1zdma+jhbCdJ3Ak7C22YNatGyWWvB3N9zbXq358AAPXaJoyNY8QTDbD/RIR9P6yoRk4u9vLbF6zfA==}
-
-  /@types/ember__test-helpers@2.9.1(@glint/template@1.4.0)(ember-source@5.7.0)(webpack@5.91.0):
-    resolution: {integrity: sha512-KZ6jYr0ZiQHlklLcfyuy1j+FkvygEayf5mZ9FcaSOahw9ghK3K5TYSRDCuIBELRw//OB/WP9J7v9NduFRNfRgg==}
-    deprecated: This is a stub types definition. @ember/test-helpers provides its own type definitions, so you do not need this installed.
-    dependencies:
-      '@ember/test-helpers': 3.3.0(@glint/template@1.4.0)(ember-source@5.7.0)(webpack@5.91.0)
-    transitivePeerDependencies:
-      - '@glint/template'
-      - ember-source
-      - supports-color
-      - webpack
-    dev: true
 
   /@types/ember__test@4.0.6:
     resolution: {integrity: sha512-Nswm/epfTepXknT8scZvWyyop1aqJcZcyzY4THGHFcXvYQQfA9rgmgrx6vo9vCJmYHh3jm0TTAIAIfoCvGaX5g==}
