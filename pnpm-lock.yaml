@@ -144,8 +144,8 @@ importers:
         specifier: ^0.5.7
         version: 0.5.12(tailwindcss@3.4.3)
       '@tsconfig/ember':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.6
       '@types/ember':
         specifier: ^4.0.1
         version: 4.0.11(@babel/core@7.24.3)
@@ -404,8 +404,8 @@ importers:
         specifier: ^1.0.2
         version: 1.4.0
       '@tsconfig/ember':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.6
       '@types/ember':
         specifier: ^4.0.0
         version: 4.0.11(@babel/core@7.24.3)
@@ -576,8 +576,8 @@ importers:
         specifier: ^3.0.2
         version: 3.2.2(@babel/core@7.24.3)(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint-config-prettier@8.10.0)(eslint-plugin-ember@11.12.0)(eslint@7.32.0)(prettier@2.8.8)(typescript@5.4.3)
       '@tsconfig/ember':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.6
       '@types/ember':
         specifier: ^4.0.0
         version: 4.0.11(@babel/core@7.24.3)
@@ -730,8 +730,8 @@ importers:
         specifier: ^1.0.2
         version: 1.4.0
       '@tsconfig/ember':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.6
       '@types/ember':
         specifier: ^4.0.0
         version: 4.0.11(@babel/core@7.24.3)
@@ -880,8 +880,8 @@ importers:
         specifier: ^3.0.2
         version: 3.2.2(@babel/eslint-parser@7.24.1)(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint-config-prettier@8.10.0)(eslint-plugin-ember@11.12.0)(eslint-plugin-qunit@7.3.4)(eslint@7.32.0)(prettier@2.8.8)(typescript@5.4.3)
       '@tsconfig/ember':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.6
       '@types/babel__traverse':
         specifier: ^7.18.3
         version: 7.20.5
@@ -5534,8 +5534,8 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
-  /@tsconfig/ember@2.0.0:
-    resolution: {integrity: sha512-RzbDYYcjxVdG8Ki0xe99HN3+nHTZe6EBgw6N7B3yup7QogVFQQxA9nY7X80j1XzF15xqetwWiYfAjv5lkkp0/A==}
+  /@tsconfig/ember@3.0.6:
+    resolution: {integrity: sha512-b1LmFAL5suTpQsaoG5NYpKAU8XfqQcob9gPu4xQlS/sNGD8Pp+vx+jI30Cy01+mxTBsQPig2kOwFpTD2b2qwtw==}
     dev: true
 
   /@types/acorn@4.0.6:
