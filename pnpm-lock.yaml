@@ -365,7 +365,7 @@ importers:
         version: 4.0.3
       watcher:
         specifier: ^2.2.2
-        version: 2.3.0
+        version: 2.3.1
 
   packages/changeset:
     dependencies:
@@ -9549,8 +9549,8 @@ packages:
       defined: 1.0.1
       minimist: 1.2.8
 
-  /dettle@1.0.1:
-    resolution: {integrity: sha512-/oD3At60ZfhgzpofJtyClNTrIACyMdRe+ih0YiHzAniN0IZnLdLpEzgR6RtGs3kowxUkTnvV/4t1FBxXMUdusQ==}
+  /dettle@1.0.2:
+    resolution: {integrity: sha512-pIVcNUx2/R7P45l3wEUsyrZcfbVUCKBmctUN41syh2asCXmrRndJEiNng9+8socNOAEBiBRqsQCh3HhCkOFwwg==}
     dev: false
 
   /didyoumean@1.2.2:
@@ -16184,8 +16184,8 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: true
 
-  /promise-make-naked@2.1.1:
-    resolution: {integrity: sha512-BLvgZSNRkQNM5RGL4Cz8wK76WSb+t3VeMJL+/kxRBHI5+nliqZezranGGtiu/ePeFo5+CaLRvvGMzXrBuu2tAA==}
+  /promise-make-naked@2.1.2:
+    resolution: {integrity: sha512-y7s8ZuHIG56JYspB24be9GFkXA1zXL85Ur9u1DKrW/tvyUoPxWgBjnalK6Nc6l7wHBcAW0c3PO07+XOsWTRuhg==}
     dev: false
 
   /promise-map-series@0.2.3:
@@ -18151,10 +18151,10 @@ packages:
       - supports-color
     dev: true
 
-  /tiny-readdir@2.4.0:
-    resolution: {integrity: sha512-LS7NQKLyLy/EepnIbOWDdkR4k8KPwPYkYCMZzQOttE5PhmXBbKqGdRk6ndIsTpB54hL208gREAtMftlb+aELrw==}
+  /tiny-readdir@2.7.2:
+    resolution: {integrity: sha512-211Pbj4W3EVVIrIkABDPlEyLNzAz1Zb921qwmkKQvx7YR90ma3wuzojFx62nptlrAlI/ict1f++r9E/+9DcWnQ==}
     dependencies:
-      promise-make-naked: 2.1.1
+      promise-make-naked: 2.1.2
     dev: false
 
   /tmp@0.0.28:
@@ -18909,12 +18909,12 @@ packages:
       - supports-color
     dev: true
 
-  /watcher@2.3.0:
-    resolution: {integrity: sha512-6hVpT1OhmYTZhsgUND2o2gTL79TosB1rH8DWzDO7KBlyR9Yuxg/LXUGeHJqjjvwpnyHT7uUdDwWczprJuqae9Q==}
+  /watcher@2.3.1:
+    resolution: {integrity: sha512-d3yl+ey35h05r5EFP0TafE2jsmQUJ9cc2aernRVyAkZiu0J3+3TbNugNcqdUJDoWOfL2p+bNsN427stsBC/HnA==}
     dependencies:
-      dettle: 1.0.1
+      dettle: 1.0.2
       stubborn-fs: 1.2.5
-      tiny-readdir: 2.4.0
+      tiny-readdir: 2.7.2
     dev: false
 
   /watchpack@2.4.1:
