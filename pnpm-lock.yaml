@@ -349,8 +349,8 @@ importers:
         specifier: ^2.1.0
         version: 2.2.1
       '@pnpm/fs.hard-link-dir':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.0
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@8.1.1)
@@ -5306,9 +5306,11 @@ packages:
       find-up: 5.0.0
     dev: true
 
-  /@pnpm/fs.hard-link-dir@2.0.0:
-    resolution: {integrity: sha512-UCXx4EmmCjOKiEmWX73fCER9s4iyThX7MOYd2mlUZq+QLt5FA2W9cnN5D8MFfwgkSLuSc8bWPWoqn+VN1nW1Tw==}
+  /@pnpm/fs.hard-link-dir@3.0.0:
+    resolution: {integrity: sha512-fgtmgsvWHTBirqU464ZksY+zCddyC+Udqlw1bsMps7yh/N1c3LD+Je5PJ924rZjteBmjGVaUq1l7fPFD7HG7YA==}
     engines: {node: '>=16.14'}
+    peerDependencies:
+      '@pnpm/logger': ^5.0.0
     dev: false
 
   /@rollup/pluginutils@4.2.1:
