@@ -319,7 +319,7 @@ importers:
         version: 2.20.1
       qunit-dom:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.1.1
       sync-pnpm:
         specifier: workspace:*
         version: link:../internal/sync-pnpm
@@ -1100,7 +1100,7 @@ importers:
         version: 2.20.1
       qunit-dom:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.1.1
       sinon:
         specifier: ^17.0.0
         version: 17.0.1
@@ -17047,8 +17047,8 @@ packages:
       rimraf: 2.7.1
       underscore.string: 3.3.6
 
-  /qunit-dom@3.0.0:
-    resolution: {integrity: sha512-rqGZ9ZgOvtOY+Ph2ElCJ4pRIHouMZmI3DWK35Xr3x3c17/gIwOHHyKAQk6XetqhqepS6p+oXvK6Bx1uZu5jJuw==}
+  /qunit-dom@3.1.1:
+    resolution: {integrity: sha512-Ja2NK+LsQM4iDU5QFtkwbLEbETgr6+7wTf7t6DXW3hWhB6GmAtKA2r3eLnmXpSdncMnoBsedXSKfjM0iMTOUGQ==}
     dev: true
 
   /qunit@2.20.1:
