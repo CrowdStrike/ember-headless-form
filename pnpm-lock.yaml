@@ -66,7 +66,7 @@ importers:
         version: 4.1.0(ember-source@5.8.0)
       ember-resources:
         specifier: ^7.0.0
-        version: 7.0.1(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0)
+        version: 7.0.2(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0)
       highlight.js:
         specifier: ^11.6.0
         version: 11.9.0
@@ -5350,7 +5350,6 @@ packages:
       semver: 7.6.2
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@embroider/babel-loader-9@3.1.1(@embroider/core@3.4.7)(supports-color@8.1.1)(webpack@5.92.0):
     resolution: {integrity: sha512-8mIDRXvwntYIQc2JFVvGXEppHUJRhw+6aEzHtbCZDr4oOKw55IyY+RHzas3JILRq64owLA+Ox0yu6nkwL1ApRQ==}
@@ -5557,28 +5556,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@embroider/macros@1.16.1(@glint/template@1.4.0):
-    resolution: {integrity: sha512-yBavtQBbiCjIW4tTNdoS+5/eu3mckZImrcVFkloRvZ5ZWvs2zqnLJVtfNsPMxhWu6dknFlmLqfuT30+kqnsQbg==}
-    engines: {node: 12.* || 14.* || >= 16}
-    peerDependencies:
-      '@glint/template': ^1.0.0
-    peerDependenciesMeta:
-      '@glint/template':
-        optional: true
-    dependencies:
-      '@embroider/shared-internals': 2.6.0(supports-color@8.1.1)
-      '@glint/template': 1.4.0
-      assert-never: 1.2.1
-      babel-import-util: 2.1.1
-      ember-cli-babel: 7.26.11
-      find-up: 5.0.0
-      lodash: 4.17.21
-      resolve: 1.22.8
-      semver: 7.6.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@embroider/macros@1.16.3(@glint/template@1.4.0):
     resolution: {integrity: sha512-WOQjl3aT3I5gG4XDLpCJjrKhNSapgH7FiLtpzM6lGfTFoA90rZojfjf5MELwzqlhjug0U2xLvyjw0l+kiBmDig==}
     engines: {node: 12.* || 14.* || >= 16}
@@ -5648,7 +5625,7 @@ packages:
     resolution: {integrity: sha512-jNDJ9YlV6Qp9Na9v17qirUewVuq6T0t32nn+bbnFlCRTvmllKluZdYPSC5RuRnEZKTloVYRSF0+f1rgkTIEvxQ==}
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
-      babel-import-util: 2.0.2
+      babel-import-util: 2.1.1
       debug: 4.3.5(supports-color@8.1.1)
       ember-rfc176-data: 0.3.18
       fs-extra: 9.1.0
@@ -9748,7 +9725,6 @@ packages:
 
   /common-ancestor-path@1.0.1:
     resolution: {integrity: sha512-L3sHRo1pXXEqX8VU28kfgUY+YGsk09hPqZiZmLacNib6XNTCM8ubYeT7ryXQw8asB1sKgcU5lkB7ONug08aB8w==}
-    dev: true
 
   /common-path-prefix@3.0.0:
     resolution: {integrity: sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w==}
@@ -11693,8 +11669,8 @@ packages:
       - supports-color
     dev: true
 
-  /ember-resources@7.0.1(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0):
-    resolution: {integrity: sha512-dN/5QwNMjnx99+T/QPxDRceFF8lrqXEb6/7heO7QEpkA6Td5mB/mzSECsE7W3du93WM2NOSpInp0I6b4gmdp7Q==}
+  /ember-resources@7.0.2(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0):
+    resolution: {integrity: sha512-WbTdfgMn2bIuuWIXl8PlS4wj3zBO1+plRI63XF9pUhk1ltE31P53ns28+e0EYdYyN9KtZ9di7ZsRLEWO2dHJGw==}
     peerDependencies:
       '@glimmer/component': '>= 1.1.2'
       '@glimmer/tracking': '>= 1.1.2'
@@ -11704,8 +11680,8 @@ packages:
       '@glimmer/component':
         optional: true
     dependencies:
-      '@embroider/addon-shim': 1.8.7
-      '@embroider/macros': 1.16.1(@glint/template@1.4.0)
+      '@embroider/addon-shim': 1.8.9
+      '@embroider/macros': 1.16.3(@glint/template@1.4.0)
       '@glimmer/component': 1.1.2(@babel/core@7.24.7)
       '@glimmer/tracking': 1.1.2
       '@glint/template': 1.4.0
