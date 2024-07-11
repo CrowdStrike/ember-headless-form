@@ -241,7 +241,7 @@ importers:
         version: 3.3.1(ember-cli@5.6.0)
       ember-cli-deprecation-workflow:
         specifier: ^3.0.0
-        version: 3.0.0(ember-source@5.8.0)
+        version: 3.0.1(ember-source@5.8.0)
       ember-cli-htmlbars:
         specifier: ^6.1.1
         version: 6.3.0
@@ -11153,8 +11153,8 @@ packages:
       - supports-color
     dev: true
 
-  /ember-cli-deprecation-workflow@3.0.0(ember-source@5.8.0):
-    resolution: {integrity: sha512-Ia/zpMKxBXyYjCqIkG3G/X+e6QbQXAMj1lEpA+/yIXM8sAxNqi89wfPo2mF2yjfVdSH1+//oQF1EoNizAopxdA==}
+  /ember-cli-deprecation-workflow@3.0.1(ember-source@5.8.0):
+    resolution: {integrity: sha512-d5wM5IHu+HjIK2TucQWOTFD9725Dx+xBZ3oBc0ZLaB8mdTV3wrAOrQ1vyzcuZEe/uvFBhr5TIy5QP+UNJ2q8Hg==}
     engines: {node: '>= 18'}
     peerDependencies:
       ember-source: '>= 4.0.0'
