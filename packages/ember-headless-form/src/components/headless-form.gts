@@ -465,7 +465,8 @@ export default class HeadlessFormComponent<
     } else {
       assert(
         'Validation errors expected to be present. If you see this, please report it as a bug to ember-headless-form!',
-        this.validationState?.isResolved
+        // Do *not* use optional chaining due to https://github.com/ember-cli/babel-plugin-debug-macros/issues/89
+        this.validationState && this.validationState.isResolved
       );
       this.args.onInvalid?.(this.effectiveData, this.validationState.value);
     }
