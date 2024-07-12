@@ -109,8 +109,5 @@
         "dist/*"
       ]
     }
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

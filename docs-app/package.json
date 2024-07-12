@@ -144,8 +144,5 @@
     "ember-headless-form-yup": {
       "injected": true
     }
-  },
-  "volta": {
-    "extends": "../package.json"
   }
 }
