@@ -1,5 +1,11 @@
 # ember-headless-form
 
+## 1.0.1
+
+### Patch Changes
+
+- [#421](https://github.com/CrowdStrike/ember-headless-form/pull/421) [`ec33d19`](https://github.com/CrowdStrike/ember-headless-form/commit/ec33d19ee5edc81f344b12fb9a40385cedf3bb2d) Thanks [@simonihmig](https://github.com/simonihmig)! - Remove optional chaining in `assert()` call to workaround [upstream bug](https://github.com/ember-cli/babel-plugin-debug-macros/issues/89)
+
 ## 1.0.0
 
 ### Major Changes

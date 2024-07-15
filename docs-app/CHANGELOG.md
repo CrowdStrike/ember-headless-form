@@ -1,5 +1,12 @@
 # docs-app
 
+## 0.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`ec33d19`](https://github.com/CrowdStrike/ember-headless-form/commit/ec33d19ee5edc81f344b12fb9a40385cedf3bb2d)]:
+  - ember-headless-form@1.0.1
+
 ## 0.0.1
 
 ### Patch Changes
