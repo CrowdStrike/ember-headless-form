@@ -6,6 +6,7 @@ import { action, get } from '@ember/object';
 import CaptureEventsModifier from '../modifiers/capture-events';
 import { uniqueId } from '../utils';
 import CheckboxComponent from './control/checkbox';
+import CheckboxGroupComponent from './control/checkbox-group';
 import InputComponent from './control/input';
 import RadioGroupComponent from './control/radio-group';
 import SelectComponent from './control/select';
@@ -120,6 +121,16 @@ export interface HeadlessFormFieldComponentSignature<
         >;
 
         /**
+         * Yielded control component that renders a single checkbox control.
+         *
+         * Use multiple to define a checkbox group. It further yields components to render `Input` and `Label`.
+         */
+        CheckboxGroup: WithBoundArgs<
+          typeof CheckboxGroupComponent,
+          'name' | 'selected' | 'setValue' | 'invalid' | 'errorId'
+        >;
+
+        /**
          * Yielded control component that renders a `<select>` element.
          */
         Select: WithBoundArgs<
@@ -217,6 +228,7 @@ export default class HeadlessFormFieldComponent<
   SelectComponent = SelectComponent;
   TextareaComponent = TextareaComponent;
   RadioGroupComponent = RadioGroupComponent;
+  CheckboxGroupComponent = CheckboxGroupComponent;
   CaptureEventsModifier = CaptureEventsModifier;
 
   constructor(
@@ -264,6 +276,19 @@ export default class HeadlessFormFieldComponent<
     );
 
     return this.value;
+  }
+
+  get valueAllAsString(): string[] {
+    assert(
+      `Only string values are expected for ${String(
+        this.args.name
+      )}`,
+      typeof this.value === 'undefined' ||
+        (Array.isArray(this.value) &&
+          this.value.every((v) => typeof v === 'string'))
+    );
+
+    return this.value ?? [];
   }
 
   get valueAsStringOrNumber(): string | number | undefined {
@@ -347,6 +372,14 @@ export default class HeadlessFormFieldComponent<
             name=@name
             errorId=errorId
             selected=this.valueAsString
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          CheckboxGroup=(component
+            this.CheckboxGroupComponent
+            name=@name
+            errorId=errorId
+            selected=this.valueAllAsString
             setValue=this.setValue
             invalid=this.hasErrors
           )
