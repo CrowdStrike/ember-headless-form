@@ -241,7 +241,7 @@ importers:
         version: 3.3.1(ember-cli@5.6.0)
       ember-cli-deprecation-workflow:
         specifier: ^3.0.0
-        version: 3.0.1(ember-source@5.8.0)
+        version: 3.0.2(ember-source@5.8.0)
       ember-cli-htmlbars:
         specifier: ^6.1.1
         version: 6.3.0
@@ -11131,14 +11131,13 @@ packages:
       - supports-color
     dev: true
 
-  /ember-cli-deprecation-workflow@3.0.1(ember-source@5.8.0):
-    resolution: {integrity: sha512-d5wM5IHu+HjIK2TucQWOTFD9725Dx+xBZ3oBc0ZLaB8mdTV3wrAOrQ1vyzcuZEe/uvFBhr5TIy5QP+UNJ2q8Hg==}
+  /ember-cli-deprecation-workflow@3.0.2(ember-source@5.8.0):
+    resolution: {integrity: sha512-Wjw4nNn1GMKLjKo/CrdFNaYSEW3qOuJYnBh7l8uO84EyWOYYvOLp9Ef4kGwaeehRgK8qDNcdzTFdPO6TD/aFIg==}
     engines: {node: '>= 18'}
     peerDependencies:
       ember-source: '>= 4.0.0'
     dependencies:
       '@babel/core': 7.25.2
-      '@ember/string': 3.1.1
       ember-cli-babel: 8.2.0(@babel/core@7.25.2)
       ember-source: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.93.0)
     transitivePeerDependencies:
