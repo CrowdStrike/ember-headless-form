@@ -45,7 +45,7 @@ export interface HeadlessFormControlCheckboxComponentSignature {
          */
         Input: WithBoundArgs<
           typeof HeadlessFormControlCheckboxInputComponent,
-          'fieldId' | 'value' | 'setValue' | 'checked' | 'name'
+          'fieldId' | 'value' | 'toggleValue' | 'checked' | 'name'
         >;
       }
     ];
@@ -58,11 +58,11 @@ export default class HeadlessFormControlCheckboxComponent extends Component<Head
   }
 
   @action
-  setValue(value: string): void {
-    if (this.args.selected.includes(value)) {
-      this.args.setValue([...this.args.selected.filter((v) => v !== value)]);
+  toggleValue(checked: boolean): void {
+    if (checked) {
+        this.args.setValue([...this.args.selected, this.args.value]);
       } else {
-      this.args.setValue([...this.args.selected, value]);
+        this.args.setValue([...this.args.selected.filter((v) => v !== this.args.value)]);
     }
   }
 
@@ -77,7 +77,7 @@ export default class HeadlessFormControlCheckboxComponent extends Component<Head
             fieldId=uuid
             value=@value
             checked=this.isChecked
-            setValue=this.setValue
+            toggleValue=this.toggleValue
           )
         )
       }}

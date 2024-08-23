@@ -1,7 +1,6 @@
-import { fn } from '@ember/helper';
+import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
-
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
+import { action } from '@ember/object';
 
 export interface HeadlessFormControlCheckboxInputComponentSignature {
   Element: HTMLInputElement;
@@ -31,11 +30,16 @@ export interface HeadlessFormControlCheckboxInputComponentSignature {
     /*
      * @internal
      */
-    setValue: (value: string) => void;
+    toggleValue: (value: string) => void;
   };
 }
 
-const HeadlessFormControlCheckboxInputComponent: TemplateOnlyComponent<HeadlessFormControlCheckboxInputComponentSignature> =
+export default class HeadlessFormControlCheckboxComponent extends Component<HeadlessFormControlCheckboxInputComponentSignature> {
+  @action
+  handleInput(e: Event | InputEvent): void {
+    this.args.toggleValue((e.target as HTMLInputElement).checked);
+  }
+
   <template>
     <input
       name={{@name}}
@@ -44,8 +48,7 @@ const HeadlessFormControlCheckboxInputComponent: TemplateOnlyComponent<HeadlessF
       checked={{@checked}}
       id={{@fieldId}}
       ...attributes
-      {{on "change" (fn @setValue @value)}}
+      {{on "change" this.handleInput}}
     />
-  </template>;
-
-export default HeadlessFormControlCheckboxInputComponent;
+  </template>
+}
