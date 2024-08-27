@@ -982,8 +982,8 @@ importers:
         specifier: ^8.0.0
         version: 8.2.2
       ember-a11y-testing:
-        specifier: ^6.1.1
-        version: 6.1.1(@ember/test-helpers@3.3.1)(@glint/template@1.4.0)(qunit@2.22.0)(webpack@5.94.0)
+        specifier: ^7.0.0
+        version: 7.0.0(@ember/test-helpers@3.3.1)(@glint/template@1.4.0)(qunit@2.22.0)(webpack@5.94.0)
       ember-async-data:
         specifier: ^1.0.3
         version: 1.0.3(ember-source@5.8.0)
@@ -1426,7 +1426,7 @@ packages:
       '@babel/core': 7.25.2
       '@babel/helper-compilation-targets': 7.24.7
       '@babel/helper-plugin-utils': 7.24.7
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.1
       semver: 6.3.1
@@ -1461,7 +1461,7 @@ packages:
       '@babel/core': 7.25.2
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.24.7
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -1478,7 +1478,7 @@ packages:
       '@babel/core': 7.25.2(supports-color@8.1.1)
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.24.7
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -4713,7 +4713,7 @@ packages:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.6.2
+      semver: 7.6.3
     dev: true
 
   /@changesets/assemble-release-plan@6.0.3:
@@ -4725,7 +4725,7 @@ packages:
       '@changesets/should-skip-package': 0.1.0
       '@changesets/types': 6.0.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.6.2
+      semver: 7.6.3
     dev: true
 
   /@changesets/changelog-git@0.2.0:
@@ -4807,7 +4807,7 @@ packages:
       '@manypkg/get-packages': 1.1.3
       chalk: 2.4.2
       fs-extra: 7.0.1
-      semver: 7.6.2
+      semver: 7.6.3
     dev: true
 
   /@changesets/get-github-info@0.6.0:
@@ -5716,13 +5716,13 @@ packages:
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
       babel-import-util: 2.1.1
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       ember-rfc176-data: 0.3.18
       fs-extra: 9.1.0
       js-string-escape: 1.0.1
       lodash: 4.17.21
       resolve-package-path: 4.0.3
-      semver: 7.3.8
+      semver: 7.6.3
       typescript-memoize: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -5939,7 +5939,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.1
@@ -6472,7 +6472,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 2.0.2
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -7800,7 +7800,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.4.5)
       eslint: 7.32.0
       eslint-scope: 5.1.1
-      semver: 7.6.0
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -8020,7 +8020,7 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -10771,11 +10771,11 @@ packages:
   /electron-to-chromium@1.5.7:
     resolution: {integrity: sha512-6FTNWIWMxMy/ZY6799nBlPtF1DFDQ6VQJ7yyDP27SJNt5lwtQ5ufqVvHylb3fdQefvRcgA3fKcFMJi9OLwBRNw==}
 
-  /ember-a11y-testing@6.1.1(@ember/test-helpers@3.3.1)(@glint/template@1.4.0)(qunit@2.22.0)(webpack@5.94.0):
-    resolution: {integrity: sha512-bDpw5+B2q++xwz5DWcbYB6dXp6nNe4jBwDkT6CqMESiVWWsSKPHs3ygt1Y89ESucesRIiv/49gNKMftZNsCpkw==}
+  /ember-a11y-testing@7.0.0(@ember/test-helpers@3.3.1)(@glint/template@1.4.0)(qunit@2.22.0)(webpack@5.94.0):
+    resolution: {integrity: sha512-rOAUQsLx+fl+U0MNLr0MlCQbZ8I7GMaNaRZhLsOOlQt9yTrX9U0G+OdcQFFRCJjJgM/vPiEkqBLQrGOkp0+d+w==}
     engines: {node: 16.* || >= 18}
     peerDependencies:
-      '@ember/test-helpers': ^3.0.3
+      '@ember/test-helpers': ^3.0.3 || ^4.0.2
       qunit: '>= 2'
     peerDependenciesMeta:
       qunit:
@@ -10787,12 +10787,12 @@ packages:
       axe-core: 4.6.3
       body-parser: 1.20.1
       broccoli-persistent-filter: 3.1.3
-      ember-auto-import: 2.6.3(@glint/template@1.4.0)(webpack@5.94.0)
+      ember-auto-import: 2.7.2(@glint/template@1.4.0)(webpack@5.94.0)
       ember-cli-babel: 7.26.11
       ember-cli-typescript: 4.2.1
       ember-cli-version-checker: 5.1.2
       ember-destroyable-polyfill: 2.0.3
-      fs-extra: 10.1.0
+      fs-extra: 11.2.0
       qunit: 2.22.0
       validate-peer-dependencies: 2.2.0
     transitivePeerDependencies:
@@ -10927,7 +10927,7 @@ packages:
       parse5: 6.0.1
       resolve: 1.22.8
       resolve-package-path: 4.0.3
-      semver: 7.6.0
+      semver: 7.6.3
       style-loader: 2.0.0(webpack@5.94.0)
       typescript-memoize: 1.1.1
       walk-sync: 3.0.0
@@ -11994,7 +11994,7 @@ packages:
       lodash: 4.17.21
       package-json: 6.5.0
       remote-git-tags: 3.0.0
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - encoding
     dev: true
@@ -13655,7 +13655,6 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
       universalify: 2.0.1
-    dev: false
 
   /fs-extra@4.0.3:
     resolution: {integrity: sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==}
@@ -14340,7 +14339,7 @@ packages:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2(supports-color@8.1.1)
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -14360,7 +14359,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2(supports-color@8.1.1)
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -16030,7 +16029,7 @@ packages:
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
-      semver: 7.5.4
+      semver: 7.6.3
       shellwords: 0.1.1
       uuid: 8.3.2
       which: 2.0.2
@@ -17298,7 +17297,7 @@ packages:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: 1.0.4
+      side-channel: 1.0.5
     dev: true
 
   /querystringify@2.2.0:
@@ -18218,14 +18217,6 @@ packages:
 
   /shellwords@0.1.1:
     resolution: {integrity: sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==}
-    dev: true
-
-  /side-channel@1.0.4:
-    resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
-    dependencies:
-      call-bind: 1.0.7
-      get-intrinsic: 1.2.4
-      object-inspect: 1.13.1
     dev: true
 
   /side-channel@1.0.5:
