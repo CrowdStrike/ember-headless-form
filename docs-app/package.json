@@ -120,7 +120,7 @@
     "@crowdstrike/ember-oss-docs": "^1.1.8",
     "@ember/test-waiters": "^3.0.2",
     "@embroider/router": "^2.1.6",
-    "ember-browser-services": "^4.0.4",
+    "ember-browser-services": "^5.0.0",
     "ember-changeset": "^4.1.2",
     "ember-changeset-validations": "^4.1.1",
     "ember-headless-form": "workspace:*",

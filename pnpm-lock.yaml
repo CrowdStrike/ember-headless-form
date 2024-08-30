@@ -36,7 +36,7 @@ importers:
     dependencies:
       '@crowdstrike/ember-oss-docs':
         specifier: ^1.1.8
-        version: 1.1.8(@babel/core@7.25.2)(@crowdstrike/tailwind-toucan-base@5.0.0)(@docfy/core@0.8.0)(@docfy/ember@0.8.5)(@glimmer/component@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(@tailwindcss/typography@0.5.15)(ember-browser-services@4.0.4)(ember-source@5.8.0)(highlight.js@11.10.0)(highlightjs-glimmer@2.2.1)
+        version: 1.1.8(@babel/core@7.25.2)(@crowdstrike/tailwind-toucan-base@5.0.0)(@docfy/core@0.8.0)(@docfy/ember@0.8.5)(@glimmer/component@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(@tailwindcss/typography@0.5.15)(ember-browser-services@5.0.0)(ember-source@5.8.0)(highlight.js@11.10.0)(highlightjs-glimmer@2.2.1)
       '@ember/test-waiters':
         specifier: ^3.0.2
         version: 3.0.2
@@ -44,8 +44,8 @@ importers:
         specifier: ^2.1.6
         version: 2.1.6(@embroider/core@3.4.7)
       ember-browser-services:
-        specifier: ^4.0.4
-        version: 4.0.4
+        specifier: ^5.0.0
+        version: 5.0.0(@glint/template@1.4.0)
       ember-changeset:
         specifier: ^4.1.2
         version: 4.1.2(@glint/template@1.4.0)(ember-data@5.3.0)(webpack@5.94.0)
@@ -4925,7 +4925,7 @@ packages:
     dev: true
     optional: true
 
-  /@crowdstrike/ember-oss-docs@1.1.8(@babel/core@7.25.2)(@crowdstrike/tailwind-toucan-base@5.0.0)(@docfy/core@0.8.0)(@docfy/ember@0.8.5)(@glimmer/component@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(@tailwindcss/typography@0.5.15)(ember-browser-services@4.0.4)(ember-source@5.8.0)(highlight.js@11.10.0)(highlightjs-glimmer@2.2.1):
+  /@crowdstrike/ember-oss-docs@1.1.8(@babel/core@7.25.2)(@crowdstrike/tailwind-toucan-base@5.0.0)(@docfy/core@0.8.0)(@docfy/ember@0.8.5)(@glimmer/component@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(@tailwindcss/typography@0.5.15)(ember-browser-services@5.0.0)(ember-source@5.8.0)(highlight.js@11.10.0)(highlightjs-glimmer@2.2.1):
     resolution: {integrity: sha512-rvled2aNM6hKCxhYCFSn6Ehfqki6vdKZWF6fTyPn/6miZaxuF7uKkzlrt5xs7oXysKe3FbqSIFvcL2B3Z3LPxA==}
     peerDependencies:
       '@crowdstrike/tailwind-toucan-base': ^3.3.1
@@ -4949,7 +4949,7 @@ packages:
       '@glint/template': 1.4.0
       '@tailwindcss/typography': 0.5.15(tailwindcss@3.4.10)
       dompurify: 2.4.7
-      ember-browser-services: 4.0.4
+      ember-browser-services: 5.0.0(@glint/template@1.4.0)
       ember-modifier: 4.1.0(ember-source@5.8.0)
       ember-url-hash-polyfill: 1.0.11(@babel/core@7.25.2)
       highlight.js: 11.10.0
@@ -5592,7 +5592,7 @@ packages:
       find-up: 5.0.0
       lodash: 4.17.21
       resolve: 1.22.1
-      semver: 7.3.8
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -5708,7 +5708,7 @@ packages:
       js-string-escape: 1.0.1
       lodash: 4.17.21
       resolve-package-path: 4.0.3
-      semver: 7.3.8
+      semver: 7.6.3
       typescript-memoize: 1.1.1
 
   /@embroider/shared-internals@2.4.0:
@@ -5738,7 +5738,7 @@ packages:
       js-string-escape: 1.0.1
       lodash: 4.17.21
       resolve-package-path: 4.0.3
-      semver: 7.6.0
+      semver: 7.6.3
       typescript-memoize: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -9454,7 +9454,7 @@ packages:
   /builtins@5.0.1:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.3
     dev: true
 
   /bytes@1.0.0:
@@ -10274,7 +10274,7 @@ packages:
       postcss-modules-values: 4.0.0(postcss@8.4.41)
       postcss-value-parser: 4.2.0
       schema-utils: 3.3.0
-      semver: 7.6.0
+      semver: 7.6.3
       webpack: 5.94.0
 
   /css-select@5.1.0:
@@ -10943,6 +10943,17 @@ packages:
       ember-window-mock: 0.8.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /ember-browser-services@5.0.0(@glint/template@1.4.0):
+    resolution: {integrity: sha512-HsfshVsZbmqvwEom/Gk1djhbgaw6lu5nFzF5SI+IWBfuXDKGu6IHMKszKbTRuqEI/PiLJtKmU3cRg+MUSCSTxg==}
+    dependencies:
+      '@embroider/addon-shim': 1.8.9
+      ember-window-mock: 1.0.2(@glint/template@1.4.0)
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+    dev: false
 
   /ember-cache-primitive-polyfill@1.0.1(@babel/core@7.25.2):
     resolution: {integrity: sha512-hSPcvIKarA8wad2/b6jDd/eU+OtKmi6uP+iYQbzi5TQpjsqV6b4QdRqrLk7ClSRRKBAtdTuutx+m+X+WlEd2lw==}
@@ -12056,6 +12067,17 @@ packages:
       ember-cli-htmlbars: 6.3.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /ember-window-mock@1.0.2(@glint/template@1.4.0):
+    resolution: {integrity: sha512-05qmab/YLHwg3Pn+NfQh7PwGY2H1GimxhNKxEoBX6/H3aMGmgwk9rOsV7fFV1PjZrq/V6op+BIqSfObw35psHg==}
+    dependencies:
+      '@embroider/addon-shim': 1.8.9
+      '@embroider/macros': 1.16.5(@glint/template@1.4.0)
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -16079,7 +16101,7 @@ packages:
     dependencies:
       hosted-git-info: 6.1.1
       proc-log: 3.0.0
-      semver: 7.5.4
+      semver: 7.6.3
       validate-npm-package-name: 5.0.0
     dev: true
 
