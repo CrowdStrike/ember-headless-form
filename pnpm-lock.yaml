@@ -23,8 +23,8 @@ importers:
         specifier: ^2.26.0
         version: 2.27.8
       concurrently:
-        specifier: ^8.0.0
-        version: 8.2.2
+        specifier: ^9.0.0
+        version: 9.0.0
       prettier:
         specifier: ^2.8.4
         version: 2.8.8
@@ -219,8 +219,8 @@ importers:
         specifier: ^10.4.12
         version: 10.4.20(postcss@8.4.45)
       concurrently:
-        specifier: ^8.0.0
-        version: 8.2.2
+        specifier: ^9.0.0
+        version: 9.0.0
       cssnano:
         specifier: ^7.0.0
         version: 7.0.6(postcss@8.4.45)
@@ -464,8 +464,8 @@ importers:
         specifier: ^5.30.5
         version: 5.62.0(eslint@7.32.0)(typescript@5.4.5)
       concurrently:
-        specifier: ^8.0.0
-        version: 8.2.2
+        specifier: ^9.0.0
+        version: 9.0.0
       ember-changeset:
         specifier: ^4.0.0
         version: 4.1.2(@glint/template@1.4.0)(ember-data@5.3.0)(webpack@5.94.0)
@@ -642,8 +642,8 @@ importers:
         specifier: ^5.30.5
         version: 5.62.0(eslint@7.32.0)(typescript@5.4.5)
       concurrently:
-        specifier: ^8.0.0
-        version: 8.2.2
+        specifier: ^9.0.0
+        version: 9.0.0
       ember-source:
         specifier: ^5.0.0
         version: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.94.0)
@@ -790,8 +790,8 @@ importers:
         specifier: ^5.30.5
         version: 5.62.0(eslint@7.32.0)(typescript@5.4.5)
       concurrently:
-        specifier: ^8.0.0
-        version: 8.2.2
+        specifier: ^9.0.0
+        version: 9.0.0
       ember-headless-form:
         specifier: ^1.0.0
         version: link:../ember-headless-form
@@ -979,8 +979,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       concurrently:
-        specifier: ^8.0.0
-        version: 8.2.2
+        specifier: ^9.0.0
+        version: 9.0.0
       ember-a11y-testing:
         specifier: ^7.0.0
         version: 7.0.0(@ember/test-helpers@3.3.1)(@glint/template@1.4.0)(qunit@2.22.0)(webpack@5.94.0)
@@ -9874,17 +9874,15 @@ packages:
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
-  /concurrently@8.2.2:
-    resolution: {integrity: sha512-1dP4gpXFhei8IOtlXRE/T/4H88ElHgTiUzh71YUmtjTEHMSRS2Z/fgOxHSxxusGHogsRfxNq1vyAwxSC+EVyDg==}
-    engines: {node: ^14.13.0 || >=16.0.0}
+  /concurrently@9.0.0:
+    resolution: {integrity: sha512-iAxbsDeUkn8E/4+QalT7T3WvlyTfmsoez+19lbbcsxZdOEMfBukd8LA30KYez2UR5xkKFzbcqXIZy5RisCbaxw==}
+    engines: {node: '>=18'}
     hasBin: true
     dependencies:
       chalk: 4.1.2
-      date-fns: 2.30.0
       lodash: 4.17.21
       rxjs: 7.8.1
       shell-quote: 1.8.1
-      spawn-command: 0.0.2
       supports-color: 8.1.1
       tree-kill: 1.2.2
       yargs: 17.7.2
@@ -18437,10 +18435,6 @@ packages:
 
   /spawn-args@0.2.0:
     resolution: {integrity: sha512-73BoniQDcRWgnLAf/suKH6V5H54gd1KLzwYN9FB6J/evqTV33htH9xwV/4BHek+++jzxpVlZQKKZkqstPQPmQg==}
-    dev: true
-
-  /spawn-command@0.0.2:
-    resolution: {integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==}
     dev: true
 
   /spawndamnit@2.0.0:
