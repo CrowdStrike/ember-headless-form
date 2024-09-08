@@ -65,7 +65,7 @@
     "@types/ember__routing": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
-    "concurrently": "^8.0.0",
+    "concurrently": "^9.0.0",
     "ember-template-lint": "^4.0.0",
     "ember-source": "~5.8.0",
     "eslint": "^7.32.0",
