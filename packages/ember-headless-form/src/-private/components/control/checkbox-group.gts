@@ -20,12 +20,12 @@ export interface HeadlessFormControlCheckboxGroupComponentSignature {
     /*
      * @internal
      */
-    selected: string;
+    selected: string[];
 
     /*
      * @internal
      */
-    setValue: (value: string) => void;
+    setValue: (value: string[]) => void;
 
     /*
      * @internal
