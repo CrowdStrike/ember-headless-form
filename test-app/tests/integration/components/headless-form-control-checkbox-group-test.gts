@@ -12,7 +12,7 @@ module('Integration Component HeadlessForm > CheckboxGroup', function (hooks) {
   setupRenderingTest(hooks);
 
   test('field yields checkboxgroup component', async function (assert) {
-    const data: { choices: string[] } = {};
+    const data: { choices?: string[] } = {};
 
     await render(<template>
       <HeadlessForm @data={{data}} as |form|>

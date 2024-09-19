@@ -30,7 +30,7 @@ export interface HeadlessFormControlCheckboxInputComponentSignature {
     /*
      * @internal
      */
-    toggleValue: (value: string) => void;
+    toggleValue: (value: boolean) => void;
   };
 }
 
