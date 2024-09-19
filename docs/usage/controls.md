@@ -74,6 +74,38 @@ Renders a single `<input type="checkbox">` form element. Note that form data ass
 </HeadlessForm>
 ```
 
+## Checkbox group
+
+Renders `<input type="checkbox">` form elements, wrapped in a `<div role="group">`. One or multiple checkboxes form a group. Data assigned to that field should be an array of type `string`.
+
+You may use one or multiple instances of `Checkbox`, yielded from `CheckboxGroup`. Each of those will itself yield additional sub-components `Input` (for rendering the actual `<input`) and `Label` (for the `<label>` associated to the `Input`). Pass `@value` to the `Checkbox`, determining the value of the field's form data when that checkbox is selected. Make sure to also use a `Label` for the checkbox group:
+
+```hbs preview-template
+<HeadlessForm as |form|>
+  <form.Field @name='likes' as |field|>
+    <field.CheckboxGroup class='my-2 flex flex-col' as |group|>
+      <group.Label>I like:</group.Label>
+      <div class='flex flex-row space-x-2'>
+        <group.Checkbox @value='red' as |checkbox|>
+          <checkbox.Input />
+          <checkbox.Label>Red</checkbox.Label>
+        </group.Checkbox>
+        <group.Checkbox @value='green' as |checkbox|>
+          <checkbox.Input />
+          <checkbox.Label>Green</checkbox.Label>
+        </group.Checkbox>
+        <group.Checkbox @value='blue' as |checkbox|>
+          <checkbox.Input />
+          <checkbox.Label>Blue</checkbox.Label>
+        </group.Checkbox>
+      </div>
+    </field.CheckboxGroup>
+  </form.Field>
+
+  <button type='submit'>Submit</button>
+</HeadlessForm>
+```
+
 ## Radio group
 
 Renders `<input type="radio">` form elements, wrapped in a `<div role="radiogroup">`. Using a single control is not useful here, instead multiple radio buttons form a radio group. As such the usage pattern differs from previous examples.

@@ -30,6 +30,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           firstName: 'Tony',
           lastName: 'Ward',
           gender: 'male',
+          likes: ['red', 'blue'],
           country: 'USA',
           comments: 'lorem ipsum',
           acceptTerms: true,
@@ -62,6 +63,22 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
                 </group.Radio>
               </field.RadioGroup>
             </form.Field>
+            <form.Field @name="likes" as |field|>
+              <field.CheckboxGroup as |group|>
+                <group.Checkbox @value="red" as |checkbox|>
+                  <checkbox.Input data-test-likes-red />
+                  <checkbox.Label>Red</checkbox.Label>
+                </group.Checkbox>
+                <group.Checkbox @value="green" as |checkbox|>
+                  <checkbox.Input data-test-likes-green />
+                  <checkbox.Label>Green</checkbox.Label>
+                </group.Checkbox>
+                <group.Checkbox @value="blue" as |checkbox|>
+                  <checkbox.Input data-test-likes-blue />
+                  <checkbox.Label>Blue</checkbox.Label>
+                </group.Checkbox>
+              </field.CheckboxGroup>
+            </form.Field>
             <form.Field @name="age" as |field|>
               <field.Label>Age</field.Label>
               <field.Input @type="number" data-test-age />
@@ -89,6 +106,9 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         assert.dom('input[data-test-gender-male]').isChecked();
         assert.dom('input[data-test-gender-female]').isNotChecked();
         assert.dom('input[data-test-gender-other]').isNotChecked();
+        assert.dom('input[data-test-likes-red]').isChecked();
+        assert.dom('input[data-test-likes-blue]').isChecked();
+        assert.dom('input[data-test-likes-green]').isNotChecked();
         assert.dom('input[data-test-age]').hasValue('21');
         assert.dom('select[data-test-country]').hasValue('USA');
         assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
@@ -97,13 +117,14 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       test('class object', async function (assert) {
         class MyData {
-          constructor(public firstName: string, public lastName: string, public gender: 'male' | 'female' | 'other', public country: string, public comments: string, public acceptTerms: boolean, public age: number) {}
+          constructor(public firstName: string, public lastName: string, public gender: 'male' | 'female' | 'other', public likes: string[], public country: string, public comments: string, public acceptTerms: boolean, public age: number) {}
         }
 
         const data = new MyData(
           'Tony',
           'Ward',
           'male',
+          ['red', 'blue'],
           'USA',
           'lorem ipsum',
           true,
@@ -136,6 +157,22 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
                 </group.Radio>
               </field.RadioGroup>
             </form.Field>
+            <form.Field @name="likes" as |field|>
+              <field.CheckboxGroup as |group|>
+                <group.Checkbox @value="red" as |checkbox|>
+                  <checkbox.Input data-test-likes-red />
+                  <checkbox.Label>Red</checkbox.Label>
+                </group.Checkbox>
+                <group.Checkbox @value="green" as |checkbox|>
+                  <checkbox.Input data-test-likes-green />
+                  <checkbox.Label>Green</checkbox.Label>
+                </group.Checkbox>
+                <group.Checkbox @value="blue" as |checkbox|>
+                  <checkbox.Input data-test-likes-blue />
+                  <checkbox.Label>Blue</checkbox.Label>
+                </group.Checkbox>
+              </field.CheckboxGroup>
+            </form.Field>
             <form.Field @name="age" as |field|>
               <field.Label>Age</field.Label>
               <field.Input @type="number" data-test-age />
@@ -163,6 +200,9 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         assert.dom('input[data-test-gender-male]').isChecked();
         assert.dom('input[data-test-gender-female]').isNotChecked();
         assert.dom('input[data-test-gender-other]').isNotChecked();
+        assert.dom('input[data-test-likes-red]').isChecked();
+        assert.dom('input[data-test-likes-blue]').isChecked();
+        assert.dom('input[data-test-likes-green]').isNotChecked();
         assert.dom('input[data-test-age]').hasValue('21');
         assert.dom('select[data-test-country]').hasValue('USA');
         assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
@@ -177,6 +217,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             firstName: 'Tony',
             lastName: 'Ward',
             gender: 'male',
+            likes: ['red', 'blue'],
             country: 'USA',
             comments: 'lorem ipsum',
             acceptTerms: true,
@@ -209,6 +250,22 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
                   </group.Radio>
                 </field.RadioGroup>
               </form.Field>
+              <form.Field @name="likes" as |field|>
+                <field.CheckboxGroup as |group|>
+                  <group.Checkbox @value="red" as |checkbox|>
+                    <checkbox.Input data-test-likes-red />
+                    <checkbox.Label>Red</checkbox.Label>
+                  </group.Checkbox>
+                  <group.Checkbox @value="green" as |checkbox|>
+                    <checkbox.Input data-test-likes-green />
+                    <checkbox.Label>Green</checkbox.Label>
+                  </group.Checkbox>
+                  <group.Checkbox @value="blue" as |checkbox|>
+                    <checkbox.Input data-test-likes-blue />
+                    <checkbox.Label>Blue</checkbox.Label>
+                  </group.Checkbox>
+                </field.CheckboxGroup>
+              </form.Field>
               <form.Field @name="age" as |field|>
                 <field.Label>Age</field.Label>
                 <field.Input @type="number" data-test-age />
@@ -236,6 +293,9 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           assert.dom('input[data-test-gender-male]').isChecked();
           assert.dom('input[data-test-gender-female]').isNotChecked();
           assert.dom('input[data-test-gender-other]').isNotChecked();
+          assert.dom('input[data-test-likes-red]').isChecked();
+          assert.dom('input[data-test-likes-blue]').isChecked();
+          assert.dom('input[data-test-likes-green]').isNotChecked();
           assert.dom('input[data-test-age]').hasValue('21');
           assert.dom('select[data-test-country]').hasValue('USA');
           assert.dom('textarea[data-test-comments]').hasValue('lorem ipsum');
@@ -409,6 +469,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           firstName: 'Tony',
           lastName: 'Ward',
           gender: 'male',
+          likes: ['red', 'blue'],
           country: 'USA',
           comments: 'lorem ipsum',
           acceptTerms: false,
@@ -442,6 +503,22 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
                 </group.Radio>
               </field.RadioGroup>
             </form.Field>
+            <form.Field @name="likes" as |field|>
+              <field.CheckboxGroup as |group|>
+                <group.Checkbox @value="red" as |checkbox|>
+                  <checkbox.Input data-test-likes-red />
+                  <checkbox.Label>Red</checkbox.Label>
+                </group.Checkbox>
+                <group.Checkbox @value="green" as |checkbox|>
+                  <checkbox.Input data-test-likes-green />
+                  <checkbox.Label>Green</checkbox.Label>
+                </group.Checkbox>
+                <group.Checkbox @value="blue" as |checkbox|>
+                  <checkbox.Input data-test-likes-blue />
+                  <checkbox.Label>Blue</checkbox.Label>
+                </group.Checkbox>
+              </field.CheckboxGroup>
+            </form.Field>
             <form.Field @name="age" as |field|>
               <field.Label>Age</field.Label>
               <field.Input @type="number" data-test-age />
@@ -474,6 +551,8 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         await fillIn('input[data-test-last-name]', 'Chung');
         await select('select[data-test-country]', 'CA');
         await click('input[data-test-gender-female]');
+        await click('input[data-test-likes-red]');
+        await click('input[data-test-likes-green]');
         await fillIn('input[data-test-age]', '20');
         await fillIn('textarea[data-test-comments]', 'foo bar');
         await click('input[data-test-terms]');
@@ -485,6 +564,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             firstName: 'Tony',
             lastName: 'Ward',
             gender: 'male',
+            likes: ['red', 'blue'],
             country: 'USA',
             comments: 'lorem ipsum',
             acceptTerms: false,
@@ -498,6 +578,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             firstName: 'Nicole',
             lastName: 'Chung',
             gender: 'female',
+            likes: ['blue', 'green'],
             country: 'CA',
             comments: 'foo bar',
             acceptTerms: true,
@@ -509,13 +590,14 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
 
       test('class object', async function (assert) {
         class MyData {
-          constructor(public firstName: string, public lastName: string, public gender: 'male' | 'female' | 'other', public country: string, public comments: string, public acceptTerms: boolean, public age: number) {}
+          constructor(public firstName: string, public lastName: string, public gender: 'male' | 'female' | 'other', public likes: string[], public country: string, public comments: string, public acceptTerms: boolean, public age: number) {}
         }
 
         const data = new MyData(
           'Tony',
           'Ward',
           'male',
+          ['red', 'blue'],
           'USA',
           'lorem ipsum',
           false,
@@ -549,6 +631,22 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
                 </group.Radio>
               </field.RadioGroup>
             </form.Field>
+              <form.Field @name="likes" as |field|>
+                <field.CheckboxGroup as |group|>
+                  <group.Checkbox @value="red" as |checkbox|>
+                    <checkbox.Input data-test-likes-red />
+                    <checkbox.Label>Red</checkbox.Label>
+                  </group.Checkbox>
+                  <group.Checkbox @value="green" as |checkbox|>
+                    <checkbox.Input data-test-likes-green />
+                    <checkbox.Label>Green</checkbox.Label>
+                  </group.Checkbox>
+                  <group.Checkbox @value="blue" as |checkbox|>
+                    <checkbox.Input data-test-likes-blue />
+                    <checkbox.Label>Blue</checkbox.Label>
+                  </group.Checkbox>
+                </field.CheckboxGroup>
+              </form.Field>
             <form.Field @name="age" as |field|>
               <field.Label>Age</field.Label>
               <field.Input @type="number" data-test-age />
@@ -581,6 +679,8 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
         await fillIn('input[data-test-last-name]', 'Chung');
         await select('select[data-test-country]', 'CA');
         await click('input[data-test-gender-female]');
+        await click('input[data-test-likes-red]');
+        await click('input[data-test-likes-green]');
         await fillIn('input[data-test-age]', '20');
         await fillIn('textarea[data-test-comments]', 'foo bar');
         await click('input[data-test-terms]');
@@ -592,6 +692,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             firstName: 'Tony',
             lastName: 'Ward',
             gender: 'male',
+            likes: ['red', 'blue'],
             country: 'USA',
             comments: 'lorem ipsum',
             acceptTerms: false,
@@ -605,6 +706,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             firstName: 'Nicole',
             lastName: 'Chung',
             gender: 'female',
+            likes: ['blue', 'green'],
             country: 'CA',
             comments: 'foo bar',
             acceptTerms: true,
@@ -622,6 +724,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
             firstName: 'Tony',
             lastName: 'Ward',
             gender: 'male',
+            likes: ['red', 'blue'],
             country: 'USA',
             comments: 'lorem ipsum',
             acceptTerms: false,
@@ -655,6 +758,22 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
                   </group.Radio>
                 </field.RadioGroup>
               </form.Field>
+              <form.Field @name="likes" as |field|>
+                <field.CheckboxGroup as |group|>
+                  <group.Checkbox @value="red" as |checkbox|>
+                    <checkbox.Input data-test-likes-red />
+                    <checkbox.Label>Red</checkbox.Label>
+                  </group.Checkbox>
+                  <group.Checkbox @value="green" as |checkbox|>
+                    <checkbox.Input data-test-likes-green />
+                    <checkbox.Label>Green</checkbox.Label>
+                  </group.Checkbox>
+                  <group.Checkbox @value="blue" as |checkbox|>
+                    <checkbox.Input data-test-likes-blue />
+                    <checkbox.Label>Blue</checkbox.Label>
+                  </group.Checkbox>
+                </field.CheckboxGroup>
+              </form.Field>
               <form.Field @name="age" as |field|>
                 <field.Label>Age</field.Label>
                 <field.Input @type="number" data-test-age />
@@ -687,6 +806,8 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           await fillIn('input[data-test-last-name]', 'Chung');
           await select('select[data-test-country]', 'CA');
           await click('input[data-test-gender-female]');
+          await click('input[data-test-likes-red]');
+          await click('input[data-test-likes-green]');
           await fillIn('input[data-test-age]', '20');
           await fillIn('textarea[data-test-comments]', 'foo bar');
           await click('input[data-test-terms]');
@@ -695,6 +816,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
           assert.strictEqual(data.firstName, 'Tony');
           assert.strictEqual(data.lastName, 'Ward');
           assert.strictEqual(data.gender, 'male');
+          assert.deepEqual(data.likes, ['red', 'blue']);
           assert.strictEqual(data.country, 'USA');
           assert.strictEqual(data.comments, 'lorem ipsum');
           assert.false(data.acceptTerms);
@@ -705,6 +827,7 @@ module('Integration Component HeadlessForm > Data', function (hooks) {
               firstName: 'Nicole',
               lastName: 'Chung',
               gender: 'female',
+              likes: ['blue', 'green'],
               country: 'CA',
               comments: 'foo bar',
               acceptTerms: true,

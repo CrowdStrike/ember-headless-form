@@ -4,6 +4,7 @@ interface MyFormData {
   firstName?: string;
   lastName?: string;
   gender?: 'male' | 'female' | 'other';
+  likes?: ('red' | 'green' | 'blue')[];
   email?: string;
   country?: string;
   accept_tos?: boolean;
@@ -15,6 +16,6 @@ export default class IndexController extends Controller {
 
   doSomething(data: MyFormData) {
     // eslint-disable-next-line no-console
-    console.log('Form submitted 🚀', data);
+    console.log('Form submitted 🚀', JSON.stringify(data, null, 2));
   }
 }
