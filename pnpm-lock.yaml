@@ -54,7 +54,7 @@ importers:
         version: 4.1.1(@glint/template@1.4.0)(webpack@5.95.0)
       ember-headless-form:
         specifier: workspace:*
-        version: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0)
+        version: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0)
       ember-headless-form-changeset:
         specifier: workspace:*
         version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.1)(ember-source@5.8.0)(validated-changeset@1.3.4)
@@ -470,7 +470,7 @@ importers:
         specifier: ^4.0.0
         version: 4.1.2(@glint/template@1.4.0)(ember-data@5.3.0)(webpack@5.95.0)
       ember-headless-form:
-        specifier: ^1.0.0
+        specifier: workspace:^1
         version: link:../ember-headless-form
       ember-source:
         specifier: ~5.8.0
@@ -746,19 +746,19 @@ importers:
         version: 4.0.22(@babel/core@7.25.2)
       '@types/ember__controller':
         specifier: ^4.0.0
-        version: 4.0.12(@babel/core@7.25.2)
+        version: 4.0.12
       '@types/ember__debug':
         specifier: ^4.0.0
-        version: 4.0.8(@babel/core@7.25.2)
+        version: 4.0.8
       '@types/ember__engine':
         specifier: ^4.0.0
-        version: 4.0.11(@babel/core@7.25.2)
+        version: 4.0.11
       '@types/ember__error':
         specifier: ^4.0.0
         version: 4.0.6
       '@types/ember__object':
         specifier: ^4.0.0
-        version: 4.0.12(@babel/core@7.25.2)
+        version: 4.0.12
       '@types/ember__polyfills':
         specifier: ^4.0.0
         version: 4.0.6
@@ -770,7 +770,7 @@ importers:
         version: 4.0.10(@babel/core@7.25.2)
       '@types/ember__service':
         specifier: ^4.0.0
-        version: 4.0.9(@babel/core@7.25.2)
+        version: 4.0.9
       '@types/ember__string':
         specifier: ^3.16.0
         version: 3.16.3
@@ -793,7 +793,7 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1
       ember-headless-form:
-        specifier: ^1.0.0
+        specifier: workspace:^1
         version: link:../ember-headless-form
       ember-source:
         specifier: ~5.8.0
@@ -1031,7 +1031,7 @@ importers:
         version: 8.1.2
       ember-headless-form:
         specifier: workspace:*
-        version: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0)
+        version: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0)
       ember-headless-form-changeset:
         specifier: workspace:*
         version: file:packages/changeset(ember-changeset@4.1.2)(ember-headless-form@1.0.1)(ember-source@5.8.0)(validated-changeset@1.3.4)
@@ -4565,17 +4565,12 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.11
 
-  /@babel/runtime@7.20.7:
-    resolution: {integrity: sha512-UF0tvkUtxwAgZ5W/KrkHf0Rn0fdnLDU9ScxBrEVNUprE/MzirjK4MJUX1/BVDv00Sv8cljtukVK1aky++X1SjQ==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.11
-
   /@babel/runtime@7.24.4:
     resolution: {integrity: sha512-dkxf7+hn8mFBwKjs9bvBlArzLVxVbS8usaPUDd5p2a9JCL9tB8OaOVN1isD4+Xyk4ns89/xeOmbQvgdK7IIVdA==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.1
+    dev: true
 
   /@babel/runtime@7.24.8:
     resolution: {integrity: sha512-5F7SDGs1T72ZczbRwbGO9lQi0NLjQxzl6i4lJxLxfW9U5UluCSyEJeniWvnhl3/euNiqQVbo8zruhsDfid0esA==}
@@ -5606,7 +5601,6 @@ packages:
       semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@embroider/macros@1.15.1(@glint/template@1.4.0):
     resolution: {integrity: sha512-l6rv4UVyQ+0XZbabpGXXUNpm7vMEVFzFwWnBeyKFLmmxuEQ4tgxEgR9qDRF/IWJXGS6na6pXN3jTk/cOaQiCpw==}
@@ -5819,24 +5813,6 @@ packages:
       resolve: 1.22.8
     dev: true
 
-  /@embroider/util@1.10.0(@glint/template@1.4.0)(ember-source@5.8.0):
-    resolution: {integrity: sha512-utAFKoq6ajI27jyqjvX3PiGL4m+ZyGVlVNbSbE/nOqi2llRyAkh5ltH1WkIK7jhdwQFJouo1NpOSj9J3/HDa3A==}
-    engines: {node: 14.* || >= 16}
-    peerDependencies:
-      '@glint/template': ^1.0.0-beta.1
-      ember-source: '*'
-    peerDependenciesMeta:
-      '@glint/template':
-        optional: true
-    dependencies:
-      '@embroider/macros': 1.16.3(@glint/template@1.4.0)
-      '@glint/template': 1.4.0
-      broccoli-funnel: 3.0.8
-      ember-cli-babel: 7.26.11
-      ember-source: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.95.0)
-    transitivePeerDependencies:
-      - supports-color
-
   /@embroider/util@1.13.0(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0):
     resolution: {integrity: sha512-29NeyZ8jvcQXCZThaARpbU9nBNMXj/5dCuQmFmxyEC2AcHFzBBhhL0ebv6VI2e3f44g+pAFbCMbN434VBh2xqQ==}
     engines: {node: 12.* || 14.* || >= 16}
@@ -5859,7 +5835,6 @@ packages:
       ember-source: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.95.0)
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@embroider/webpack@4.0.0(@embroider/core@3.4.7)(webpack@5.95.0):
     resolution: {integrity: sha512-kFAKcgCWTLNNUtXOTvAw7nL6+MFxNDd20wV0I3hqByV6EegTOtMyMYTcRLYp9X3stu48ix3XU5avZ6VZ2Ot3Hw==}
@@ -8039,6 +8014,9 @@ packages:
 
   /ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependenciesMeta:
+      ajv:
+        optional: true
     dependencies:
       ajv: 8.17.1
 
@@ -17451,7 +17429,7 @@ packages:
   /regenerator-transform@0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==}
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.6
 
   /regex-not@1.0.2:
     resolution: {integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==}
@@ -20130,19 +20108,19 @@ packages:
     name: ember-headless-form-changeset
     peerDependencies:
       ember-changeset: ^4.1.2
-      ember-headless-form: ^1.0.0
+      ember-headless-form: workspace:^1
       ember-source: '>=4.4.0'
       validated-changeset: ^1.3.4
     dependencies:
-      '@embroider/addon-shim': 1.8.4
+      '@embroider/addon-shim': 1.8.9
       ember-changeset: 4.1.2(@glint/template@1.4.0)(ember-data@5.3.0)(webpack@5.95.0)
-      ember-headless-form: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0)
+      ember-headless-form: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0)
       ember-source: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.95.0)
       validated-changeset: 1.3.4
     transitivePeerDependencies:
       - supports-color
 
-  file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0):
+  file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0):
     resolution: {directory: packages/ember-headless-form, type: directory}
     id: file:packages/ember-headless-form
     name: ember-headless-form
@@ -20151,9 +20129,9 @@ packages:
       '@glimmer/tracking': ^1.1.2
       ember-source: '>=4.4.0'
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@embroider/addon-shim': 1.8.4
-      '@embroider/util': 1.10.0(@glint/template@1.4.0)(ember-source@5.8.0)
+      '@babel/runtime': 7.25.6
+      '@embroider/addon-shim': 1.8.9
+      '@embroider/util': 1.13.0(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0)
       '@glimmer/component': 1.1.2(@babel/core@7.25.2)
       '@glimmer/tracking': 1.1.2
       ember-async-data: 1.0.3(ember-source@5.8.0)
@@ -20161,6 +20139,7 @@ packages:
       ember-source: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.95.0)
       tracked-built-ins: 3.3.0
     transitivePeerDependencies:
+      - '@glint/environment-ember-loose'
       - '@glint/template'
       - supports-color
 
@@ -20169,13 +20148,13 @@ packages:
     id: file:packages/yup
     name: ember-headless-form-yup
     peerDependencies:
-      ember-headless-form: ^1.0.0
+      ember-headless-form: workspace:^1
       ember-source: '>=4.4.0'
       yup: ^1.0.0
     dependencies:
-      '@embroider/addon-shim': 1.8.4
+      '@embroider/addon-shim': 1.8.9
       ember-functions-as-helper-polyfill: 2.1.2(ember-source@5.8.0)
-      ember-headless-form: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.8.0)
+      ember-headless-form: file:packages/ember-headless-form(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/environment-ember-loose@1.4.0)(@glint/template@1.4.0)(ember-source@5.8.0)
       ember-source: 5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2)(@glint/template@1.4.0)(webpack@5.95.0)
       yup: 1.4.0
     transitivePeerDependencies:
