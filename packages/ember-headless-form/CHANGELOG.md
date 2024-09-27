@@ -1,5 +1,11 @@
 # ember-headless-form
 
+## 1.1.0
+
+### Minor Changes
+
+- [#442](https://github.com/CrowdStrike/ember-headless-form/pull/442) [`6a9cc44`](https://github.com/CrowdStrike/ember-headless-form/commit/6a9cc44fc35eeb8ba034a23226ea1c2d06130969) Thanks [@basz](https://github.com/basz)! - Adds checkbox-group similar to radio-group
+
 ## 1.0.1
 
 ### Patch Changes
