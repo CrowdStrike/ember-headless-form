@@ -49,5 +49,5 @@
       "ember-auto-import@2.6.1": "patches/ember-auto-import@2.6.1.patch"
     }
   },
-  "packageManager": "pnpm@8.15.9"
+  "packageManager": "pnpm@9.11.0"
 }
