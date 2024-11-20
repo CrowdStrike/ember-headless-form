@@ -453,6 +453,10 @@ export default class HeadlessFormComponent<
   async onSubmit(e?: Event): Promise<void> {
     e?.preventDefault();
 
+    if(this.validationState?.isPending) {
+      return;
+    }
+
     await this._validate();
     this.showAllValidations = true;
 
