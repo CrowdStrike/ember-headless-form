@@ -8,7 +8,7 @@ interface FormData {
 }
 
 function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default class IndexController extends Controller {
@@ -36,7 +36,7 @@ export default class IndexController extends Controller {
             }
 
             return true;
-          },
+          }
         ),
     });
   }
