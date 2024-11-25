@@ -68,7 +68,6 @@ module('Integration Component HeadlessForm > async yup', function (hooks) {
 
     await render(<template>
       <HeadlessForm
-        style="display: flex; flex-flow: column"
         @data={{data}}
         @validateOn='change'
         @validate={{validateYup schema}}
