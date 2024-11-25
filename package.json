@@ -44,10 +44,10 @@
         "ember-cli-htmlbars": "required by ember-tracked-storage-polyfill and tracked-built-ins: solution convert to babel plugin?",
         "@babel/core": "See https://github.com/embroider-build/addon-blueprint/pull/77"
       }
-    },
-    "patchedDependencies": {
-      "ember-auto-import@2.6.1": "patches/ember-auto-import@2.6.1.patch"
     }
   },
-  "packageManager": "pnpm@9.11.0"
+  "packageManager": "pnpm@9.11.0",
+  "volta": {
+    "node": "20.18.1"
+  }
 }
