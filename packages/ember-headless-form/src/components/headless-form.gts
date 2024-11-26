@@ -453,6 +453,15 @@ export default class HeadlessFormComponent<
   async onSubmit(e?: Event): Promise<void> {
     e?.preventDefault();
 
+    if(this.validationState?.isPending) {
+      warn(
+        'Async validation is pending, form will not be submitted',
+        { id: 'headless-form.prevent-submit-pending-async-validation' },
+      );
+
+      return;
+    }
+
     await this._validate();
     this.showAllValidations = true;
 
