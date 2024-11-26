@@ -31,7 +31,7 @@ importers:
     dependencies:
       '@crowdstrike/ember-oss-docs':
         specifier: ^1.1.8
-        version: 1.1.8(yel6pwqm2eg4z3fn6veleic7mu)
+        version: 1.1.8(k2tsxtvbojiwwnu7bj4hkqq4i4)
       '@ember/test-waiters':
         specifier: ^3.0.2
         version: 3.0.2
@@ -67,7 +67,7 @@ importers:
         version: 11.10.0
       highlightjs-glimmer:
         specifier: ^2.0.0
-        version: 2.2.1(highlight.js@11.10.0)
+        version: 2.2.2(highlight.js@11.10.0)
       tracked-built-ins:
         specifier: ^3.1.0
         version: 3.3.0
@@ -6343,8 +6343,8 @@ packages:
     resolution: {integrity: sha512-SYVnVFswQER+zu1laSya563s+F8VDGt7o35d4utbamowvUNLLMovFqwCLSocpZTz3MgaSRA1IbqRWZv97dtErQ==}
     engines: {node: '>=12.0.0'}
 
-  highlightjs-glimmer@2.2.1:
-    resolution: {integrity: sha512-5vQiop/MgoLSqms7PAwCYAWRxDHnwD24nWFV03k8deH14XbsAb7C27O/UQCk8/ofPp18nBc1LR4yTNIg1cIgPQ==}
+  highlightjs-glimmer@2.2.2:
+    resolution: {integrity: sha512-4Mx/BSXeXidvurvGDxA80npLlDPuznbFMKeVzgVNFhmMOWCr7JUw55dMDGarb0OS4ma6dZL+TdpxqD2zhh5vZQ==}
     engines: {node: ^14 || ^16 || ^18 || >= 20}
     peerDependencies:
       highlight.js: '>= 11.0.0'
@@ -11533,7 +11533,7 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@crowdstrike/ember-oss-docs@1.1.8(yel6pwqm2eg4z3fn6veleic7mu)':
+  '@crowdstrike/ember-oss-docs@1.1.8(k2tsxtvbojiwwnu7bj4hkqq4i4)':
     dependencies:
       '@babel/runtime': 7.24.8
       '@crowdstrike/tailwind-toucan-base': 5.0.0(autoprefixer@10.4.20(postcss@8.4.49))(postcss@8.4.49)
@@ -11549,7 +11549,7 @@ snapshots:
       ember-modifier: 4.1.0(ember-source@5.8.0(@babel/core@7.25.2)(@glimmer/component@1.1.2(@babel/core@7.25.2))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0))
       ember-url-hash-polyfill: 1.0.11(@babel/core@7.25.2)
       highlight.js: 11.10.0
-      highlightjs-glimmer: 2.2.1(highlight.js@11.10.0)
+      highlightjs-glimmer: 2.2.2(highlight.js@11.10.0)
       lodash.merge: 4.6.2
     transitivePeerDependencies:
       - '@babel/core'
@@ -17923,7 +17923,7 @@ snapshots:
 
   highlight.js@11.10.0: {}
 
-  highlightjs-glimmer@2.2.1(highlight.js@11.10.0):
+  highlightjs-glimmer@2.2.2(highlight.js@11.10.0):
     dependencies:
       highlight.js: 11.10.0
 
