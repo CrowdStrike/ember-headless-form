@@ -4,6 +4,10 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
+    'ember-cli-babel': {
+      enableTypeScriptTransform: true,
+    },
+
     autoImport: {
       watchDependencies: [
         'ember-headless-form',
@@ -11,6 +15,12 @@ module.exports = function (defaults) {
       ],
       // See https://github.com/ef4/ember-auto-import/issues/564#issuecomment-1448820349
       earlyBootSet: () => ['@glimmer/tracking'],
+    },
+
+    '@embroider/macros': {
+      setOwnConfig: {
+        supportsEmberData: !process.env.EMBROIDER_TEST_SETUP_OPTIONS,
+      },
     },
   });
 

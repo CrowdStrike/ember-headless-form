@@ -7,7 +7,7 @@ export interface CaptureEventsModifierSignature {
       /*
        * @internal
        */
-      event: 'focusout' | 'change';
+      event: 'focusout' | 'change' | 'input' | undefined;
 
       /*
        * @internal
@@ -19,11 +19,13 @@ export interface CaptureEventsModifierSignature {
 
 const CaptureEventsModifier = modifier<CaptureEventsModifierSignature>(
   (element, _pos, { event, triggerValidation }) => {
-    element.addEventListener(event, triggerValidation, { passive: true });
+    if (event) {
+      element.addEventListener(event, triggerValidation, { passive: true });
 
-    return () => {
-      element.removeEventListener(event, triggerValidation);
-    };
+      return () => {
+        element.removeEventListener(event, triggerValidation);
+      };
+    }
   }
 );
 

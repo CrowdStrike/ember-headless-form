@@ -22,9 +22,9 @@ jobs:
     name: Install
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
@@ -35,9 +35,9 @@ jobs:
     needs:
       - install_dependencies
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
@@ -55,13 +55,15 @@ jobs:
       fail-fast: true
       matrix:
         typescript-scenario:
-          - typescript@4.8
-          - typescript@4.9
+          - typescript@5.4
+          - typescript@5.5
+          - typescript@5.6
+          - typescript@5.7
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
@@ -78,9 +80,9 @@ jobs:
     needs:
       - install_dependencies
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
@@ -93,9 +95,9 @@ jobs:
     needs:
       - install_dependencies
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
@@ -123,9 +125,9 @@ jobs:
           - "'ember-release + embroider-optimized'"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
@@ -146,15 +148,15 @@ jobs:
       - try_scenarios
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/pnpm
-      - run: pnpm build
+      - run: pnpm build:packages
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -176,7 +178,7 @@ jobs:
       deployments: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - uses: ./.github/actions/pnpm

@@ -1,5 +1,4 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { render, setupOnerror } from '@ember/test-helpers';
 import { module, test } from 'qunit';
@@ -51,6 +50,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
 
     test('@name must be unique', async function (assert) {
       assert.expect(1);
+
       const data = { firstName: 'Simon' };
 
       setupOnerror((e: Error) => {

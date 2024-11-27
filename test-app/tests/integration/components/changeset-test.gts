@@ -1,14 +1,13 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { click, fillIn, render, setupOnerror } from '@ember/test-helpers';
-import { module, test, skip } from 'qunit';
+import { module, skip,test } from 'qunit';
 
+import { Changeset } from 'ember-changeset';
 import { HeadlessForm } from 'ember-headless-form';
 import { validateChangeset } from 'ember-headless-form-changeset';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import { Changeset } from 'ember-changeset';
 
 import type { ValidatorAction } from 'ember-changeset/types';
 
@@ -59,7 +58,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
         @data={{data}}
         @dataMode="mutable"
         {{! @glint-expect-error --  a type error is expected here, as this test intentionally has a type mismatch when data not being a changeset }}
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onSubmit={{submitHandler}}
         as |form|
       >
@@ -83,7 +82,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onSubmit={{submitHandler}}
         as |form|
       >
@@ -109,7 +108,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onInvalid={{invalidHandler}}
         as |form|
       >
@@ -146,7 +145,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         @onSubmit={{submitHandler}}
         as |form|
       >
@@ -180,7 +179,7 @@ module('Integration Component HeadlessForm > Changeset', function (hooks) {
       <HeadlessForm
         @data={{changeset}}
         @dataMode="mutable"
-        @validate={{validateChangeset}}
+        @validate={{(validateChangeset)}}
         as |form|
       >
         <form.Field @name="firstName" as |field|>

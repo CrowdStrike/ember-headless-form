@@ -1,5 +1,4 @@
 /* eslint-disable no-undef -- Until https://github.com/ember-cli/eslint-plugin-ember/issues/1747 is resolved... */
-/* eslint-disable simple-import-sort/imports,padding-line-between-statements,decorator-position/decorator-position -- Can't fix these manually, without --fix working in .gts */
 
 import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
@@ -17,6 +16,7 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
 
   test('@name argument only expects keys of @data', async function (assert) {
     assert.expect(0);
+
     // Note that we have only firstName here in the type that is passed to @data, no lastName!
     const data = { firstName: 'Simon' };
 
@@ -32,6 +32,7 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
 
   test('@name argument only expects keys of @data w/ partial data', async function (assert) {
     assert.expect(0);
+
     const data: { firstName?: string } = {};
 
     await render(<template>
@@ -46,6 +47,7 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
 
   test('@name argument w/ an untyped @data errors', async function (assert) {
     assert.expect(0);
+
     const data = {};
 
     await render(<template>
@@ -58,6 +60,7 @@ module('Integration Component HeadlessForm > Glint', function (hooks) {
 
   test('@name argument can only be used for string-types keys', async function (assert) {
     assert.expect(0);
+
     const data: { foo?: string; 0?: number } = {};
 
     await render(<template>
