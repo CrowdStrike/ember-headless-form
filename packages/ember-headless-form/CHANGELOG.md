@@ -1,5 +1,11 @@
 # ember-headless-form
 
+## 1.1.1
+
+### Patch Changes
+
+- [#488](https://github.com/CrowdStrike/ember-headless-form/pull/488) [`ba43b09`](https://github.com/CrowdStrike/ember-headless-form/commit/ba43b09621284b1445b1f187f06736f94f29bcfc) Thanks [@bradaune-cs](https://github.com/bradaune-cs)! - Fixes a bug where if the submit button is clicked multiple times with async validation present the submit callback would trigger. Now if there is pending validation the submit will be cancelled to avoid extra calls.
+
 ## 1.1.0
 
 ### Minor Changes
