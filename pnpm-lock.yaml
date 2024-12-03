@@ -31,7 +31,7 @@ importers:
     dependencies:
       '@crowdstrike/ember-oss-docs':
         specifier: ^1.1.8
-        version: 1.1.8(e45tmqrerynflmmx4g6ordkr4m)
+        version: 1.1.8(oe7xjc6upkhlw7kbqnxutrsrai)
       '@ember/test-waiters':
         specifier: ^3.0.2
         version: 3.0.2
@@ -86,7 +86,7 @@ importers:
         version: 7.25.9(@babel/core@7.26.0)(eslint@8.57.0)
       '@crowdstrike/ember-toucan-styles':
         specifier: ^3.0.0
-        version: 3.0.1(@glimmer/tracking@1.1.2)(@glint/template@1.5.0)(autoprefixer@10.4.20(postcss@8.4.49))(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0))(postcss@8.4.49)(tailwindcss@3.4.15)
+        version: 3.0.1(@glimmer/tracking@1.1.2)(@glint/template@1.5.0)(autoprefixer@10.4.20(postcss@8.4.49))(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0))(postcss@8.4.49)(tailwindcss@3.4.16)
       '@crowdstrike/tailwind-toucan-base':
         specifier: ^5.0.0
         version: 5.0.0(autoprefixer@10.4.20(postcss@8.4.49))(postcss@8.4.49)
@@ -137,7 +137,7 @@ importers:
         version: 3.2.2(@babel/core@7.26.0)(@babel/eslint-parser@7.25.9(@babel/core@7.26.0)(eslint@8.57.0))(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5))(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@5.4.5))(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint-plugin-ember@11.12.0(eslint@8.57.0))(eslint-plugin-qunit@7.3.4(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.8)(typescript@5.4.5)
       '@tailwindcss/typography':
         specifier: ^0.5.7
-        version: 0.5.15(tailwindcss@3.4.15)
+        version: 0.5.15(tailwindcss@3.4.16)
       '@tsconfig/ember':
         specifier: ^2.0.0
         version: 2.0.0
@@ -320,7 +320,7 @@ importers:
         version: link:../internal/sync-pnpm
       tailwindcss:
         specifier: ^3.1.8
-        version: 3.4.15
+        version: 3.4.16
       typescript:
         specifier: ^5.0.0
         version: 5.4.5
@@ -7008,6 +7008,10 @@ packages:
     resolution: {integrity: sha512-eop+wDAvpItUys0FWkHIKeC9ybYrTGbU41U5K7+bttZZeohvnY7M9dZ5kB21GNWiFT2q1OoPTvncPCgSOVO5ow==}
     engines: {node: '>=14'}
 
+  lilconfig@3.1.3:
+    resolution: {integrity: sha512-/vlFKAoH5Cgt3Ie+JLhRbwOsCQePABiU3tJ1egGvyQ+33R/vcwM2Zl2QR/LzjsBeItPt3oSVXapn+m4nQDvpzw==}
+    engines: {node: '>=14'}
+
   line-column@1.0.2:
     resolution: {integrity: sha512-Ktrjk5noGYlHsVnYWh62FLVs4hTb8A3e+vucNZMgPeAOITdshMSgv4cCZQeRDjm7+goqmo6+liZwTXo+U3sVww==}
 
@@ -9169,8 +9173,8 @@ packages:
       autoprefixer: ^10.0.2
       postcss: ^8.0.9
 
-  tailwindcss@3.4.15:
-    resolution: {integrity: sha512-r4MeXnfBmSOuKUWmXe6h2CcyfzJCEk4F0pptO5jlnYSIViUkVmsawj80N5h2lO3gwcmSb4n3PuN+e+GC1Guylw==}
+  tailwindcss@3.4.16:
+    resolution: {integrity: sha512-TI4Cyx7gDiZ6r44ewaJmt0o6BrMCT5aK5e0rmJ/G9Xq3w7CX/5VXl/zIPEJZFUK5VEqwByyhqNPycPlvcK4ZNw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -9971,7 +9975,7 @@ snapshots:
   '@babel/code-frame@7.24.7':
     dependencies:
       '@babel/highlight': 7.24.7
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -11731,7 +11735,7 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@crowdstrike/ember-oss-docs@1.1.8(e45tmqrerynflmmx4g6ordkr4m)':
+  '@crowdstrike/ember-oss-docs@1.1.8(oe7xjc6upkhlw7kbqnxutrsrai)':
     dependencies:
       '@babel/runtime': 7.24.8
       '@crowdstrike/tailwind-toucan-base': 5.0.0(autoprefixer@10.4.20(postcss@8.4.49))(postcss@8.4.49)
@@ -11741,7 +11745,7 @@ snapshots:
       '@glimmer/component': 1.1.2(@babel/core@7.26.0)
       '@glint/environment-ember-loose': 1.5.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(@types/ember__array@4.0.10(@babel/core@7.26.0))(@types/ember__component@4.0.22(@babel/core@7.26.0))(@types/ember__controller@4.0.12(@babel/core@7.26.0))(@types/ember__object@4.0.12(@babel/core@7.26.0))(@types/ember__routing@4.0.22(@babel/core@7.26.0))(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0)))
       '@glint/template': 1.5.0
-      '@tailwindcss/typography': 0.5.15(tailwindcss@3.4.15)
+      '@tailwindcss/typography': 0.5.15(tailwindcss@3.4.16)
       dompurify: 2.4.7
       ember-browser-services: 5.0.1(@glint/template@1.5.0)
       ember-modifier: 4.2.0(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0))
@@ -11758,14 +11762,14 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@crowdstrike/ember-toucan-styles@3.0.1(@glimmer/tracking@1.1.2)(@glint/template@1.5.0)(autoprefixer@10.4.20(postcss@8.4.49))(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0))(postcss@8.4.49)(tailwindcss@3.4.15)':
+  '@crowdstrike/ember-toucan-styles@3.0.1(@glimmer/tracking@1.1.2)(@glint/template@1.5.0)(autoprefixer@10.4.20(postcss@8.4.49))(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0))(postcss@8.4.49)(tailwindcss@3.4.16)':
     dependencies:
       '@crowdstrike/tailwind-toucan-base': 5.0.0(autoprefixer@10.4.20(postcss@8.4.49))(postcss@8.4.49)
       '@embroider/addon-shim': 1.8.9
       '@glimmer/tracking': 1.1.2
       ember-browser-services: 5.0.1(@glint/template@1.5.0)
       ember-source: 5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.0)
-      tailwindcss: 3.4.15
+      tailwindcss: 3.4.16
     transitivePeerDependencies:
       - '@glint/template'
       - autoprefixer
@@ -13240,13 +13244,13 @@ snapshots:
     dependencies:
       defer-to-connect: 1.1.3
 
-  '@tailwindcss/typography@0.5.15(tailwindcss@3.4.15)':
+  '@tailwindcss/typography@0.5.15(tailwindcss@3.4.16)':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.4.15
+      tailwindcss: 3.4.16
 
   '@tootallnate/once@1.1.2': {}
 
@@ -18736,6 +18740,8 @@ snapshots:
 
   lilconfig@3.1.2: {}
 
+  lilconfig@3.1.3: {}
+
   line-column@1.0.2:
     dependencies:
       isarray: 1.0.0
@@ -19727,7 +19733,7 @@ snapshots:
 
   postcss-load-config@4.0.2(postcss@8.4.49):
     dependencies:
-      lilconfig: 3.1.2
+      lilconfig: 3.1.3
       yaml: 2.6.1
     optionalDependencies:
       postcss: 8.4.49
@@ -20971,7 +20977,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  tailwindcss@3.4.15:
+  tailwindcss@3.4.16:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -20982,7 +20988,7 @@ snapshots:
       glob-parent: 6.0.2
       is-glob: 4.0.3
       jiti: 1.21.6
-      lilconfig: 2.1.0
+      lilconfig: 3.1.3
       micromatch: 4.0.8
       normalize-path: 3.0.0
       object-hash: 3.0.0
