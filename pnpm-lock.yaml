@@ -33,7 +33,7 @@ importers:
         specifier: ^1.1.8
         version: 1.1.8(o6ol4lw476nyk425zppj6eo5pm)
       '@ember/test-waiters':
-        specifier: ^3.0.2
+        specifier: ^3.0.2 || ^4.0.0
         version: 3.0.2
       '@embroider/router':
         specifier: ^2.1.6
@@ -8803,11 +8803,6 @@ packages:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  semver@7.3.8:
-    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
@@ -12063,7 +12058,7 @@ snapshots:
       calculate-cache-key-for-tree: 2.0.0
       ember-cli-babel: 7.26.11
       ember-cli-version-checker: 5.1.2
-      semver: 7.3.8
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -20499,10 +20494,6 @@ snapshots:
   semver@6.3.0: {}
 
   semver@6.3.1: {}
-
-  semver@7.3.8:
-    dependencies:
-      lru-cache: 6.0.0
 
   semver@7.5.4:
     dependencies:

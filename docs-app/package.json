@@ -118,7 +118,7 @@
   },
   "dependencies": {
     "@crowdstrike/ember-oss-docs": "^1.1.8",
-    "@ember/test-waiters": "^3.0.2",
+    "@ember/test-waiters": "^3.0.2 || ^4.0.0",
     "@embroider/router": "^2.1.6",
     "ember-browser-services": "^5.0.0",
     "ember-changeset": "^4.1.2",
