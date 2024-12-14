@@ -31,7 +31,7 @@ importers:
     dependencies:
       '@crowdstrike/ember-oss-docs':
         specifier: ^1.1.8
-        version: 1.1.8(o6ol4lw476nyk425zppj6eo5pm)
+        version: 1.1.8(ubhyayrgdkqhe4ihx5lwoiszzq)
       '@ember/test-waiters':
         specifier: ^3.0.2 || ^4.0.0
         version: 3.0.2
@@ -64,10 +64,10 @@ importers:
         version: 7.0.3(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glimmer/tracking@1.1.2)(@glint/template@1.5.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1))
       highlight.js:
         specifier: ^11.6.0
-        version: 11.10.0
+        version: 11.11.0
       highlightjs-glimmer:
         specifier: ^2.0.0
-        version: 2.2.2(highlight.js@11.10.0)
+        version: 2.2.2(highlight.js@11.11.0)
       tracked-built-ins:
         specifier: ^3.1.0
         version: 3.4.0(@babel/core@7.26.0)
@@ -6425,8 +6425,8 @@ packages:
   hex-color-regex@1.1.0:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
 
-  highlight.js@11.10.0:
-    resolution: {integrity: sha512-SYVnVFswQER+zu1laSya563s+F8VDGt7o35d4utbamowvUNLLMovFqwCLSocpZTz3MgaSRA1IbqRWZv97dtErQ==}
+  highlight.js@11.11.0:
+    resolution: {integrity: sha512-6ErL7JlGu2CNFHyRQEuDogOyGPNiqcuWdt4iSSFUPyferNTGlNTPFqeV36Y/XwA4V/TJ8l0sxp6FTnxud/mf8g==}
     engines: {node: '>=12.0.0'}
 
   highlightjs-glimmer@2.2.2:
@@ -11658,7 +11658,7 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@crowdstrike/ember-oss-docs@1.1.8(o6ol4lw476nyk425zppj6eo5pm)':
+  '@crowdstrike/ember-oss-docs@1.1.8(ubhyayrgdkqhe4ihx5lwoiszzq)':
     dependencies:
       '@babel/runtime': 7.24.8
       '@crowdstrike/tailwind-toucan-base': 5.0.0(autoprefixer@10.4.20(postcss@8.4.49))(postcss@8.4.49)
@@ -11673,8 +11673,8 @@ snapshots:
       ember-browser-services: 5.0.1(@glint/template@1.5.0)
       ember-modifier: 4.2.0(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1))
       ember-url-hash-polyfill: 1.0.11(@babel/core@7.26.0)
-      highlight.js: 11.10.0
-      highlightjs-glimmer: 2.2.2(highlight.js@11.10.0)
+      highlight.js: 11.11.0
+      highlightjs-glimmer: 2.2.2(highlight.js@11.11.0)
       lodash.merge: 4.6.2
     transitivePeerDependencies:
       - '@babel/core'
@@ -18058,11 +18058,11 @@ snapshots:
 
   hex-color-regex@1.1.0: {}
 
-  highlight.js@11.10.0: {}
+  highlight.js@11.11.0: {}
 
-  highlightjs-glimmer@2.2.2(highlight.js@11.10.0):
+  highlightjs-glimmer@2.2.2(highlight.js@11.11.0):
     dependencies:
-      highlight.js: 11.10.0
+      highlight.js: 11.11.0
 
   homedir-polyfill@1.0.3:
     dependencies:
