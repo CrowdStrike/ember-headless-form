@@ -268,8 +268,8 @@ importers:
         specifier: ~5.12.0
         version: 5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1)
       ember-template-imports:
-        specifier: ^3.1.2
-        version: 3.4.2
+        specifier: ^4.0.0
+        version: 4.2.0
       ember-template-lint:
         specifier: ^4.14.0
         version: 4.18.2
@@ -646,8 +646,8 @@ importers:
         specifier: ^5.0.0
         version: 5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1)
       ember-template-imports:
-        specifier: ^3.4.1
-        version: 3.4.2
+        specifier: ^4.0.0
+        version: 4.2.0
       ember-template-lint:
         specifier: ^4.0.0
         version: 4.18.2
@@ -677,7 +677,7 @@ importers:
         version: 3.5.0
       rollup-plugin-glimmer-template-tag:
         specifier: ^0.4.0
-        version: 0.4.1(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1))(ember-template-imports@3.4.2)
+        version: 0.4.1(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1))(ember-template-imports@4.2.0)
       rollup-plugin-ts:
         specifier: ^3.2.0
         version: 3.4.5(@babel/core@7.26.0)(@babel/plugin-transform-runtime@7.24.3(@babel/core@7.26.0))(@babel/preset-env@7.24.4(@babel/core@7.26.0))(@babel/preset-typescript@7.26.0(@babel/core@7.26.0))(@babel/runtime@7.26.0)(rollup@4.28.1)(typescript@5.4.5)
@@ -1055,8 +1055,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-template-imports:
-        specifier: ^3.4.0
-        version: 3.4.2
+        specifier: ^4.0.0
+        version: 4.2.0
       ember-template-lint:
         specifier: ^5.2.0
         version: 5.13.0
@@ -5477,6 +5477,10 @@ packages:
   ember-template-imports@3.4.2:
     resolution: {integrity: sha512-OS8TUVG2kQYYwP3netunLVfeijPoOKIs1SvPQRTNOQX4Pu8xGGBEZmrv0U1YTnQn12Eg+p6w/0UdGbUnITjyzw==}
     engines: {node: 12.* || >= 14}
+
+  ember-template-imports@4.2.0:
+    resolution: {integrity: sha512-qwf/38E1ut8M2/1tsFJl6kL99799MvxQrx0lN3LAc0HJRQhM/lYHqnHhzS30rkH76g+76TfxcMB5JJZQabWk2A==}
+    engines: {node: 16.* || >= 18}
 
   ember-template-lint@4.18.2:
     resolution: {integrity: sha512-yI8kQ8IQ2x5HVq0tQAISXABOHr0Is5sAg6rwceO6M8CYozq7HMxUPEj0VbdcbyIE70SWw/8d24M1rBI4km544Q==}
@@ -16479,6 +16483,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  ember-template-imports@4.2.0:
+    dependencies:
+      broccoli-stew: 3.0.0
+      content-tag: 3.0.0
+      ember-cli-version-checker: 5.1.2
+    transitivePeerDependencies:
+      - supports-color
+
   ember-template-lint@4.18.2:
     dependencies:
       '@lint-todo/utils': 13.1.1
@@ -20267,11 +20279,11 @@ snapshots:
       globby: 10.0.1
       is-plain-object: 3.0.1
 
-  rollup-plugin-glimmer-template-tag@0.4.1(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1))(ember-template-imports@3.4.2):
+  rollup-plugin-glimmer-template-tag@0.4.1(@babel/core@7.26.0)(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1))(ember-template-imports@4.2.0):
     dependencies:
       '@babel/core': 7.26.0(supports-color@8.1.1)
       ember-source: 5.12.0(@glimmer/component@1.1.2(@babel/core@7.26.0))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.97.1)
-      ember-template-imports: 3.4.2
+      ember-template-imports: 4.2.0
 
   rollup-plugin-ts@3.4.5(@babel/core@7.26.0)(@babel/plugin-transform-runtime@7.24.3(@babel/core@7.26.0))(@babel/preset-env@7.24.4(@babel/core@7.26.0))(@babel/preset-typescript@7.26.0(@babel/core@7.26.0))(@babel/runtime@7.26.0)(rollup@4.28.1)(typescript@5.4.5):
     dependencies:
