@@ -344,8 +344,8 @@ importers:
         specifier: ^2.1.0
         version: 2.2.2
       '@pnpm/fs.hard-link-dir':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^1000.0.0
+        version: 1000.0.0
       debug:
         specifier: ^4.3.4
         version: 4.4.0
@@ -3098,9 +3098,11 @@ packages:
     resolution: {integrity: sha512-JSrpQUFCs4vY1D5tOmj7qBb+oE2j/lO6341giEdUpvYf3FijY8CY13l8rPjfHV2y3m//utzl0An+q+qx14S6Nw==}
     engines: {node: '>=16.14'}
 
-  '@pnpm/fs.hard-link-dir@2.0.0':
-    resolution: {integrity: sha512-UCXx4EmmCjOKiEmWX73fCER9s4iyThX7MOYd2mlUZq+QLt5FA2W9cnN5D8MFfwgkSLuSc8bWPWoqn+VN1nW1Tw==}
-    engines: {node: '>=16.14'}
+  '@pnpm/fs.hard-link-dir@1000.0.0':
+    resolution: {integrity: sha512-L0ab969NxWcFil2g6eQ5bx/yB2onLwJzKcpFgnFtTLkbrdnMWNU126UYF5tUxXIyxJ65hX24jf+BttR5jig0qQ==}
+    engines: {node: '>=18.12'}
+    peerDependencies:
+      '@pnpm/logger': '>=5.1.0 <1001.0.0'
 
   '@rollup/pluginutils@4.2.1':
     resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
@@ -13077,7 +13079,7 @@ snapshots:
       '@pnpm/error': 5.0.2
       find-up: 5.0.0
 
-  '@pnpm/fs.hard-link-dir@2.0.0': {}
+  '@pnpm/fs.hard-link-dir@1000.0.0': {}
 
   '@rollup/pluginutils@4.2.1':
     dependencies:
