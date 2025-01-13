@@ -19,7 +19,7 @@ The primary way of getting the user entered data back to your application code i
 
 ## Displaying data in the form
 
-For more dynamic forms, you may need to read the data as it is being modified. You can do this by accessing the form's yielded `effectiveData` property within the block. It may look something like `{{form.effectiveData.firstName}}` if we use the above form as an example. 
+For more dynamic forms, you may need to read the data as it is being modified. You can do this by accessing the form's yielded `data` property within the block. It may look something like `{{form.data.firstName}}` if we use the above form as an example. 
 
 ## (Im-)mutable data
 

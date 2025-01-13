@@ -34,7 +34,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
     <template>
       <HeadlessForm @data={{data}} as |form|>
         <div data-test-effective-data>
-          {{form.effectiveData.firstName}}
+          {{form.data.firstName}}
         </div>
       </HeadlessForm>
     </template>)
