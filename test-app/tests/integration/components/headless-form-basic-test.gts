@@ -27,6 +27,23 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
       );
   });
 
+  test('form effective data renders correctly', async function (this: RenderingTestContext, assert) {
+    const data = { firstName: 'Hank'};
+
+    await render(
+    <template>
+      <HeadlessForm @data={{data}} as |form|>
+        <div data-test-effective-data>
+          {{form.effectiveData.firstName}}
+        </div>
+      </HeadlessForm>
+    </template>)
+
+    const testName = this.element.querySelector("div[data-test-effective-data]").innerText;
+
+    assert.strictEqual(testName, data.firstName, "effective data within form matches given");
+  })
+
   module('form.Field', function () {
     test('form yields field component', async function (assert) {
       const data = { firstName: 'Simon' };

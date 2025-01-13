@@ -616,6 +616,7 @@ export default class HeadlessFormComponent<
           validationState=this.validationState
           submissionState=this.submissionState
           isInvalid=this.hasValidationErrors
+          effectiveData=this.effectiveData
           rawErrors=this.visibleErrors
           submit=this.onSubmit
           reset=this.onReset
