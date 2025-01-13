@@ -17,6 +17,10 @@ For pre-populating the form, you would need to pass an object, whose keys match 
 
 The primary way of getting the user entered data back to your application code is by letting the user submit the form. If you pass an action to `@onSubmit`, it will be called when the user submitted the form successfully (means: after passing optional [validation](../validation)). It will then receive the _changed_ data as an argument, letting you decide what should happen, i.e. how to mutate your application state.
 
+## Displaying data in the form
+
+For more dynamic forms, you may need to read the data as it is being modified. You can do this by accessing the form's yielded `effectiveData` property within the block. It may look something like `{{form.effectiveData.firstName}}` if we use the above form as an example. 
+
 ## (Im-)mutable data
 
 By default `@data` is immutable, i.e. the addon will only read from it. For handling the state of the _currently_ entered form data, a copy of that data is stored internally.
