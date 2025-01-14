@@ -136,6 +136,8 @@ export interface HeadlessFormComponentSignature<
          * Yielded action that will reset form state, same as when triggering the native `reset` event on the form.
          */
         reset: () => void;
+
+        data?: DATA;
       }
     ];
   };
