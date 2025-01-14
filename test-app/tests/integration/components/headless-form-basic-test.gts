@@ -39,7 +39,7 @@ module('Integration Component HeadlessForm > Basics', function (hooks) {
       </HeadlessForm>
     </template>)
 
-    const testName = this.element.querySelector("div[data-test-effective-data]").innerText;
+    const testName = (this.element.querySelector("div[data-test-effective-data]") as HTMLElement).innerText;
 
     assert.strictEqual(testName, data.firstName, "effective data within form matches given");
   })
