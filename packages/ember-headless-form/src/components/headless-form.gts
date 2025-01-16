@@ -137,7 +137,10 @@ export interface HeadlessFormComponentSignature<
          */
         reset: () => void;
 
-        data?: DATA;
+        /**
+         * The current form data that is yielded on the form itself and can be used within the template.
+         */
+        data: DATA;
       }
     ];
   };
