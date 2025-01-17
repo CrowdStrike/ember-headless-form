@@ -136,6 +136,11 @@ export interface HeadlessFormComponentSignature<
          * Yielded action that will reset form state, same as when triggering the native `reset` event on the form.
          */
         reset: () => void;
+
+        /**
+         * The current form data that is yielded on the form itself and can be used within the template.
+         */
+        data: DATA;
       }
     ];
   };
@@ -616,6 +621,7 @@ export default class HeadlessFormComponent<
           validationState=this.validationState
           submissionState=this.submissionState
           isInvalid=this.hasValidationErrors
+          data=this.effectiveData
           rawErrors=this.visibleErrors
           submit=this.onSubmit
           reset=this.onReset
