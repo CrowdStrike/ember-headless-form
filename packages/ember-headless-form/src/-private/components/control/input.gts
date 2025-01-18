@@ -50,6 +50,14 @@ export interface HeadlessFormControlInputComponentSignature {
      */
     type?: InputType;
 
+    /**
+     * Some inputs are specific to locales, like numbers. This
+     *
+     *
+     *
+     */
+    locale?: string
+
     // the following are private arguments curried by the component helper, so users will never have to use those
 
     /*
@@ -106,10 +114,18 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
   @action
   handleInput(e: Event | InputEvent): void {
     assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
-    this.args.setValue(
-      this.type === 'number' ? parseFloat(e.target.value) : e.target.value
-    );
+    this.args.setValue(e.target.value);
   }
+
+  @action
+  handleUnfocus(e: Event | InputEvent): void {
+    assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
+
+    if(this.type === "number"){
+      this.args.setValue(parseFloat(e.target.value));
+    }
+  }
+
   <template>
     <input
       name={{@name}}
@@ -120,6 +136,7 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
       aria-describedby={{if @invalid @errorId}}
       ...attributes
       {{on "input" this.handleInput}}
+      {{on "focusout" this.handleUnfocus}}
     />
   </template>
 }
