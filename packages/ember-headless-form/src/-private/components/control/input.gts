@@ -3,6 +3,8 @@ import { assert } from '@ember/debug';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 
+import NumberParser from 'intl-number-parser';
+
 // Possible values for the input type, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
 // for the sake of completeness, we list all here, with some commented out that are better handled elsewhere, or not at all...
 export type InputType =
@@ -51,12 +53,27 @@ export interface HeadlessFormControlInputComponentSignature {
     type?: InputType;
 
     /**
-     * Some inputs are specific to locales, like numbers. This
+     * Some inputs are specific to locales, like numbers.
+     * Ex:
+     * "en-us"
+     * If this ends up being undefined it will simply use the locale of the user.
      *
+     * ? While the linked resource below mentions you can pass in a Intl.Locale object, the current library we use for this doesn't
+     * ? support it. So stick with strings using a BCP 47 language tag.
      *
-     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locales
+     * @see https://datatracker.ietf.org/doc/html/rfc4647
      */
     locale?: string
+
+    /**
+     * Adding the ability to add additional options for the formatter. This currently only applies to number types.
+     * Ex:
+     * { style: 'currency', currency: 'EUR' }
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+     */
+    formatOptions?: Intl.NumberFormatOptions,
 
     // the following are private arguments curried by the component helper, so users will never have to use those
 
@@ -93,6 +110,8 @@ export interface HeadlessFormControlInputComponentSignature {
 }
 
 export default class HeadlessFormControlInputComponent extends Component<HeadlessFormControlInputComponentSignature> {
+  public formatter: NumberParser;
+
   constructor(
     owner: unknown,
     args: HeadlessFormControlInputComponentSignature['Args']
@@ -103,12 +122,21 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
         // TS would guard us against using an unsupported `InputType`, but for JS consumers we add a dev-only runtime check here
         !['checkbox', 'radio'].includes(args.type as string)
     );
-
     super(owner, args);
+
+    this.formatter = NumberParser(this.locale, this.formatOptions);
   }
 
   get type(): InputType {
     return this.args.type ?? 'text';
+  }
+
+  get locale(): String {
+    return this.args.locale;
+  }
+
+  get formatOptions(): Object {
+    return this.args.formatOptions ?? {};
   }
 
   @action
@@ -122,7 +150,7 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
     assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
 
     if(this.type === "number"){
-      this.args.setValue(parseFloat(e.target.value));
+      this.args.setValue(this.formatter(e.target.value));
     }
   }
 

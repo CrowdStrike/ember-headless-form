@@ -23,21 +23,22 @@
     <div class='my-2 flex flex-col'>
       <field.Label class={{if field.isInvalid 'text-red-500'}}>Last name</field.Label>
       <field.Input
-        @max="10"
+        @max='10'
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         required
       />
       <field.Errors class='text-red-600' />
     </div>
   </form.Field>
-  <form.Field @name="rating" as |field|>
-    <div class="my-2 flex flex-col">
-      <field.Label class={{if field.isInvalid 'text-red-500'}}>How likely are you to recommend us?</field.Label>
+  <form.Field @name='rating' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.Label class={{if field.isInvalid 'text-red-500'}}>How likely are
+        you to recommend us?</field.Label>
       <field.Input
-        @type="number"
-        min="1"
-        max="10"
-        class="border rounded px-2 {{if field.isInvalid "border-red-500"}}"
+        @type='number'
+        min='1'
+        max='10'
+        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
       />
     </div>
   </form.Field>
