@@ -345,7 +345,7 @@ importers:
         version: 2.2.2
       '@pnpm/fs.hard-link-dir':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.0.1
       debug:
         specifier: ^4.3.4
         version: 4.4.0
@@ -3098,9 +3098,11 @@ packages:
     resolution: {integrity: sha512-JSrpQUFCs4vY1D5tOmj7qBb+oE2j/lO6341giEdUpvYf3FijY8CY13l8rPjfHV2y3m//utzl0An+q+qx14S6Nw==}
     engines: {node: '>=16.14'}
 
-  '@pnpm/fs.hard-link-dir@2.0.0':
-    resolution: {integrity: sha512-UCXx4EmmCjOKiEmWX73fCER9s4iyThX7MOYd2mlUZq+QLt5FA2W9cnN5D8MFfwgkSLuSc8bWPWoqn+VN1nW1Tw==}
+  '@pnpm/fs.hard-link-dir@2.0.1':
+    resolution: {integrity: sha512-ZsNyKG9YV9rZRhubj8bLxnysLg1LUwh0rdlVnp6ScIT9CtAA+C74kx2KK9E4TNofgb3qAbRqU4aKOaAoLmTSjg==}
     engines: {node: '>=16.14'}
+    peerDependencies:
+      '@pnpm/logger': ^5.0.0
 
   '@rollup/pluginutils@4.2.1':
     resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
@@ -7111,6 +7113,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.isarguments@3.1.0:
     resolution: {integrity: sha512-chi4NHZlZqZD18a0imDHnZPrDeBbTtVN7GXMwuGdRH9qotxAjYs3aVLKc7zNOG9eddR5Ksd8rvFEBc9SsggPpg==}
@@ -7135,12 +7138,14 @@ packages:
 
   lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
 
   lodash.template@4.5.0:
     resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
+    deprecated: This package is deprecated. Use https://socket.dev/npm/package/eta instead.
 
   lodash.templatesettings@4.2.0:
     resolution: {integrity: sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==}
@@ -13077,7 +13082,7 @@ snapshots:
       '@pnpm/error': 5.0.2
       find-up: 5.0.0
 
-  '@pnpm/fs.hard-link-dir@2.0.0': {}
+  '@pnpm/fs.hard-link-dir@2.0.1': {}
 
   '@rollup/pluginutils@4.2.1':
     dependencies:
