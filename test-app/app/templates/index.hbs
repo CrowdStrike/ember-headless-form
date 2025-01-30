@@ -30,18 +30,18 @@
       <field.Errors class='text-red-600' />
     </div>
   </form.Field>
-  <form.Field @name='rating' as |field|>
+  <form.Field @name='donation' as |field|>
     <div class='my-2 flex flex-col'>
-      <field.Label class={{if field.isInvalid 'text-red-500'}}>How likely are
-        you to recommend us?</field.Label>
-      <field.Input
-        @type='number'
-        min='1'
-        max='10'
+      <field.Label class={{if field.isInvalid 'text-red-500'}}>
+        How much would you like to donate?
+      </field.Label>
+      <field.LocalNumber
+        @locale="de-DE"
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
       />
     </div>
   </form.Field>
+  Donating: {{form.data.donation}}
   <form.Field @name='gender' as |field|>
     <field.RadioGroup class='my-2 flex flex-col' as |group|>
       <group.Label>Gender</group.Label>

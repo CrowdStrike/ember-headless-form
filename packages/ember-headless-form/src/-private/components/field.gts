@@ -8,6 +8,7 @@ import { uniqueId } from '../utils';
 import CheckboxComponent from './control/checkbox';
 import CheckboxGroupComponent from './control/checkbox-group';
 import InputComponent from './control/input';
+import LocalNumberInputComponent from './control/local-number';
 import RadioGroupComponent from './control/radio-group';
 import SelectComponent from './control/select';
 import TextareaComponent from './control/textarea';
@@ -146,6 +147,11 @@ export interface HeadlessFormFieldComponentSignature<
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
 
+        LocalNumberInput: WithBoundArgs<
+          typeof LocalNumberInputComponent,
+          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
+        >;
+
         /**
          * The current value of the field's form data.
          *
@@ -227,6 +233,7 @@ export default class HeadlessFormFieldComponent<
   ErrorsComponent = ErrorsComponent<DATA[KEY]>;
   SelectComponent = SelectComponent;
   TextareaComponent = TextareaComponent;
+  LocalNumberInputComponent = LocalNumberInputComponent;
   RadioGroupComponent = RadioGroupComponent;
   CheckboxGroupComponent = CheckboxGroupComponent;
   CaptureEventsModifier = CaptureEventsModifier;
@@ -380,6 +387,15 @@ export default class HeadlessFormFieldComponent<
             name=@name
             errorId=errorId
             selected=this.valueAllAsString
+            setValue=this.setValue
+            invalid=this.hasErrors
+          )
+          LocalNumber=(component
+            this.LocalNumberInputComponent
+            name=@name
+            fieldId=fieldId
+            errorId=errorId
+            value=this.valueAsStringOrNumber
             setValue=this.setValue
             invalid=this.hasErrors
           )
