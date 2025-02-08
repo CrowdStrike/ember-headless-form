@@ -36,12 +36,13 @@
         How much would you like to donate?
       </field.Label>
       <field.LocalNumber
-        @locale="de-DE"
+        @locale='en-US'
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
       />
     </div>
   </form.Field>
-  Donating: {{form.data.donation}}
+  Donating:
+  {{form.data.donation}}
   <form.Field @name='gender' as |field|>
     <field.RadioGroup class='my-2 flex flex-col' as |group|>
       <group.Label>Gender</group.Label>
