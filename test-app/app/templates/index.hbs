@@ -23,7 +23,6 @@
     <div class='my-2 flex flex-col'>
       <field.Label class={{if field.isInvalid 'text-red-500'}}>Last name</field.Label>
       <field.Input
-        @max='10'
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
         required
       />
@@ -36,13 +35,15 @@
         How much would you like to donate?
       </field.Label>
       <field.LocalNumber
-        @locale='en-US'
-        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+          @locale="en-US"
+          @formatOptions={{hash style='currency' currency='USD'}}
       />
     </div>
   </form.Field>
-  Donating:
-  {{form.data.donation}}
+  {{#if form.data.donation}}
+    Donating:
+    {{form.data.donation}}
+  {{/if}}
   <form.Field @name='gender' as |field|>
     <field.RadioGroup class='my-2 flex flex-col' as |group|>
       <group.Label>Gender</group.Label>

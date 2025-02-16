@@ -96,12 +96,13 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
 
       // Formatter from localized number to something we can use or store programmatically.
       this.formatter = NumberParser(this.locale, this.formatOptions);
+
       // Formatter to programmatic number to local number.
       this.toFormatter = new Intl.NumberFormat(this.locale, this.formatOptions);
     }
 
     get locale(): String {
-      return this.args.locale ?? navigator.language;
+      return this.args.locale ?? navigator.language ?? "en-US";
     }
 
     /*
@@ -116,6 +117,10 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
       return this.args.formatOptions ?? {};
     }
 
+    get resolvedOptions(): Object {
+      return this.toFormatter.resolvedOptions();
+    }
+
     get thousandSeparator(): string {
       return this.toFormatter.formatToParts(1000).find(part => part.type === 'group').value;
     }
@@ -125,7 +130,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
     }
 
     get displayed(): string {
-      return this.toFormatter.format(this.args.value);
+        return this.toFormatter.format(this.args.value ?? "");
     }
 
     /*
@@ -150,55 +155,89 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
       }
     }
 
+    /**
+     * Get only non-numbers.
+     */
+    private getNonNumbers(value:string):Array{
+      let ret = this.toFormatter.formatToParts(value).filter((item) => {
+        return ["integer", "fraction"].indexOf(item.type) == -1;
+      });
+
+      return ret;
+    }
+
     @action
-    handleFormatting(e: Event | InputEvent): void {
+    handleInput(e: Event | InputEvent): void {
       // Get the curser position.
       let caretPos:number = e.target.selectionStart ?? 0;
 
       // Allow for empty
-      if(e.target.value === ""){
+      if(e.target.value === "" || this.formatter(e.target.value) === 0){
         this.args.setValue("");
+        e.target.value = "";
 
-        return;
-      }
-
-      // If there's more than 1 decimal separator, ignore the input and return to what the value was previously.
-      // There will never be more than one decimal separator. We will also do this if the user's input results in NaN.
-      if((e.target.value.split(this.decimalSeparator).length > 2 || isNaN(this.formatter(e.target.value)))){
-        e.target.value = this.pastVal;
-
-        return;
-      }
-
-      // Determine where the decimal point is.
-      let decimalPos = e.target.value.indexOf(this.decimalSeparator);
-
-      // If the input ends with the decimal separator, thousand separator, or a zero that is inputted beyond the decimal let them cook. (don't touch the formatting)
-      if((e.target.value.endsWith(this.decimalSeparator)) || (e.target.value.endsWith(this.thousandSeparator)) || (e.target.value.endsWith(this.zero) && caretPos > decimalPos && decimalPos >= 0)){
         return;
       }
 
       /*
-      Gracefully handle the removal of a thousand separator. Count the number of thousand separators present in
-      current value. If there are less than before and a thousand separator was present in the place the
-      caret's current position, remove the value that was just before the caret, then continue to formatting.
+        If the input ends with the decimal separator, or a zero that is inputted beyond the decimal let them cook. (don't touch the formatting)
       */
-      if((e.target.value.split(this.thousandSeparator).length < this.pastVal.split(this.thousandSeparator).length) && this.pastVal[caretPos] == this.thousandSeparator){
-        e.target.value = e.target.value.substring(0, caretPos-1)+e.target.value.substring(caretPos);
-        caretPos = caretPos - (this.pastVal.split(this.thousandSeparator).length - e.target.value.split(this.thousandSeparator).length);
+      if((e.target.value.endsWith(this.decimalSeparator) && !(e.target.value.split(this.decimalSeparator).length > 2)) || (e.target.value.endsWith(this.zero) && caretPos > decimalPos && decimalPos >= 0)){
+        return;
+      }
+
+      // Determine where the decimal point is.
+      let decimalPos:number = e.target.value.indexOf(this.decimalSeparator);
+
+      /*
+        If there's more than 1 decimal separator, a thousand separator beyond the decimal, or the input formatted results in NaN:
+        ignore the input and return to what the value was previously.
+        If the user tries to remove the one decimal separator, just jump them to it. Don't allow for removal.
+        We cannot have a thousand separator beyond the decimal
+        Move the input to the decimal place.
+      */
+      if(e.target.value.split(this.decimalSeparator).length > 2 || (decimalPos < e.target.value.lastIndexOf(this.thousandSeparator) && decimalPos != -1) || isNaN(this.formatter(e.target.value))){
+        e.target.value = this.pastVal;
+        decimalPos = e.target.value.indexOf(this.decimalSeparator);
+
+        if(e.target.value.split(this.decimalSeparator).length > 2){
+          this.setCaretPos(e.target, decimalPos+1);
+        }
+
+        return;
+      }
+
+
+      /*
+        If inputting beyond the decimal position, begin inserting numbers in reverse. Ex, if the current textbox formatted as dollars is $0.00 and
+        we as the user go to type 0.001 as the input, it should be shifted into 0.01. Then if we go to type 0.012 it should be shifted to 0.12 to
+        the maximum number of decimals allowed by whatever format we are currently using. A sort of reverse insertion to the point of hitting the max
+        number of decimals.
+      */
+      if(decimalPos < caretPos && decimalPos !== -1){
+        if(e.target.value.split(this.decimalSeparator)[1].length > this.toFormatter.formatToParts(this.formatter(e.target.value)).find(part => part.type === "fraction")?.value.length ?? 0){
+
+          let [pre,post] = e.target.value.split(this.decimalSeparator);
+          let max = this.toFormatter.formatToParts(this.formatter(e.target.value)).find(part => part.type === "fraction")?.value.length ?? 0;
+
+          pre = pre+post.substr(0,post.length-max);
+          post = post.substr(max*-1);
+          e.target.value = pre+this.decimalSeparator+post;
+
+        }
       }
 
       e.target.value = this.toFormatter.format(this.formatter(e.target.value));
 
       /*
-      If after formatting, we now have more thousand separators, shift the caret forward the difference.
-      (Say we go from 2 separators to 3, we move the caret forward 1.)
+        If after formatting, we now have more non numerals (thousand separators, decimal separators, currency symbols, etc), shift the caret forward the difference.
+        (Say we go from 2 separators to 3, we move the caret forward 1.)
       */
-      if((e.target.value.split(this.thousandSeparator).length > this.pastVal.split(this.thousandSeparator).length)){
-          caretPos = caretPos + (e.target.value.split(this.thousandSeparator).length - this.pastVal.split(this.thousandSeparator).length);
+
+      if(this.getNonNumbers(this.formatter(e.target.value)).length != this.getNonNumbers(this.formatter(this.pastVal)).length){
+          caretPos = caretPos + (this.getNonNumbers(this.formatter(e.target.value)).length - this.getNonNumbers(this.formatter(this.pastVal)).length);
       }
 
-      // Set the data as preferred.
       this.args.setValue(this.args.dataFormatting ? e.target.value : this.formatter(e.target.value));
 
       this.pastVal = e.target.value;
@@ -211,10 +250,11 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         name={{@name}}
         type="text"
         id={{@fieldId}}
+        value={{this.displayed}}
         aria-invalid={{if @invalid "true"}}
         aria-describedBy={{if @invalid @errorId}}
         ...attributes
-        {{on "input" this.handleFormatting }}
+        {{on "input" this.handleInput }}
       />
     </template>
 }
