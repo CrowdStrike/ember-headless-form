@@ -215,7 +215,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         number of decimals.
       */
       if(decimalPos < caretPos && decimalPos !== -1){
-        if(e.target.value.split(this.decimalSeparator)[1].length > this.toFormatter.formatToParts(this.formatter(e.target.value)).find(part => part.type === "fraction")?.value.length ?? 0){
+        if(e.target.value.split(this.decimalSeparator)[1].length > this.resolvedOptions.maximumFractionDigits ?? 0){
 
           let [pre,post] = e.target.value.split(this.decimalSeparator);
           let max = this.toFormatter.formatToParts(this.formatter(e.target.value)).find(part => part.type === "fraction")?.value.length ?? 0;
