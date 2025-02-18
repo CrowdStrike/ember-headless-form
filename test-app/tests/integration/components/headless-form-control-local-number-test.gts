@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { fillIn,render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
@@ -53,12 +53,13 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
           <form.Field @name="localNum" as |field| >
             <field.LocalNumber
               @locale="en-US"
-              @value="123456.78"
               @formatOptions={{hash style='currency' currency='USD'}}
              />
           </form.Field>
         </HeadlessForm>
       </template>);
+
+      await fillIn("input", "123456.78");
 
       const inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
 
@@ -67,9 +68,17 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
   // Correctly format number upon input
 
-  // Right-side input working correctly transferring to integer portion. Ex, 123.4567 becomes 1234.567
+  // Right-side input working correctly transferring to integer portion on dollars. Ex, input 125 is turned into $1.25 and not $100.25
 
-  //
+  // Shift input to end on whole copy and paste.
+
+  // Shift input to end of selection on partial copy and paste.
+
+  // display non-latin numbers correctly
+
+  // display right-aligned language currencies correctly.
+
+  // formatting to scientific notation.
 
 
 })
