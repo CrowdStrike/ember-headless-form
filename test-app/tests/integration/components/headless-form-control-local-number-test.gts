@@ -52,7 +52,7 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
         <HeadlessForm as |form|>
           <form.Field @name="localNum" as |field| >
             <field.LocalNumber
-              @locale="en-US"
+              @locale='en-US'
               @formatOptions={{hash style='currency' currency='USD'}}
              />
           </form.Field>
@@ -76,9 +76,9 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
   // display non-latin numbers correctly
 
-  // display right-aligned language currencies correctly.
+  // display right-aligned language currencies correctly. (ex, arabic.)
 
   // formatting to scientific notation.
 
-
+  // inputs turned into scientific notation.
 })

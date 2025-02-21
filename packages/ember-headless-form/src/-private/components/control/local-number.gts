@@ -10,7 +10,7 @@ import NumberParser from 'intl-number-parser';
  *  the numbers correctly when input is completed or it is focused off. When data is presented, it is formatted
  *  into the expected decimal value for data storage. Ex, a German user may type 1.234,56 but this data should be
  *  saved in the database as 1234.56, so that is what will be presented as the data to the form. If you want this
- *  behavior to be overriden, you can set the dataFormatting option (boolean) to true.
+ *  behavior to be overridden, you can set the dataFormatting option (boolean) to true.
  */
 
 export interface HeadlessFormControlLocalNumberInputComponentSignature {
@@ -86,7 +86,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
     // Formatter that will be used to convert numbers to locale.
     public toFormatter: Intl.NumberFormat;
 
-    private pastVal = "0";
+    private pastVal;
 
     constructor(
       owner: unknown,
@@ -100,9 +100,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
       // Formatter to programmatic number to local number.
       this.toFormatter = new Intl.NumberFormat(this.locale, this.formatOptions);
 
-      if(this.args.value){
-        this.pastVal = this.args.value;
-      }
+      this.pastVal = this.parseDisplay(this.args.value ?? "0");
     }
 
     get locale(): String {
@@ -140,7 +138,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
     /*
     * Set the user's input to a position on a text box.
     */
-    private setCaretPos(elem, caretPos){
+    private setCaretPos(elem: HTMLInputElement, caretPos:number):void{
       if(elem != null){
         if(elem.createTextRange) {
             let range = elem.createTextRange();
@@ -185,7 +183,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
       // Allow for empty. Don't return if it ends with a decimal separator or the input is beyond the decimal.
       if(e.target.value === "" || this.formatter(e.target.value) == "0" && !e.target.value.endsWith(this.decimalSeparator) && !(caretPos > decimalPos)){
         this.args.setValue("0");
-        this.pastValue = this.toFormatter.format("0");
+        this.pastVal = this.toFormatter.format("0");
 
         return;
       }
@@ -198,17 +196,16 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
       }
 
       /*
-        Ignoring Inputs:
-        If there's more than 1 decimal separator, a thousand separator beyond the decimal, or the input formatted results in NaN:
-        ignore the input and return to what the value was previously.
-        If the user tries to remove the one decimal separator, just jump them to it. Don't allow for removal.
-        We cannot have a thousand separator beyond the decimal
-        Move the input to the decimal place.
+        Ignoring Inputs if:
+        The user tries to input more than one decimal separator. (Jump them just beyond the decimal)
+        The user tries to input a thousand separator beyond the decimal separator.
+        The user's input would result in an invalid value. (NaN)
+        The user tries to remove a decimal separator when one is required with the formatter. (Just them just before the decimal)
       */
       if(e.target.value.split(this.decimalSeparator).length > 2 || (decimalPos < e.target.value.lastIndexOf(this.thousandSeparator) && decimalPos != -1) || isNaN(this.formatter(e.target.value))){
-        // Move curser to decimal if the user tries to input two.
-        if(e.target.value.split(this.decimalSeparator).length > 2){
-          caretPos = this.pastVal.indexOf(this.decimalSeparator)+1;
+        // Move caret to the decimal if they try to input more than one.
+        if(e.target.value.split(this.decimalSeparator).length > 2 && (decimalPos == -1 && this.resolvedOptions.minimumFractionDigits > 0)){
+          caretPos = this.pastVal.indexOf(this.decimalSeparator) + 1;
         }
 
         e.target.value = this.pastVal;
@@ -235,6 +232,10 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
 
       e.target.value = this.parseDisplay(e.target.value);
 
+      if(decimalPos == -1 && this.resolvedOptions.minimumFractionDigits > 0){
+          caretPos = e.target.value.indexOf(this.decimalSeparator);
+      }
+
       /*
         If after formatting, we now have more non numerals (thousand separators, decimal separators, currency symbols, etc), shift the caret forward or
         backwards the difference. (Say we go from 2 separators to 3, we move the caret forward 1.). We also check for a significant change to detect
@@ -253,7 +254,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         if (newNonNums !== oldNonNums) {
           const shift = newNonNums - oldNonNums;
 
-          caretPos = caretPos + shift;
+          caretPos += shift;
         }
       }
 

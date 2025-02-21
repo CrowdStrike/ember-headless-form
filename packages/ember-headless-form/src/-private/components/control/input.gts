@@ -108,16 +108,24 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
     this.args.setValue(e.target.value);
   }
 
+  @action
+  handleFocusOut(e: Event | InputEvent): void {
+    if(this.args.type === "number"){
+      this.args.setValue(parseFloat(e.target.value));
+    }
+  }
+
   <template>
     <input
       name={{@name}}
-      type={{this.type}}
+      type={{@type}}
       value={{@value}}
       id={{@fieldId}}
       aria-invalid={{if @invalid "true"}}
       aria-describedby={{if @invalid @errorId}}
       ...attributes
       {{on "input" this.handleInput}}
+      {{on "focusout" this.handleFocusOut}}
     />
   </template>
 }
