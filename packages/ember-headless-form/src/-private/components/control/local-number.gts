@@ -219,7 +219,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
 
       e.target.value = this.parseDisplay(e.target.value);
 
-      if(decimalPos == -1 && this.resolvedOptions.minimumFractionDigits > 0){
+      if(decimalPos == -1 && this.resolvedOptions.minimumFractionDigits >= 0 && this.resolvedOptions.maximumFractionDigits > 0){
           caretPos = e.target.value.indexOf(this.decimalSeparator);
       }
 
@@ -228,21 +228,15 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         backwards the difference. (Say we go from 2 separators to 3, we move the caret forward 1.). We also check for a significant change to detect
         for the user doing either a full copy and paste or partial copy and paste.
       */
-      const currentValLen = e.target.value.replace(new RegExp(this.thousandSeparator, "g"), "").length;
-      const pastValLen = this.pastVal.replace(new RegExp(this.thousandSeparator, "g"), "").length;
 
-      if (Math.abs(currentValLen - pastValLen) > 1) {
-        caretPos = e.target.selectionEnd ?? e.target.value.length;
-      } else {
-        // Otherwise, adjust the caret based on any added/removed non numbers.
-        const newNonNumsLength = this.getNonNumbersLength(e.target.value);
-        const oldNonNumsLength = this.getNonNumbersLength(this.pastVal);
+      // Adjust the caret based on any added/removed non numbers.
+      const newNonNumsLength = this.getNonNumbersLength(e.target.value);
+      const oldNonNumsLength = this.getNonNumbersLength(this.pastVal);
 
-        if (newNonNumsLength !== oldNonNumsLength) {
-          const shift = newNonNumsLength - oldNonNumsLength;
+      if (newNonNumsLength !== oldNonNumsLength && decimalPos != -1) {
+        const shift = newNonNumsLength - oldNonNumsLength;
 
-          caretPos += shift;
-        }
+        caretPos += shift;
       }
 
       this.args.setValue(
