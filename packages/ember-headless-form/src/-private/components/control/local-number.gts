@@ -170,9 +170,9 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
       const decimalPos:number = e.target.value.indexOf(this.decimalSeparator);
 
       // Allow for empty. Don't return if it ends with a decimal separator or the input is beyond the decimal.
-      if(e.target.value === "" || this.formatter(e.target.value) == "0" && !e.target.value.endsWith(this.decimalSeparator) && !(caretPos > decimalPos)){
+      if(e.target.value === "" || this.formatter(e.target.value) == this.zero && !e.target.value.endsWith(this.decimalSeparator) && !(caretPos > decimalPos)){
         this.args.setValue("0");
-        this.pastVal = this.toFormatter.format("0");
+        this.pastVal = this.toFormatter.format(this.zero);
 
         return;
       }
@@ -204,8 +204,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         If inputting beyond the decimal position, begin inserting numbers in reverse. Ex, if the current textbox formatted as dollars is $0.00 and
         we as the user go to type 0.001 as the input, it should be shifted into 0.01. Then if we go to type 0.012 it should be shifted to 0.12 to
         the maximum number of decimals allowed by whatever format we are currently using. A sort of reverse insertion to the point of hitting the max
-        number of decimals. However, if say the user has $0.20 in the input, we should allow for input between the 2 and the 0 to turn it into say, $0.21,
-        pushing out the .
+        number of decimals.
       */
       if(decimalPos < caretPos && decimalPos !== -1 && caretPos == e.target.value.length){
         if(e.target.value.split(this.decimalSeparator)[1].length > this.resolvedOptions.maximumFractionDigits ?? 0){
