@@ -1,11 +1,8 @@
-import { fillIn,render } from '@ember/test-helpers';
-import { module, test } from 'qunit';
+import { render, typeIn } from '@ember/test-helpers';
+import { module, skip, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
-import { hash } from 'rsvp';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-
-//import type { RenderingTestContext } from '@ember/test-helpers';
 
 module("Integration Component HeadlessForm > Local Number", function(hooks) {
   setupRenderingTest(hooks);
@@ -26,7 +23,7 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
       assert.strictEqual(textInput, "text", "form field renders as text with no arguments.");
   })
 
-  // Format this number in an USA Locale.
+  // Format this number in an English USA Locale.
   test("field renders en-US number correctly", async function(assert) {
     await render(
       <template>
@@ -47,19 +44,25 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
   // Support the rendering of currency.
   test("field supports formatting options to render currency", async function(assert) {
+
+    const options = {
+      "style":"currency",
+      "currency":"USD"
+    };
+
     await render(
       <template>
         <HeadlessForm as |form|>
           <form.Field @name="localNum" as |field| >
             <field.LocalNumber
               @locale='en-US'
-              @formatOptions={{hash style='currency' currency='USD'}}
+              @formatOptions={{options}}
              />
           </form.Field>
         </HeadlessForm>
       </template>);
 
-      await fillIn("input", "123456.78");
+      await typeIn("input", "123456.78");
 
       const inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
 
@@ -67,18 +70,163 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
   })
 
   // Correctly format number upon input
+  test("formatting between inputs", async function(assert) {
+    const options = {
+      "style":"currency",
+      "currency":"USD"
+    };
 
-  // Right-side input working correctly transferring to integer portion on dollars. Ex, input 125 is turned into $1.25 and not $100.25
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='en-US'
+            @formatOptions={{options}}
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
 
-  // Shift input to end on whole copy and paste.
+    await typeIn("input", "0.02", {delay:1});
 
-  // Shift input to end of selection on partial copy and paste.
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
 
-  // display non-latin numbers correctly
+    assert.strictEqual(inputValue, "$0.02", "input formats correctly for number entry.");
 
-  // display right-aligned language currencies correctly. (ex, arabic.)
+    await typeIn("input", "123", {delay:20});
 
-  // formatting to scientific notation.
+    inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
 
-  // inputs turned into scientific notation.
+    assert.strictEqual(inputValue, "$21.23", "input formats correctly for additional entry.");
+
+    })
+
+    // Right-side input working correctly transferring to integer portion on dollars. Ex, input 125 is turned into $1.25 and not $100.25
+    test("Formatting right side entry and handling decimal jump", async function(assert) {
+    const options = {
+      "style":"currency",
+      "currency":"USD"
+    };
+
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='en-US'
+            @formatOptions={{options}}
+            @value="0.00"
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
+
+    await typeIn("input", "125");
+
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+    assert.strictEqual(inputValue, "$1.25", "input formats correctly for number entry.");
+
+    await typeIn("input", ".");
+
+    assert.strictEqual(this.element.querySelector("input").selectionStart, 3, "double entry of decimal point jumps to correct position");
+    })
+
+  // display non-latin numbers correctly (ex, arabic.) 123456.789 = '١٢٣٬٤٥٦٫٧٨٩'
+  test("Displaying arabic number (١٢٣٬٤٥٦٫٧٨٩ = ١٢٣٬٤٥٦٫٧٨٩) correctly", async function(assert) {
+
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='ar-SA'
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
+
+    await typeIn("input", "١٢٣٤٥٦٫٧٨٩");
+
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+    assert.strictEqual(inputValue, "١٢٣٬٤٥٦٫٧٨٩", "input formats correctly for number entry.");
+  })
+
+  // Arabic leading zero decimal input. 123456.001 = ١٢٣٬٤٥٦٫٠٠١
+  test("Leading zero decimal input for arabic. (١٢٣٬٤٥٦٫٠٠١ = ١٢٣٤٥٦٫٠٠١)", async function(assert) {
+
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='ar-SA'
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
+
+    await typeIn("input", "١٢٣٤٥٦٫٠٠١");
+
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+    assert.strictEqual(inputValue, "١٢٣٬٤٥٦٫٠٠١", "input formats arabic leading zeros correctly");
+  })
+
+  // correct caret positioning for written out currencies. (ex positioning is correct for "$" and "US dollars" respectively)
+  test("Correct caret positioning for 'name' currency display formats. Ex: 100 US dollars", async function(assert) {
+
+    const options = {
+      "style":"currency",
+      "currency":"USD",
+      "currencyDisplay":"name"
+    };
+
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='en-US'
+            @formatOptions={{options}}
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
+
+    await typeIn("input", "123456.789");
+
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+    assert.strictEqual(inputValue, "1,234,567.89 US dollars", "input formats long currency displays");
+  })
+
+  // formatting to percentages
+  // Skipped for now. Will add full feature support of Intl.NumberFormat in future.
+  skip("correct formatting for percentages", async function(assert) {
+
+    const options = {
+      "style":"percent",
+    };
+
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='en-US'
+            @formatOptions={{options}}
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
+
+    await typeIn("input", "123456");
+
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+    assert.strictEqual(inputValue, "123456%", "input formats long currency displays");
+  })
 })

@@ -86,6 +86,7 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
     // Formatter that will be used to convert numbers to locale.
     public toFormatter: Intl.NumberFormat;
 
+    // Value of field before user's most recent input
     private pastVal;
 
     constructor(
@@ -99,7 +100,6 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
 
       // Formatter to programmatic number to local number.
       this.toFormatter = new Intl.NumberFormat(this.locale, this.formatOptions);
-
       this.pastVal = this.parseDisplay(this.args.value ?? "0");
     }
 
@@ -139,31 +139,20 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
     * Set the user's input to a position on a text box.
     */
     private setCaretPos(elem: HTMLInputElement, caretPos:number):void{
-      if(elem != null){
-        if(elem.createTextRange) {
-            let range = elem.createTextRange();
-
-            range.move('character', caretPos);
-            range.select();
-        }
-        else {
-            if(elem.selectionStart) {
-                elem.focus();
-                elem.setSelectionRange(caretPos, caretPos);
-            }
-            else
-                elem.focus();
-        }
+      if (elem) {
+        elem.focus();
+        elem.setSelectionRange(caretPos, caretPos);
       }
     }
 
     /**
      * Get only non-numbers.
      */
-    private getNonNumbers(value:string):Array{
-      return this.toFormatter.formatToParts(this.formatter(value)).filter((item) => {
-        return ["integer", "fraction"].indexOf(item.type) == -1;
-      });
+    private getNonNumbersLength(value: string): number {
+      return this.toFormatter
+        .formatToParts(this.formatter(value))
+        .filter((item) => !["integer", "fraction"].includes(item.type))
+        .reduce((total, item) => total + item.value.length, 0);
     }
 
     /**
@@ -200,11 +189,10 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         The user tries to input more than one decimal separator. (Jump them just beyond the decimal)
         The user tries to input a thousand separator beyond the decimal separator.
         The user's input would result in an invalid value. (NaN)
-        The user tries to remove a decimal separator when one is required with the formatter. (Just them just before the decimal)
       */
       if(e.target.value.split(this.decimalSeparator).length > 2 || (decimalPos < e.target.value.lastIndexOf(this.thousandSeparator) && decimalPos != -1) || isNaN(this.formatter(e.target.value))){
         // Move caret to the decimal if they try to input more than one.
-        if(e.target.value.split(this.decimalSeparator).length > 2 && (decimalPos == -1 && this.resolvedOptions.minimumFractionDigits > 0)){
+        if(e.target.value.split(this.decimalSeparator).length > 2 || (decimalPos == -1 && this.resolvedOptions.minimumFractionDigits > 0)){
           caretPos = this.pastVal.indexOf(this.decimalSeparator) + 1;
         }
 
@@ -248,11 +236,11 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         caretPos = e.target.selectionEnd ?? e.target.value.length;
       } else {
         // Otherwise, adjust the caret based on any added/removed non numbers.
-        const newNonNums = this.getNonNumbers(e.target.value).length;
-        const oldNonNums = this.getNonNumbers(this.pastVal).length;
+        const newNonNumsLength = this.getNonNumbersLength(e.target.value);
+        const oldNonNumsLength = this.getNonNumbersLength(this.pastVal);
 
-        if (newNonNums !== oldNonNums) {
-          const shift = newNonNums - oldNonNums;
+        if (newNonNumsLength !== oldNonNumsLength) {
+          const shift = newNonNumsLength - oldNonNumsLength;
 
           caretPos += shift;
         }
