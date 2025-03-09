@@ -2,15 +2,15 @@ import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
 import { action }from '@ember/object';
 
-import NumberParser from 'intl-number-parser';
-
 /**
  *  This component works to solve using localized number inputs and will render a text field to support it as
  *  a normal number input field only supports "." as a decimal separator no matter the locale. It will format
- *  the numbers correctly when input is completed or it is focused off. When data is presented, it is formatted
+ *  the numbers correctly as the user types into the field. When data is presented, it is formatted
  *  into the expected decimal value for data storage. Ex, a German user may type 1.234,56 but this data should be
- *  saved in the database as 1234.56, so that is what will be presented as the data to the form. If you want this
- *  behavior to be overridden, you can set the dataFormatting option (boolean) to true.
+ *  saved in the database as 1234.56.
+ *
+ *  You should be able to use the majority of the input options available to Intl.NumberFormat aside from scientific notation
+ *  and compact notation.
  */
 
 export interface HeadlessFormControlLocalNumberInputComponentSignature {
@@ -38,12 +38,6 @@ export interface HeadlessFormControlLocalNumberInputComponentSignature {
      * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
      */
     formatOptions?: object,
-
-    /**
-     * Determines whether or not the actual value is converted to decimals when setting the data. Ex: German 1.234,56 is converted to 1234.56 float or
-     * if you would prefer to have the formatted number be set to the data rather than the formatted number.
-     */
-    dataFormatting: boolean;
 
     // the following are private arguments curried by the component helper, so users will never have to use those
 
@@ -79,15 +73,219 @@ export interface HeadlessFormControlLocalNumberInputComponentSignature {
   }
 }
 
+class LocalNumberInputValue {
+    /**
+     * Instance of the Intl.NumberFormat created using arguments provided on initialization
+     */
+    public readonly toFormatter: Intl.NumberFormat;
+    /**
+     * Result of Intl.NumberFormat().formatToParts
+     */
+    public parts: Array;
+    /**
+     * The "true" stored value of the number we are working with. Ex $1,500.72 would be "1500.72"
+     */
+    public dataValue: number;
+    /**
+     * Resolved options of Intl.NumberFormat
+     */
+    public readonly resolvedOptions;
+    /**
+     * Base 10 numbers based on the given locale. Providing support for non-latin numbers.
+     */
+    public readonly localeNumbers: Array;
+
+    public readonly decimalSep: string;
+
+    constructor(locale = "en-US", options = {}, value = 0){
+      // Build the initial formatter with given options and value then save the parts to use later.
+      this.toFormatter = new Intl.NumberFormat(locale, options);
+      this.resolvedOptions = this.toFormatter.resolvedOptions();
+
+      // We setup a temporary formatter with only the locale because some formatters
+      let tmpFormatter = new Intl.NumberFormat(locale, {});
+
+      // Build numbers 0-9 for whatever locale we're working with. Supports base 10 number systems.
+      this.localeNumbers = Array.from({ length: 10 }, (_, i) => {
+        const parts = tmpFormatter.formatToParts(i);
+        const integerPart = parts.find(part => part.type === "integer");
+
+        // Account for number formatter multiplying wholes by 100 when doing percentages.
+        return this.resolvedOptions.style === "percent" ? integerPart.value * 0.01 : integerPart.value;
+      });
+
+      this.decimalSep = tmpFormatter.formatToParts("0.01").find(part => part.type === 'decimal')?.value ?? "";
+
+      this.updateInput(value);
+    }
+
+    get preNumLen():number {
+      let sum = 0;
+
+      for (const item of this.parts) {
+        if (["integer", "fraction"].includes(item.type)) {
+          break;
+        } else {
+          sum += item.value.length;
+        }
+      }
+
+      return sum;
+    }
+
+    get postNumLen():number {
+      let sum = 0;
+
+      for (const item of [...this.parts].reverse()) {
+        if (["integer", "fraction"].includes(item.type)) {
+          break;
+        } else {
+          sum += item.value.length;
+        }
+      }
+
+      return sum;
+    }
+
+    /**
+     * Get the relevant non-number length.
+     */
+    get nonNumberLength():number {
+      return [...this.parts].filter((item) => !["integer", "fraction", "decimal"].includes(item.type)).reduce((total, item) => total + item.value.length, 0);
+    }
+
+    /**
+    *  Different languages define their zeros differently. For example, arabic uses "٠" while english will use "0".
+    *  We need to know what their zero is in order to know when to programmatically run the formatter.
+    */
+    get zero(): string {
+      return this.localeNumbers[0];
+    }
+
+    /**
+     * Get the formatted value the user might expect.
+     */
+    get displayedValue() :string {
+      return this.toFormatter.format(this.dataValue);
+    }
+
+    /**
+     * Decimal separator for the formatting
+     */
+    /*get decimalSep(): string {
+      return this.toFormatter.formatToParts(0.01).find(part => part.type === 'decimal')?.value ?? "";
+    }*/
+
+    /**
+     * Determine whether or not decimals are used for this formatting type.
+     * Will return true if there is a set minimum or max amount of fraction digits and the decimal separator isn't blank.
+     */
+    get hasDecimals(): boolean {
+      return ((this.resolvedOptions.minimumFractionDigits ?? 0) > 0 || (this.resolvedOptions.maximumFractionDigits ?? 0) > 0) && this.decimalSep != "";
+    }
+
+    /**
+     * Determine whether or not this input has boundaries
+     */
+    get hasBounds(): boolean {
+      return (this.preNumLen ?? 0) > 0 || (this.postNumLen ?? 0) > 0;
+    }
+
+    /**
+     * Determine whether or not the number is in a saveable state.
+     * Inputs are considered invalid if:
+     * - they would result in NaN with the data value
+     * - they have more than one decimal separator and also should have decimals
+     */
+    get isValid(): boolean {
+      // Skip decimal checks if there isn't one defined.
+      if(!this.hasDecimals){
+        return !isNaN(this.dataValue);
+      }
+
+      // Decimal Checks
+      const sections = this.displayedValue.split(this.decimalSep);
+
+      return !(isNaN(this.dataValue) || sections.length > 2)
+    }
+
+    /**
+     * We will this method until RegExp.escape is more commonly implemented.
+     * https://tc39.es/proposal-regex-escaping/
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+     */
+    private escapeRegex(toEscape: string) {
+      if(toEscape == ",") return toEscape;
+
+      if(RegExp.escape){
+        return RegExp.escape(toEscape);
+      }else {
+        return toEscape.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+      }
+    }
+
+    /**
+     * Try to get the value by removing irrelevant characters and then performing regex on the substring to remove anything that isn't a number.
+     */
+    public parseValue(data:string):number {
+      const sep = this.escapeRegex(this.decimalSep);
+
+      // This regex will first serve to only return numbers and the decimal separators
+      const regex = new RegExp(`[^\\p{Nd}(?:${sep})]+`, 'gu');
+      // This one will clear out any additional separators.
+      const additionalClear = new RegExp(`(?<=.*${sep})${sep}`, 'gu')
+
+      // Apply all regex
+      let value = data
+          .replace(regex, '')
+          .replace(additionalClear, '');
+
+      // Finally swap out all of locale numbers for the localized numbers.
+      // Inspired by: https://github.com/ApelegHQ/intl-number-parser/blob/master/src/NumberParser.ts
+      value = this.localeNumbers.reduce((acc,cv,i) => acc.split(cv).join(String(i)), value);
+
+      // swap the locale decimal separator with a period because that's what parseFloat expects.
+      if(this.hasDecimals){
+        value = value.replace(this.decimalSep, ".");
+      }
+
+      // Percentage Support
+      if(this.resolvedOptions.style === "percent"){
+        value = parseFloat(value) * 0.01;
+      }else{
+        value = parseFloat(value).toFixed(this.resolvedOptions.maximumFractionDigits);
+      }
+
+      return value;
+    }
+
+    /**
+     * Get the relevant portion of the given string. Ex, "123,456.45 US Dollars" should yield us 123,456.45
+     * as determined by the formatting options on this object.
+     */
+    public getRelevantData(data:string){
+      if(this.hasBounds){
+        data = data.substring(this.preNumLen, data.length - this.postNumLen);
+      }
+
+      return data;
+    }
+
+    /**
+     * Update the value of the input object.
+     */
+    public updateInput(value:string): void{
+      // Extract the actual value by stripping away anything that isn't a number or a decimal.
+      this.dataValue = this.parseValue(value);
+      // Break up parts and determine the area where the actual number is.
+      this.parts = this.toFormatter.formatToParts(this.dataValue);
+    }
+}
 
 export default class HeadlessFormControlLocalNumberInputComponent extends Component<HeadlessFormControlLocalNumberInputComponentSignature>{
-    // Formatter that will be used to convert locale to save-able value.
-    public formatter: NumberParser;
-    // Formatter that will be used to convert numbers to locale.
-    public toFormatter: Intl.NumberFormat;
-
-    // Value of field before user's most recent input
-    private pastVal;
+    // Value of field before user's previous and most recent input
+    private pastVal: LocalNumberInputValue;
+    private currentVal: LocalNumberInputValue;
 
     constructor(
       owner: unknown,
@@ -95,156 +293,142 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
     ){
       super(owner, args);
 
-      // Formatter from localized number to something we can use or store programmatically.
-      this.formatter = NumberParser(this.locale, this.formatOptions);
-
-      // Formatter to programmatic number to local number.
-      this.toFormatter = new Intl.NumberFormat(this.locale, this.formatOptions);
-      this.pastVal = this.parseDisplay(this.args.value ?? "0");
-    }
-
-    get locale(): String {
-      return this.args.locale ?? navigator.language ?? "en-US";
-    }
-
-    /*
-      Different languages define their zeros differently. For example, arabic uses "٠" while english will use "0".
-      We need to know what their zero is in order to know when to programmatically run the formatter.
-    */
-    get zero(): String {
-      return this.toFormatter.formatToParts(0)[0].value;
-    }
-
-    get formatOptions(): Object {
-      return this.args.formatOptions ?? {};
-    }
-
-    get resolvedOptions(): Object {
-      return this.toFormatter.resolvedOptions();
-    }
-
-    get thousandSeparator(): string {
-      return this.toFormatter.formatToParts(1000).find(part => part.type === 'group').value;
-    }
-
-    get decimalSeparator(): string {
-      return this.toFormatter.formatToParts(0.01).find(part => part.type === 'decimal').value;
-    }
-
-    get displayed(): string {
-        return this.toFormatter.format(this.args.value ?? 0);
+      this.pastVal = new LocalNumberInputValue(this.args.locale, this.args.formatOptions, this.args.value ?? "0");
+      this.currentVal = new LocalNumberInputValue(this.args.locale, this.args.formatOptions, this.args.value ?? "0");
     }
 
     /*
     * Set the user's input to a position on a text box.
     */
-    private setCaretPos(elem: HTMLInputElement, caretPos:number):void{
-      if (elem) {
+    private setCaretPos(elem: HTMLInputElement, caretPos:number):void {
+      if (document.activeElement == elem) {
         elem.focus();
         elem.setSelectionRange(caretPos, caretPos);
       }
     }
 
     /**
-     * Get only non-numbers.
+     * Reset for invalid inputs.
+     * First try to go back to the previous value if it's valid.
+     * If the last value isn't valid check if a value was provided and go to that.
+     * If there is no value originally provided and the previous input is invalid, default to 0.
      */
-    private getNonNumbersLength(value: string): number {
-      return this.toFormatter
-        .formatToParts(this.formatter(value))
-        .filter((item) => !["integer", "fraction"].includes(item.type))
-        .reduce((total, item) => total + item.value.length, 0);
+    private resetInput(elem: HTMLInputElement): void{
+
+        if(this.pastVal.isValid){
+          this.currentVal.updateInput(this.pastVal.displayedValue);
+        }else if(this.args.value) {
+          this.currentVal.updateInput(this.args.value);
+        }else {
+          this.currentVal.updateInput(this.currentVal.zero);
+        }
+
+        elem.value = this.currentVal.displayedValue;
+
+        return;
     }
 
     /**
-     * Return the number formatted corrected
+     * Handler for input events.
      */
-    private parseDisplay(value:string):String {
-      return this.toFormatter.format(this.formatter(value));
-    }
-
     @action
     handleInput(e: Event | InputEvent): void {
-      // Get the curser position.
-      let caretPos:number = e.target.selectionStart ?? 0;
-      // Determine where the decimal point is.
-      const decimalPos:number = e.target.value.indexOf(this.decimalSeparator);
+      let caretPos: number = e.target.selectionStart ?? 0;
+      const relevantData = this.currentVal.getRelevantData(e.target.value);
 
-      // Allow for empty. Don't return if it ends with a decimal separator or the input is beyond the decimal.
-      if(e.target.value === "" || this.formatter(e.target.value) == this.zero && !e.target.value.endsWith(this.decimalSeparator) && !(caretPos > decimalPos)){
-        this.args.setValue("0");
-        this.pastVal = this.toFormatter.format(this.zero);
+      // Allow for empty inputs.
+      if(relevantData == ""){
+        this.args.setValue(0);
+        this.currentVal.updateInput(String(this.currentVal.zero));
+        e.target.value = this.currentVal.displayedValue;
 
         return;
       }
 
-      /*
-        If the input ends with the decimal separator (not more than one), or a zero that is inputted beyond the decimal let them cook. (don't touch the formatting)
-      */
-      if((e.target.value.endsWith(this.decimalSeparator) && !(e.target.value.split(this.decimalSeparator).length > 2)) || (e.target.value.endsWith(this.zero) && caretPos > decimalPos && decimalPos >= 0) && !(e.target.value.split(this.decimalSeparator).length > 2)){
+      this.currentVal.updateInput(e.target.value);
+      // Update our current value instance with the new input.
+
+      if(!this.currentVal.isValid){
+        this.resetInput(e.target);
+
         return;
       }
 
-      /*
-        Ignoring Inputs if:
-        The user tries to input more than one decimal separator. (Jump them just beyond the decimal)
-        The user tries to input a thousand separator beyond the decimal separator.
-        The user's input would result in an invalid value. (NaN)
-      */
-      if(e.target.value.split(this.decimalSeparator).length > 2 || (decimalPos < e.target.value.lastIndexOf(this.thousandSeparator) && decimalPos != -1) || isNaN(this.formatter(e.target.value))){
-        // Move caret to the decimal if they try to input more than one.
-        if(e.target.value.split(this.decimalSeparator).length > 2 || (decimalPos == -1 && this.resolvedOptions.minimumFractionDigits > 0)){
-          caretPos = this.pastVal.indexOf(this.decimalSeparator) + 1;
+      if(this.currentVal.hasDecimals){
+        const decimalPos: number = e.target.value.indexOf(this.currentVal.decimalSep);
+
+        if(decimalPos >= 0){
+          const maxDecPlaces = this.currentVal.resolvedOptions.maximumFractionDigits;
+          const minDecPlaces = this.currentVal.resolvedOptions.minimumFractionDigits;
+          const parts = relevantData.split(this.currentVal.decimalSep);
+
+          // Jump to decimal if there is already one present and the most recent input was a decimal.
+          if(parts.length > 2){
+            this.resetInput(e.target);
+            this.setCaretPos(e.target, decimalPos+1);
+
+            return;
+          }
+
+          // Allow for precision inputs ex 0.001. But not beyond the max and maintaining the minimum.
+          if((relevantData.endsWith(this.currentVal.decimalSep) || (relevantData.endsWith(this.currentVal.zero) && caretPos > decimalPos)) && parts[1].length <= maxDecPlaces && parts[1].length >= minDecPlaces){
+            return;
+          }
+
+          // Inputs going over the maximum allotted decimal places will shift the fraction into the whole. (Right side input)
+          if(parts[1] && parts[1].length > (maxDecPlaces ?? 0)){
+            // Split the value by the decimal point to get value before and after.
+            let [pre,post] = relevantData.split(this.currentVal.decimalSep);
+
+            // Determine how big of a difference there is between the maximum decimals and the attempted input.
+            // This will give us how much we need to shift from the post to the pre.
+            const diff = Math.abs(maxDecPlaces - post.length);
+
+            // Shift the value from the fraction to the whole.
+            pre = pre+post.substring(0,diff);
+            post = post.substring(diff, post.length);
+
+            // Update the input. (Put the decimal place back, recombine the string);
+            e.target.value = pre+this.currentVal.decimalSep+post;
+            this.currentVal.updateInput(e.target.value);
+          }
         }
-
-        e.target.value = this.pastVal;
       }
 
+      const currentNonNums = this.currentVal.nonNumberLength;
+      const pastNonNums = this.pastVal.nonNumberLength;
 
-      /*
-        If inputting beyond the decimal position, begin inserting numbers in reverse. Ex, if the current textbox formatted as dollars is $0.00 and
-        we as the user go to type 0.001 as the input, it should be shifted into 0.01. Then if we go to type 0.012 it should be shifted to 0.12 to
-        the maximum number of decimals allowed by whatever format we are currently using. A sort of reverse insertion to the point of hitting the max
-        number of decimals.
-      */
-      if(decimalPos < caretPos && decimalPos !== -1 && caretPos == e.target.value.length){
-        if(e.target.value.split(this.decimalSeparator)[1].length > this.resolvedOptions.maximumFractionDigits ?? 0){
-
-          let [pre,post] = e.target.value.split(this.decimalSeparator);
-
-          pre = pre+post.substr(0,post.length-this.resolvedOptions.maximumFractionDigits);
-          post = post.substr(this.resolvedOptions.maximumFractionDigits*-1);
-          e.target.value = pre+this.decimalSeparator+post;
-        }
+      // Account for changes in non numberical values that would cause the caret to shift.
+      if (currentNonNums !== pastNonNums) {
+        caretPos += (currentNonNums - pastNonNums);
       }
 
-      e.target.value = this.parseDisplay(e.target.value);
-
-      if(decimalPos == -1 && this.resolvedOptions.minimumFractionDigits >= 0 && this.resolvedOptions.maximumFractionDigits > 0){
-          caretPos = e.target.value.indexOf(this.decimalSeparator);
-      }
-
-      /*
-        If after formatting, we now have more non numerals (thousand separators, decimal separators, currency symbols, etc), shift the caret forward or
-        backwards the difference. (Say we go from 2 separators to 3, we move the caret forward 1.). We also check for a significant change to detect
-        for the user doing either a full copy and paste or partial copy and paste.
-      */
-
-      // Adjust the caret based on any added/removed non numbers.
-      const newNonNumsLength = this.getNonNumbersLength(e.target.value);
-      const oldNonNumsLength = this.getNonNumbersLength(this.pastVal);
-
-      if (newNonNumsLength !== oldNonNumsLength && decimalPos != -1) {
-        const shift = newNonNumsLength - oldNonNumsLength;
-
-        caretPos += shift;
-      }
-
-      this.args.setValue(
-        this.args.dataFormatting ? e.target.value : this.formatter(e.target.value)
-      );
-
-      this.pastVal = e.target.value;
+      e.target.value = this.currentVal.displayedValue;
+      this.args.setValue(this.currentVal.dataValue);
+      // Update past value.
+      this.pastVal.updateInput(e.target.value);
       this.setCaretPos(e.target, caretPos);
+    }
+
+    /**
+     * Ensures the Caret remains within the bounds of the data and adjusts to whatever is on the start or ends.
+     */
+    @action
+    handleSelectionChange(e: Event | InputEvent): void {
+      // Keep input caret within bounds of data.
+      if(this.currentVal.hasBounds){
+        let caretPos: number = e.target.selectionStart ?? 0;
+        const caretEndPos: number = e.target.selectionEnd ?? 0;
+        // Determine valid caret range based on current value. (Where is the value)
+        const validStart = this.currentVal.preNumLen;
+        const validEnd = e.target.value.length - this.currentVal.postNumLen;
+
+        // If we're out of bounds, shift it to the closest in bound position.
+        if (caretPos < validStart || caretPos > validEnd || caretEndPos < validStart || caretEndPos > validEnd) {
+          caretPos = Math.abs(caretPos - validStart) < Math.abs(caretPos - validEnd) ? validStart : validEnd;
+          this.setCaretPos(e.target, caretPos);
+        }
+      }
     }
 
     <template>
@@ -252,11 +436,12 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
         name={{@name}}
         type="text"
         id={{@fieldId}}
-        value={{this.displayed}}
+        value={{this.currentVal.displayedValue}}
         aria-invalid={{if @invalid "true"}}
         aria-describedBy={{if @invalid @errorId}}
         ...attributes
         {{on "input" this.handleInput }}
+        {{on "selectionchange" this.handleSelectionChange }}
       />
     </template>
 }

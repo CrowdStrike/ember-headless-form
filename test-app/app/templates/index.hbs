@@ -35,7 +35,10 @@
         How much would you like to donate?
       </field.Label>
       <field.LocalNumber
+          class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
           @locale="en-US"
+          @formatOptions = {{hash style="unit" unit="liter"}}
+          required
       />
     </div>
   </form.Field>

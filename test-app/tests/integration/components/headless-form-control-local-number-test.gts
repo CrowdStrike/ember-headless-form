@@ -1,4 +1,4 @@
-import { render, typeIn } from '@ember/test-helpers';
+import { click, render, typeIn } from '@ember/test-helpers';
 import { module, skip, test } from 'qunit';
 
 import { HeadlessForm } from 'ember-headless-form';
@@ -69,6 +69,36 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
       assert.strictEqual(inputValue, "$123,456.78", "input renders US dollars correctly");
   })
 
+  // Support the rendering of currency with right-sided symbol. (French Euro placement.)
+  // "123456.78" = "123 456,78 €" This is to ensure input placement is correct.
+  // This will need to be manually tested as I don't believe
+  // the caret positioning is not currently taken into account by ember test helpers
+  skip("field supports right sided symbol currency placement", async function(assert) {
+
+    const options = {
+      "style":"currency",
+      "currency":"EUR"
+    };
+
+    await render(
+      <template>
+        <HeadlessForm as |form|>
+          <form.Field @name="localNum" as |field| >
+            <field.LocalNumber
+              @locale='fr-FR'
+              @formatOptions={{options}}
+             />
+          </form.Field>
+        </HeadlessForm>
+      </template>);
+
+      await typeIn("input", "123456.78");
+
+      const inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+      assert.strictEqual(inputValue, "123 456,78 €", "input renders euros in french locale correctly");
+  })
+
   // Correctly format number upon input
   test("formatting between inputs", async function(assert) {
     const options = {
@@ -102,8 +132,8 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
     })
 
-    // Right-side input working correctly transferring to integer portion on dollars. Ex, input 125 is turned into $1.25 and not $100.25
-    test("Formatting right side entry and handling decimal jump", async function(assert) {
+  // Right-side input working correctly transferring to integer portion on dollars. Ex, input 125 is turned into $1.25 and not $100.25
+  test("Formatting right side entry and handling decimal jump", async function(assert) {
     const options = {
       "style":"currency",
       "currency":"USD"
@@ -122,16 +152,16 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
       </HeadlessForm>
     </template>);
 
-    await typeIn("input", "125");
+    await typeIn("input", "125", {delay:20});
 
-    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+    let input = (this.element.querySelector("input") as HTMLInputElement);
 
-    assert.strictEqual(inputValue, "$1.25", "input formats correctly for number entry.");
+    assert.strictEqual(input.value, "$1.25", "input formats correctly for number entry.");
 
     await typeIn("input", ".");
 
-    assert.strictEqual(this.element.querySelector("input").selectionStart, 3, "double entry of decimal point jumps to correct position");
-    })
+    assert.strictEqual(input.selectionStart, 3, "double entry of decimal point jumps to correct position");
+  })
 
   // display non-latin numbers correctly (ex, arabic.) 123456.789 = '١٢٣٬٤٥٦٫٧٨٩'
   test("Displaying arabic number (١٢٣٬٤٥٦٫٧٨٩ = ١٢٣٬٤٥٦٫٧٨٩) correctly", async function(assert) {
@@ -176,13 +206,12 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
   })
 
   // correct caret positioning for written out currencies. (ex positioning is correct for "$" and "US dollars" respectively)
-  // TODO: Skipped for now. Will add full feature support of Intl.NumberFormat in future.
-  skip("Correct caret positioning for 'name' currency display formats. Ex: 100 US dollars", async function(assert) {
+  test("Correct caret positioning for 'name' currency display formats. Ex: 100 US dollars", async function(assert) {
 
     const options = {
-      "style":"currency",
-      "currency":"USD",
-      "currencyDisplay":"name"
+      style:"currency",
+      currency:"USD",
+      currencyDisplay:"name"
     };
 
     await render(
@@ -197,17 +226,15 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
       </HeadlessForm>
     </template>);
 
-    await typeIn("input", "123456.789");
+    const inputBox = this.element.querySelector("input") as HTMLInputElement
 
-    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+    await click(inputBox);
 
-    assert.strictEqual(inputValue, "1,234,567.89 US dollars", "input formats long currency displays");
+    assert.strictEqual(inputBox.selectionStart, 4, "caret position is correct when clicking element");
   })
 
   // formatting to percentages
-  // TODO: Skipped for now. Will add full feature support of Intl.NumberFormat in future.
-  skip("correct formatting for percentages", async function(assert) {
-
+  test("correct formatting for percentages", async function(assert) {
     const options = {
       "style":"percent",
     };
@@ -228,6 +255,32 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
     let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
 
-    assert.strictEqual(inputValue, "123456%", "input formats long currency displays");
+    assert.strictEqual(inputValue, "123,456%", "input formats percentages correctly");
+  })
+
+  // Support for units
+  test("correct formatting for unit formats", async function(assert) {
+    const options = {
+      style:"unit",
+      unit:"liter",
+    };
+
+    await render(
+    <template>
+      <HeadlessForm as |form|>
+        <form.Field @name="localNum" as |field| >
+          <field.LocalNumber
+            @locale='en-US'
+            @formatOptions={{options}}
+          />
+        </form.Field>
+      </HeadlessForm>
+    </template>);
+
+    await typeIn("input", "123456789", {delay:1});
+
+    let inputValue = (this.element.querySelector("input") as HTMLInputElement).value;
+
+    assert.strictEqual(inputValue, "123,456,789 L", "input formats units correctly");
   })
 })
