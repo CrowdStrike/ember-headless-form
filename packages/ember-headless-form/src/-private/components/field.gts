@@ -8,7 +8,7 @@ import { uniqueId } from '../utils';
 import CheckboxComponent from './control/checkbox';
 import CheckboxGroupComponent from './control/checkbox-group';
 import InputComponent from './control/input';
-import LocalNumberInputComponent from './control/local-number';
+import LocalNumberComponent from './control/local-number';
 import RadioGroupComponent from './control/radio-group';
 import SelectComponent from './control/select';
 import TextareaComponent from './control/textarea';
@@ -146,10 +146,12 @@ export interface HeadlessFormFieldComponentSignature<
           typeof TextareaComponent,
           'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
         >;
-
-        LocalNumberInput: WithBoundArgs<
-          typeof LocalNumberInputComponent,
-          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId'
+        /**
+         * Yielded control that will attempt to format number inputs to a specified locale.
+         */
+        LocalNumber: WithBoundArgs<
+          typeof LocalNumberComponent,
+          'name' | 'fieldId' | 'value' | 'setValue' | 'invalid' | 'errorId' | 'locale' | 'formatOptions'
         >;
 
         /**
@@ -233,7 +235,7 @@ export default class HeadlessFormFieldComponent<
   ErrorsComponent = ErrorsComponent<DATA[KEY]>;
   SelectComponent = SelectComponent;
   TextareaComponent = TextareaComponent;
-  LocalNumberInputComponent = LocalNumberInputComponent;
+  LocalNumberComponent = LocalNumberComponent;
   RadioGroupComponent = RadioGroupComponent;
   CheckboxGroupComponent = CheckboxGroupComponent;
   CaptureEventsModifier = CaptureEventsModifier;
@@ -391,7 +393,7 @@ export default class HeadlessFormFieldComponent<
             invalid=this.hasErrors
           )
           LocalNumber=(component
-            this.LocalNumberInputComponent
+            this.LocalNumberComponent
             name=@name
             fieldId=fieldId
             errorId=errorId

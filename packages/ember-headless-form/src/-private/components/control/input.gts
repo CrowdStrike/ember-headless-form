@@ -110,6 +110,8 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
 
   @action
   handleFocusOut(e: Event | InputEvent): void {
+    assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
+
     if(this.args.type === "number"){
       this.args.setValue(parseFloat(e.target.value));
     }

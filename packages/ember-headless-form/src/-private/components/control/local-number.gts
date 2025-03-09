@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { assert } from '@ember/debug';
 import { on } from '@ember/modifier';
 import { action }from '@ember/object';
 
@@ -13,7 +14,7 @@ import { action }from '@ember/object';
  *  and compact notation.
  */
 
-export interface HeadlessFormControlLocalNumberInputComponentSignature {
+export interface HeadlessFormControlLocalNumberComponentSignature {
   Element: HTMLInputElement;
   Args: {
     /**
@@ -81,11 +82,11 @@ class LocalNumberInputValue {
     /**
      * Result of Intl.NumberFormat().formatToParts
      */
-    public parts: Array;
+    public parts!: Array<Intl.NumberFormatPart>;
     /**
      * The "true" stored value of the number we are working with. Ex $1,500.72 would be "1500.72"
      */
-    public dataValue: number;
+    public dataValue!: number;
     /**
      * Resolved options of Intl.NumberFormat
      */
@@ -93,30 +94,32 @@ class LocalNumberInputValue {
     /**
      * Base 10 numbers based on the given locale. Providing support for non-latin numbers.
      */
-    public readonly localeNumbers: Array;
-
+    public readonly localeNumbers: Array<string>;
+    /**
+     * Decimal separator for the formatting
+     */
     public readonly decimalSep: string;
 
-    constructor(locale = "en-US", options = {}, value = 0){
+    constructor(locale = "en-US", options:Intl.NumberFormatOptions = {}, value:number|string = 0){
       // Build the initial formatter with given options and value then save the parts to use later.
       this.toFormatter = new Intl.NumberFormat(locale, options);
       this.resolvedOptions = this.toFormatter.resolvedOptions();
 
-      // We setup a temporary formatter with only the locale because some formatters
+      // We setup a temporary formatter with only the locale because some formatters like units may mess with the number itself.
       let tmpFormatter = new Intl.NumberFormat(locale, {});
 
       // Build numbers 0-9 for whatever locale we're working with. Supports base 10 number systems.
       this.localeNumbers = Array.from({ length: 10 }, (_, i) => {
         const parts = tmpFormatter.formatToParts(i);
-        const integerPart = parts.find(part => part.type === "integer");
+        const integerPart = parts.find(part => part.type === "integer") ?? {value:<number>i};
 
         // Account for number formatter multiplying wholes by 100 when doing percentages.
-        return this.resolvedOptions.style === "percent" ? integerPart.value * 0.01 : integerPart.value;
-      });
+        return integerPart.value;
+      }) as Array<string>;
 
-      this.decimalSep = tmpFormatter.formatToParts("0.01").find(part => part.type === 'decimal')?.value ?? "";
+      this.decimalSep = tmpFormatter.formatToParts(0.01).find(part => part.type === 'decimal')?.value ?? "";
 
-      this.updateInput(value);
+      this.updateInput(String(value));
     }
 
     get preNumLen():number {
@@ -159,7 +162,7 @@ class LocalNumberInputValue {
     *  We need to know what their zero is in order to know when to programmatically run the formatter.
     */
     get zero(): string {
-      return this.localeNumbers[0];
+      return this.localeNumbers[0] ?? "0";
     }
 
     /**
@@ -168,13 +171,6 @@ class LocalNumberInputValue {
     get displayedValue() :string {
       return this.toFormatter.format(this.dataValue);
     }
-
-    /**
-     * Decimal separator for the formatting
-     */
-    /*get decimalSep(): string {
-      return this.toFormatter.formatToParts(0.01).find(part => part.type === 'decimal')?.value ?? "";
-    }*/
 
     /**
      * Determine whether or not decimals are used for this formatting type.
@@ -214,14 +210,18 @@ class LocalNumberInputValue {
      * https://tc39.es/proposal-regex-escaping/
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
      */
-    private escapeRegex(toEscape: string) {
+    private escapeRegex(toEscape: string): string {
       if(toEscape == ",") return toEscape;
 
-      if(RegExp.escape){
+      /*
+      Uncomment when we can use it.
+      if(RegExp.escape != undefined){
         return RegExp.escape(toEscape);
       }else {
         return toEscape.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-      }
+      }*/
+
+      return toEscape.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     }
 
     /**
@@ -236,7 +236,7 @@ class LocalNumberInputValue {
       const additionalClear = new RegExp(`(?<=.*${sep})${sep}`, 'gu')
 
       // Apply all regex
-      let value = data
+      let value:string|number = data
           .replace(regex, '')
           .replace(additionalClear, '');
 
@@ -249,14 +249,16 @@ class LocalNumberInputValue {
         value = value.replace(this.decimalSep, ".");
       }
 
+      value = parseFloat(value);
+
       // Percentage Support
       if(this.resolvedOptions.style === "percent"){
-        value = parseFloat(value) * 0.01;
+        value *= 0.01;
       }else{
-        value = parseFloat(value).toFixed(this.resolvedOptions.maximumFractionDigits);
+        value = value.toFixed(this.resolvedOptions.maximumFractionDigits);
       }
 
-      return value;
+      return value as number;
     }
 
     /**
@@ -282,14 +284,14 @@ class LocalNumberInputValue {
     }
 }
 
-export default class HeadlessFormControlLocalNumberInputComponent extends Component<HeadlessFormControlLocalNumberInputComponentSignature>{
+export default class HeadlessFormControlLocalNumberComponent extends Component<HeadlessFormControlLocalNumberComponentSignature>{
     // Value of field before user's previous and most recent input
     private pastVal: LocalNumberInputValue;
     private currentVal: LocalNumberInputValue;
 
     constructor(
       owner: unknown,
-      args: HeadlessFormControlLocalNumberInputComponentSignature['Args']
+      args: HeadlessFormControlLocalNumberComponentSignature['Args']
     ){
       super(owner, args);
 
@@ -314,11 +316,12 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
      * If there is no value originally provided and the previous input is invalid, default to 0.
      */
     private resetInput(elem: HTMLInputElement): void{
+        assert('Expected HTMLInputElement', elem instanceof HTMLInputElement);
 
         if(this.pastVal.isValid){
           this.currentVal.updateInput(this.pastVal.displayedValue);
         }else if(this.args.value) {
-          this.currentVal.updateInput(this.args.value);
+          this.currentVal.updateInput(String(this.args.value));
         }else {
           this.currentVal.updateInput(this.currentVal.zero);
         }
@@ -333,6 +336,8 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
      */
     @action
     handleInput(e: Event | InputEvent): void {
+      assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
+
       let caretPos: number = e.target.selectionStart ?? 0;
       const relevantData = this.currentVal.getRelevantData(e.target.value);
 
@@ -370,27 +375,30 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
             return;
           }
 
-          // Allow for precision inputs ex 0.001. But not beyond the max and maintaining the minimum.
-          if((relevantData.endsWith(this.currentVal.decimalSep) || (relevantData.endsWith(this.currentVal.zero) && caretPos > decimalPos)) && parts[1].length <= maxDecPlaces && parts[1].length >= minDecPlaces){
-            return;
-          }
+          // Mostly doing this to fix the linter error. It would not typically make it this far without a decimal.
+          if(parts[1] != undefined){
+            // Allow for precision inputs ex 0.001. But not beyond the max and maintaining the minimum.
+            if((relevantData.endsWith(this.currentVal.decimalSep) || (relevantData.endsWith(this.currentVal.zero) && caretPos > decimalPos)) && parts[1].length <= maxDecPlaces && parts[1].length >= minDecPlaces){
+              return;
+            }
 
-          // Inputs going over the maximum allotted decimal places will shift the fraction into the whole. (Right side input)
-          if(parts[1] && parts[1].length > (maxDecPlaces ?? 0)){
-            // Split the value by the decimal point to get value before and after.
-            let [pre,post] = relevantData.split(this.currentVal.decimalSep);
+            // Inputs going over the maximum allotted decimal places will shift the fraction into the whole. (Right side input)
+            if(parts[1].length > (maxDecPlaces ?? 0)){
+              // Split the value by the decimal point to get value before and after.
+              let [pre,post = ""] = relevantData.split(this.currentVal.decimalSep);
 
-            // Determine how big of a difference there is between the maximum decimals and the attempted input.
-            // This will give us how much we need to shift from the post to the pre.
-            const diff = Math.abs(maxDecPlaces - post.length);
+              // Determine how big of a difference there is between the maximum decimals and the attempted input.
+              // This will give us how much we need to shift from the post to the pre.
+              const diff = Math.abs(maxDecPlaces - post.length);
 
-            // Shift the value from the fraction to the whole.
-            pre = pre+post.substring(0,diff);
-            post = post.substring(diff, post.length);
+              // Shift the value from the fraction to the whole.
+              pre = pre+post.substring(0,diff);
+              post = post.substring(diff, post.length);
 
-            // Update the input. (Put the decimal place back, recombine the string);
-            e.target.value = pre+this.currentVal.decimalSep+post;
-            this.currentVal.updateInput(e.target.value);
+              // Update the input. (Put the decimal place back, recombine the string);
+              e.target.value = pre+this.currentVal.decimalSep+post;
+              this.currentVal.updateInput(e.target.value);
+            }
           }
         }
       }
@@ -415,6 +423,8 @@ export default class HeadlessFormControlLocalNumberInputComponent extends Compon
      */
     @action
     handleSelectionChange(e: Event | InputEvent): void {
+      assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
+
       // Keep input caret within bounds of data.
       if(this.currentVal.hasBounds){
         let caretPos: number = e.target.selectionStart ?? 0;
