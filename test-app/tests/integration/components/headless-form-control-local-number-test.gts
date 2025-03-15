@@ -71,8 +71,7 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
   // Support the rendering of currency with right-sided symbol. (French Euro placement.)
   // "123456.78" = "123 456,78 €" This is to ensure input placement is correct.
-  // This will need to be manually tested as I don't believe
-  // the caret positioning is not currently taken into account by ember test helpers
+  // Test failure cannot be reproduced in the browser.
   // https://github.com/emberjs/ember-test-helpers/issues/1535
   skip("field supports right sided symbol currency placement", async function(assert) {
 
