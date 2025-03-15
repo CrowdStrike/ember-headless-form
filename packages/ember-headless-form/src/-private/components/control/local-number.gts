@@ -232,13 +232,9 @@ class LocalNumberInputValue {
 
       // This regex will first serve to only return numbers and the decimal separators
       const regex = new RegExp(`[^\\p{Nd}(?:${sep})]+`, 'gu');
-      // This one will clear out any additional separators.
-      const additionalClear = new RegExp(`(?<=.*${sep})${sep}`, 'gu')
 
       // Apply all regex
-      let value:string|number = data
-          .replace(regex, '')
-          .replace(additionalClear, '');
+      let value:string|number = data.replace(regex, '');
 
       // Finally swap out all of locale numbers for the localized numbers.
       // Inspired by: https://github.com/ApelegHQ/intl-number-parser/blob/master/src/NumberParser.ts
@@ -302,10 +298,10 @@ export default class HeadlessFormControlLocalNumberComponent extends Component<H
     /*
     * Set the user's input to a position on a text box.
     */
-    private setCaretPos(elem: HTMLInputElement, caretPos:number):void {
+    private setCaretPos(elem: HTMLInputElement, caretPos:number, caretPosEnd?:number):void {
       if (document.activeElement == elem) {
         elem.focus();
-        elem.setSelectionRange(caretPos, caretPos);
+        elem.setSelectionRange(caretPos, caretPosEnd ?? caretPos);
       }
     }
 
@@ -432,6 +428,13 @@ export default class HeadlessFormControlLocalNumberComponent extends Component<H
         // Determine valid caret range based on current value. (Where is the value)
         const validStart = this.currentVal.preNumLen;
         const validEnd = e.target.value.length - this.currentVal.postNumLen;
+
+        // Handle whole selections (ctrl+a, select all)
+        if(caretPos == 0 && e.target.value.length == caretEndPos){
+          this.setCaretPos(e.target, validStart, validEnd);
+
+          return;
+        }
 
         // If we're out of bounds, shift it to the closest in bound position.
         if (caretPos < validStart || caretPos > validEnd || caretEndPos < validStart || caretEndPos > validEnd) {

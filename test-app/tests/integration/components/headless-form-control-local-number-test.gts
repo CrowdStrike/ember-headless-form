@@ -73,6 +73,7 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
   // "123456.78" = "123 456,78 €" This is to ensure input placement is correct.
   // This will need to be manually tested as I don't believe
   // the caret positioning is not currently taken into account by ember test helpers
+  // https://github.com/emberjs/ember-test-helpers/issues/1535
   skip("field supports right sided symbol currency placement", async function(assert) {
 
     const options = {
@@ -283,4 +284,81 @@ module("Integration Component HeadlessForm > Local Number", function(hooks) {
 
     assert.strictEqual(inputValue, "123,456,789 L", "input formats units correctly");
   })
+
+  // Empty input
+  test("empty input resets to zero", async function(assert) {
+    await render(
+      <template>
+        <HeadlessForm as |form|>
+          <form.Field @name="localNum" as |field|>
+            <field.LocalNumber @locale="en-US" />
+          </form.Field>
+        </HeadlessForm>
+      </template>
+    );
+
+    let input = this.element.querySelector("input") as HTMLInputElement;
+
+    await typeIn("input", "");
+
+    // Assuming the default is "0" when no value is provided.
+    assert.strictEqual(input.value, "0", "Empty input resets to zero");
+  });
+
+  test("invalid input reverts to previous valid state", async function(assert) {
+
+    await render(
+      <template>
+        <HeadlessForm as |form|>
+          <form.Field @name="localNum" as |field|>
+            <field.LocalNumber
+              @locale="en-US"
+              @value="123.45"
+            />
+          </form.Field>
+        </HeadlessForm>
+      </template>
+    );
+
+    let input = this.element.querySelector("input") as HTMLInputElement;
+
+    await typeIn("input", "abc");
+
+    // It should revert to "123.45"
+    assert.strictEqual(input.value, "123.45", "Invalid input reverts to previous valid state");
+  });
+
+  /**
+   * Skipping because test helpers do not currently take caret position into account when inputting.
+   * https://github.com/emberjs/ember-test-helpers/issues/1535
+   */
+  skip("multiple decimals are handled", async function(assert) {
+    const options = {
+      style: "currency",
+      currency: "USD"
+    };
+
+    await render(
+      <template>
+        <HeadlessForm as |form|>
+          <form.Field @name="localNum" as |field|>
+            <field.LocalNumber
+              @locale="en-US"
+              @formatOptions={{options}}
+              @value="0.00"
+            />
+          </form.Field>
+        </HeadlessForm>
+      </template>
+    );
+
+    let input = this.element.querySelector("input") as HTMLInputElement;
+
+    // For example, typing "123.45.67" should result in a properly formatted value.
+    await typeIn("input", "12345.67");
+
+    // Adjust the expected value to what your implementation should yield.
+    assert.strictEqual(input.value, "$12,367.45", "Extra decimals are collapsed to a single decimal");
+  });
+
 })
