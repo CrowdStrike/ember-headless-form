@@ -159,3 +159,28 @@ Renders a native `<select>` dropdown. It will yield another `Option` component f
   <button type='submit'>Submit</button>
 </HeadlessForm>
 ```
+
+## Localized Number
+
+This will render a text input that attempts to format a number using a given Locale and number options. You would set `@locale` to something like `"en-US"` and `@formatOptions` would contain the [options that you would typically pass to a Intl.NumberFormat constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat). The supported options are `decimal`, `currency`, `percent`, and sometimes `unit` depending on the specified locale. If no locale is specified it will use the user's locale set by `navigator.language`.
+
+### Return Values
+The value that is set on the given data will always be a number. Meaning something like `"1 234,56 $US"` when formatting for US Dollars with a French Locale will set the actual data to `1234.56`. What is shown in the text box is a display to the user. As for percentages, those are returned as numbers, meaning `"10%"` will set the value to `0.10`. 
+
+```hbs
+<HeadlessForm as |form|>
+  <form.Field @name='donation' as |field|>
+    <div class='my-2 flex flex-col'>
+      <field.Label>
+        How much would you like to donate?
+      </field.Label>
+      <field.LocalNumber
+        class='border rounded px-2'
+        @locale='en-US'
+        @formatOptions={{hash style='currency' currency='USD'}}
+        required
+      />
+    </div>
+  </form.Field>
+</HeadlessForm>
+```

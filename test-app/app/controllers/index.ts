@@ -8,6 +8,7 @@ interface MyFormData {
   email?: string;
   country?: string;
   accept_tos?: boolean;
+  donation?: number;
   comment?: string;
 }
 
