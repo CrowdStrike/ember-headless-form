@@ -95,7 +95,6 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
         // TS would guard us against using an unsupported `InputType`, but for JS consumers we add a dev-only runtime check here
         !['checkbox', 'radio'].includes(args.type as string)
     );
-
     super(owner, args);
   }
 
@@ -106,10 +105,30 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
   @action
   handleInput(e: Event | InputEvent): void {
     assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
-    this.args.setValue(
-      this.type === 'number' ? parseFloat(e.target.value) : e.target.value
-    );
+
+    if(this.args.type === "number"){
+      const valueAsNumber = parseFloat(e.target.value);
+
+      if(valueAsNumber !== this.args.value && !isNaN(valueAsNumber)){
+        this.args.setValue(valueAsNumber);
+      }
+      // This is here to avoid setting the value as NaN, instead using Zero.
+      else if(e.target.value === "" || isNaN(valueAsNumber)){
+        this.args.setValue(0);
+      }
+
+    }else {
+      this.args.setValue(e.target.value);
+    }
   }
+
+  @action
+  handleFocusOut(e: Event | InputEvent): void {
+    assert('Expected HTMLInputElement', e.target instanceof HTMLInputElement);
+
+
+  }
+
   <template>
     <input
       name={{@name}}
@@ -120,6 +139,7 @@ export default class HeadlessFormControlInputComponent extends Component<Headles
       aria-describedby={{if @invalid @errorId}}
       ...attributes
       {{on "input" this.handleInput}}
+      {{!-- {{on "focusout" this.handleFocusOut}} --}}
     />
   </template>
 }
