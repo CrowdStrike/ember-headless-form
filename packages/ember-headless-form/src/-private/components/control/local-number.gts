@@ -108,7 +108,7 @@ class LocalNumberInputValue {
      */
     public readonly dataRegex: RegExp;
 
-    constructor(locale = "en-US", options:Intl.NumberFormatOptions = {}, value:number|string = 0){
+    constructor(locale = "en-US", options:Intl.NumberFormatOptions = {}, value = 0){
       // Build the initial formatter with given options and value then save the parts to use later.
       this.toFormatter = new Intl.NumberFormat(locale, options);
       this.resolvedOptions = this.toFormatter.resolvedOptions();
@@ -126,7 +126,7 @@ class LocalNumberInputValue {
       }) as Array<string>;
 
       // Use the temporary formatter to extract parts from "-0.01" to give us both the negative symbol and decimal for the locale.
-      const parts = tmpFormatter.formatToParts("-0.01");
+      const parts = tmpFormatter.formatToParts(-0.01);
 
       this.decimalSep = parts.find(part => part.type === 'decimal')?.value ?? ".";
       this.negative = parts.find(part => part.type === 'minusSign')?.value ?? "-";
@@ -134,12 +134,15 @@ class LocalNumberInputValue {
       const sep = this.escapeRegex(this.decimalSep);
       const neg = this.escapeRegex(this.negative);
 
-      // This regex will first serve to only return numbers and the decimal separators
+      // This regex will serve to only return numbers and the decimal separators along with negative symbols.
       this.dataRegex = new RegExp(`[^\\p{Nd}(?:${sep}${neg})]+`, 'gu');
 
       this.updateInput(String(value));
     }
 
+    /**
+     *  Length of non-number related strings before the data value. (Ex: $123.45) would return 1 because of the dollar sign.
+     */
     get preNumLen():number {
       let sum = 0;
 
@@ -154,6 +157,9 @@ class LocalNumberInputValue {
       return sum;
     }
 
+    /**
+     * Length of non-number related strings after the data value. (Ex: 123.45 US Dollars) would return 11 because of the length of" US Dollars".
+     */
     get postNumLen():number {
       let sum = 0;
 
@@ -209,18 +215,23 @@ class LocalNumberInputValue {
      * Determine whether or not the number is in a saveable state.
      * Inputs are considered invalid if:
      * - they would result in NaN with the data value
+     * - the given number is finite.
      * - they have more than one decimal separator and also should have decimals
      */
     get isValid(): boolean {
-      // Skip decimal checks if there isn't one defined.
-      if(!this.hasDecimals){
-        return !isNaN(this.dataValue);
+      // Check for infinity edge case along with NaN. By explicitly using Number.isFinite, we are allowing only numbers. String will not be valid.
+
+      if(!Number.isFinite(this.dataValue)){
+        return false;
       }
 
-      // Decimal Checks
-      const sections = this.displayedValue.split(this.decimalSep);
+      // Skip decimal checks if there isn't one defined.
+      if(!this.hasDecimals){
+        return true;
+      }
 
-      return !(isNaN(this.dataValue) || sections.length > 2)
+      // Decimal Checks. Make sure the user didn't type more than one.
+      return this.displayedValue.split(this.decimalSep).length <= 2;
     }
 
     /**
@@ -247,31 +258,32 @@ class LocalNumberInputValue {
      */
     public parseValue(data:string):number {
       // Apply all regex
-      let value:string|number = data.replace(this.dataRegex, '');
+      let valueString:string = data.replace(this.dataRegex, '');
 
       // Finally swap out all of locale numbers for the localized numbers.
       // Inspired by: https://github.com/ApelegHQ/intl-number-parser/blob/master/src/NumberParser.ts
-      value = this.localeNumbers.reduce((acc,cv,i) => acc.split(cv).join(String(i)), value);
+      valueString = this.localeNumbers.reduce((acc,cv,i) => acc.split(cv).join(String(i)), valueString);
 
       // swap the locale decimal separator with a period because that's what parseFloat expects.
       if(this.hasDecimals){
-        value = value.replace(this.decimalSep, ".");
+        valueString = valueString.replace(this.decimalSep, ".");
       }
 
-      value = parseFloat(value);
+      let value:number = Number.parseFloat(valueString);
 
       // Percentage Support
       if(this.resolvedOptions.style === "percent"){
         value *= 0.01;
       }else{
-        value = value.toFixed(this.resolvedOptions.maximumFractionDigits);
+        // Have to run parseFloat again because toFixed returns a string.
+        value = parseFloat(value.toFixed(this.resolvedOptions.maximumFractionDigits));
       }
 
-      return value as number;
+      return value;
     }
 
     /**
-     * Get the relevant portion of the given string. Ex, "123,456.45 US Dollars" should yield us 123,456.45
+     * Get the relevant portion of the given string. Ex, "123,456.45 US Dollars" should yield us "123,456.45"
      * as determined by the formatting options on this object.
      */
     public getRelevantData(data:string):string{
@@ -332,7 +344,7 @@ export default class HeadlessFormControlLocalNumberComponent extends Component<H
         }else if(this.args.value) {
           this.currentVal.updateInput(String(this.args.value));
         }else {
-          this.currentVal.updateInput(this.currentVal.zero);
+          this.currentVal.updateInput(String(this.currentVal.zero));
         }
 
         elem.value = this.currentVal.displayedValue;
@@ -385,6 +397,9 @@ export default class HeadlessFormControlLocalNumberComponent extends Component<H
           const minDecPlaces = this.currentVal.resolvedOptions.minimumFractionDigits;
           const parts = relevantData.split(this.currentVal.decimalSep);
 
+          assert('Could not find split point for decimal position', parts[1] != undefined);
+
+
           // Jump to decimal if there is already one present and the most recent input was a decimal.
           if(parts.length > 2){
             this.resetInput(e.target);
@@ -393,31 +408,38 @@ export default class HeadlessFormControlLocalNumberComponent extends Component<H
             return;
           }
 
-          // Mostly doing this to fix the linter error. It would not typically make it this far without a decimal.
-          if(parts[1] != undefined){
-            // Allow for precision inputs ex 0.001. But not beyond the max and maintaining the minimum.
-            if((relevantData.endsWith(this.currentVal.decimalSep) || (relevantData.endsWith(this.currentVal.zero) && caretPos > decimalPos)) && parts[1].length <= maxDecPlaces && parts[1].length >= minDecPlaces){
-              return;
-            }
-
-            // Inputs going over the maximum allotted decimal places will shift the fraction into the whole. (Right side input)
-            if(parts[1].length > (maxDecPlaces ?? 0)){
-              // Split the value by the decimal point to get value before and after.
-              let [pre,post = ""] = relevantData.split(this.currentVal.decimalSep);
-
-              // Determine how big of a difference there is between the maximum decimals and the attempted input.
-              // This will give us how much we need to shift from the post to the pre.
-              const diff = Math.abs(maxDecPlaces - post.length);
-
-              // Shift the value from the fraction to the whole.
-              pre = pre+post.substring(0,diff);
-              post = post.substring(diff, post.length);
-
-              // Update the input. (Put the decimal place back, recombine the string);
-              e.target.value = pre+this.currentVal.decimalSep+post;
-              this.currentVal.updateInput(e.target.value);
-            }
+          // Allow for precision inputs ex 0.001. But not beyond the max and maintaining the minimum.
+          if((relevantData.endsWith(this.currentVal.decimalSep) || (relevantData.endsWith(this.currentVal.zero) && caretPos > decimalPos)) && parts[1].length <= maxDecPlaces && parts[1].length >= minDecPlaces){
+            return;
           }
+
+          // Inputs going over the maximum allotted decimal places will shift the fraction into the whole. (Right side input) if the user is inputting from the back of the number. Otherwise, trim.
+          if(parts[1].length > (maxDecPlaces ?? 0) && caretPos === this.currentVal.preNumLen + relevantData.length){
+            // Split the value by the decimal point to get value before and after.
+            let [pre,post = ""] = relevantData.split(this.currentVal.decimalSep);
+
+            // Determine how big of a difference there is between the maximum decimals and the attempted input.
+            // This will give us how much we need to shift from the post to the pre.
+            const diff = Math.abs(maxDecPlaces - post.length);
+
+            // Shift the value from the fraction to the whole.
+            pre = pre+post.substring(0,diff);
+            post = post.substring(diff, post.length);
+
+            // Update the input. (Put the decimal place back, recombine the string);
+            e.target.value = pre+this.currentVal.decimalSep+post;
+          }else {
+            // Split the value by the decimal point to get value before and after.
+            let [pre,post = ""] = relevantData.split(this.currentVal.decimalSep);
+
+            // Remove anything in the decimal place that goes over what is allowed.
+            post = post.slice(0, maxDecPlaces);
+
+            // Restitch the value together again.
+            e.target.value = pre+this.currentVal.decimalSep+post;
+          }
+
+          this.currentVal.updateInput(e.target.value);
         }
       }
 
