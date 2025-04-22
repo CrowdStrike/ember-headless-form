@@ -99,6 +99,10 @@ class LocalNumberInputValue {
      * Decimal separator for the formatting
      */
     public readonly decimalSep: string;
+    /**
+     * Negative symbol for formatting
+     */
+    public readonly negative: string;
 
     constructor(locale = "en-US", options:Intl.NumberFormatOptions = {}, value:number|string = 0){
       // Build the initial formatter with given options and value then save the parts to use later.
@@ -117,7 +121,11 @@ class LocalNumberInputValue {
         return integerPart.value;
       }) as Array<string>;
 
-      this.decimalSep = tmpFormatter.formatToParts(0.01).find(part => part.type === 'decimal')?.value ?? "";
+      // Use the temporary formatter to extract parts from "-0.01" to give us both the negative symbol and decimal for the locale.
+      const parts = tmpFormatter.formatToParts("-0.01");
+
+      this.decimalSep = parts.find(part => part.type === 'decimal')?.value ?? ".";
+      this.negative = parts.find(part => part.type === 'minusSign')?.value ?? "-";
 
       this.updateInput(String(value));
     }
@@ -126,7 +134,7 @@ class LocalNumberInputValue {
       let sum = 0;
 
       for (const item of this.parts) {
-        if (["integer", "fraction"].includes(item.type)) {
+        if (["integer", "fraction", "minusSign"].includes(item.type)) {
           break;
         } else {
           sum += item.value.length;
@@ -140,7 +148,7 @@ class LocalNumberInputValue {
       let sum = 0;
 
       for (const item of [...this.parts].reverse()) {
-        if (["integer", "fraction"].includes(item.type)) {
+        if (["integer", "fraction", "minusSign"].includes(item.type)) {
           break;
         } else {
           sum += item.value.length;
@@ -229,9 +237,10 @@ class LocalNumberInputValue {
      */
     public parseValue(data:string):number {
       const sep = this.escapeRegex(this.decimalSep);
+      const neg = this.escapeRegex(this.negative);
 
       // This regex will first serve to only return numbers and the decimal separators
-      const regex = new RegExp(`[^\\p{Nd}(?:${sep})]+`, 'gu');
+      const regex = new RegExp(`[^\\p{Nd}(?:${sep}${neg})]+`, 'gu');
 
       // Apply all regex
       let value:string|number = data.replace(regex, '');
@@ -261,7 +270,7 @@ class LocalNumberInputValue {
      * Get the relevant portion of the given string. Ex, "123,456.45 US Dollars" should yield us 123,456.45
      * as determined by the formatting options on this object.
      */
-    public getRelevantData(data:string){
+    public getRelevantData(data:string):string{
       if(this.hasBounds){
         data = data.substring(this.preNumLen, data.length - this.postNumLen);
       }

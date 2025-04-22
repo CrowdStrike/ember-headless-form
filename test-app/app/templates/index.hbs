@@ -36,11 +36,23 @@
       </field.Label>
       <field.LocalNumber
         class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
-        @locale='fr-FR'
+        @locale='en-US'
         @formatOptions={{hash style='currency' currency='USD'}}
-        @value='0'
+        @value='-123456'
         required
       />
+      <field.Errors class='text-red-600' />
+    </div>
+  </form.Field>
+  <form.Field @name="quantity" as |field|>
+    <div class="my-2 flex flex-col">
+      <field.Label class={{if field.isInvalid 'text-red-500'}}>How many widgets would you like?</field.Label>
+      <field.Input
+        @type="number"
+        class='border rounded px-2 {{if field.isInvalid "border-red-500"}}'
+        required
+      />
+      <field.Errors class='text-red-600' />
     </div>
   </form.Field>
   {{#if form.data.donation}}
