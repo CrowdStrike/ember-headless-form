@@ -104,7 +104,7 @@ class LocalNumberInputValue {
      */
     public readonly negative: string;
     /**
-     *
+     *  This regex will serve to only return numbers and the decimal separators along with negative symbols.
      */
     public readonly dataRegex: RegExp;
 
