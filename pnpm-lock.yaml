@@ -77,6 +77,13 @@ importers:
       yup:
         specifier: ^1.0.0
         version: 1.6.1
+    dependenciesMeta:
+      ember-headless-form:
+        injected: true
+      ember-headless-form-changeset:
+        injected: true
+      ember-headless-form-yup:
+        injected: true
     devDependencies:
       '@babel/core':
         specifier: ^7.23.6
@@ -327,13 +334,6 @@ importers:
       webpack:
         specifier: ^5.75.0
         version: 5.97.1
-    dependenciesMeta:
-      ember-headless-form:
-        injected: true
-      ember-headless-form-changeset:
-        injected: true
-      ember-headless-form-yup:
-        injected: true
 
   internal/sync-pnpm:
     dependencies:
@@ -837,6 +837,13 @@ importers:
         version: 1.6.1
 
   test-app:
+    dependenciesMeta:
+      ember-headless-form:
+        injected: true
+      ember-headless-form-changeset:
+        injected: true
+      ember-headless-form-yup:
+        injected: true
     devDependencies:
       '@babel/eslint-parser':
         specifier: ^7.11.0
@@ -1114,13 +1121,6 @@ importers:
       yup:
         specifier: ^1.0.0
         version: 1.6.1
-    dependenciesMeta:
-      ember-headless-form:
-        injected: true
-      ember-headless-form-changeset:
-        injected: true
-      ember-headless-form-yup:
-        injected: true
 
 packages:
 
