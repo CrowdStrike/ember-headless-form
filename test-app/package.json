@@ -94,7 +94,7 @@
     "ember-headless-form-changeset": "workspace:*",
     "ember-headless-form-yup": "workspace:*",
     "ember-load-initializers": "^3.0.1",
-    "ember-page-title": "^8.0.0",
+    "ember-page-title": "^9.0.0",
     "ember-qunit": "^8.0.0",
     "ember-resolver": "^13.1.0",
     "ember-sinon-qunit": "^7.0.0",
