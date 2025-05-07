@@ -113,8 +113,7 @@
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     },
-    "./addon-main.js": "./addon-main.js",
-    "./-private/*": null
+    "./addon-main.js": "./addon-main.js"
   },
   "typesVersions": {
     "*": {
