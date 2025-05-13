@@ -30,8 +30,7 @@
   },
   "peerDependencies": {
     "yup": "^1.0.0",
-    "ember-headless-form": "workspace:^1",
-    "ember-source": ">=4.4.0"
+    "ember-headless-form": "workspace:^1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",
