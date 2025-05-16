@@ -17,7 +17,7 @@ module('Integration Component HeadlessForm > Reset', function (hooks) {
 
   module('reset button', function () {
     test('dirty fields are resetted', async function (assert) {
-      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward' };
+      const data: TestFormData = { firstName: 'Tony', lastName: 'Ward', comment: 'Hello' };
 
       await render(<template>
         <HeadlessForm @data={{data}} as |form|>
@@ -29,15 +29,22 @@ module('Integration Component HeadlessForm > Reset', function (hooks) {
             <field.Label>Last Name</field.Label>
             <field.Input data-test-last-name />
           </form.Field>
+          <form.Field @name='comment' as |field|>
+            <field.Label>Comment</field.Label>
+            <field.Textarea data-test-comment />
+          </form.Field>
           <button type="reset" data-test-reset>Reset</button>
         </HeadlessForm>
       </template>);
 
+
       await fillIn('[data-test-first-name]', 'Nicole');
+      await fillIn('[data-test-comment]', ', world!');
       await click('[data-test-reset]');
 
       assert.dom('[data-test-first-name]').hasValue('Tony');
       assert.dom('[data-test-last-name]').hasValue('Ward');
+      assert.dom('[data-test-comment]').hasValue('Hello');
     });
 
     test('validation errors are cleared', async function (assert) {

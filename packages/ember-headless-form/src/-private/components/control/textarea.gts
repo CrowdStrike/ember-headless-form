@@ -53,6 +53,7 @@ export default class HeadlessFormControlTextareaComponent extends Component<Head
       aria-describedby={{if @invalid @errorId}}
       ...attributes
       {{on "input" this.handleInput}}
-    >{{@value}}</textarea>
+      value={{@value}}
+    ></textarea>
   </template>
 }
