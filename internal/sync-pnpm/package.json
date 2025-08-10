@@ -10,7 +10,7 @@
   "bin": "bin/sync-pnpm.js",
   "type": "module",
   "dependencies": {
-    "@manypkg/find-root": "^2.1.0",
+    "@manypkg/find-root": "^3.0.0",
     "@manypkg/get-packages": "^2.1.0",
     "@pnpm/fs.hard-link-dir": "^2.0.0",
     "debug": "^4.3.4",
